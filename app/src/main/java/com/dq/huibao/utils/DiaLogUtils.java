@@ -5,4 +5,5 @@ package com.dq.huibao.utils;
  */
 
 public class DiaLogUtils {
+    private String s = "";
 }

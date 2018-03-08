@@ -1,21 +1,23 @@
 package com.dq.huibao.ui.memcen;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -41,6 +43,7 @@ import com.dq.huibao.utils.FileUtil;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.MD5Util;
+import com.dq.huibao.utils.PhotoUtils;
 import com.dq.huibao.utils.SPUserInfo;
 import com.dq.huibao.view.GlideCircleTransform;
 
@@ -116,6 +119,17 @@ public class MemcenActivity extends BaseActivity {
     private String regionid = "";
 
     private String headerimgurl = "";
+
+
+    private static final int CODE_GALLERY_REQUEST = 0xa0;
+    private static final int CODE_CAMERA_REQUEST = 0xa1;
+    private static final int CODE_RESULT_REQUEST = 0xa2;
+    private static final int CAMERA_PERMISSIONS_REQUEST_CODE = 0x03;
+    private static final int STORAGE_PERMISSIONS_REQUEST_CODE = 0x04;
+    private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
+    private File fileCropUri = new File(Environment.getExternalStorageDirectory().getPath() + "/crop_photo.jpg");
+    private Uri imageUri;
+    private Uri cropImageUri;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -406,29 +420,13 @@ public class MemcenActivity extends BaseActivity {
 
     private AlertDialog alertDialog;
     private Button btn_take_photo, btn_pick_photo, btn_cancel;
-    //private SelectPicPopupWindow menuWindow;//自定义的头像编辑弹出框
-    private String imgUrl = "";
-    private static final String IMAGE_FILE_NAME = "avatarImage.jpg";// 头像文件名称
     private String urlpath;            // 图片本地路径
-    private File file;
-
-    private static final int REQUESTCODE_PICK = 0;        // 相册选图标记
-    private static final int REQUESTCODE_TAKE = 1;        // 相机拍照标记
-    private static final int REQUESTCODE_CUTTING = 2;    // 图片裁切标记
-
-    private String resultStr = "";    // 服务端返回结果集
-    private static ProgressDialog pd;// 等待进度圈
-
     /**
      *
      */
     public class OnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            /*menuWindow = new SelectPicPopupWindow(mContext, itemsOnClick);01
-            menuWindow.showAtLocation(v.findViewById(R.id.mainLayout),
-                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);*/
-
             //有待更新 可以使用popupwindow来实现 注意点击出现时候的背景变化
             alertDialog = new AlertDialog.Builder(MemcenActivity.this).create();
             View localView = getLayoutInflater()
@@ -447,14 +445,8 @@ public class MemcenActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     //拍照
-
                     alertDialog.dismiss();//关闭AlertDialog
-
-                    Intent takeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    //下面这句指定调用相机拍照后的照片存储的路径
-                    takeIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                            Uri.fromFile(new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME)));
-                    startActivityForResult(takeIntent, REQUESTCODE_TAKE);
+                    autoObtainCameraPermission();
 
                 }
             });
@@ -464,14 +456,8 @@ public class MemcenActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     //相册
-
                     alertDialog.dismiss();
-
-                    Intent pickIntent = new Intent(Intent.ACTION_PICK, null);
-                    // 如果朋友们要限制上传到服务器的图片类型时可以直接写如："image/jpeg 、 image/png等的类型"
-                    pickIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                    startActivityForResult(pickIntent, REQUESTCODE_PICK);
-
+                    autoObtainStoragePermission();
                 }
             });
 
@@ -488,76 +474,133 @@ public class MemcenActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 自动获取相机权限
+     */
+    private void autoObtainCameraPermission() {
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                toast("您已经拒绝过一次");
+            }
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, CAMERA_PERMISSIONS_REQUEST_CODE);
+        } else {//有权限直接调用系统相机拍照
+            if (hasSdcard()) {
+                imageUri = Uri.fromFile(fileUri);
+                //通过FileProvider创建一个content类型的Uri
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    imageUri = FileProvider.getUriForFile(MemcenActivity.this, "com.zz.fileprovider", fileUri);
+                }
+                PhotoUtils.takePicture(this, imageUri, CODE_CAMERA_REQUEST);
+            } else {
+                toast("设备没有SD卡");
+            }
+        }
+    }
+
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         switch (requestCode) {
-            case REQUESTCODE_PICK:// 直接从相册获取
-                try {
-                    startPhotoZoom(data.getData());
-                } catch (NullPointerException e) {
-                    e.printStackTrace();// 用户点击取消操作
+            //调用系统相机申请拍照权限回调
+            case CAMERA_PERMISSIONS_REQUEST_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (hasSdcard()) {
+                        imageUri = Uri.fromFile(fileUri);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                            imageUri = FileProvider.getUriForFile(MemcenActivity.this, "com.zz.fileprovider", fileUri);//通过FileProvider创建一个content类型的Uri
+                        PhotoUtils.takePicture(this, imageUri, CODE_CAMERA_REQUEST);
+                    } else {
+                        toast("设备没有SD卡");
+                    }
+                } else {
+                    toast("请允许打开相机！");
                 }
                 break;
-            case REQUESTCODE_TAKE:// 调用相机拍照
-                File temp = new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
-                startPhotoZoom(Uri.fromFile(temp));
-                break;
-            case REQUESTCODE_CUTTING:// 取得裁剪后的图片
-                if (data != null) {
-                    setPicToView(data);
+
+            }
+            //调用系统相册申请Sdcard权限回调
+            case STORAGE_PERMISSIONS_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    PhotoUtils.openPic(this, CODE_GALLERY_REQUEST);
+                } else {
+                    toast("请允许操作SD卡");
                 }
                 break;
+            default:
         }
+    }
+
+    private static final int OUTPUT_X = 480;
+    private static final int OUTPUT_Y = 480;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-    }
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                //拍照完成回调
+                case CODE_CAMERA_REQUEST:
+                    cropImageUri = Uri.fromFile(fileCropUri);
+                    PhotoUtils.cropImageUri(this, imageUri, cropImageUri, 1, 1, OUTPUT_X, OUTPUT_Y, CODE_RESULT_REQUEST);
+                    break;
+                //访问相册完成回调
+                case CODE_GALLERY_REQUEST:
+                    if (hasSdcard()) {
+                        cropImageUri = Uri.fromFile(fileCropUri);
+                        Uri newUri = Uri.parse(PhotoUtils.getPath(this, data.getData()));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            newUri = FileProvider.getUriForFile(this, "com.zz.fileprovider", new File(newUri.getPath()));
+                        }
+                        PhotoUtils.cropImageUri(this, newUri, cropImageUri, 1, 1, OUTPUT_X, OUTPUT_Y, CODE_RESULT_REQUEST);
+                        //startPhotoZoom(cropImageUri);
+                    } else {
+                        toast("设备没有SD卡");
+                    }
+                    break;
+                case CODE_RESULT_REQUEST:
+                    Bitmap bitmap = PhotoUtils.getBitmapFromUri(cropImageUri, this);
+                    if (bitmap != null) {
+                        showImages(bitmap);
+                        urlpath = FileUtil.saveFile(MemcenActivity.this, "temphead.jpg", bitmap);
+                        setUpImg(urlpath, phone,token);
+                    }
 
-    /**
-     * 裁剪图片方法实现
-     *
-     * @param uri
-     */
-    public void startPhotoZoom(Uri uri) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        // crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
-        intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 300);
-        intent.putExtra("outputY", 300);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, REQUESTCODE_CUTTING);
-    }
-
-    /**
-     * 保存裁剪之后的图片数据
-     *
-     * @param picdata
-     */
-    private void setPicToView(Intent picdata) {
-        Bundle extras = picdata.getExtras();
-        if (extras != null) {
-            // 取得SDCard图片路径做显示
-            Bitmap photo = extras.getParcelable("data");
-            Drawable drawable = new BitmapDrawable(null, photo);
-            urlpath = FileUtil.saveFile(MemcenActivity.this, "temphead.jpg", photo);
-            ivMemberHeader.setImageDrawable(drawable);
-            //roundImageView.setImageDrawable(drawable);
-            // file = new File(urlpath);
-
-            setUpImg(urlpath, phone, token);
-
-
-            // 新线程后台上传服务端
-//			pd = ProgressDialog.show(mContext, null, "正在上传图片，请稍候...");
-//			new Thread(uploadImageRunnable).start();
+                    break;
+                default:
+            }
         }
     }
 
+
+    /**
+     * 自动获取sdk权限
+     */
+
+    private void autoObtainStoragePermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSIONS_REQUEST_CODE);
+        } else {
+            PhotoUtils.openPic(this, CODE_GALLERY_REQUEST);
+        }
+
+    }
+
+    private void showImages(Bitmap bitmap) {
+        ivMemberHeader.setImageBitmap(bitmap);
+    }
+
+    /**
+     * 检查设备是否存在SDCard的工具方法
+     */
+    public static boolean hasSdcard() {
+        String state = Environment.getExternalStorageState();
+        return state.equals(Environment.MEDIA_MOUNTED);
+    }
 
     /**
      * 获取省市列表
