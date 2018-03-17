@@ -14,6 +14,9 @@
         android:orientation="horizontal">
 
         <EditText
+            android:id="@+id/et_hp_search"
+            android:cursorVisible="true"
+            android:textCursorDrawable="@null"
             style="@style/text_main"
             android:layout_weight="1"
             android:background="@null"

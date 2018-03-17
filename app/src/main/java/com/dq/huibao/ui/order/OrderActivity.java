@@ -75,7 +75,7 @@ public class OrderActivity extends BaseActivity implements ViewPager.OnPageChang
     }
 
     @Override
-    protected void initWidght() {
+        protected void initWidght() {
         super.initWidght();
         setTitleName("我的订单");
 

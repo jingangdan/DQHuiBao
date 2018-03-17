@@ -108,7 +108,6 @@ public class MemcenActivity extends BaseActivity {
 
     /*本地轻量型缓存*/
     private SPUserInfo spUserInfo;
-    //private String unionid = "";
     private String phone = "", token = "";
 
     /*UI显示 ：姓名 头像 手机号 微信号 性别 省 市*/

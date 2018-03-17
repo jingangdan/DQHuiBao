@@ -24,6 +24,7 @@ import com.dq.huibao.R;
 import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.LoginBean;
 import com.dq.huibao.bean.account.Login;
+import com.dq.huibao.bean.addr.AddrReturn;
 import com.dq.huibao.bean.wechat.WeChat;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
@@ -402,6 +403,9 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
      * @param phone
      * @param pwd
      */
+
+    private String login_result = "";
+
     public void postLogin(String phone, String pwd) {
         PATH = HttpPath.PATHS + HttpPath.ACCOUNT_LOGIN +
                 "phone=" + phone + "&pwd=" + pwd;
@@ -413,6 +417,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
+                        login_result = result;
                         System.out.println("登录" + result);
                         Login login = GsonUtil.gsonIntance().gsonToBean(result, Login.class);
                         if (login.getStatus() == 1) {
@@ -435,6 +440,12 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
+                        AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(login_result, AddrReturn.class);
+                        if (addrReturn.getStatus() == 0) {
+                            toast("" + addrReturn.getData());
+                        } else {
+                            toast("登录失败，请检查账号或密码");
+                        }
 
                     }
 

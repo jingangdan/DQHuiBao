@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -177,16 +178,26 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
         private final Context mContext;
         private LinearLayout linearLayout;
         private ImageView iv_search;
+        private EditText editText;
 
         public SearchViewHolder(Context mContext, View itemView) {
             super(itemView);
             this.mContext = mContext;
             linearLayout = itemView.findViewById(R.id.lin_hp_search);
             iv_search = itemView.findViewById(R.id.iv_hp_sreach);
+            editText = itemView.findViewById(R.id.et_hp_search);
         }
 
         public void setData() {
             linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //暴露search接口
+                    hpInterface.doSearch();
+                }
+            });
+
+            editText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //暴露search接口

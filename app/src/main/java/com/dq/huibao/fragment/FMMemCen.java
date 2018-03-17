@@ -363,8 +363,8 @@ public class FMMemCen extends BaseFragment implements
 
             /*个人信息*/
             case R.id.iv_memcen:
-                intent = new Intent(getActivity(), LoginActivity.class);
-                startActivityForResult(intent, CodeUtils.MEMBER);
+//                intent = new Intent(getActivity(), LoginActivity.class);
+//                startActivityForResult(intent, CodeUtils.MEMBER);
                 break;
 
             case R.id.but_mem_recharge:

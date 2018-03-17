@@ -138,9 +138,6 @@ public class MainActivity extends FragmentActivity {
 
         mainActivity = this;
 
-//        System.out.println("5555 = " + VersionCodeUtils.getVerCode(this));
-//        System.out.println("55555 = " + VersionCodeUtils.getVerName(this));
-
         getVersion(VersionCodeUtils.getVerName(this));
 
         x.Ext.init(this.getApplication());
@@ -424,7 +421,7 @@ public class MainActivity extends FragmentActivity {
                                 @Override
                                 public void onClick(View view) {
                                      /*市场更新*/
-                                     dlg.dismiss();
+                                    dlg.dismiss();
                                     gotoMarket(mainActivity, mainActivity.getPackageName());
                                 }
                             });
@@ -477,11 +474,14 @@ public class MainActivity extends FragmentActivity {
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
                         System.out.println("版本更新1 = " + version_result);
-                        AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(version_result, AddrReturn.class);
-                        if (addrReturn.getStatus() == 0) {
-                            System.out.println("" + addrReturn.getData());
-                            //Toast.makeText(mainActivity, "" + addrReturn.getData(), Toast.LENGTH_SHORT).show();
+                        if (!"".equals(version_result)) {
+                            AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(version_result, AddrReturn.class);
+                            if (addrReturn.getStatus() == 0) {
+                                System.out.println("" + addrReturn.getData());
+                                //Toast.makeText(mainActivity, "" + addrReturn.getData(), Toast.LENGTH_SHORT).show();
+                            }
                         }
+
 
                     }
 
