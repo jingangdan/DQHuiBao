@@ -229,7 +229,7 @@ public class CouponsDetailActivity extends BaseActivity {
      */
     public void setInitDate() {
         ImageUtils.loadIntoUseFitWidth(this,
-                HttpPath.HEADER + respthumb,
+                HttpPath.IMG_HEADER + respthumb,
                 R.mipmap.icon_empty002,
                 R.mipmap.icon_error002,
                 ivCdRespthumb);
@@ -259,7 +259,7 @@ public class CouponsDetailActivity extends BaseActivity {
                 "</head>";
         String html = "<html>" + head + "<body>" + html_bady + "</body></html>";
 
-        wvCouponsdetail.loadDataWithBaseURL(HttpPath.HEADER, html, "text/html", "utf-8", null);
+        wvCouponsdetail.loadDataWithBaseURL(HttpPath.IMG_HEADER, html, "text/html", "utf-8", null);
 
     }
 

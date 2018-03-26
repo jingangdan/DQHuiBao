@@ -1,7 +1,6 @@
 package com.dq.huibao.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +9,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -233,7 +233,6 @@ public class FMMemCen extends BaseFragment implements
         } else {
             System.out.println("刷新FMShopCart");
             isLogin();
-
         }
 
     }
@@ -295,21 +294,6 @@ public class FMMemCen extends BaseFragment implements
                 break;
 
             case R.id.iv_mc_sign:
-                //签到
-//                View view = getLayoutInflater().inflate(R.layout.dialog_sign, null);
-//                AlertDialog dialog = new AlertDialog.Builder(getActivity())
-//                        .setView(view)
-//                        .create();
-//
-//                //设置弹框的高为屏幕的一半宽是屏幕的宽
-//                WindowManager windowManager = getActivity().getWindowManager();
-//                Display display = windowManager.getDefaultDisplay();
-//                WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
-//                lp.width = (int) (display.getWidth() * 0.5); //设置宽度
-//                lp.height = (int) (display.getHeight() * 0.5); //设置宽度
-//                dialog.getWindow().setAttributes(lp);
-//                dialog.show();
-
                 final AlertDialog dlg = new AlertDialog.Builder(getActivity()).create();
                 dlg.show();
                 Window window = dlg.getWindow();

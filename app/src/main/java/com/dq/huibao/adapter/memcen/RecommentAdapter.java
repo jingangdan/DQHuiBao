@@ -83,7 +83,7 @@ public class RecommentAdapter extends RecyclerView.Adapter<RecommentAdapter.MyVi
         String img = goodsList.get(position).getThumb();
 
         ImageUtils.loadIntoUseFitWidth(mContext,
-                HttpPath.HEADER + img,
+                HttpPath.IMG_HEADER + img,
                 R.mipmap.icon_empty002,
                 R.mipmap.icon_error002,
                 holder.img);

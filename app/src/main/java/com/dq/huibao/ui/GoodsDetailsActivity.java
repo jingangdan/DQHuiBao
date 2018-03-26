@@ -950,7 +950,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
                 "</head>";
         String html = "<html>" + head + "<body>" + html_bady + "</body></html>";
 
-        webView.loadDataWithBaseURL(HttpPath.HEADER, html, "text/html", "utf-8", null);
+        webView.loadDataWithBaseURL(HttpPath.IMG_HEADER, html, "text/html", "utf-8", null);
 
     }
 

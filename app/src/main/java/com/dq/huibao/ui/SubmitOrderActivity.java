@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
@@ -120,6 +121,7 @@ public class SubmitOrderActivity extends BaseActivity {
                 if (regionid.equals("")) {
                     //添加收货地址
                     intent = new Intent(this, AddAddressActivity.class);
+                    intent.putExtra("tag", "0");
                     startActivityForResult(intent, CodeUtils.CONFIRM_ORDER);
                 } else {
                     //选择收货地址
@@ -364,6 +366,9 @@ public class SubmitOrderActivity extends BaseActivity {
      * @param addrid  收货地址的id
      * @param remark  备注[{shopid:remark}]备注
      */
+
+    private String string_result = "";
+
     public void orderAdd(final String phone, final String token, String cartids, String addrid, final String remark) {
         MD5_PATH = "addrid=" + addrid + "&cartids=" + cartids + "&phone=" + phone + "&remark=" + remark + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
@@ -377,6 +382,7 @@ public class SubmitOrderActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String result) {
                         System.out.println("提交订单 = " + result);
+                        string_result = result;
                         AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                         if (addrReturn.getStatus() == 1) {
                             intent = new Intent(SubmitOrderActivity.this, PayActivity.class);
@@ -395,7 +401,12 @@ public class SubmitOrderActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-
+                        if (!TextUtils.isEmpty(string_result)) {
+                            AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(string_result, AddrReturn.class);
+                            if (addrReturn.getStatus() == 1) {
+                                toast("" + addrReturn.getData());
+                            }
+                        }
                     }
 
                     @Override

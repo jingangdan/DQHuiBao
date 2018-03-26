@@ -490,7 +490,7 @@ public class MemcenActivity extends BaseActivity {
                 imageUri = Uri.fromFile(fileUri);
                 //通过FileProvider创建一个content类型的Uri
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    imageUri = FileProvider.getUriForFile(MemcenActivity.this, "com.zz.fileprovider", fileUri);
+                    imageUri = FileProvider.getUriForFile(MemcenActivity.this, "com.hb.fileprovider", fileUri);
                 }
                 PhotoUtils.takePicture(this, imageUri, CODE_CAMERA_REQUEST);
             } else {
@@ -510,7 +510,7 @@ public class MemcenActivity extends BaseActivity {
                     if (hasSdcard()) {
                         imageUri = Uri.fromFile(fileUri);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                            imageUri = FileProvider.getUriForFile(MemcenActivity.this, "com.zz.fileprovider", fileUri);//通过FileProvider创建一个content类型的Uri
+                            imageUri = FileProvider.getUriForFile(MemcenActivity.this, "com.hb.fileprovider", fileUri);//通过FileProvider创建一个content类型的Uri
                         PhotoUtils.takePicture(this, imageUri, CODE_CAMERA_REQUEST);
                     } else {
                         toast("设备没有SD卡");
@@ -553,7 +553,7 @@ public class MemcenActivity extends BaseActivity {
                         cropImageUri = Uri.fromFile(fileCropUri);
                         Uri newUri = Uri.parse(PhotoUtils.getPath(this, data.getData()));
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            newUri = FileProvider.getUriForFile(this, "com.zz.fileprovider", new File(newUri.getPath()));
+                            newUri = FileProvider.getUriForFile(this, "com.hb.fileprovider", new File(newUri.getPath()));
                         }
                         PhotoUtils.cropImageUri(this, newUri, cropImageUri, 1, 1, OUTPUT_X, OUTPUT_Y, CODE_RESULT_REQUEST);
                         //startPhotoZoom(cropImageUri);

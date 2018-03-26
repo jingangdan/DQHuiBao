@@ -59,7 +59,7 @@ public class CouponsListAdapter extends RecyclerView.Adapter<CouponsListAdapter.
         }
 
         ImageUtils.loadIntoUseFitWidth(mContext,
-                HttpPath.HEADER + couponsList.get(position).getThumb(),
+                HttpPath.IMG_HEADER + couponsList.get(position).getThumb(),
                 R.mipmap.icon_empty002,
                 R.mipmap.icon_error002,
                 holder.iv_thumb);

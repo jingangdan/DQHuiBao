@@ -22,6 +22,7 @@
             android:padding="10dp">
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/but_mc_menu0"
                 style="@style/text_main"
                 android:layout_weight="1"

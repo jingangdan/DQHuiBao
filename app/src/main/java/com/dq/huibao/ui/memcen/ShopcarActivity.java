@@ -422,29 +422,11 @@ public class ShopcarActivity extends BaseActivity implements
                     toast("请选择要支付的商品");
                     return;
                 }
-                alert = new AlertDialog.Builder(this).create();
-                alert.setTitle("操作提示");
-                alert.setMessage("总计:\n" + totalCount + "种商品\n" + totalPrice + "元" + "\n商品id = " + ids);
-                alert.setButton(DialogInterface.BUTTON_NEGATIVE, "取消",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                return;
-                            }
-                        });
-                alert.setButton(DialogInterface.BUTTON_POSITIVE, "确定",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                intent = new Intent(ShopcarActivity.this, SubmitOrderActivity.class);
-                                intent.putExtra("cartids", ids);
-                                intent.putExtra("tag", "0");
-                                startActivityForResult(intent, CodeUtils.CART_AC);
-                                return;
-                            }
-                        });
-                alert.show();
 
+                intent = new Intent(ShopcarActivity.this, SubmitOrderActivity.class);
+                intent.putExtra("cartids", ids);
+                intent.putExtra("tag", "0");
+                startActivityForResult(intent, CodeUtils.CART_AC);
                 break;
 
             default:

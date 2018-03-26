@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.classify.ClassifyAdapter;
 import com.dq.huibao.adapter.classify.ClassifyTwoAdapter;
+import com.dq.huibao.adapter.classify.ExpandableListViewAdapter;
 import com.dq.huibao.base.BaseFragment;
 import com.dq.huibao.bean.goods.Cate;
 import com.dq.huibao.bean.goods.CateChildren;
@@ -55,6 +57,11 @@ public class FMClassify extends BaseFragment {
     LinearLayout linHpNonetwork;
     @Bind(R.id.lin_fc_nonetwork)
     LinearLayout linFcNonetwork;
+
+    @Bind(R.id.expandableListView)
+    ExpandableListView expandableListView;
+
+    private ExpandableListViewAdapter mAdapter;
 
     private View view;
     private CustomProgress progressDialog = null;
@@ -171,8 +178,17 @@ public class FMClassify extends BaseFragment {
                 System.out.println("子分类 = " + result);
                 CateChildren cateChildren = GsonUtil.gsonIntance().gsonToBean(result, CateChildren.class);
 
-                cateChildrenList.addAll(cateChildren.getData());
-                classifyTwoAdapter.notifyDataSetChanged();
+//                cateChildrenList.addAll(cateChildren.getData());
+//                classifyTwoAdapter.notifyDataSetChanged();
+
+                mAdapter = new ExpandableListViewAdapter(getActivity(), cateChildren.getData());
+                expandableListView.setAdapter(mAdapter);
+
+                //设置Group默认展开
+                int groupCount = expandableListView.getCount();
+                for (int i = 0; i < groupCount; i++) {
+                    expandableListView.expandGroup(i);
+                }
             }
 
             @Override
