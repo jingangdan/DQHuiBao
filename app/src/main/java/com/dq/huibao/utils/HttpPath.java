@@ -560,4 +560,56 @@ public class HttpPath {
      */
     public static final String POSTER_INDEX = "Poster/index?";
 
+//小店=======
+
+    /**
+     * 获取小店信息
+     * 参数：uid
+     * shopInfo
+     */
+    public static final String XSHOP_INFO = "Member/shopInfo";
+
+    /**
+     * 获取小店自选商品分类
+     */
+    public static final String XSHOP_GOODS_ZX_TYPE = "Member/getCatelist";
+
+    /**
+     * 获取小店自选分类下商品列表
+     * 参数：cateid=分类id,curpage=page,pagesize=pagesize,idstr=所有选择的商品id->“,”分割
+     */
+    public static final String XSHOP_GOODS_ZX_ALL = "Member/loadgoods";
+
+    /**
+     * 获取小店首页展示商品
+     * 参数：mid=uid
+     */
+    public static final String XSHOP_GOODS = "Member/goodsList";
+
+    /**
+     * 获取小店已选商品
+     * 参数：mid=uid
+     */
+    public static final String XSHOP_YX_GOODS = "Member/usergoods";
+
+    /**
+     * 提交小店修改信息
+     * 参数：mid=uid,shopname=名称,thumb=头像，focusthumb=店招图片，intro=简介 限制长度255
+     * 需要验证：token,sign,timestamp,phone
+     */
+    public static final String XSHOP_SAVA_SHOP_INFO = "Member/setShopInfo";
+
+    /**
+     * 保存所有选择的商品
+     * 参数：mid=uid,strid=需要保存商品的id字符串，id之间用英文,分割
+     * 需要验证：token,sign,timestamp,phone
+     */
+    public static final String XSHOP_SAVA_GOODS = "Member/savegoods";
+
+    /**
+     * 关闭自选商品并清空自选列表
+     * 参数：mid=uid
+     * 需要验证：token,sign,timestamp,phone
+     */
+    public static final String XSHOP_MOVE_GOODS = "Member/movegoods";
 }

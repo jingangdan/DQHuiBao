@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <ListView
+            android:id="@+id/xstore_goods_type_list"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:divider="#00000000"
+            android:dividerHeight="0dp"
+            android:choiceMode="singleChoice"
+            android:scrollbars="none"></ListView>
+        <com.github.jdsjlzx.recyclerview.LRecyclerView
+            android:id="@+id/xstore_goods_list_right"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:layout_weight="3"></com.github.jdsjlzx.recyclerview.LRecyclerView>
+    </LinearLayout>
+    <Button
+        android:id="@+id/xstore_goods_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/buttonshape"
+        android:textColor="@color/white"
+        android:text="确认选择商品"/>
+</LinearLayout>

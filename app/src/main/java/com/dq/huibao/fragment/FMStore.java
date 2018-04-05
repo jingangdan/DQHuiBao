@@ -1,31 +1,45 @@
 package com.dq.huibao.fragment;
 
-import android.graphics.Color;
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.dq.huibao.R;
+import com.dq.huibao.adapter.xstore.XStoreIndexAdapter;
 import com.dq.huibao.base.BaseFragment;
-import com.dq.huibao.view.lrecyclerview.DataAdapter;
-import com.dq.huibao.view.lrecyclerview.ItemModel;
-import com.dq.huibao.view.lrecyclerview.SampleHeader;
-import com.github.jdsjlzx.ItemDecoration.GridItemDecoration;
-import com.github.jdsjlzx.ItemDecoration.SpacesItemDecoration;
+import com.dq.huibao.bean.account.Login;
+import com.dq.huibao.bean.xstore.XStoreGoods;
+import com.dq.huibao.bean.xstore.XStoreInfo;
+import com.dq.huibao.ui.LoginActivity;
+import com.dq.huibao.ui.xstore.XStoreSettingActivity;
+import com.dq.huibao.utils.CodeUtils;
+import com.dq.huibao.utils.GsonUtil;
+import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
+import com.dq.huibao.utils.SPUserInfo;
+import com.dq.huibao.view.DoubleWaveView;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
-import com.github.jdsjlzx.interfaces.OnNetWorkErrorListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 
-import java.lang.ref.WeakReference;
+import org.xutils.common.Callback;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,33 +49,44 @@ import butterknife.ButterKnife;
  * Description：小店
  * Created by jingang on 2017/10/20.
  */
-public class FMStore extends BaseFragment {
+public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMoreListener, View.OnClickListener {
+    @Bind(R.id.lin_xstore_nologin)
+    LinearLayout linPercenNoLogin;
     @Bind(R.id.tv_base_title)
     TextView tvBaseTitle;
-    @Bind(R.id.list)
-    LRecyclerView mRecyclerView = null;
-    private DataAdapter mDataAdapter = null;
+    @Bind(R.id.but_percen_login)
+    Button butPercenLogin;
+    @Bind(R.id.ptrv_xstore)
+    LRecyclerView lRecyclerView;
+    @Bind(R.id.tv_nologin_title)
+    TextView tvNologinTitle;
+    private DoubleWaveView waveView, waveView2, waveView3;
 
     private View view;
 
-    /**
-     * 服务器端一共多少条数据
-     */
-    private static final int TOTAL_COUNTER = 120;
+    /*本地轻量型缓存*/
+    private SPUserInfo spUserInfo;
+    private String uid = "", phone = "", token = "";
+
+    private int page = 1, pageSize = 4;
 
     /**
-     * 每一页展示多少条数据
+     * 用户信息
      */
-    private static final int REQUEST_COUNT = 10;
+    XStoreInfo xStoreInfo;
+    XStoreIndexAdapter listAdapter;
+    LRecyclerViewAdapter lRecyclerViewAdapter;
+    //头布局
+    View headView;
+    ImageView xstoreTopBackgroundImage;
+    ImageView xstoreHeadImage;
+    ImageView xstoreSetting;
+    TextView xstoreName,xstoreAllcount;
+    /**是否是刷新*/
+    private boolean isRefresh = true;
 
-    /**
-     * 已经获取到多少条数据了
-     */
-    private static int mCurrentCounter = 0;
-
-    private PreviewHandler mHandler = new PreviewHandler(this);
-    private LRecyclerViewAdapter mLRecyclerViewAdapter = null;
-
+    /**小店自选状态**/
+    public static boolean isZx = false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,173 +94,189 @@ public class FMStore extends BaseFragment {
         view = inflater.inflate(R.layout.fragment_store, null);
 
         ButterKnife.bind(this, view);
-        tvBaseTitle.setText("我的小店");
-
-        //setLayoutManager must before setAdapter
+        tvNologinTitle.setText("我的小店");
+        //
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
-        mRecyclerView.setLayoutManager(manager);
+        lRecyclerView.setLayoutManager(manager);
 
-        mDataAdapter = new DataAdapter(getActivity());
+        lRecyclerView.setOnRefreshListener(this);
+        lRecyclerView.setOnLoadMoreListener(this);
+        //
+        listAdapter = new XStoreIndexAdapter(getActivity());
+        lRecyclerViewAdapter = new LRecyclerViewAdapter(listAdapter);
+        lRecyclerView.setAdapter(lRecyclerViewAdapter);
+        //
+        headView = LayoutInflater.from(getActivity()).inflate(R.layout.include_xstore_top, null);
+        lRecyclerViewAdapter.addHeaderView(headView);
+        xstoreTopBackgroundImage = headView.findViewById(R.id.xstore_top_background_image);
+        xstoreHeadImage = headView.findViewById(R.id.xstore_head_image);
+        xstoreSetting = headView.findViewById(R.id.xstore_setting);
+        xstoreName = headView.findViewById(R.id.xstore_name);
+        xstoreAllcount = headView.findViewById(R.id.xstore_allcount);
+        //点击事件
+        xstoreSetting.setOnClickListener(this);
+        butPercenLogin.setOnClickListener(this);
+        view.findViewById(R.id.iv_base_back).setVisibility(View.GONE);
 
-        mLRecyclerViewAdapter = new LRecyclerViewAdapter(mDataAdapter);
-        mRecyclerView.setAdapter(mLRecyclerViewAdapter);
-
-        //设置头部加载颜色
-        mRecyclerView.setHeaderViewColor(R.color.colorAccent, R.color.dark, android.R.color.white);
-        //设置底部加载颜色
-        mRecyclerView.setFooterViewColor(R.color.colorAccent, R.color.dark, android.R.color.white);
-
-        //设置底部加载文字提示
-        mRecyclerView.setFooterViewHint("拼命加载中", "已经全部为你呈现了", "网络不给力啊，点击再试一次吧");
-
-        int spacing = getResources().getDimensionPixelSize(R.dimen.dp_4);
-        mRecyclerView.addItemDecoration(SpacesItemDecoration.newInstance(spacing, spacing, manager.getSpanCount(), Color.rgb(244, 244, 244)));
-
-        //根据需要选择使用GridItemDecoration还是SpacesItemDecoration
-        GridItemDecoration divider = new GridItemDecoration.Builder(getActivity())
-                .setHorizontal(R.dimen.default_divider_padding)
-                .setVertical(R.dimen.default_divider_padding)
-                .setColorResource(R.color.split)
-                .build();
-        //mRecyclerView.addItemDecoration(divider);
-
-        mRecyclerView.setHasFixedSize(true);
-
-        mLRecyclerViewAdapter.addHeaderView(new SampleHeader(getActivity()));
-
-        //设置span，自己可以体验效果
-        /*mLRecyclerViewAdapter.setSpanSizeLookup(new LRecyclerViewAdapter.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                if (position % 4 == 0) {
-                    return gridLayoutManager.getSpanCount();
-                } else {
-                    return 1;
-                }
-
-            }
-        });*/
-
-
-        mRecyclerView.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mCurrentCounter = 0;
-                mDataAdapter.clear();
-                requestData();
-            }
-        });
-
-        mRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                if (mCurrentCounter < TOTAL_COUNTER) {
-                    // loading more
-                    requestData();
-                } else {
-                    //the end
-                    mRecyclerView.setNoMore(true);
-                }
-            }
-        });
-
-        mRecyclerView.refresh();
-
+        isLogin();
         return view;
     }
 
-    private void notifyDataSetChanged() {
-        mLRecyclerViewAdapter.notifyDataSetChanged();
-    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            System.out.println("离开FMShopCart");
 
-    private void addItems(ArrayList<ItemModel> list) {
-        mDataAdapter.addAll(list);
-        mCurrentCounter += list.size();
-    }
+        } else {
+            System.out.println("刷新FMShopCart");
+//            shopList.clear();
+            isLogin();
 
-    private class PreviewHandler extends Handler {
-
-        private WeakReference<FMStore> ref;
-
-        PreviewHandler(FMStore activity) {
-            ref = new WeakReference<>(activity);
         }
 
-        @Override
-        public void handleMessage(Message msg) {
-            final FMStore activity = ref.get();
-            if (activity == null || getActivity().isFinishing()) {
-                return;
+    }
+
+    /**
+     * 下拉刷新
+     */
+    @Override
+    public void onRefresh() {
+        page = 1;
+        isLogin();
+    }
+
+    /**
+     * 加载更多
+     */
+    @Override
+    public void onLoadMore() {
+        isRefresh = false;
+        page++;
+        getStoreList();
+    }
+
+    /**
+     * 判断登录状态
+     */
+    @SuppressLint("WrongConstant")
+    public void isLogin() {
+        isRefresh = true;
+        spUserInfo = new SPUserInfo(getActivity().getApplication());
+
+        if (spUserInfo.getLogin().equals("1")) {
+
+            if (!(spUserInfo.getLoginReturn().equals(""))) {
+                Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
+                uid = login.getData().getUid();
+                phone = login.getData().getPhone();
+                token = login.getData().getToken();
+                tvBaseTitle.setText("我的小店");
+                getStoreInfo();
             }
-            switch (msg.what) {
-                case -1:
 
-                    int currentSize = activity.mDataAdapter.getItemCount();
-
-                    //模拟组装10个数据
-                    ArrayList<ItemModel> newList = new ArrayList<>();
-                    for (int i = 0; i < 16; i++) {
-                        if (newList.size() + currentSize >= TOTAL_COUNTER) {
-                            break;
-                        }
-                        ItemModel item = new ItemModel();
-                        item.id = currentSize + i;
-                        item.title = "item" + (item.id);
-
-                        newList.add(item);
-                    }
-
-
-                    activity.addItems(newList);
-
-                    activity.mRecyclerView.refreshComplete(10);
-
-                    break;
-                case -2:
-                    activity.notifyDataSetChanged();
-                    break;
-                case -3:
-                    activity.mRecyclerView.refreshComplete(10);
-                    activity.notifyDataSetChanged();
-                    activity.mRecyclerView.setOnNetWorkErrorListener(new OnNetWorkErrorListener() {
-                        @Override
-                        public void reload() {
-                            requestData();
-                        }
-                    });
-                    break;
-            }
+            lRecyclerView.setVisibility(View.VISIBLE);
+            linPercenNoLogin.setVisibility(View.GONE);
+        } else {
+            lRecyclerView.setVisibility(View.GONE);
+            linPercenNoLogin.setVisibility(View.VISIBLE);
         }
     }
 
     /**
-     * 模拟请求网络
+     * 获取小店信息
      */
-    private void requestData() {
+    public void getStoreInfo() {
+        getStoreList();
+        Map<String, String> map = new HashMap<>();
+        map.put("mid", uid);
+        HttpxUtils.Get(HttpPath.PATHS + HttpPath.XSHOP_INFO, map,
+                new Callback.CommonCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        xStoreInfo = GsonUtil.gsonIntance().gsonToBean(result, XStoreInfo.class);
+                        //小店自选开关状态
+                        isZx = xStoreInfo.getData().getGoodstatus().equals("1");
+                        updateUI(xStoreInfo);
+//                        System.out.println("获取小店信息 = " + xStoreInfo.getData().getShopname());
+                    }
 
-        new Thread() {
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        System.out.println("获取小店信息 = 失败" + ex.getMessage());
+                    }
 
-            @Override
-            public void run() {
-                super.run();
+                    @Override
+                    public void onCancelled(CancelledException cex) {
 
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                mHandler.sendEmptyMessage(-1);
+                    }
 
+                    @Override
+                    public void onFinished() {
 
-                //模拟一下网络请求失败的情况
-//                if(NetworkUtils.isNetAvailable(getActivity())) {
-//                    mHandler.sendEmptyMessage(-1);
-//                } else {
-//                    mHandler.sendEmptyMessage(-3);
-//                }
-            }
-        }.start();
+                    }
+                });
     }
+
+    /**
+     * 获取商品列表
+     */
+    public void getStoreList() {
+        Map<String, String> map = new HashMap<>();
+        map.put("mid", uid);
+        map.put("page", "" + page);
+        map.put("pagesize", "" + pageSize);
+//        Log.d("mmmmmmmmm","小店首页列表:"+map.toString());
+        HttpxUtils.Get(HttpPath.PATHS + HttpPath.XSHOP_GOODS, map,
+                new Callback.CommonCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        XStoreGoods storeGoods = GsonUtil.gsonIntance().gsonToBean(result, XStoreGoods.class);
+//                        Log.d("mmmmmmmmm","小店首页列表:"+storeGoods.getData().getList().toString());
+                        if (isRefresh){
+                            xstoreAllcount.setText(storeGoods.getData().getAllcount());
+                            listAdapter.clear();
+                        }
+                        lRecyclerView.refreshComplete(pageSize);
+                        listAdapter.addAll(storeGoods.getData().getList());
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        System.out.println("获取小店信息 = 失败" + ex.getMessage());
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+                });
+    }
+
+    /**
+     * 更新ui
+     */
+    public void updateUI(XStoreInfo info) {
+        Glide.with(getActivity())
+                .load(HttpPath.NEW_HEADER + info.getData().getThumb())
+                .crossFade(1000)
+                .placeholder(R.mipmap.ic_header)
+                .error(R.mipmap.ic_header)
+                .into(xstoreHeadImage);
+        Glide.with(getActivity())
+                .load(HttpPath.NEW_HEADER + info.getData().getFocusthumb())
+                .crossFade(1000)
+                .placeholder(R.mipmap.icon_empty001)
+                .error(R.mipmap.icon_error001)
+                .into(xstoreTopBackgroundImage);
+        xstoreName.setText(info.getData().getShopname());
+    }
+
 
     @Override
     protected void lazyLoad() {
@@ -246,5 +287,33 @@ public class FMStore extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.xstore_setting:
+                Intent intent = new Intent(getActivity(), XStoreSettingActivity.class);
+                intent.putExtra("uid", uid);
+                intent.putExtra("phone", phone);
+                intent.putExtra("token", token);
+                startActivity(intent);
+                break;
+            case R.id.but_percen_login:
+                //登录
+                Intent intentL = new Intent(getActivity(), LoginActivity.class);
+                startActivityForResult(intentL, CodeUtils.CART_FM);
+                break;
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CodeUtils.CART_FM) {
+            if (resultCode == CodeUtils.CONFIRM_ORDER || resultCode == CodeUtils.LOGIN) {
+                isLogin();
+            }
+        }
     }
 }

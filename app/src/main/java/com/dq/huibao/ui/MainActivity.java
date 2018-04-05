@@ -119,8 +119,7 @@ public class MainActivity extends FragmentActivity {
     private FMClassify fmClassify;
     private FMShopcar fmShopcar;
     private FMMemCen fmMemCen;
-
-    private FMFind fmStore;
+    private FMStore fmStore;
 
     //private FMStore fmStore;
     private FMDistribution fmDistribution;
@@ -183,10 +182,14 @@ public class MainActivity extends FragmentActivity {
 
             case R.id.lin_store:
                 setTabSelection(4);
-                linHomePage.setVisibility(View.GONE);
-                linHpStore.setVisibility(View.VISIBLE);
-                linDistribution.setVisibility(View.VISIBLE);
-                linStore.setVisibility(View.GONE);
+                linHomePage.setVisibility(View.VISIBLE);
+                linHpStore.setVisibility(View.GONE);
+                linDistribution.setVisibility(View.GONE);
+                linStore.setVisibility(View.VISIBLE);
+//                linHomePage.setVisibility(View.GONE);
+//                linHpStore.setVisibility(View.VISIBLE);
+//                linDistribution.setVisibility(View.VISIBLE);
+//                linStore.setVisibility(View.GONE);
                 break;
 
             case R.id.lin_distribution:
@@ -265,11 +268,10 @@ public class MainActivity extends FragmentActivity {
                 }
                 break;
             case 4:
-
                 ivHpStore.setImageResource(R.mipmap.icon_store002);
                 tvHpStore.setTextColor(mycolor);
                 if (fmStore == null) {
-                    fmStore = new FMFind();
+                    fmStore = new FMStore();
                     ft.add(R.id.content, fmStore);
                 } else {
                     ft.show(fmStore);
@@ -282,7 +284,7 @@ public class MainActivity extends FragmentActivity {
                 tvHpStore.setTextColor(mycolor);
 
                 if (fmStore == null) {
-                    fmStore = new FMFind();
+                    fmStore = new FMStore();
                     ft.add(R.id.content, fmStore);
                 } else {
                     ft.show(fmStore);

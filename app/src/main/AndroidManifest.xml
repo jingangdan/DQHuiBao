@@ -240,6 +240,9 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+        <!--小店信息-->
+        <activity android:name=".ui.xstore.XStoreSettingActivity" />
+        <activity android:name=".ui.xstore.XStoreGoodsActivity" />
 
         <!--增加图片清晰度-->
         <meta-data

@@ -51,5 +51,10 @@ public class CodeUtils {
     /*首页*/
     public static final int HOMEPAGE = 0x15;
 
+    /*小店自选商品选择*/
+    public static final int XSTORE_GOODS = 0x16;
+    /*小店自选商品选择result*/
+    public static final int XSTORE_GOODS_RESULT = 0x17;
+
 
 }

@@ -109,8 +109,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:visibility="gone">
+            android:layout_weight="1">
 
             <!--小店-->
             <LinearLayout
@@ -121,7 +120,7 @@
                     android:id="@+id/iv_store"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_memcen001" />
+                    android:src="@mipmap/icon_store001" />
 
                 <TextView
                     android:id="@+id/tv_store"

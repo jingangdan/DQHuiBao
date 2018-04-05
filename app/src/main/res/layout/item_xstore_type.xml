@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical|center_horizontal"
+    android:background="@drawable/select_xstore_type_bg"
+    android:orientation="horizontal">
+    <TextView
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/select_xstore_type_left"/>
+    <TextView
+        android:layout_weight="1"
+        android:id="@+id/item_xstore_type_leftTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:focusableInTouchMode="true"
+        android:ellipsize="marquee"
+        android:scrollHorizontally="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:textColor="@color/select_xstore_type_text_color"
+        android:paddingBottom="10dp"
+        tools:ignore="EllipsizeMaxLines" />
+</LinearLayout>
