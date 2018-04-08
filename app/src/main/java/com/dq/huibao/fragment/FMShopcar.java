@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.dq.huibao.Interface.ModifyCountInterface;
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.cart.ShopCartAdapter;
 import com.dq.huibao.base.BaseFragment;
+import com.dq.huibao.bean.account.Account;
 import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.bean.addr.AddrReturn;
 import com.dq.huibao.bean.cart.Cart;
@@ -34,6 +36,7 @@ import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
+import com.dq.huibao.utils.ShowUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -148,7 +151,6 @@ public class FMShopcar extends BaseFragment implements
         super.onHiddenChanged(hidden);
         if (hidden) {
             System.out.println("离开FMShopCart");
-
         } else {
             System.out.println("刷新FMShopCart");
             shopList.clear();
@@ -192,6 +194,8 @@ public class FMShopcar extends BaseFragment implements
      * @param phone
      * @param token
      */
+    private String cart_string = "";
+
     public void getCart(String phone, String token) {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
@@ -201,18 +205,22 @@ public class FMShopcar extends BaseFragment implements
         HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                cart_string = result;
                 System.out.println("获取购物车 = " + result);
                 Cart cart = GsonUtil.gsonIntance().gsonToBean(result, Cart.class);
-                shopList.clear();
-                shopList.addAll(cart.getData().getCart());
-                for (int i = 0; i < shopList.size(); i++) {
-                    children.put(shopList.get(i).getShopid(), shopList.get(i).getGoodslist());
-                }
-                shopCartAdapter.notifyDataSetChanged();
 
-                for (int i = 0; i < shopCartAdapter.getGroupCount(); i++) {
-                    // 关键步骤3,初始化时，将ExpandableListView以展开的方式呈现
-                    exListView.expandGroup(i);
+                if (cart.getStatus() == 1) {
+                    shopList.clear();
+                    shopList.addAll(cart.getData().getCart());
+                    for (int i = 0; i < shopList.size(); i++) {
+                        children.put(shopList.get(i).getShopid(), shopList.get(i).getGoodslist());
+                    }
+                    shopCartAdapter.notifyDataSetChanged();
+
+                    for (int i = 0; i < shopCartAdapter.getGroupCount(); i++) {
+                        // 关键步骤3,初始化时，将ExpandableListView以展开的方式呈现
+                        exListView.expandGroup(i);
+                    }
                 }
 
                 calculate();
@@ -220,7 +228,23 @@ public class FMShopcar extends BaseFragment implements
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
+                if (!TextUtils.isEmpty(cart_string)) {
+                    Account account = GsonUtil.gsonIntance().gsonToBean(cart_string, Account.class);
+                    if (account.getData().equals("用户信息错误")) {
+                        ShowUtils.showDialog(getActivity(), "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？", new ShowUtils.OnDialogListener() {
+                            @Override
+                            public void confirm() {
+                                intent = new Intent(getActivity(), LoginActivity.class);
+                                startActivityForResult(intent, CodeUtils.CART_FM);
+                            }
 
+                            @Override
+                            public void cancel() {
+
+                            }
+                        });
+                    }
+                }
             }
 
             @Override

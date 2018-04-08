@@ -19,6 +19,9 @@ public class HttpPath {
 
     public static final String NEW_HEADER = "http://new.dequanhuibao.com/";
 
+    /**
+     * 加密key
+     */
     public static final String KEY = "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k";
 
     /*

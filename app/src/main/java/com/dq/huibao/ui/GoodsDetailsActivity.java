@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ import com.dq.huibao.R;
 import com.dq.huibao.adapter.gd.ChooseAdapter;
 import com.dq.huibao.adapter.gd.GdCommentAdapter;
 import com.dq.huibao.adapter.gd.GdParmasAdapter;
+import com.dq.huibao.bean.account.Account;
 import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.bean.addr.AddrReturn;
 import com.dq.huibao.bean.cart.Cart;
@@ -58,6 +60,7 @@ import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
+import com.dq.huibao.utils.ShowUtils;
 import com.dq.huibao.view.goodsdetails_foot.GradationScrollView;
 
 import org.xutils.common.Callback;
@@ -535,6 +538,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("添加收藏 = " + PATH);
         HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
                 System.out.println("添加收藏 = " + result);
@@ -544,6 +548,21 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
                     isCollection = true;
                     ivGdCollection.setImageResource(R.mipmap.ic_collection002);
                     tvGdCollection.setText("已收藏");
+                }else {
+                    if (addrReturn.getData().equals("用户验证错误")) {
+                        ShowUtils.showDialog(TAG, "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？", new ShowUtils.OnDialogListener() {
+                            @Override
+                            public void confirm() {
+                                intent = new Intent(TAG, LoginActivity.class);
+                                startActivityForResult(intent, CodeUtils.GDTAILD);
+                            }
+
+                            @Override
+                            public void cancel() {
+
+                            }
+                        });
+                    }
                 }
             }
 
@@ -578,6 +597,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("取消收藏 = " + PATH);
         HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
                 System.out.println("取消收藏 = " + result);
@@ -587,6 +607,21 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
                     isCollection = false;
                     ivGdCollection.setImageResource(R.mipmap.ic_collection001);
                     tvGdCollection.setText("收藏");
+                } else {
+                    if (addrReturn.getData().equals("用户验证错误")) {
+                        ShowUtils.showDialog(TAG, "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？", new ShowUtils.OnDialogListener() {
+                            @Override
+                            public void confirm() {
+                                intent = new Intent(TAG, LoginActivity.class);
+                                startActivityForResult(intent, CodeUtils.GDTAILD);
+                            }
+
+                            @Override
+                            public void cancel() {
+
+                            }
+                        });
+                    }
                 }
             }
 
@@ -867,6 +902,8 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
      * @param optionid
      * @param count
      */
+    private String cartadd_string = "";
+
     public void cartAdd(String phone, String token, final String gid, String optionid, int count) {
         MD5_PATH = "count=" + count + "&goodsid=" + gid + "&optionid=" + optionid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
         PATH = HttpPath.CART_ADD + MD5_PATH + "&sign=" +
@@ -876,6 +913,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
+                cartadd_string = result;
                 System.out.println("添加购物车 = " + result);
                 cart = GsonUtil.gsonIntance().gsonToBean(result, Cart.class);
                 if (cart.getData().getCart().size() > 0) {
@@ -898,7 +936,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                setLoginAgain(cartadd_string);
             }
 
             @Override
@@ -934,6 +972,31 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
 
         webView.loadDataWithBaseURL(HttpPath.IMG_HEADER, html, "text/html", "utf-8", null);
 
+    }
+
+    /**
+     * 是否被顶号
+     *
+     * @param result
+     */
+    public void setLoginAgain(String result) {
+        if (!TextUtils.isEmpty(result)) {
+            Account account = GsonUtil.gsonIntance().gsonToBean(result, Account.class);
+            if (account.getData().equals("用户验证错误")) {
+                ShowUtils.showDialog(TAG, "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？", new ShowUtils.OnDialogListener() {
+                    @Override
+                    public void confirm() {
+                        intent = new Intent(TAG, LoginActivity.class);
+                        startActivityForResult(intent, CodeUtils.GDTAILD);
+                    }
+
+                    @Override
+                    public void cancel() {
+
+                    }
+                });
+            }
+        }
     }
 
     /**

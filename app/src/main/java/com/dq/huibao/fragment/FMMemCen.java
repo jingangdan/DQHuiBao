@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -58,6 +59,7 @@ import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
 import com.dq.huibao.utils.ScreenUtils;
+import com.dq.huibao.utils.ShowUtils;
 import com.dq.huibao.utils.VersionCodeUtils;
 import com.dq.huibao.view.DoubleWaveView;
 import com.dq.huibao.view.GlideCircleTransform;
@@ -525,6 +527,8 @@ public class FMMemCen extends BaseFragment implements
      * @param phone
      * @param token
      */
+    private String member_string = "";
+
     public void getMember(String phone, String token) {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
@@ -536,21 +540,40 @@ public class FMMemCen extends BaseFragment implements
         HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                member_string = result;
                 System.out.println("个人信息 = " + result);
                 Login login = GsonUtil.gsonIntance().gsonToBean(result, Login.class);
+                if (login.getStatus() == 1) {
+                    level = login.getData().getRole_id();
+                    id = login.getData().getUid();
+                    avatar = login.getData().getHeadimgurl();
+                    nickname = login.getData().getNickname();
+                    credit1 = login.getData().getBalance();
+                    credit2 = login.getData().getScore();
+                    setUserInfo(avatar);
+                }
 
-                level = login.getData().getRole_id();
-                id = login.getData().getUid();
-                avatar = login.getData().getHeadimgurl();
-                nickname = login.getData().getNickname();
-                credit1 = login.getData().getBalance();
-                credit2 = login.getData().getScore();
-                setUserInfo(avatar);
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
+                if (!TextUtils.isEmpty(member_string)) {
+                    Account account = GsonUtil.gsonIntance().gsonToBean(member_string, Account.class);
+                    if (account.getData().equals("用户验证错误")) {
+                        ShowUtils.showDialog(getActivity(), "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？", new ShowUtils.OnDialogListener() {
+                            @Override
+                            public void confirm() {
+                                intent = new Intent(getActivity(), LoginActivity.class);
+                                startActivityForResult(intent, CodeUtils.MEMBER);
+                            }
 
+                            @Override
+                            public void cancel() {
+
+                            }
+                        });
+                    }
+                }
             }
 
             @Override
@@ -631,7 +654,6 @@ public class FMMemCen extends BaseFragment implements
      * @param token
      */
     public void loginOut(String phone, String token) {
-
         PATH = HttpPath.ACCOUNT_LOGINOUT +
                 "phone=" + phone + "&token=" + token + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&sign=" +
                 MD5Util.getMD5String("phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
@@ -647,7 +669,20 @@ public class FMMemCen extends BaseFragment implements
                     spUserInfo.saveLoginReturn("");
                     isLogin();
                 } else {
-                    toast("" + account.getData());
+                    if (account.getData().equals("用户验证错误")) {
+                        ShowUtils.showDialog(getActivity(), "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？", new ShowUtils.OnDialogListener() {
+                            @Override
+                            public void confirm() {
+                                intent = new Intent(getActivity(), LoginActivity.class);
+                                startActivityForResult(intent, CodeUtils.MEMBER);
+                            }
+
+                            @Override
+                            public void cancel() {
+
+                            }
+                        });
+                    }
                 }
             }
 

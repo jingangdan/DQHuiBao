@@ -12,23 +12,25 @@ import android.widget.Toast;
 
 public class ShowUtils {
     private static Context mContext;
-    public static void Init(Context context){
+
+    public static void Init(Context context) {
         mContext = context;
     }
+
     @SuppressLint("WrongConstant")
-    public static void toast(String str){
+    public static void toast(String str) {
         Toast.makeText(mContext, str, Toast.LENGTH_SHORT).show();
     }
 
     /**
-     *
      * @param context:
      * @param title:标题
      * @param message:提示内容
      * @param listener:事件回调
      */
-    public static void showDialog(Context context,String title, String message, final OnDialogListener listener){
+    public static void showDialog(Context context, String title, String message, final OnDialogListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
         builder.setTitle(title)
                 .setMessage(message)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -47,8 +49,9 @@ public class ShowUtils {
     /**
      * dialog点击事件回调
      */
-    public interface OnDialogListener{
+    public interface OnDialogListener {
         void confirm();
+
         void cancel();
     }
 }

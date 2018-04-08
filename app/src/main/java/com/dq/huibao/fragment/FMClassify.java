@@ -104,7 +104,7 @@ public class FMClassify extends BaseFragment {
 
             }
         });
-        startProgressDialog();
+       // startProgressDialog();
         getClassify();
         return view;
     }
@@ -120,7 +120,7 @@ public class FMClassify extends BaseFragment {
             @Override
             public void onSuccess(String result) {
                 System.out.println("分类 = " + result);
-                stopProgressDialog();
+               // stopProgressDialog();
                 linHpNonetwork.setVisibility(View.GONE);
                 linFcNonetwork.setVisibility(View.VISIBLE);
                 Cate cate = GsonUtil.gsonIntance().gsonToBean(result, Cate.class);
@@ -133,7 +133,7 @@ public class FMClassify extends BaseFragment {
             @SuppressLint("WrongConstant")
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                stopProgressDialog();
+               // stopProgressDialog();
                 linFcNonetwork.setVisibility(View.GONE);
                 linHpNonetwork.setVisibility(View.VISIBLE);
                 //toast("网络不佳，请重试");
@@ -236,20 +236,20 @@ public class FMClassify extends BaseFragment {
     }
 
     /*开始dialog*/
-    private void startProgressDialog() {
-        if (progressDialog == null) {
-            progressDialog = CustomProgress.createDialog(getActivity());
-            progressDialog.setMessage("请稍候...");
-        }
-        progressDialog.show();
-    }
+//    private void startProgressDialog() {
+//        if (progressDialog == null) {
+//            progressDialog = CustomProgress.createDialog(getActivity());
+//            progressDialog.setMessage("请稍候...");
+//        }
+//        progressDialog.show();
+//    }
 
     /*结束dialog*/
-    private void stopProgressDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-            progressDialog = null;
-        }
-    }
+//    private void stopProgressDialog() {
+//        if (progressDialog != null) {
+//            progressDialog.dismiss();
+//            progressDialog = null;
+//        }
+//    }
 
 }
