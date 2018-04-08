@@ -24,6 +24,7 @@ import com.dq.huibao.ui.order.OrderDettailActivity;
 import com.dq.huibao.ui.order.OrderKuaiDiActivity;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 
 import org.xutils.common.Callback;
@@ -112,39 +113,36 @@ public class FMorderOK extends BaseFragment implements OrderInterface {
     public void orderGetList(String status, String phone, String token) {
         MD5_PATH = "phone=" + phone + "&status=" + status + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
-        PATH = HttpPath.PATHS + HttpPath.ORDER_GETIST + MD5_PATH + "&sign=" +
+        PATH = HttpPath.ORDER_GETIST + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        params = new RequestParams(PATH);
         System.out.println("全部订单列表 = " + PATH);
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("全部订单列表 = " + result);
-                        Order order = GsonUtil.gsonIntance().gsonToBean(result, Order.class);
+        HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("全部订单列表 = " + result);
+                Order order = GsonUtil.gsonIntance().gsonToBean(result, Order.class);
 
-                        orderList.clear();
-                        orderList.addAll(order.getData());
+                orderList.clear();
+                orderList.addAll(order.getData());
 
-                        orderAdapters.notifyDataSetChanged();
+                orderAdapters.notifyDataSetChanged();
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            }
 
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onFinished() {
 
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
     /**
@@ -155,43 +153,41 @@ public class FMorderOK extends BaseFragment implements OrderInterface {
      */
     public void orderEdit(String id, String type, String phone, String token) {
         MD5_PATH = "id=" + id + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + "&type=" + type;
-        PATH = HttpPath.PATHS + HttpPath.ORDER_EDIT + MD5_PATH + "&sign=" +
+        PATH = HttpPath.ORDER_EDIT + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
-        params = new RequestParams(PATH);
         System.out.println("订单状态修改 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("订单状态修改 = " + result);
+        HttpxUtils.Post(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("订单状态修改 = " + result);
 
-                        AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
-                        if (addrReturn.getStatus() == 1) {
-                            toast("" + addrReturn.getData());
+                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                if (addrReturn.getStatus() == 1) {
+                    toast("" + addrReturn.getData());
 
-                            orderGetList("3", getArguments().getString("phone"), getArguments().getString("token"));
+                    orderGetList("3", getArguments().getString("phone"), getArguments().getString("token"));
 
-                        } else {
-                            toast("操作失败");
-                        }
-                    }
+                } else {
+                    toast("操作失败");
+                }
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
+            }
 
-                    @Override
-                    public void onFinished() {
+            @Override
+            public void onFinished() {
 
-                    }
-                });
+            }
+        });
     }
 
 

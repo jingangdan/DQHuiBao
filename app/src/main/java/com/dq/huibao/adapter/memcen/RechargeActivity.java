@@ -18,6 +18,7 @@ import com.dq.huibao.ui.PayActivity;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 
 import org.xutils.common.Callback;
@@ -96,48 +97,46 @@ public class RechargeActivity extends BaseActivity {
      */
     public void setRechargeOrder(final String money, final String phone, final String token) {
         MD5_PATH = "money=" + money + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.PATHS + HttpPath.RECHARGE_ORDER + MD5_PATH + "&sign=" +
+        PATH = HttpPath.RECHARGE_ORDER + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        params = new RequestParams(PATH);
         System.out.println("充值 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("充值 = " + result);
-                        AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
-                        if (addrReturn.getStatus() == 1) {
-                            //toast("" + addrReturn.getData());
-                            intent = new Intent(RechargeActivity.this, PayActivity.class);
-                            intent.putExtra("ordersn", addrReturn.getData().toString());
-                            intent.putExtra("price", money);
-                            intent.putExtra("phone", phone);
-                            intent.putExtra("token", token);
-                            startActivityForResult(intent, CodeUtils.RECHARGE);
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("充值 = " + result);
+                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                if (addrReturn.getStatus() == 1) {
+                    //toast("" + addrReturn.getData());
+                    intent = new Intent(RechargeActivity.this, PayActivity.class);
+                    intent.putExtra("ordersn", addrReturn.getData().toString());
+                    intent.putExtra("price", money);
+                    intent.putExtra("phone", phone);
+                    intent.putExtra("token", token);
+                    startActivityForResult(intent, CodeUtils.RECHARGE);
 
 
-                            intent = new Intent();
-                            setResult(CodeUtils.RECHARGE);
-                            RechargeActivity.this.finish();
+                    intent = new Intent();
+                    setResult(CodeUtils.RECHARGE);
+                    RechargeActivity.this.finish();
 
-                        }
-                    }
+                }
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
+            }
 
-                    @Override
-                    public void onFinished() {
+            @Override
+            public void onFinished() {
 
-                    }
-                });
+            }
+        });
     }
 
     /*弹出框*/

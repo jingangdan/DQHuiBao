@@ -18,6 +18,7 @@ import com.dq.huibao.bean.memcen.Collect;
 import com.dq.huibao.ui.GoodsDetailsActivity;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 
 import org.xutils.common.Callback;
@@ -96,39 +97,36 @@ public class CollectActivity extends BaseActivity implements CollectAdapter.Coll
      */
     public void getRecordList(String type, int page, String phone, String token) {
         MD5_PATH = "page=" + page + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + "&type=" + type;
-        PATH = HttpPath.PATHS + HttpPath.MEM_RECORDLIST + MD5_PATH + "&sign=" +
+        PATH = HttpPath.MEM_RECORDLIST + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
-        params = new RequestParams(PATH);
         System.out.println("收藏列表 = " + PATH);
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("收藏列表 = " + result);
-                        Collect collect = GsonUtil.gsonIntance().gsonToBean(result, Collect.class);
+        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("收藏列表 = " + result);
+                Collect collect = GsonUtil.gsonIntance().gsonToBean(result, Collect.class);
 
-                        collectList.clear();
-                        collectList.addAll(collect.getData().getList());
-                        collectAdapter.notifyDataSetChanged();
+                collectList.clear();
+                collectList.addAll(collect.getData().getList());
+                collectAdapter.notifyDataSetChanged();
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            }
 
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onFinished() {
 
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
     @Override
@@ -169,39 +167,36 @@ public class CollectActivity extends BaseActivity implements CollectAdapter.Coll
      */
     public void setDelRecord(String type, String id, String phone, String token, final int position) {
         MD5_PATH = "id=" + id + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + "&type=" + type;
-        PATH = HttpPath.PATHS + HttpPath.MEM_DELRECORD + MD5_PATH + "&sign=" +
+        PATH = HttpPath.MEM_DELRECORD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        params = new RequestParams(PATH);
         System.out.println("取消收藏 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @SuppressLint("WrongConstant")
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("取消收藏 = " + result);
-                        AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
-                        if (addrReturn.getStatus() == 1) {
-                            toast("" + addrReturn.getData());
-                            collectList.remove(position);
-                            collectAdapter.notifyDataSetChanged();
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("取消收藏 = " + result);
+                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                if (addrReturn.getStatus() == 1) {
+                    toast("" + addrReturn.getData());
+                    collectList.remove(position);
+                    collectAdapter.notifyDataSetChanged();
 
-                        }
-                    }
+                }
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
+            }
 
-                    @Override
-                    public void onFinished() {
+            @Override
+            public void onFinished() {
 
-                    }
-                });
+            }
+        });
     }
 }

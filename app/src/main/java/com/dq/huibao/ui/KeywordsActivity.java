@@ -34,6 +34,7 @@ import com.dq.huibao.bean.classifytest.Keywords;
 import com.dq.huibao.sqlite.RecordSQLiteOpenHelper;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -319,40 +320,35 @@ public class KeywordsActivity extends Activity {
      * @param keywords
      */
     public void getSearch(String keywords) {
-        PATH = HttpPath.PATHS + HttpPath.SHOP_SEARCH + "keywords=" + keywords;
-
-        params = new RequestParams(PATH);
+        PATH = HttpPath.SHOP_SEARCH + "keywords=" + keywords;
         System.out.println("搜索 = " + PATH);
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("搜索 = " + result);
+        HttpxUtils.Get(TAG, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("搜索 = " + result);
 
-                        Keywords keywords = GsonUtil.gsonIntance().gsonToBean(result, Keywords.class);
+                Keywords keywords = GsonUtil.gsonIntance().gsonToBean(result, Keywords.class);
 
-                        keywordsList.clear();
-                        keywordsList.addAll(keywords.getData().getGoods());
+                keywordsList.clear();
+                keywordsList.addAll(keywords.getData().getGoods());
 
-                        keywordsAdapter.notifyDataSetChanged();
+                keywordsAdapter.notifyDataSetChanged();
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            }
 
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onFinished() {
 
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
-
+            }
+        });
     }
 }

@@ -15,6 +15,7 @@ import com.dq.huibao.bean.addr.AddrReturn;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 
 import org.xutils.common.Callback;
@@ -226,43 +227,41 @@ public class OrderRefundActivity extends BaseActivity {
      */
     public void setRefund(String id, String phone, String token, String reason, String remark) {
         MD5_PATH = "id=" + id + "&phone=" + phone + "&remark=" + remark + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.PATHS + HttpPath.ORDER_REFUND + MD5_PATH + "&sign=" +
+        PATH = HttpPath.ORDER_REFUND + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String("id=" + id + "&phone=" + phone + "&remark=" + reason + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token +
                         HttpPath.KEY);
 
         params = new RequestParams(PATH);
         System.out.println("加密 = " + MD5_PATH);
         System.out.println("退款 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("退款 = " + result);
-                        AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
-                        if (addrReturn.getStatus() == 1) {
-                            toast("" + addrReturn.getData());
-                            intent = new Intent();
-                            setResult(CodeUtils.REFUND, intent);
-                            OrderRefundActivity.this.finish();
-                        }
-                    }
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("退款 = " + result);
+                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                if (addrReturn.getStatus() == 1) {
+                    toast("" + addrReturn.getData());
+                    intent = new Intent();
+                    setResult(CodeUtils.REFUND, intent);
+                    OrderRefundActivity.this.finish();
+                }
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
+            }
 
-                    @Override
-                    public void onFinished() {
+            @Override
+            public void onFinished() {
 
-                    }
-                });
-
+            }
+        });
     }
 
 }

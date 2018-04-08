@@ -25,6 +25,7 @@ import com.dq.huibao.ui.SubmitOrderActivity;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
 
@@ -47,7 +48,7 @@ import butterknife.OnClick;
  */
 public class ShopcarActivity extends BaseActivity implements
         CheckInterface,
-        ModifyCountInterface{
+        ModifyCountInterface {
 
     /*登录状态*/
     @Bind(R.id.lin_shopcart_nologin)
@@ -171,47 +172,42 @@ public class ShopcarActivity extends BaseActivity implements
      */
     public void getCart(String phone, String token) {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-
-        PATH = HttpPath.PATHS + HttpPath.CART_GET + MD5_PATH + "&sign=" +
+        PATH = HttpPath.CART_GET + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
-
-        params = new RequestParams(PATH);
         System.out.println("获取购物车 = " + PATH);
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("获取购物车 = " + result);
-                        Cart cart = GsonUtil.gsonIntance().gsonToBean(result, Cart.class);
-                        shopList.clear();
-                        shopList.addAll(cart.getData().getCart());
-                        for (int i = 0; i < shopList.size(); i++) {
-                            children.put(shopList.get(i).getShopid(), shopList.get(i).getGoodslist());
-                        }
-                        shopCartAdapter.notifyDataSetChanged();
+        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("获取购物车 = " + result);
+                Cart cart = GsonUtil.gsonIntance().gsonToBean(result, Cart.class);
+                shopList.clear();
+                shopList.addAll(cart.getData().getCart());
+                for (int i = 0; i < shopList.size(); i++) {
+                    children.put(shopList.get(i).getShopid(), shopList.get(i).getGoodslist());
+                }
+                shopCartAdapter.notifyDataSetChanged();
 
-                        for (int i = 0; i < shopCartAdapter.getGroupCount(); i++) {
-                            // 关键步骤3,初始化时，将ExpandableListView以展开的方式呈现
-                            exListView.expandGroup(i);
-                        }
+                for (int i = 0; i < shopCartAdapter.getGroupCount(); i++) {
+                    // 关键步骤3,初始化时，将ExpandableListView以展开的方式呈现
+                    exListView.expandGroup(i);
+                }
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            }
 
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onFinished() {
 
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
     /**
@@ -226,67 +222,59 @@ public class ShopcarActivity extends BaseActivity implements
     public void cartAdd(final int groupPosition, final int childPosition, final View showCountView, boolean isChecked,
                         String phone, String token, final String gid, String optionid, final int count, final int tag) {
         MD5_PATH = "count=" + count + "&goodsid=" + gid + "&optionid=" + optionid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-
-        PATH = HttpPath.PATHS + HttpPath.CART_ADD + MD5_PATH + "&sign=" +
+        PATH = HttpPath.CART_ADD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
-
-
-        params = new RequestParams(PATH);
         System.out.println("添加购物车 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @SuppressLint("WrongConstant")
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("添加购物车 = " + result);
-                        Cart cart = GsonUtil.gsonIntance().gsonToBean(result, Cart.class);
-                        if (cart.getStatus() == 1) {
-                            if (tag == 1) {
-                                //增加
-                                Cart.DataBean.CartBean.GoodslistBean product = (Cart.DataBean.CartBean.GoodslistBean) shopCartAdapter.getChild(groupPosition,
-                                        childPosition);
-                                int currentCount = Integer.parseInt(product.getCount());
-                                currentCount++;
-                                product.setCount("" + currentCount);
-                                ((TextView) showCountView).setText("" + currentCount);
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("添加购物车 = " + result);
+                Cart cart = GsonUtil.gsonIntance().gsonToBean(result, Cart.class);
+                if (cart.getStatus() == 1) {
+                    if (tag == 1) {
+                        //增加
+                        Cart.DataBean.CartBean.GoodslistBean product = (Cart.DataBean.CartBean.GoodslistBean) shopCartAdapter.getChild(groupPosition,
+                                childPosition);
+                        int currentCount = Integer.parseInt(product.getCount());
+                        currentCount++;
+                        product.setCount("" + currentCount);
+                        ((TextView) showCountView).setText("" + currentCount);
 
-                            } else if (tag == 0) {
-                                //减少
-                                Cart.DataBean.CartBean.GoodslistBean product = (Cart.DataBean.CartBean.GoodslistBean) shopCartAdapter.getChild(groupPosition,
-                                        childPosition);
-                                int currentCount = Integer.parseInt(product.getCount());
-                                if (currentCount == 1)
-                                    return;
-                                currentCount--;
-                                product.setCount("" + currentCount);
-                                ((TextView) showCountView).setText(currentCount + "");
-
-                            }
-                            shopCartAdapter.notifyDataSetChanged();
-                            calculate();
-
-                        } else {
-                            toast("购物车操作失败");
-                        }
-
+                    } else if (tag == 0) {
+                        //减少
+                        Cart.DataBean.CartBean.GoodslistBean product = (Cart.DataBean.CartBean.GoodslistBean) shopCartAdapter.getChild(groupPosition,
+                                childPosition);
+                        int currentCount = Integer.parseInt(product.getCount());
+                        if (currentCount == 1)
+                            return;
+                        currentCount--;
+                        product.setCount("" + currentCount);
+                        ((TextView) showCountView).setText(currentCount + "");
 
                     }
+                    shopCartAdapter.notifyDataSetChanged();
+                    calculate();
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+                } else {
+                    toast("购物车操作失败");
+                }
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onFinished() {
+            }
 
-                    }
-                });
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     /**
@@ -298,35 +286,31 @@ public class ShopcarActivity extends BaseActivity implements
      */
     public void cartDel(String phone, String token, String ids) {
         MD5_PATH = "ids=" + ids + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.PATHS + HttpPath.CART_DEL +
+        PATH = HttpPath.CART_DEL +
                 MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        params = new RequestParams(PATH);
         System.out.println("删除购物车 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("删除购物车 = " + result);
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("删除购物车 = " + result);
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            }
 
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onFinished() {
 
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
-
+            }
+        });
     }
 
 

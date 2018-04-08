@@ -231,7 +231,7 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
         getStoreList();
         Map<String, String> map = new HashMap<>();
         map.put("mid", uid);
-        HttpxUtils.Get(getActivity(),HttpPath.PATHS + HttpPath.XSHOP_INFO, map,
+        HttpxUtils.Get(getActivity(),HttpPath.XSHOP_INFO, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -268,7 +268,7 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
         map.put("page", "" + page);
         map.put("pagesize", "" + pageSize);
 //        Log.d("mmmmmmmmm","小店首页列表:"+map.toString());
-        HttpxUtils.Get(getActivity(),HttpPath.PATHS + HttpPath.XSHOP_GOODS, map,
+        HttpxUtils.Get(getActivity(),HttpPath.XSHOP_GOODS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -312,7 +312,7 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
         map.put("pagesize", "" + pageSize);
         map.put("keyword", "" + searchView.getText().toString());
         Log.d("mmmmmmmmm","小店首页搜索列表:"+map.toString());
-        HttpxUtils.Get(getActivity(),HttpPath.PATHS + HttpPath.XSHOP_GOODS_SEARCH, map,
+        HttpxUtils.Get(getActivity(),HttpPath.XSHOP_GOODS_SEARCH, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {

@@ -29,6 +29,7 @@ import com.dq.huibao.bean.wechat.WeChat;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
 import com.mob.tools.utils.UIHandler;
@@ -347,62 +348,55 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
      * @param phone
      * @param pwd
      */
-
     private String login_result = "";
-
     public void postLogin(String phone, String pwd) {
-        PATH = HttpPath.PATHS + HttpPath.ACCOUNT_LOGIN +
+        PATH = HttpPath.ACCOUNT_LOGIN +
                 "phone=" + phone + "&pwd=" + pwd;
-
-        params = new RequestParams(PATH);
         System.out.println("登录" + PATH);
+        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                login_result = result;
+                System.out.println("登录" + result);
+                Login login = GsonUtil.gsonIntance().gsonToBean(result, Login.class);
+                if (login.getStatus() == 1) {
+                    //if (loginBean.getResult().equals("1")) {
+                    toast("登录成功");
+                    spUserInfo.saveLogin("1");//微信登录成功记录 1
+                    spUserInfo.saveLoginReturn(result);//登录成功记录返回信息
 
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        login_result = result;
-                        System.out.println("登录" + result);
-                        Login login = GsonUtil.gsonIntance().gsonToBean(result, Login.class);
-                        if (login.getStatus() == 1) {
-                            //if (loginBean.getResult().equals("1")) {
-                            toast("登录成功");
-                            spUserInfo.saveLogin("1");//微信登录成功记录 1
-                            spUserInfo.saveLoginReturn(result);//登录成功记录返回信息
+                    intent = new Intent();
+                    intent.putExtra("uid", login.getData().getUid());
+                    setResult(CodeUtils.LOGIN, intent);
 
-                            intent = new Intent();
-                            intent.putExtra("uid", login.getData().getUid());
-                            setResult(CodeUtils.LOGIN, intent);
+                    LoginActivity.this.finish();
 
-                            LoginActivity.this.finish();
+                } else {
+                    toast("" + login.getData());
+                }
 
-                        } else {
-                            toast("" + login.getData());
-                        }
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(login_result, AddrReturn.class);
+                if (addrReturn.getStatus() == 0) {
+                    toast("" + addrReturn.getData());
+                } else {
+                    toast("登录失败，请检查账号或密码");
+                }
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-                        AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(login_result, AddrReturn.class);
-                        if (addrReturn.getStatus() == 0) {
-                            toast("" + addrReturn.getData());
-                        } else {
-                            toast("登录失败，请检查账号或密码");
-                        }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onFinished() {
 
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
     /*强制关闭软键盘*/

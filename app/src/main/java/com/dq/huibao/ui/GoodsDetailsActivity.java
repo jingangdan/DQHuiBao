@@ -276,7 +276,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
 
             case R.id.lin_gd_distribution:
                 //我要推广
-                if (isLogin()){
+                if (isLogin()) {
                     //Toast.makeText(TAG, "我要推广", Toast.LENGTH_SHORT).show();
                     intent = new Intent(TAG, InjoyActivity.class);
                     intent.putExtra("gid", gid);
@@ -288,7 +288,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
                     intent.putExtra("goodsname", goodsDetail.getData().getGoodsname());
                     intent.putExtra("price", "" + goodsDetail.getData().getMarketprice());
                     startActivityForResult(intent, CodeUtils.GDTAILD);
-                }else{
+                } else {
                     dialog();
                 }
 
@@ -466,21 +466,18 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
      * @param phone （不用加密，没登陆就不传）
      */
     public void getGoodsDetail(String id, String token, String phone) {
-        PATH = HttpPath.PATHS + HttpPath.GOODS_DETAIL +
+        PATH = HttpPath.GOODS_DETAIL +
                 "id=" + id + "&token=" + token + "&phone=" + phone;
-        //params = new RequestParams(PATH);
         System.out.println("商品详情 = " + PATH);
-        HttpxUtils.Get(TAG, PATH,null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(TAG, PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("商品详情 = " + result);
                 goodsDetail = GsonUtil.gsonIntance().gsonToBean(result, GoodsDetail.class);
-
                 picsList.clear();
                 specsList.clear();
                 optionsList.clear();
                 commentList.clear();
-
 
                 picsList = goodsDetail.getData().getThumb_url();
 
@@ -490,7 +487,6 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
                 if (!goodsDetail.getData().getOption().toString().equals("[]")) {
                     optionsList = goodsDetail.getData().getOption();
                 }
-
 
                 title = goodsDetail.getData().getGoodsname();
                 marketprice = "" + goodsDetail.getData().getMarketprice();
@@ -535,40 +531,37 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
      */
     public void setAddRecord(String type, String id, String phone, String token) {
         MD5_PATH = "id=" + id + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + "&type=" + type;
-        PATH = HttpPath.PATHS + HttpPath.MEM_ADDRECORD + MD5_PATH + "&sign=" +
+        PATH = HttpPath.MEM_ADDRECORD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        params = new RequestParams(PATH);
         System.out.println("添加收藏 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @SuppressLint("WrongConstant")
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("添加收藏 = " + result);
-                        AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
-                        if (addrReturn.getStatus() == 1) {
-                            Toast.makeText(TAG, "" + addrReturn.getData(), Toast.LENGTH_SHORT).show();
-                            isCollection = true;
-                            ivGdCollection.setImageResource(R.mipmap.ic_collection002);
-                            tvGdCollection.setText("已收藏");
-                        }
-                    }
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("添加收藏 = " + result);
+                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                if (addrReturn.getStatus() == 1) {
+                    Toast.makeText(TAG, "" + addrReturn.getData(), Toast.LENGTH_SHORT).show();
+                    isCollection = true;
+                    ivGdCollection.setImageResource(R.mipmap.ic_collection002);
+                    tvGdCollection.setText("已收藏");
+                }
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
+            }
 
-                    @Override
-                    public void onFinished() {
+            @Override
+            public void onFinished() {
 
-                    }
-                });
+            }
+        });
     }
 
     /**
@@ -581,40 +574,37 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
      */
     public void setDelRecord(String type, String id, String phone, String token) {
         MD5_PATH = "id=" + id + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + "&type=" + type;
-        PATH = HttpPath.PATHS + HttpPath.MEM_DELRECORD + MD5_PATH + "&sign=" +
+        PATH = HttpPath.MEM_DELRECORD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        params = new RequestParams(PATH);
         System.out.println("取消收藏 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @SuppressLint("WrongConstant")
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("取消收藏 = " + result);
-                        AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
-                        if (addrReturn.getStatus() == 1) {
-                            Toast.makeText(TAG, "" + addrReturn.getData(), Toast.LENGTH_SHORT).show();
-                            isCollection = false;
-                            ivGdCollection.setImageResource(R.mipmap.ic_collection001);
-                            tvGdCollection.setText("收藏");
-                        }
-                    }
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("取消收藏 = " + result);
+                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                if (addrReturn.getStatus() == 1) {
+                    Toast.makeText(TAG, "" + addrReturn.getData(), Toast.LENGTH_SHORT).show();
+                    isCollection = false;
+                    ivGdCollection.setImageResource(R.mipmap.ic_collection001);
+                    tvGdCollection.setText("收藏");
+                }
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
+            }
 
-                    @Override
-                    public void onFinished() {
+            @Override
+            public void onFinished() {
 
-                    }
-                });
+            }
+        });
     }
 
 
@@ -879,55 +869,48 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
      */
     public void cartAdd(String phone, String token, final String gid, String optionid, int count) {
         MD5_PATH = "count=" + count + "&goodsid=" + gid + "&optionid=" + optionid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-
-        PATH = HttpPath.PATHS + HttpPath.CART_ADD + MD5_PATH + "&sign=" +
+        PATH = HttpPath.CART_ADD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
-
-
-        params = new RequestParams(PATH);
         System.out.println("添加购物车 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @SuppressLint("WrongConstant")
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("添加购物车 = " + result);
-                        cart = GsonUtil.gsonIntance().gsonToBean(result, Cart.class);
-                        if (cart.getData().getCart().size() > 0) {
-                            Toast.makeText(TAG, "添加成功", Toast.LENGTH_SHORT).show();
+        HttpxUtils.Post(TAG, PATH, null, new Callback.CommonCallback<String>() {
+            @SuppressLint("WrongConstant")
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("添加购物车 = " + result);
+                cart = GsonUtil.gsonIntance().gsonToBean(result, Cart.class);
+                if (cart.getData().getCart().size() > 0) {
+                    Toast.makeText(TAG, "添加成功", Toast.LENGTH_SHORT).show();
 
-                            for (int i = 0; i < cart.getData().getCart().size(); i++) {
-                                for (int j = 0; j < cart.getData().getCart().get(i).getGoodslist().size(); j++) {
-                                    if (gid.equals(cart.getData().getCart().get(i).getGoodslist().get(j).getGoodsid())) {
-                                        tvShopcarNum.setText("" + cart.getData().getCart().get(i).getGoodslist().get(j).getCount());
-                                    }
-                                }
-
+                    for (int i = 0; i < cart.getData().getCart().size(); i++) {
+                        for (int j = 0; j < cart.getData().getCart().get(i).getGoodslist().size(); j++) {
+                            if (gid.equals(cart.getData().getCart().get(i).getGoodslist().get(j).getGoodsid())) {
+                                tvShopcarNum.setText("" + cart.getData().getCart().get(i).getGoodslist().get(j).getCount());
                             }
-                            popWindow.dismiss();
-
-                        } else {
-                            Toast.makeText(TAG, "添加失败", Toast.LENGTH_SHORT).show();
                         }
 
-
                     }
+                    popWindow.dismiss();
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+                } else {
+                    Toast.makeText(TAG, "添加失败", Toast.LENGTH_SHORT).show();
+                }
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onFinished() {
+            }
 
-                    }
-                });
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     /**

@@ -107,7 +107,7 @@ public class FMHomePage extends BaseFragment implements
         view = inflater.inflate(R.layout.fm_homepage, null);
         ButterKnife.bind(this, view);
 
-       // startProgressDialog();
+        // startProgressDialog();
 
         getLogin();
 
@@ -158,14 +158,14 @@ public class FMHomePage extends BaseFragment implements
      * url # 不做操作
      */
     public void getIndex(String phone, String token) {
-        PATH = HttpPath.PATHS + HttpPath.INDEXT_INDEX;
+        PATH = HttpPath.INDEXT_INDEX;
         System.out.println("首页 = " + PATH);
-        HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
                 System.out.println("首页 = " + result);
-               // stopProgressDialog();
+                // stopProgressDialog();
                 linHpNetwork.setVisibility(View.VISIBLE);
                 linHpNonetwork.setVisibility(View.GONE);
                 Index index = GsonUtil.gsonIntance().gsonToBean(result, Index.class);
@@ -219,12 +219,12 @@ public class FMHomePage extends BaseFragment implements
      */
     public void getSignIndex(String phone, String token) {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.PATHS + HttpPath.ACTIVITYSIGN_INDEX + MD5_PATH + "&sign=" +
+        PATH = HttpPath.ACTIVITYSIGN_INDEX + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         System.out.println("签到信息 = " + PATH);
 
-        HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("签到信息 = " + result);
@@ -270,11 +270,11 @@ public class FMHomePage extends BaseFragment implements
      */
     public void setSign(String phone, String token) {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.PATHS + HttpPath.ACTIVITY_SIGN + MD5_PATH + "&sign=" +
+        PATH = HttpPath.ACTIVITY_SIGN + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         System.out.println("签到 = " + PATH);
-        HttpxUtils.Post(getActivity(),PATH, null,
+        HttpxUtils.Post(getActivity(), PATH, null,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -507,7 +507,7 @@ public class FMHomePage extends BaseFragment implements
         pullToRefreshView.postDelayed(new Runnable() {
             @Override
             public void run() {
-               // startProgressDialog();
+                // startProgressDialog();
                 //刷新数据
                 pullToRefreshView.onHeaderRefreshComplete("更新于:"
                         + Calendar.getInstance().getTime().toLocaleString());

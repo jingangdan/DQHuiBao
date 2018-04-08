@@ -191,58 +191,54 @@ public class SubmitOrderActivity extends BaseActivity {
     public void getAddr(final String phone, final String token) {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
-        PATH = HttpPath.PATHS + HttpPath.MEMBER_GETADDR + MD5_PATH + "&sign=" +
+        PATH = HttpPath.MEMBER_GETADDR + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
 
-        params = new RequestParams(PATH);
         System.out.println("获取收货地址 = " + PATH);
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("获取收货地址 = " + result);
-                        Addr addr = GsonUtil.gsonIntance().gsonToBean(result, Addr.class);
-                        addrList.clear();
-                        addrList = addr.getData();
-                        if (addr.getStatus() == 1) {
-                            //确认订单
-                            for (int i = 0; i < addrList.size(); i++) {
-                                if (addrList.get(i).getIsdefault().equals("1")) {
-                                    regionid = addrList.get(i).getRegionid();
-                                    addrid = addrList.get(i).getId();
-                                    tvAddr.setText(addrList.get(i).getContact() + "(" + addrList.get(i).getMobile() + ")\n" +
-                                            addrList.get(i).getProvince() + "." + addrList.get(i).getCity() + "." + addrList.get(i).getAddr());
+        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("获取收货地址 = " + result);
+                Addr addr = GsonUtil.gsonIntance().gsonToBean(result, Addr.class);
+                addrList.clear();
+                addrList = addr.getData();
+                if (addr.getStatus() == 1) {
+                    //确认订单
+                    for (int i = 0; i < addrList.size(); i++) {
+                        if (addrList.get(i).getIsdefault().equals("1")) {
+                            regionid = addrList.get(i).getRegionid();
+                            addrid = addrList.get(i).getId();
+                            tvAddr.setText(addrList.get(i).getContact() + "(" + addrList.get(i).getMobile() + ")\n" +
+                                    addrList.get(i).getProvince() + "." + addrList.get(i).getCity() + "." + addrList.get(i).getAddr());
 
-                                    if (tag.equals("1")) {
-                                        getCheckorder(phone, token, goodsid, addrid, count, optionid);
+                            if (tag.equals("1")) {
+                                getCheckorder(phone, token, goodsid, addrid, count, optionid);
 
-                                    } else if (tag.equals("0")) {
-                                        getCheckorder(phone, token, cartids, addrid);
-                                    }
-
-
-                                }
+                            } else if (tag.equals("0")) {
+                                getCheckorder(phone, token, cartids, addrid);
                             }
+
+
                         }
-
                     }
+                }
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
+            }
 
-                    @Override
-                    public void onFinished() {
+            @Override
+            public void onFinished() {
 
-                    }
-                });
-
+            }
+        });
     }
 
     /**
@@ -256,48 +252,44 @@ public class SubmitOrderActivity extends BaseActivity {
     public void getCheckorder(String phone, String token, String cartids, String addrid) {
         MD5_PATH = "addrid=" + addrid + "&cartids=" + cartids + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
-        PATH = HttpPath.PATHS + HttpPath.CONFIRM_CHECKORDER + MD5_PATH + "&sign=" +
+        PATH = HttpPath.CONFIRM_CHECKORDER + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-
-        params = new RequestParams(PATH);
         System.out.println("确认订单 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("确认订单 = " + result);
-                        CheckOrder checkOrder = GsonUtil.gsonIntance().gsonToBean(result, CheckOrder.class);
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("确认订单 = " + result);
+                CheckOrder checkOrder = GsonUtil.gsonIntance().gsonToBean(result, CheckOrder.class);
 
-                        shopList.clear();
+                shopList.clear();
 
-                        shopList.addAll(checkOrder.getData());
+                shopList.addAll(checkOrder.getData());
 
-                        submitOrderAdapter.notifyDataSetChanged();
-                        pay_all = 0.0;
+                submitOrderAdapter.notifyDataSetChanged();
+                pay_all = 0.0;
 
-                        for (int i = 0; i < shopList.size(); i++) {
-                            pay_all += shopList.get(i).getMoney_all() - shopList.get(i).getDiscount_all() + shopList.get(i).getDispatch_all();
-                        }
+                for (int i = 0; i < shopList.size(); i++) {
+                    pay_all += shopList.get(i).getMoney_all() - shopList.get(i).getDiscount_all() + shopList.get(i).getDispatch_all();
+                }
 
-                        tvConfirmPay.setText("需付：¥" + pay_all);
+                tvConfirmPay.setText("需付：¥" + pay_all);
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            }
 
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onFinished() {
 
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
     /**
@@ -313,47 +305,44 @@ public class SubmitOrderActivity extends BaseActivity {
     public void getCheckorder(String phone, String token, String goodsid, String addrid, String count, String optionid) {
         MD5_PATH = "addrid=" + addrid + "&count=" + count + "&goodsid=" + goodsid + "&optionid=" + optionid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
-        PATH = HttpPath.PATHS + HttpPath.CONFIRM_BUYNOW + MD5_PATH + "&sign=" +
+        PATH = HttpPath.CONFIRM_BUYNOW + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
-        params = new RequestParams(PATH);
         System.out.println("确认订单（商品详情） = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("确认订单（商品详情） = " + result);
-                        CheckOrder checkOrder = GsonUtil.gsonIntance().gsonToBean(result, CheckOrder.class);
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("确认订单（商品详情） = " + result);
+                CheckOrder checkOrder = GsonUtil.gsonIntance().gsonToBean(result, CheckOrder.class);
 
-                        shopList.clear();
-                        shopList.addAll(checkOrder.getData());
+                shopList.clear();
+                shopList.addAll(checkOrder.getData());
 
-                        submitOrderAdapter.notifyDataSetChanged();
+                submitOrderAdapter.notifyDataSetChanged();
 
-                        pay_all = 0.00;
-                        for (int i = 0; i < shopList.size(); i++) {
-                            pay_all += shopList.get(i).getMoney_all() - shopList.get(i).getDiscount_all() + shopList.get(i).getDispatch_all();
-                        }
+                pay_all = 0.00;
+                for (int i = 0; i < shopList.size(); i++) {
+                    pay_all += shopList.get(i).getMoney_all() - shopList.get(i).getDiscount_all() + shopList.get(i).getDispatch_all();
+                }
 
-                        tvConfirmPay.setText("需付：¥" + pay_all);
+                tvConfirmPay.setText("需付：¥" + pay_all);
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            }
 
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onFinished() {
 
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
 
@@ -372,53 +361,50 @@ public class SubmitOrderActivity extends BaseActivity {
     public void orderAdd(final String phone, final String token, String cartids, String addrid, final String remark) {
         MD5_PATH = "addrid=" + addrid + "&cartids=" + cartids + "&phone=" + phone + "&remark=" + remark + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
-        PATH = HttpPath.PATHS + HttpPath.ORDER_ADD + MD5_PATH + "&sign=" +
+        PATH = HttpPath.ORDER_ADD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
-        params = new RequestParams(PATH);
         System.out.println("提交订单 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("提交订单 = " + result);
-                        string_result = result;
-                        AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
-                        if (addrReturn.getStatus() == 1) {
-                            intent = new Intent(SubmitOrderActivity.this, PayActivity.class);
-                            intent.putExtra("ordersn", addrReturn.getData().toString());
-                            intent.putExtra("price", "" + pay_all);
-                            intent.putExtra("phone", phone);
-                            intent.putExtra("token", token);
-                            startActivityForResult(intent, CodeUtils.CONFIRM_ORDER);
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("提交订单 = " + result);
+                string_result = result;
+                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                if (addrReturn.getStatus() == 1) {
+                    intent = new Intent(SubmitOrderActivity.this, PayActivity.class);
+                    intent.putExtra("ordersn", addrReturn.getData().toString());
+                    intent.putExtra("price", "" + pay_all);
+                    intent.putExtra("phone", phone);
+                    intent.putExtra("token", token);
+                    startActivityForResult(intent, CodeUtils.CONFIRM_ORDER);
 
-                            setResult();
-                            SubmitOrderActivity.this.finish();
+                    setResult();
+                    SubmitOrderActivity.this.finish();
 
+                }
+            }
 
-                        }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                if (!TextUtils.isEmpty(string_result)) {
+                    AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(string_result, AddrReturn.class);
+                    if (addrReturn.getStatus() == 1) {
+                        toast("" + addrReturn.getData());
                     }
+                }
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-                        if (!TextUtils.isEmpty(string_result)) {
-                            AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(string_result, AddrReturn.class);
-                            if (addrReturn.getStatus() == 1) {
-                                toast("" + addrReturn.getData());
-                            }
-                        }
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onFinished() {
 
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
     /**
@@ -434,11 +420,11 @@ public class SubmitOrderActivity extends BaseActivity {
     public void orderBuynow(final String phone, final String token, String cartids, String addrid, String count, String optionid, final String remark, String remarks) {
         MD5_PATH = "addrid=" + addrid + "&count=" + count + "&goodsid=" + cartids + "&optionid=" + optionid + "&phone=" + phone + "&remark=" + remark + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
-        PATH = HttpPath.PATHS + HttpPath.ORDER_BUYNOW + MD5_PATH + "&sign=" +
+        PATH = HttpPath.ORDER_BUYNOW + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String("addrid=" + addrid + "&count=" + count + "&goodsid=" + cartids + "&optionid=" + optionid + "&phone=" + phone + "&remark=" + remarks + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + HttpPath.KEY);
 
         System.out.println("提交订单（立即购买） = " + PATH);
-        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("提交订单（立即购买） = " + result);

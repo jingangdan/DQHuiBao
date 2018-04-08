@@ -122,7 +122,7 @@ public class InjoyActivity extends BaseActivity {
      */
     public void getPosterIndex(String goodsid, String phone, String token) {
         MD5_PATH = "goodsid=" + goodsid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.PATHS + HttpPath.POSTER_INDEX + MD5_PATH + "&sign=" +
+        PATH = HttpPath.POSTER_INDEX + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         wvInjoy.loadUrl(PATH);

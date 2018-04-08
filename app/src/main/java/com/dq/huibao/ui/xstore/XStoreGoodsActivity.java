@@ -1,5 +1,6 @@
 package com.dq.huibao.ui.xstore;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -137,7 +138,7 @@ public class XStoreGoodsActivity extends BaseActivity implements AdapterView.OnI
      * 获取分类数据
      */
     public void getTypeData() {
-        HttpxUtils.Get(this,HttpPath.PATHS + HttpPath.XSHOP_GOODS_ZX_TYPE,null,
+        HttpxUtils.Get(this,HttpPath.XSHOP_GOODS_ZX_TYPE,null,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -191,6 +192,7 @@ public class XStoreGoodsActivity extends BaseActivity implements AdapterView.OnI
      * 获取商品列表
      *
      */
+    @SuppressLint("WrongConstant")
     public void getGoods() {
         xstoreGoodsListRight.setVisibility(View.VISIBLE);
         Map<String, String> map = new HashMap<>();
@@ -198,7 +200,7 @@ public class XStoreGoodsActivity extends BaseActivity implements AdapterView.OnI
         map.put("curpage", "" + page);
         map.put("pagesize", "" + pagesize);
         map.put("idstr", getSetsIdstr());
-        HttpxUtils.Get(this,HttpPath.PATHS + HttpPath.XSHOP_GOODS_ZX_ALL, map,
+        HttpxUtils.Get(this,HttpPath.XSHOP_GOODS_ZX_ALL, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {

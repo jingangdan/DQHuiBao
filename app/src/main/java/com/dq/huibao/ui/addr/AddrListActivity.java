@@ -25,6 +25,7 @@ import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
 
@@ -123,40 +124,36 @@ public class AddrListActivity extends BaseActivity {
     public void getAddr(String phone, String token) {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
-        PATH = HttpPath.PATHS + HttpPath.MEMBER_GETADDR + MD5_PATH + "&sign=" +
+        PATH = HttpPath.MEMBER_GETADDR + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
 
-        params = new RequestParams(PATH);
         System.out.println("获取收货地址 = " + PATH);
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("获取收货地址 = " + result);
-                        Addr addr = GsonUtil.gsonIntance().gsonToBean(result, Addr.class);
-                        if (addr.getStatus() == 1) {
-                            addrList.addAll(addr.getData());
-                            addrListAdapter.notifyDataSetChanged();
-                        }
+        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("获取收货地址 = " + result);
+                Addr addr = GsonUtil.gsonIntance().gsonToBean(result, Addr.class);
+                if (addr.getStatus() == 1) {
+                    addrList.addAll(addr.getData());
+                    addrListAdapter.notifyDataSetChanged();
+                }
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            }
 
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onFinished() {
 
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
-
+            }
+        });
     }
 
 
@@ -169,40 +166,37 @@ public class AddrListActivity extends BaseActivity {
      */
     public void setDefaultaddr(String id, String phone, String token) {
         MD5_PATH = "id=" + id + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.PATHS + HttpPath.MEMBER_DEGAULTADDR + MD5_PATH + "&sign=" +
+        PATH = HttpPath.MEMBER_DEGAULTADDR + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        params = new RequestParams(PATH);
         System.out.println("设置默认地址 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("设置默认地址 = " + result);
-                        AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
-                        if (addrReturn.getStatus() == 1) {
-                            toast("" + addrReturn.getData().toString());
-                            intent = new Intent();
-                            setResult(CodeUtils.ADDR_LISTS, intent);
-                            AddrListActivity.this.finish();
-                        }
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("设置默认地址 = " + result);
+                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                if (addrReturn.getStatus() == 1) {
+                    toast("" + addrReturn.getData().toString());
+                    intent = new Intent();
+                    setResult(CodeUtils.ADDR_LISTS, intent);
+                    AddrListActivity.this.finish();
+                }
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            }
 
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onFinished() {
 
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
 

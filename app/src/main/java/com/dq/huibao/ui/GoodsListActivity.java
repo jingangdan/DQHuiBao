@@ -22,6 +22,7 @@ import com.dq.huibao.bean.goods.GoodsList;
 import com.dq.huibao.refresh.PullToRefreshView;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -266,50 +267,38 @@ public class GoodsListActivity extends Activity implements
      * @param page
      */
     public void getGoodsList(String content, String keywords, int page) {
-
-        PATH = HttpPath.PATHS + HttpPath.GOODS_SEARCH +
+        PATH = HttpPath.GOODS_SEARCH +
                 content + "&keywords=" + keywords + "&page=" + page;
-
-        params = new RequestParams(PATH);
-
         System.out.println("商品列表 = " + PATH);
+        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("商品列表 = " + result);
+                gvGoodslist.scrollTo(0, 0);
+                GoodsList goodsList = GsonUtil.gsonIntance().gsonToBean(result, GoodsList.class);
+                goodsLists.clear();
+                total = 0;
+                goodsLists.addAll(goodsList.getData().getList());
+                goodsAdapter.notifyDataSetChanged();
+                total = (Integer.parseInt(goodsList.getData().getCount()) / 20) + 1;
+                etGlPage.setText("" + index);
+            }
 
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("商品列表 = " + result);
-                        gvGoodslist.scrollTo(0, 0);
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                        GoodsList goodsList = GsonUtil.gsonIntance().gsonToBean(result, GoodsList.class);
+            }
 
-                        goodsLists.clear();
-                        total = 0;
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                        goodsLists.addAll(goodsList.getData().getList());
-                        goodsAdapter.notifyDataSetChanged();
+            }
 
-                        total = (Integer.parseInt(goodsList.getData().getCount()) / 20) + 1;
+            @Override
+            public void onFinished() {
 
-                        etGlPage.setText("" + index);
-
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(CancelledException cex) {
-
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
     @Override

@@ -21,6 +21,7 @@ import com.dq.huibao.ui.GoodsDetailsActivity;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 
 import org.xutils.common.Callback;
@@ -124,55 +125,51 @@ public class OrderDettailActivity extends BaseActivity {
      */
     public void getOrderDetail(final String orderid, String phone, String token) {
         MD5_PATH = "id=" + orderid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.PATHS + HttpPath.ORDER_DETAIL + MD5_PATH + "&sign=" +
+        PATH = HttpPath.ORDER_DETAIL + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        params = new RequestParams(PATH);
         System.out.println("订单详情 = " + PATH);
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("订单详情 = " + result);
-                        OrderDetail orderDetail = GsonUtil.gsonIntance().gsonToBean(result, OrderDetail.class);
-                        if (orderDetail.getStatus() == 1) {
-                            goodsList.clear();
-                            goodsList.addAll(orderDetail.getData().getGoodslist());
-                            goodsAdapter.notifyDataSetChanged();
+        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("订单详情 = " + result);
+                OrderDetail orderDetail = GsonUtil.gsonIntance().gsonToBean(result, OrderDetail.class);
+                if (orderDetail.getStatus() == 1) {
+                    goodsList.clear();
+                    goodsList.addAll(orderDetail.getData().getGoodslist());
+                    goodsAdapter.notifyDataSetChanged();
 
-                            status = orderDetail.getData().getStatus();
-                            pay_money = orderDetail.getData().getPay_money();
-                            dispatch = orderDetail.getData().getDipatch_money();
-                            contact = orderDetail.getData().getAddress().getContact() + "(" + orderDetail.getData().getAddress().getMobile() + ")";
-                            addr = orderDetail.getData().getAddress().getProvince() + orderDetail.getData().getAddress().getCity() + orderDetail.getData().getAddress().getAddr();
-                            ordersn = orderDetail.getData().getOrdersn();
-                            money = orderDetail.getData().getMoney();
-                            discount = orderDetail.getData().getDiscount_money();
-                            createtime = orderDetail.getData().getCreatetime();
+                    status = orderDetail.getData().getStatus();
+                    pay_money = orderDetail.getData().getPay_money();
+                    dispatch = orderDetail.getData().getDipatch_money();
+                    contact = orderDetail.getData().getAddress().getContact() + "(" + orderDetail.getData().getAddress().getMobile() + ")";
+                    addr = orderDetail.getData().getAddress().getProvince() + orderDetail.getData().getAddress().getCity() + orderDetail.getData().getAddress().getAddr();
+                    ordersn = orderDetail.getData().getOrdersn();
+                    money = orderDetail.getData().getMoney();
+                    discount = orderDetail.getData().getDiscount_money();
+                    createtime = orderDetail.getData().getCreatetime();
 
-                            shopname = orderDetail.getData().getShopname();
+                    shopname = orderDetail.getData().getShopname();
 
-                            setUI();
+                    setUI();
 
-                        }
+                }
+            }
 
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onFinished() {
 
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
     /*组件赋值*/

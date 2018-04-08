@@ -113,9 +113,9 @@ public class FMClassify extends BaseFragment {
      * 获取分类
      */
     public void getClassify() {
-        PATH = HttpPath.PATHS + HttpPath.GOODS_CATE;
+        PATH = HttpPath.GOODS_CATE;
         System.out.println("分类 = " + PATH);
-        HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
@@ -170,9 +170,9 @@ public class FMClassify extends BaseFragment {
      * @param cateId 顶级分类id
      */
     public void getCateChildren(String cateId) {
-        PATH = HttpPath.PATHS + HttpPath.GOODS_CATECHILDREN + "id=" + cateId;
+        PATH = HttpPath.GOODS_CATECHILDREN + "id=" + cateId;
         System.out.println("子分类 = " + PATH);
-        HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("子分类 = " + result);

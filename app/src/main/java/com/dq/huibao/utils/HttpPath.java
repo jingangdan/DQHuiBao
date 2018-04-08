@@ -7,54 +7,10 @@ package com.dq.huibao.utils;
 
 public class HttpPath {
 
-    /*
-    * 搜索
-    * 参数：
-    * i: shopid
-    * keywords:搜索关键字
-    * */
-    public static final String SHOP_SEARCH = "api=shop/Goods/search&i=1604&";
-
-    /**
-     * 登录
-     * &openid=*******&stamp=1234567890&doc=*********
-     */
-    public static final String SHOP_GOODS_LOGIN = "api=shop/Member/login&i=1604&";
-
-    /*
-    * 优惠券列表
-    * 参数：
-    * 登录验证
-    * used  默认空  1已使用，
-    * past  默认空 1已过期
-    * page 页码
-    * */
-    public static final String SHOP_MEMBER_COUPON = "api=shop/Member/coupon&i=1604&";
-
-    /**
-     * 优惠券领取列表
-     * 参数 ：
-     * 登录验证
-     * page：页码
-     */
-    public static final String SHOP_COUPON_INDEX = "api=shop/Coupon/index&i=1604&";
-
-    /*
-    * 优惠券详情
-    * 参数：
-    * id=
-    * 登录验证
-    * */
-    public static final String SHOP_COUPON_DETAIL = "api=shop/Coupon/detail&i=1604&";
-
-    /*获取推荐商品*/
-    public static final String SHOP_GOODS_RECOMMENT = "api=shop/Goods/recommand&i=1604";
-
-
     /**
      * 请求头
      */
-    public static final String PATHS = "http://new.dequanhuibao.com/Api/";
+    private static final String HEADER = "http://new.dequanhuibao.com/Api/";
 
     /**
      * 图片头部
@@ -65,13 +21,21 @@ public class HttpPath {
 
     public static final String KEY = "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k";
 
+    /*
+    * 搜索
+    * 参数：
+    * i: shopid
+    * keywords:搜索关键字
+    * */
+    public static final String SHOP_SEARCH = HEADER + "api=shop/Goods/search&i=1604&";
+
 
     /**
      * 检查版本更新
      * 参数：
      * version=1.0.2
      */
-    public static final String CHECK_VERSION = "Sys/checkversion?";
+    public static final String CHECK_VERSION = HEADER + "Sys/checkversion?";
 
     /**
      * 1.
@@ -81,7 +45,7 @@ public class HttpPath {
      * 参数：
      * phone: 手机号
      */
-    public static final String ACCOUNT_CHECKPHONE = "Account/checkphone?";
+    public static final String ACCOUNT_CHECKPHONE = HEADER + "Account/checkphone?";
 
 
     /**
@@ -101,7 +65,7 @@ public class HttpPath {
      * 6 => '更换手机号-新', wu
      * 7 => '修改密码' you
      */
-    public static final String ACCOUNT_VERIFY = "Account/verify?";
+    public static final String ACCOUNT_VERIFY = HEADER + "Account/verify?";
 
 
     /**
@@ -113,7 +77,7 @@ public class HttpPath {
      * verify验证码
      * pwd密码
      */
-    public static final String ACCOUNT_REG = "Account/reg?";
+    public static final String ACCOUNT_REG = HEADER + "Account/reg?";
 
     /**
      * 4.
@@ -123,7 +87,7 @@ public class HttpPath {
      * phone手机号
      * pwd密码
      */
-    public static final String ACCOUNT_LOGIN = "Account/login?";
+    public static final String ACCOUNT_LOGIN = HEADER + "Account/login?";
 
     /**
      * 5.
@@ -135,7 +99,7 @@ public class HttpPath {
      * timestamp 时间戳
      * sign 签名
      */
-    public static final String ACCOUNT_LOGINOUT = "Account/loginout?";
+    public static final String ACCOUNT_LOGINOUT = HEADER + "Account/loginout?";
 
     /**
      * 6.
@@ -146,7 +110,7 @@ public class HttpPath {
      * verify验证码
      * pwd密码
      */
-    public static final String ACCOUNT_BACKPWD = "Account/backpwd?";
+    public static final String ACCOUNT_BACKPWD = HEADER + "Account/backpwd?";
 
     /**
      * 7.
@@ -158,7 +122,7 @@ public class HttpPath {
      * timestamp 时间戳
      * sign 签名
      */
-    public static final String MEM_MEMBER = "Member/member?";
+    public static final String MEM_MEMBER = HEADER + "Member/member?";
 
     /**
      * 8.
@@ -173,7 +137,7 @@ public class HttpPath {
      * timestamp 时间戳
      * sign签名
      */
-    public static final String MEM_EDITINFO = "Member/editinfo?";
+    public static final String MEM_EDITINFO = HEADER + "Member/editinfo?";
 
     /**
      * 上传图片
@@ -182,20 +146,20 @@ public class HttpPath {
      * $_FILES['file']用户头像（这个不能同时上传的话 跟我说，我给改）
      * 用户登陆验证（phone,token）
      */
-    public static final String MEM_UPIMG = "Member/upimg?";
+    public static final String MEM_UPIMG = HEADER + "Member/upimg?";
 
     /**
      * 9.
      * 获取省市列表
      */
-    public static final String COMMON_REGION = "Common/region";
+    public static final String COMMON_REGION = HEADER + "Common/region";
 
     /**
      * 10.
      * 获取顶级分类
      * 方式：post/get
      */
-    public static final String GOODS_CATE = "Goods/cate";
+    public static final String GOODS_CATE = HEADER + "Goods/cate";
 
     /**
      * 11.
@@ -203,7 +167,7 @@ public class HttpPath {
      * 方式：post/get
      * 参数：id 上级分类
      */
-    public static final String GOODS_CATECHILDREN = "Goods/catechildren?";
+    public static final String GOODS_CATECHILDREN = HEADER + "Goods/catechildren?";
 
     /**
      * 13.
@@ -224,7 +188,7 @@ public class HttpPath {
      * sales销量排序 asc/desc
      * comment 评价排序 asc/desc
      */
-    public static final String GOODS_SEARCH = "Goods/search?";
+    public static final String GOODS_SEARCH = HEADER + "Goods/search?";
 
     /**
      * 14.
@@ -235,7 +199,8 @@ public class HttpPath {
      * token （不用加密，没登陆就不传）
      * phone（不用加密，没登陆就不传）
      */
-    public static final String GOODS_DETAIL = "Goods/detail?";
+    public static final String GOODS_DETAIL = HEADER + "Goods/detail?";
+
 
     /**
      * 14.
@@ -250,7 +215,7 @@ public class HttpPath {
      * search  搜索
      * url # 不做操作
      */
-    public static final String INDEXT_INDEX = "Index/index";
+    public static final String INDEXT_INDEX = HEADER + "Index/index";
 
     /**
      * 15.
@@ -262,7 +227,7 @@ public class HttpPath {
      * count	添加数量（正负）
      * 用户登陆验证（phone,token）
      */
-    public static final String CART_ADD = "Cart/add?";
+    public static final String CART_ADD = HEADER + "Cart/add?";
 
     /**
      * 16.
@@ -271,7 +236,7 @@ public class HttpPath {
      * 参数：
      * 用户登陆验证（phone,token）
      */
-    public static final String CART_GET = "Cart/get?";
+    public static final String CART_GET = HEADER + "Cart/get?";
 
     /**
      * 17.
@@ -281,7 +246,7 @@ public class HttpPath {
      * ids 商品id集合，逗号隔开
      * 用户登陆验证（phone,token）
      */
-    public static final String CART_DEL = "Cart/del?";
+    public static final String CART_DEL = HEADER + "Cart/del?";
 
     /**
      * 18.
@@ -295,7 +260,7 @@ public class HttpPath {
      * mobile 联系人电话
      * 用户登陆验证（phone,token）
      */
-    public static final String MEMBER_ADDADDR = "Member/addaddr?";
+    public static final String MEMBER_ADDADDR = HEADER + "Member/addaddr?";
 
     /**
      * 19.
@@ -310,7 +275,7 @@ public class HttpPath {
      * mobile 联系人电话
      * 用户登陆验证（phone,token）
      */
-    public static final String MEMBER_EDITADDR = "Member/editaddr?";
+    public static final String MEMBER_EDITADDR = HEADER + "Member/editaddr?";
 
     /**
      * 20.
@@ -319,7 +284,7 @@ public class HttpPath {
      * 参数：
      * 用户登陆验证（phone,token）
      */
-    public static final String MEMBER_GETADDR = "Member/getaddr?";
+    public static final String MEMBER_GETADDR = HEADER + "Member/getaddr?";
 
     /**
      * 21.
@@ -329,7 +294,7 @@ public class HttpPath {
      * id 要删除的收货地址id
      * 用户登陆验证（phone,token）
      */
-    public static final String MEMBER_DELADDR = "Member/deladdr?";
+    public static final String MEMBER_DELADDR = HEADER + "Member/deladdr?";
 
     /**
      * 22.
@@ -339,7 +304,7 @@ public class HttpPath {
      * id 要修改的收货地址id
      * 用户登陆验证（phone,token）
      */
-    public static final String MEMBER_DEGAULTADDR = "Member/defaultaddr?";
+    public static final String MEMBER_DEGAULTADDR = HEADER + "Member/defaultaddr?";
 
 
     /**
@@ -351,7 +316,7 @@ public class HttpPath {
      * cityid 配送地址的市级id  在收货地址里面有
      * 用户登陆验证（phone,token）
      */
-    public static final String CONFIRM_CHECKORDER = "Confirm/checkorder?";
+    public static final String CONFIRM_CHECKORDER = HEADER + "Confirm/checkorder?";
 
     /**
      * 23.（2）
@@ -364,7 +329,7 @@ public class HttpPath {
      * addrid 收货地址的id
      * 用户登陆验证（phone,token）
      */
-    public static final String CONFIRM_BUYNOW = "Confirm/buynow?";
+    public static final String CONFIRM_BUYNOW = HEADER + "Confirm/buynow?";
 
     /**
      * 24.(1)
@@ -376,7 +341,7 @@ public class HttpPath {
      * remark 备注[{shopid:remark}]备注
      * 用户登陆验证（phone,token）
      */
-    public static final String ORDER_ADD = "Order/add?";
+    public static final String ORDER_ADD = HEADER + "Order/add?";
 
     /**
      * 24.(2)
@@ -390,7 +355,7 @@ public class HttpPath {
      * remark备注[{shopid:remark}]备注
      * 用户登陆验证（phone,token）
      */
-    public static final String ORDER_BUYNOW = "Order/buynow?";
+    public static final String ORDER_BUYNOW = HEADER + "Order/buynow?";
 
     /**
      * 25.
@@ -404,7 +369,7 @@ public class HttpPath {
      * 是否已经评价 is_recomment 0未评价 1已评价
      * 退款refund 0正常，1申请退款 2商家确认 3退款成功 -1拒绝申请
      */
-    public static final String ORDER_GETIST = "Order/getlist?";
+    public static final String ORDER_GETIST = HEADER + "Order/getlist?";
 
     /**
      * 26.
@@ -426,7 +391,7 @@ public class HttpPath {
      * <p>
      * 注：订单状态status=1作可以删除
      */
-    public static final String ORDER_REFUND = "Order/refund?";
+    public static final String ORDER_REFUND = HEADER + "Order/refund?";
 
     /**
      * 28.
@@ -442,7 +407,7 @@ public class HttpPath {
      * 关闭——订单状态是未支付的时候才能关闭status==0
      * 确认收获——只有当发货的状态才能收货status==2
      */
-    public static final String ORDER_EDIT = "Order/edit?";
+    public static final String ORDER_EDIT = HEADER + "Order/edit?";
 
     /**
      * 29.
@@ -452,7 +417,7 @@ public class HttpPath {
      * id 订单id
      * 用户登陆验证（phone,token）
      */
-    public static final String ORDER_DETAIL = "Order/detail?";
+    public static final String ORDER_DETAIL = HEADER + "Order/detail?";
 
     /**
      * 30.
@@ -466,7 +431,7 @@ public class HttpPath {
      * <p>
      * 用户登录验证（phone,token）
      */
-    public static final String ORDER_COMMENT = "Order/comment?";
+    public static final String ORDER_COMMENT = HEADER + "Order/comment?";
 
     /**
      * 31.
@@ -476,7 +441,7 @@ public class HttpPath {
      * money 充值金额（整数）
      * 用户登录验证（phone,token）
      */
-    public static final String RECHARGE_ORDER = "Recharge/order?";
+    public static final String RECHARGE_ORDER = HEADER + "Recharge/order?";
 
     /**
      * 32.
@@ -486,7 +451,7 @@ public class HttpPath {
      * ordersn 订单号
      * 用户登录验证（phone,token）
      */
-    public static final String PAY_PAYTYPE = "Pay/paytype?";
+    public static final String PAY_PAYTYPE = HEADER + "Pay/paytype?";
 
     /**
      * 33.
@@ -497,7 +462,7 @@ public class HttpPath {
      * paytype  支付方式balance---余额支付 wxpay---微信支付 alipay---支付宝支付
      * 用户登录验证（phone,token）
      */
-    public static final String PAY_ORDER = "Pay/order?";
+    public static final String PAY_ORDER = HEADER + "Pay/order?";
 
     /**
      * 34.
@@ -508,7 +473,7 @@ public class HttpPath {
      * id 收藏的商品id 或者店铺id
      * 用户登录验证（phone,token）
      */
-    public static final String MEM_ADDRECORD = "Member/addrecord?";
+    public static final String MEM_ADDRECORD = HEADER + "Member/addrecord?";
 
     /**
      * 35.
@@ -519,7 +484,7 @@ public class HttpPath {
      * id 收藏的商品id 或者店铺id
      * 用户登录验证（phone,token）
      */
-    public static final String MEM_DELRECORD = "Member/delrecord?";
+    public static final String MEM_DELRECORD = HEADER + "Member/delrecord?";
 
     /**
      * 36.
@@ -530,7 +495,7 @@ public class HttpPath {
      * page 当前页
      * 用户登录验证（phone,token）
      */
-    public static final String MEM_RECORDLIST = "Member/recordlist?";
+    public static final String MEM_RECORDLIST = HEADER + "Member/recordlist?";
 
     /**
      * 签到
@@ -538,7 +503,7 @@ public class HttpPath {
      * 参数：
      * 用户登录验证
      */
-    public static final String ACTIVITY_SIGN = "ActivitySign/sign?";
+    public static final String ACTIVITY_SIGN = HEADER + "ActivitySign/sign?";
 
     /**
      * 获取签到信息
@@ -546,7 +511,7 @@ public class HttpPath {
      * 参数：
      * 用户登录验证
      */
-    public static final String ACTIVITYSIGN_INDEX = "ActivitySign/index?";
+    public static final String ACTIVITYSIGN_INDEX = HEADER + "ActivitySign/index?";
 
     /**
      * 分享
@@ -555,7 +520,7 @@ public class HttpPath {
      * 用户登陆验证：
      * goodsid
      */
-    public static final String POSTER_INDEX = "Poster/index?";
+    public static final String POSTER_INDEX = HEADER + "Poster/index?";
 
 //小店=======
 
@@ -564,55 +529,84 @@ public class HttpPath {
      * 参数：uid
      * shopInfo
      */
-    public static final String XSHOP_INFO = "Member/shopInfo";
+    public static final String XSHOP_INFO = HEADER + "Member/shopInfo";
 
     /**
      * 获取小店自选商品分类
      */
-    public static final String XSHOP_GOODS_ZX_TYPE = "Member/getCatelist";
+    public static final String XSHOP_GOODS_ZX_TYPE = HEADER + "Member/getCatelist";
 
     /**
      * 获取小店自选分类下商品列表
      * 参数：cateid=分类id,curpage=page,pagesize=pagesize,idstr=所有选择的商品id->“,”分割
      */
-    public static final String XSHOP_GOODS_ZX_ALL = "Member/loadgoods";
+    public static final String XSHOP_GOODS_ZX_ALL = HEADER + "Member/loadgoods";
 
     /**
      * 获取小店首页展示商品
      * 参数：mid=uid
      */
-    public static final String XSHOP_GOODS = "Member/goodsList";
+    public static final String XSHOP_GOODS = HEADER + "Member/goodsList";
 
     /**
      * 获取小店已选商品
      * 参数：mid=uid
      */
-    public static final String XSHOP_YX_GOODS = "Member/usergoods";
+    public static final String XSHOP_YX_GOODS = HEADER + "Member/usergoods";
 
     /**
      * 提交小店修改信息
      * 参数：mid=uid,shopname=名称,thumb=头像，focusthumb=店招图片，intro=简介 限制长度255
      * 需要验证：token,sign,timestamp,phone
      */
-    public static final String XSHOP_SAVA_SHOP_INFO = "Member/setShopInfo";
+    public static final String XSHOP_SAVA_SHOP_INFO = HEADER + "Member/setShopInfo";
 
     /**
      * 保存所有选择的商品
      * 参数：mid=uid,strid=需要保存商品的id字符串，id之间用英文,分割
      * 需要验证：token,sign,timestamp,phone
      */
-    public static final String XSHOP_SAVA_GOODS = "Member/savegoods";
+    public static final String XSHOP_SAVA_GOODS = HEADER + "Member/savegoods";
 
     /**
      * 关闭自选商品并清空自选列表
      * 参数：mid=uid
      * 需要验证：token,sign,timestamp,phone
      */
-    public static final String XSHOP_MOVE_GOODS = "Member/movegoods";
+    public static final String XSHOP_MOVE_GOODS = HEADER + "Member/movegoods";
 
     /**
      * 关闭自选商品搜索
      * 参数：mid=uid,page,pagesize,keyword=搜索关键字
      */
-    public static final String XSHOP_GOODS_SEARCH = "Member/SearchGoods";
+    public static final String XSHOP_GOODS_SEARCH = HEADER + "Member/SearchGoods";
+
+    /**
+     * 优惠券列表
+     * 参数：
+     * 登录验证
+     * used  默认空  1已使用，
+     * past  默认空 1已过期
+     * page 页码
+     */
+    public static final String SHOP_MEMBER_COUPON = HEADER + "api=shop/Member/coupon&i=1604&";
+
+    /**
+     * 优惠券领取列表
+     * 参数 ：
+     * 登录验证
+     * page：页码
+     */
+    public static final String SHOP_COUPON_INDEX = HEADER + "api=shop/Coupon/index&i=1604&";
+
+    /*
+    * 优惠券详情
+    * 参数：
+    * id=
+    * 登录验证
+    * */
+    public static final String SHOP_COUPON_DETAIL = HEADER + "api=shop/Coupon/detail&i=1604&";
+
+    /*获取推荐商品*/
+    public static final String SHOP_GOODS_RECOMMENT = HEADER + "api=shop/Goods/recommand&i=1604";
 }

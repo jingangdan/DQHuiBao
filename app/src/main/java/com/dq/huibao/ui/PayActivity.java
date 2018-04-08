@@ -27,6 +27,7 @@ import com.dq.huibao.ui.order.OrderActivity;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.zhifubao.AuthResult;
 import com.dq.huibao.zhifubao.OrderInfoUtil2_0;
@@ -251,23 +252,20 @@ public class PayActivity extends BaseActivity {
      */
     public void getPayType(String ordersn, String phone, String token) {
         MD5_PATH = "ordersn=" + ordersn + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.PATHS + HttpPath.PAY_PAYTYPE + MD5_PATH + "&sign=" +
+        PATH = HttpPath.PAY_PAYTYPE + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        params = new RequestParams(PATH);
         System.out.println("选择支付方式 = " + PATH);
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @SuppressLint("WrongConstant")
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("选择支付方式 = " + result);
-                        PayType payType = GsonUtil.gsonIntance().gsonToBean(result, PayType.class);
-                        if (payType.getStatus() == 1) {
-                            price = payType.getData().getOrder().getPay_money();
-                            tvPayPrice.setText("¥" + price);
-                            list.clear();
-                            list.addAll(payType.getData().getPaytype());
-                            mAdapter.notifyDataSetChanged();
+        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("选择支付方式 = " + result);
+                PayType payType = GsonUtil.gsonIntance().gsonToBean(result, PayType.class);
+                if (payType.getStatus() == 1) {
+                    price = payType.getData().getOrder().getPay_money();
+                    tvPayPrice.setText("¥" + price);
+                    list.clear();
+                    list.addAll(payType.getData().getPaytype());
+                    mAdapter.notifyDataSetChanged();
 
 //                            for (int i = 0; i < payType.getData().getPaytype().size(); i++) {
 //                                if (payType.getData().getPaytype().get(i).equals("balance")) {
@@ -281,25 +279,24 @@ public class PayActivity extends BaseActivity {
 //                                    alipay = payType.getData().getPaytype().get(i);
 //                                }
 //                            }
-                        }
+                }
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            }
 
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onFinished() {
 
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
     /**
@@ -312,39 +309,37 @@ public class PayActivity extends BaseActivity {
      */
     public void setPayOrder(String ordersn, final String paytype, final String phone, final String token) {
         MD5_PATH = "ordersn=" + ordersn + "&paytype=" + paytype + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.PATHS + HttpPath.PAY_ORDER + MD5_PATH + "&sign=" +
+        PATH = HttpPath.PAY_ORDER + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
-        params = new RequestParams(PATH);
         System.out.println("第三方下单 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("第三方下单 = " + result);
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("第三方下单 = " + result);
 
-                        AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
-                        if (addrReturn.getStatus() == 1) {
-                            if (paytype.equals("balance")) {
-                                intent = new Intent(PayActivity.this, OrderActivity.class);
-                                intent.putExtra("page", 2);
-                                intent.putExtra("phone", phone);
-                                intent.putExtra("token", token);
-                                startActivityForResult(intent, CodeUtils.PAY);
-                                PayActivity.this.finish();
-                            } else {
-                                if (paytype.equals("wxpay")) {
-                                    //微信支付
-                                } else if (paytype.equals("alipay")) {
-                                    //支付宝支付
-                                    setZhuFuBao(addrReturn.getData());
-                                } else if (paytype.equals("balance")) {
-                                    //余额支付
-                                }
-                            }
-                        } else {
-                            toast("" + addrReturn.getData());
+                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                if (addrReturn.getStatus() == 1) {
+                    if (paytype.equals("balance")) {
+                        intent = new Intent(PayActivity.this, OrderActivity.class);
+                        intent.putExtra("page", 2);
+                        intent.putExtra("phone", phone);
+                        intent.putExtra("token", token);
+                        startActivityForResult(intent, CodeUtils.PAY);
+                        PayActivity.this.finish();
+                    } else {
+                        if (paytype.equals("wxpay")) {
+                            //微信支付
+                        } else if (paytype.equals("alipay")) {
+                            //支付宝支付
+                            setZhuFuBao(addrReturn.getData());
+                        } else if (paytype.equals("balance")) {
+                            //余额支付
                         }
+                    }
+                } else {
+                    toast("" + addrReturn.getData());
+                }
 
 //                        if (paytype.equals("balance")) {
 //                            AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
@@ -369,25 +364,23 @@ public class PayActivity extends BaseActivity {
 //                                //余额支付
 //                            }
 //                        }
+            }
 
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onFinished() {
 
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
 //    @SuppressLint("WrongConstant")

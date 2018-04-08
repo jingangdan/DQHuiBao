@@ -24,6 +24,7 @@ import com.dq.huibao.bean.common.Region;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
 
@@ -234,80 +235,77 @@ public class AddAddressActivity extends BaseActivity {
      * 获取省市列表
      */
     public void getRegion() {
-        PATH = HttpPath.PATHS + HttpPath.COMMON_REGION;
+        PATH = HttpPath.COMMON_REGION;
         params = new RequestParams(PATH);
         System.out.println("获取省市列表 = " + PATH);
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("获取省市列表 = " + result);
-                        Region region = GsonUtil.gsonIntance().gsonToBean(result, Region.class);
+        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("获取省市列表 = " + result);
+                Region region = GsonUtil.gsonIntance().gsonToBean(result, Region.class);
 
-                        /**
-                         * 添加省份数据
-                         *
-                         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
-                         * PickerView会通过getPickerViewText方法获取字符串显示出来。
-                         */
-                        regionList = region.getData();
+                /**
+                 * 添加省份数据
+                 *
+                 * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
+                 * PickerView会通过getPickerViewText方法获取字符串显示出来。
+                 */
+                regionList = region.getData();
 
-                        for (int i = 0; i < regionList.size(); i++) {
-                            //遍历省份
-                            ArrayList<String> CityList = new ArrayList<>();//该省的城市列表（第二级）
-                            ArrayList<ArrayList<String>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
+                for (int i = 0; i < regionList.size(); i++) {
+                    //遍历省份
+                    ArrayList<String> CityList = new ArrayList<>();//该省的城市列表（第二级）
+                    ArrayList<ArrayList<String>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
 
-                            options1Items.add(region.getData().get(i).getRegion_name());
+                    options1Items.add(region.getData().get(i).getRegion_name());
 
-                            for (int c = 0; c < regionList.get(i).getCity().size(); c++) {//遍历该省份的所有城市
-                                String CityName = regionList.get(i).getCity().get(c).getRegion_name();
-                                CityList.add(CityName);//添加城市
-                                ArrayList<String> City_AreaList = new ArrayList<>();//该城市的所有地区列表
+                    for (int c = 0; c < regionList.get(i).getCity().size(); c++) {//遍历该省份的所有城市
+                        String CityName = regionList.get(i).getCity().get(c).getRegion_name();
+                        CityList.add(CityName);//添加城市
+                        ArrayList<String> City_AreaList = new ArrayList<>();//该城市的所有地区列表
 
-                                //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
-                                if (regionList.get(i).getCity().get(c).getRegion_name() == null
-                                        || regionList.get(i).getCity().get(c).getDistrict().size() == 0) {
-                                    City_AreaList.add("");
-                                } else {
+                        //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
+                        if (regionList.get(i).getCity().get(c).getRegion_name() == null
+                                || regionList.get(i).getCity().get(c).getDistrict().size() == 0) {
+                            City_AreaList.add("");
+                        } else {
 
-                                    for (int d = 0; d < regionList.get(i).getCity().get(c).getDistrict().size(); d++) {//该城市对应地区所有数据
-                                        String AreaName = regionList.get(i).getCity().get(c).getDistrict().get(d).getRegion_name();
+                            for (int d = 0; d < regionList.get(i).getCity().get(c).getDistrict().size(); d++) {//该城市对应地区所有数据
+                                String AreaName = regionList.get(i).getCity().get(c).getDistrict().get(d).getRegion_name();
 
-                                        City_AreaList.add(AreaName);//添加该城市所有地区数据
-                                    }
-                                }
-                                Province_AreaList.add(City_AreaList);//添加该省所有地区数据
+                                City_AreaList.add(AreaName);//添加该城市所有地区数据
                             }
-
-                            /**
-                             * 添加城市数据
-                             */
-                            options2Items.add(CityList);
-
-                            /**
-                             * 添加地区数据
-                             */
-                            options3Items.add(Province_AreaList);
                         }
-
+                        Province_AreaList.add(City_AreaList);//添加该省所有地区数据
                     }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+                    /**
+                     * 添加城市数据
+                     */
+                    options2Items.add(CityList);
 
-                    }
+                    /**
+                     * 添加地区数据
+                     */
+                    options3Items.add(Province_AreaList);
+                }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onFinished() {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
-                });
+            }
 
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     /**
@@ -325,45 +323,40 @@ public class AddAddressActivity extends BaseActivity {
         MD5_PATH = "addr=" + UTF_addr + "&contact=" + UTF_contact + "&isdefault=1" + "&mobile=" + mobile +
                 "&phone=" + phone + "&regionid=" + regionid + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
-        PATH = HttpPath.PATHS + HttpPath.MEMBER_ADDADDR + MD5_PATH + "&sign=" +
+        PATH = HttpPath.MEMBER_ADDADDR + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String("addr=" + addr + "&contact=" + contact + "&isdefault=1" + "&mobile=" + mobile +
                         "&phone=" + phone + "&regionid=" + regionid + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + HttpPath.KEY);
-
-        params = new RequestParams(PATH);
         System.out.println("加密 = " + MD5_PATH);
 
         System.out.println("添加收货地址 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("添加收货地址 = " + result);
-                        AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
-                        if (addrReturn.getStatus() == 1) {
-                            toast("" + addrReturn.getData());
-                            intent = new Intent();
-                            setResult(CodeUtils.ADDR_ADD, intent);
-                            AddAddressActivity.this.finish();
-                        }
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("添加收货地址 = " + result);
+                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                if (addrReturn.getStatus() == 1) {
+                    toast("" + addrReturn.getData());
+                    intent = new Intent();
+                    setResult(CodeUtils.ADDR_ADD, intent);
+                    AddAddressActivity.this.finish();
+                }
+            }
 
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onFinished() {
 
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
     /**
@@ -383,46 +376,40 @@ public class AddAddressActivity extends BaseActivity {
         MD5_PATH = "addr=" + UTF_addr + "&contact=" + UTF_contact + "&id=" + id + "&isdefault=1" + "&mobile=" + mobile +
                 "&phone=" + phone + "&regionid=" + regionid + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
-        PATH = HttpPath.PATHS + HttpPath.MEMBER_EDITADDR + MD5_PATH + "&sign=" +
+        PATH = HttpPath.MEMBER_EDITADDR + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String("addr=" + addr + "&contact=" + contact + "&id=" + id + "&isdefault=1" + "&mobile=" + mobile +
                         "&phone=" + phone + "&regionid=" + regionid + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + HttpPath.KEY);
 
         System.out.println("加密 = " + MD5_PATH);
-
-        params = new RequestParams(PATH);
-
         System.out.println("修改收货地址 = " + PATH);
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("修改收货地址 = " + result);
-                        AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
-                        if (addrReturn.getStatus() == 1) {
-                            toast("" + addrReturn.getData());
-                            intent = new Intent();
-                            setResult(CodeUtils.ADDR_ADD, intent);
-                            AddAddressActivity.this.finish();
-                        }
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("修改收货地址 = " + result);
+                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                if (addrReturn.getStatus() == 1) {
+                    toast("" + addrReturn.getData());
+                    intent = new Intent();
+                    setResult(CodeUtils.ADDR_ADD, intent);
+                    AddAddressActivity.this.finish();
+                }
+            }
 
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onFinished() {
 
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
 

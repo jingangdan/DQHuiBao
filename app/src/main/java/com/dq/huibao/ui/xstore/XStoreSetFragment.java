@@ -149,7 +149,7 @@ public class XStoreSetFragment extends BaseFragment {
     public void getData(){
         Map<String, String> map = new HashMap<>();
         map.put("mid",uid);
-        HttpxUtils.Get(getActivity(),HttpPath.PATHS + HttpPath.XSHOP_YX_GOODS, map,
+        HttpxUtils.Get(getActivity(),HttpPath.XSHOP_YX_GOODS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -189,7 +189,7 @@ public class XStoreSetFragment extends BaseFragment {
      */
     public void submitGoods(){
         FMStore.isZx = true;
-        String PATH = HttpPath.PATHS + HttpPath.XSHOP_SAVA_GOODS;
+        String PATH = HttpPath.XSHOP_SAVA_GOODS;
         Map<String,String> map = new HashMap<>();
         map.put("sign",  MD5Util.getMD5String("phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + HttpPath.KEY));
         map.put("mid", uid);
@@ -236,7 +236,7 @@ public class XStoreSetFragment extends BaseFragment {
      */
     private void removeAll() {
         FMStore.isZx = false;
-        String PATH = HttpPath.PATHS + HttpPath.XSHOP_MOVE_GOODS;
+        String PATH = HttpPath.XSHOP_MOVE_GOODS;
         Map<String,String> map = new HashMap<>();
         map.put("sign",  MD5Util.getMD5String("phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + HttpPath.KEY));
         map.put("mid", uid);

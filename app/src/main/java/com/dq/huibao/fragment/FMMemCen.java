@@ -528,45 +528,41 @@ public class FMMemCen extends BaseFragment implements
     public void getMember(String phone, String token) {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
-        PATH = HttpPath.PATHS + HttpPath.MEM_MEMBER + MD5_PATH + "&sign=" +
+        PATH = HttpPath.MEM_MEMBER + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         params = new RequestParams(PATH);
         System.out.println("个人信息 = " + PATH);
+        HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("个人信息 = " + result);
+                Login login = GsonUtil.gsonIntance().gsonToBean(result, Login.class);
 
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("个人信息 = " + result);
-                        Login login = GsonUtil.gsonIntance().gsonToBean(result, Login.class);
+                level = login.getData().getRole_id();
+                id = login.getData().getUid();
+                avatar = login.getData().getHeadimgurl();
+                nickname = login.getData().getNickname();
+                credit1 = login.getData().getBalance();
+                credit2 = login.getData().getScore();
+                setUserInfo(avatar);
+            }
 
-                        level = login.getData().getRole_id();
-                        id = login.getData().getUid();
-                        avatar = login.getData().getHeadimgurl();
-                        nickname = login.getData().getNickname();
-                        credit1 = login.getData().getBalance();
-                        credit2 = login.getData().getScore();
-                        setUserInfo(avatar);
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onFinished() {
 
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
-
+            }
+        });
     }
 
     /**
@@ -636,47 +632,40 @@ public class FMMemCen extends BaseFragment implements
      */
     public void loginOut(String phone, String token) {
 
-        PATH = HttpPath.PATHS + HttpPath.ACCOUNT_LOGINOUT +
+        PATH = HttpPath.ACCOUNT_LOGINOUT +
                 "phone=" + phone + "&token=" + token + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&sign=" +
                 MD5Util.getMD5String("phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
-
-        params = new RequestParams(PATH);
         System.out.println("退出登录 = " + PATH);
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("退出登录 = " + result);
-                        Account account = GsonUtil.gsonIntance().gsonToBean(result, Account.class);
-                        if (account.getStatus() == 1) {
-                            toast(""+account.getData());
-                            spUserInfo.saveLogin("");
-                            System.out.println("111");
-                            spUserInfo.saveLoginReturn("");
-                            System.out.println("222");
-                            isLogin();
-                            System.out.println("333");
-                        } else {
-                            toast("" + account.getData());
-                        }
-                    }
+        HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("退出登录 = " + result);
+                Account account = GsonUtil.gsonIntance().gsonToBean(result, Account.class);
+                if (account.getStatus() == 1) {
+                    toast("" + account.getData());
+                    spUserInfo.saveLogin("");
+                    spUserInfo.saveLoginReturn("");
+                    isLogin();
+                } else {
+                    toast("" + account.getData());
+                }
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
+            }
 
-                    @Override
-                    public void onFinished() {
+            @Override
+            public void onFinished() {
 
-                    }
-                });
-
+            }
+        });
     }
 
     /**
@@ -687,41 +676,39 @@ public class FMMemCen extends BaseFragment implements
      */
     public void setSign(String phone, String token) {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.PATHS + HttpPath.ACTIVITY_SIGN + MD5_PATH + "&sign=" +
+        PATH = HttpPath.ACTIVITY_SIGN + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         params = new RequestParams(PATH);
         System.out.println("签到 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("签到 = " + result);
-                        Sign sign = GsonUtil.gsonIntance().gsonToBean(result, Sign.class);
-                        if (sign.getStatus() == 1) {
-                            toast("" + sign.getData().getMsg());
-                            tv_sign.setText("已签到");
-                        } else if (sign.getStatus() == 0) {
-                            toast("" + sign.getData().getMsg());
-                        }
+        HttpxUtils.Post(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("签到 = " + result);
+                Sign sign = GsonUtil.gsonIntance().gsonToBean(result, Sign.class);
+                if (sign.getStatus() == 1) {
+                    toast("" + sign.getData().getMsg());
+                    tv_sign.setText("已签到");
+                } else if (sign.getStatus() == 0) {
+                    toast("" + sign.getData().getMsg());
+                }
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            }
 
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onFinished() {
 
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
     /**
@@ -732,39 +719,36 @@ public class FMMemCen extends BaseFragment implements
      */
     public void getSignIndex(String phone, String token) {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.PATHS + HttpPath.ACTIVITYSIGN_INDEX + MD5_PATH + "&sign=" +
+        PATH = HttpPath.ACTIVITYSIGN_INDEX + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        params = new RequestParams(PATH);
         System.out.println("签到信息 = " + PATH);
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("签到信息 = " + result);
-                        SignIndex signIndex = GsonUtil.gsonIntance().gsonToBean(result, SignIndex.class);
-                        if (signIndex.getStatus() == 1) {
-                            cansign = signIndex.getData().isCansign();
-                            cur_count = signIndex.getData().getCur_count();
-                            cur_money = signIndex.getData().getCur_money();
-                        }
+        HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("签到信息 = " + result);
+                SignIndex signIndex = GsonUtil.gsonIntance().gsonToBean(result, SignIndex.class);
+                if (signIndex.getStatus() == 1) {
+                    cansign = signIndex.getData().isCansign();
+                    cur_count = signIndex.getData().getCur_count();
+                    cur_money = signIndex.getData().getCur_money();
+                }
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            }
 
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onFinished() {
 
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
 
     }
 
@@ -778,9 +762,9 @@ public class FMMemCen extends BaseFragment implements
     private Button but_cancle, but_shichang, but_update;
 
     public void getVersion(final String version) {
-        PATH = HttpPath.PATHS + HttpPath.CHECK_VERSION + "version=" + version;
+        PATH = HttpPath.CHECK_VERSION + "version=" + version;
         System.out.println("版本更新 = " + PATH);
-        HttpxUtils.Get(getActivity(),PATH,
+        HttpxUtils.Get(getActivity(), PATH,
                 null,
                 new Callback.CommonCallback<String>() {
                     @Override

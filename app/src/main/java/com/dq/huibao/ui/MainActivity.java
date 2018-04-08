@@ -371,9 +371,9 @@ public class MainActivity extends FragmentActivity {
     private Button but_cancle, but_shichang, but_update;
 
     public void getVersion(final String version) {
-        PATH = HttpPath.PATHS + HttpPath.CHECK_VERSION + "version=" + version;
+        PATH = HttpPath.CHECK_VERSION + "version=" + version;
         System.out.println("版本更新 = " + PATH);
-        HttpxUtils.Get(this,PATH,
+        HttpxUtils.Get(this, PATH,
                 null,
                 new Callback.CommonCallback<String>() {
                     @SuppressLint("WrongConstant")
@@ -659,6 +659,8 @@ public class MainActivity extends FragmentActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             //双击退出
             if (System.currentTimeMillis() - millis < 1000) {
+                //System.exit(0);
+                this.finish();
                 return super.onKeyDown(keyCode, event);
             } else {
                 Toast.makeText(this, "再次点击退出程序", Toast.LENGTH_SHORT).show();

@@ -14,6 +14,7 @@ import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.order.OrderDetail;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 
 import org.json.JSONObject;
@@ -86,40 +87,37 @@ public class OrderCommentActivity extends BaseActivity {
      */
     public void getOrderDetail(final String orderid, String phone, String token) {
         MD5_PATH = "id=" + orderid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.PATHS + HttpPath.ORDER_DETAIL + MD5_PATH + "&sign=" +
+        PATH = HttpPath.ORDER_DETAIL + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        params = new RequestParams(PATH);
         System.out.println("订单详情 = " + PATH);
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("订单详情 = " + result);
-                        OrderDetail orderDetail = GsonUtil.gsonIntance().gsonToBean(result, OrderDetail.class);
+        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("订单详情 = " + result);
+                OrderDetail orderDetail = GsonUtil.gsonIntance().gsonToBean(result, OrderDetail.class);
 
-                        if (orderDetail.getStatus() == 1) {
-                            goodsList.clear();
-                            goodsList.addAll(orderDetail.getData().getGoodslist());
-                            orderCommentAdapter.notifyDataSetChanged();
-                        }
+                if (orderDetail.getStatus() == 1) {
+                    goodsList.clear();
+                    goodsList.addAll(orderDetail.getData().getGoodslist());
+                    orderCommentAdapter.notifyDataSetChanged();
+                }
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            }
 
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onFinished() {
 
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
     /**
@@ -132,33 +130,30 @@ public class OrderCommentActivity extends BaseActivity {
      */
     public void setOrderComment(String orderid, String remark, String phone, String token) {
         MD5_PATH = "orderid=" + orderid + "&phone=" + phone + "&remark=" + remark + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.PATHS + HttpPath.ORDER_COMMENT + MD5_PATH + "&sign=" +
+        PATH = HttpPath.ORDER_COMMENT + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-
-        params = new RequestParams(PATH);
         System.out.println("评价订单 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("评价订单 = " + result);
-                    }
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("评价订单 = " + result);
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
+            }
 
-                    @Override
-                    public void onFinished() {
+            @Override
+            public void onFinished() {
 
-                    }
-                });
+            }
+        });
     }
 
     @OnClick(R.id.but_order_comment)

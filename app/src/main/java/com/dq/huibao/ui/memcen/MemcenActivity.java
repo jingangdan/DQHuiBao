@@ -42,6 +42,7 @@ import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.FileUtil;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.PhotoUtils;
 import com.dq.huibao.utils.SPUserInfo;
@@ -260,44 +261,39 @@ public class MemcenActivity extends BaseActivity {
      */
     public void getMember(String phone, String token) {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-
-        PATH = HttpPath.PATHS + HttpPath.MEM_MEMBER + MD5_PATH + "&sign=" +
+        PATH = HttpPath.MEM_MEMBER + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
-
-        params = new RequestParams(PATH);
         System.out.println("个人信息 = " + PATH);
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("个人信息 = " + result);
-                        Login login = GsonUtil.gsonIntance().gsonToBean(result, Login.class);
-                        realname = login.getData().getNickname();
-                        headimgurl = login.getData().getHeadimgurl();
-                        mem_phone = login.getData().getPhone();
-                        sex = login.getData().getSex();
-                        province = login.getData().getProvince();
-                        city = login.getData().getCity();
+        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("个人信息 = " + result);
+                Login login = GsonUtil.gsonIntance().gsonToBean(result, Login.class);
+                realname = login.getData().getNickname();
+                headimgurl = login.getData().getHeadimgurl();
+                mem_phone = login.getData().getPhone();
+                sex = login.getData().getSex();
+                province = login.getData().getProvince();
+                city = login.getData().getCity();
 
-                        setDate();
+                setDate();
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            }
 
-                    }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            }
 
-                    }
+            @Override
+            public void onFinished() {
 
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
     }
 
     /**
@@ -310,7 +306,7 @@ public class MemcenActivity extends BaseActivity {
     public void setUpImg(String file, String phone, String token) {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
-        PATH = HttpPath.PATHS + HttpPath.MEM_UPIMG + "sign=" +
+        PATH = HttpPath.MEM_UPIMG + "sign=" +
                 MD5Util.getMD5String("phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + HttpPath.KEY);
 
         System.out.println("上传图片 = " + PATH);
@@ -360,39 +356,37 @@ public class MemcenActivity extends BaseActivity {
     public void setMember(String headimgurl, String phone, String token, String nickname, String sex, final String region) {
         MD5_PATH = "headimg=" + headimgurl + "&nickname=" + nickname + "&phone=" + phone + "&region=" + region + "&sex=" + sex + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
-        PATH = HttpPath.PATHS + HttpPath.MEM_EDITINFO + MD5_PATH + "&sign=" +
+        PATH = HttpPath.MEM_EDITINFO + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        params = new RequestParams(PATH);
         System.out.println("修改个人信息 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("修改个人信息 = " + result);
-                        AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
-                        if (addrReturn.getStatus() == 1) {
-                            toast("" + addrReturn.getData());
-                            intent = new Intent();
-                            setResult(CodeUtils.MEMBER_EDIT, intent);
-                            MemcenActivity.this.finish();
-                        }
-                    }
+        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("修改个人信息 = " + result);
+                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                if (addrReturn.getStatus() == 1) {
+                    toast("" + addrReturn.getData());
+                    intent = new Intent();
+                    setResult(CodeUtils.MEMBER_EDIT, intent);
+                    MemcenActivity.this.finish();
+                }
+            }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
+            }
 
-                    @Override
-                    public void onFinished() {
+            @Override
+            public void onFinished() {
 
-                    }
-                });
+            }
+        });
     }
 
 
@@ -420,6 +414,7 @@ public class MemcenActivity extends BaseActivity {
     private AlertDialog alertDialog;
     private Button btn_take_photo, btn_pick_photo, btn_cancel;
     private String urlpath;            // 图片本地路径
+
     /**
      *
      */
@@ -566,7 +561,7 @@ public class MemcenActivity extends BaseActivity {
                     if (bitmap != null) {
                         showImages(bitmap);
                         urlpath = FileUtil.saveFile(MemcenActivity.this, "temphead.jpg", bitmap);
-                        setUpImg(urlpath, phone,token);
+                        setUpImg(urlpath, phone, token);
                     }
 
                     break;
@@ -605,74 +600,72 @@ public class MemcenActivity extends BaseActivity {
      * 获取省市列表
      */
     public void getRegion() {
-        PATH = HttpPath.PATHS + HttpPath.COMMON_REGION;
+        PATH = HttpPath.COMMON_REGION;
         params = new RequestParams(PATH);
         System.out.println("省市列表 = " + PATH);
+        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("省市列表 = " + result);
 
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("省市列表 = " + result);
+                Region region = GsonUtil.gsonIntance().gsonToBean(result, Region.class);
+                regionList = region.getData();
 
-                        Region region = GsonUtil.gsonIntance().gsonToBean(result, Region.class);
-                        regionList = region.getData();
+                for (int i = 0; i < regionList.size(); i++) {//遍历省份
+                    ArrayList<String> CityList = new ArrayList<>();//该省的城市列表（第二级）
+                    ArrayList<ArrayList<String>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
 
-                        for (int i = 0; i < regionList.size(); i++) {//遍历省份
-                            ArrayList<String> CityList = new ArrayList<>();//该省的城市列表（第二级）
-                            ArrayList<ArrayList<String>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
+                    options1Items.add(regionList.get(i).getRegion_name());
 
-                            options1Items.add(regionList.get(i).getRegion_name());
+                    for (int c = 0; c < regionList.get(i).getCity().size(); c++) {
+                        //遍历该省份的所有城市
+                        String CityName = regionList.get(i).getCity().get(c).getRegion_name();
+                        CityList.add(CityName);//添加城市
 
-                            for (int c = 0; c < regionList.get(i).getCity().size(); c++) {
-                                //遍历该省份的所有城市
-                                String CityName = regionList.get(i).getCity().get(c).getRegion_name();
-                                CityList.add(CityName);//添加城市
+                        ArrayList<String> City_AreaList = new ArrayList<>();//该城市的所有地区列表
 
-                                ArrayList<String> City_AreaList = new ArrayList<>();//该城市的所有地区列表
+                        //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
+                        if (regionList.get(i).getCity().get(c).getRegion_name() == null
+                                || regionList.get(i).getCity().get(c).getDistrict().size() == 0) {
+                            City_AreaList.add("");
+                        } else {
+                            for (int d = 0; d < regionList.get(i).getCity().get(c).getDistrict().size(); d++) {//该城市对应地区所有数据
+                                String AreaName = regionList.get(i).getCity().get(c).getDistrict().get(d).getRegion_name();
 
-                                //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
-                                if (regionList.get(i).getCity().get(c).getRegion_name() == null
-                                        || regionList.get(i).getCity().get(c).getDistrict().size() == 0) {
-                                    City_AreaList.add("");
-                                } else {
-                                    for (int d = 0; d < regionList.get(i).getCity().get(c).getDistrict().size(); d++) {//该城市对应地区所有数据
-                                        String AreaName = regionList.get(i).getCity().get(c).getDistrict().get(d).getRegion_name();
-
-                                        City_AreaList.add(AreaName);//添加该城市所有地区数据
-                                    }
-                                }
-                                Province_AreaList.add(City_AreaList);//添加该省所有地区数据
+                                City_AreaList.add(AreaName);//添加该城市所有地区数据
                             }
-
-                            /**
-                             * 添加城市数据
-                             */
-                            options2Items.add(CityList);
-
-                            /**
-                             * 添加地区数据
-                             */
-                            options3Items.add(Province_AreaList);
-
                         }
+                        Province_AreaList.add(City_AreaList);//添加该省所有地区数据
                     }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+                    /**
+                     * 添加城市数据
+                     */
+                    options2Items.add(CityList);
 
-                    }
+                    /**
+                     * 添加地区数据
+                     */
+                    options3Items.add(Province_AreaList);
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+                }
+            }
 
-                    }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    @Override
-                    public void onFinished() {
+            }
 
-                    }
-                });
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     /*省市二级联动*/

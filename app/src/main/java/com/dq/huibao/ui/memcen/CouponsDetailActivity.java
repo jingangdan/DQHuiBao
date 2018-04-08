@@ -138,7 +138,7 @@ public class CouponsDetailActivity extends BaseActivity {
      * @param unionid
      */
     public void getCouponsDetail(String id, String unionid) {
-        PATH = HttpPath.PATHS + HttpPath.SHOP_COUPON_DETAIL +
+        PATH = HttpPath.SHOP_COUPON_DETAIL +
                 "unionid=" + unionid + "&stamp=" + (System.currentTimeMillis() / 1000) + "&doc=" +
                 MD5Util.getMD5String(HttpPath.SHOP_COUPON_DETAIL + "unionid=" + unionid + "&stamp=" + (System.currentTimeMillis() / 1000) + "&dequanhuibaocom") +
                 "&id=" + id;
@@ -188,7 +188,7 @@ public class CouponsDetailActivity extends BaseActivity {
      * 获取推荐商品
      */
     public void getRecomment() {
-        PATH = HttpPath.PATHS + HttpPath.SHOP_GOODS_RECOMMENT;
+        PATH = HttpPath.SHOP_GOODS_RECOMMENT;
         params = new RequestParams(PATH);
         System.out.println("推荐商品 = " + PATH);
         x.http().get(params,

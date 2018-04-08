@@ -76,14 +76,17 @@ public class XStoreFragment extends BaseFragment {
     //
     XStoreInfo xStoreInfo;
     /*图片地址:头像，店招，当前选择修改的*/
-    private String imageHeadURl,imageDianZhaoUrl;
+    private String imageHeadURl, imageDianZhaoUrl;
     ImageView nowImageView;
     private boolean isDianZhao = false;
-    /**图片相关操作*/
+    /**
+     * 图片相关操作
+     */
     private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
     private File fileCropUri = new File(Environment.getExternalStorageDirectory().getPath() + "/crop_photo.jpg");
     private Uri imageUri;
     private Uri cropImageUri;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -94,12 +97,12 @@ public class XStoreFragment extends BaseFragment {
         return view;
     }
 
-    public static XStoreFragment newInstance(String uid,String phone,String token) {
+    public static XStoreFragment newInstance(String uid, String phone, String token) {
 
         Bundle args = new Bundle();
-        args.putString("uid",uid);
-        args.putString("phone",phone);
-        args.putString("token",token);
+        args.putString("uid", uid);
+        args.putString("phone", phone);
+        args.putString("token", token);
         XStoreFragment fragment = new XStoreFragment();
         fragment.setArguments(args);
         return fragment;
@@ -108,7 +111,7 @@ public class XStoreFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null){
+        if (getArguments() != null) {
             uid = getArguments().getString("uid");
             phone = getArguments().getString("phone");
             token = getArguments().getString("token");
@@ -125,28 +128,30 @@ public class XStoreFragment extends BaseFragment {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-    @OnClick({R.id.xstore_info_head,R.id.xstore_info_dianzhao,R.id.xstore_info_ok})
-    public void imgUpdateClick(View view){
-        switch (view.getId()){
+
+    @OnClick({R.id.xstore_info_head, R.id.xstore_info_dianzhao, R.id.xstore_info_ok})
+    public void imgUpdateClick(View view) {
+        switch (view.getId()) {
             case R.id.xstore_info_head://头像
-                    nowImageView = xstoreInfoHead;
-                    isDianZhao = false;
-                    imageUpdate();
+                nowImageView = xstoreInfoHead;
+                isDianZhao = false;
+                imageUpdate();
                 break;
             case R.id.xstore_info_dianzhao://店招
-                    nowImageView = xstoreInfoDianzhao;
-                    isDianZhao = true;
-                    imageUpdate();
+                nowImageView = xstoreInfoDianzhao;
+                isDianZhao = true;
+                imageUpdate();
                 break;
-                case R.id.xstore_info_ok:
-                    if (!TextUtils.isEmpty(imageHeadURl) && !TextUtils.isEmpty(imageDianZhaoUrl)){
-                        submit();
-                    }else {
-                        toast("未加载成功");
-                    }
-                    break;
+            case R.id.xstore_info_ok:
+                if (!TextUtils.isEmpty(imageHeadURl) && !TextUtils.isEmpty(imageDianZhaoUrl)) {
+                    submit();
+                } else {
+                    toast("未加载成功");
+                }
+                break;
         }
     }
+
     /**
      * 获取小店信息
      */
@@ -154,7 +159,7 @@ public class XStoreFragment extends BaseFragment {
         Map<String, String> map = new HashMap<>();
         map.put("mid", uid);
         map.put("set", "1");
-        HttpxUtils.Get(getActivity(),HttpPath.PATHS + HttpPath.XSHOP_INFO, map,
+        HttpxUtils.Get(getActivity(), HttpPath.XSHOP_INFO, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -179,6 +184,7 @@ public class XStoreFragment extends BaseFragment {
                     }
                 });
     }
+
     /**
      * 更新ui
      */
@@ -199,18 +205,18 @@ public class XStoreFragment extends BaseFragment {
                 .placeholder(R.mipmap.icon_empty001)
                 .error(R.mipmap.icon_error001)
                 .into(xstoreInfoDianzhao);
-        xstoreInfoName.setText(TextUtils.isEmpty(info.getData().getShopname())?"":info.getData().getShopname());
+        xstoreInfoName.setText(TextUtils.isEmpty(info.getData().getShopname()) ? "" : info.getData().getShopname());
         xstoreInfoJieshao.setText(info.getData().getIntro());
     }
 
     /**
      * 提交修改
      */
-    public void submit(){
+    public void submit() {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.PATHS + HttpPath.XSHOP_SAVA_SHOP_INFO;
-        Map<String,Object> map = new HashMap<>();
-        map.put("sign",  MD5Util.getMD5String("phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + HttpPath.KEY));
+        PATH = HttpPath.XSHOP_SAVA_SHOP_INFO;
+        Map<String, Object> map = new HashMap<>();
+        map.put("sign", MD5Util.getMD5String("phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + HttpPath.KEY));
         map.put("mid", uid);
         map.put("shopname", xstoreInfoName.getText().toString());
         map.put("thumb", imageHeadURl);
@@ -220,17 +226,17 @@ public class XStoreFragment extends BaseFragment {
         map.put("timestamp", String.valueOf((System.currentTimeMillis() / 1000)));
         map.put("token", token);
         System.out.println("提交小店信息 = " + map.toString());
-        HttpxUtils.Post(getActivity(),PATH, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(getActivity(), PATH, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("mmmmm小店信息提交返回 = " + result);
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     toast("修改成功");
-                    Log.d("mmmmmmmm","修改成功"+addrReturn.getData());
-                }else {
+                    Log.d("mmmmmmmm", "修改成功" + addrReturn.getData());
+                } else {
                     toast("修改失败");
-                    Log.d("mmmmmmmm","修改失败"+addrReturn.getData());
+                    Log.d("mmmmmmmm", "修改失败" + addrReturn.getData());
                 }
             }
 
@@ -256,6 +262,7 @@ public class XStoreFragment extends BaseFragment {
     private String PATH = "";
     private String MD5_PATH = "";
     private RequestParams params = null;
+
     /**
      * 上传头像
      *
@@ -266,7 +273,7 @@ public class XStoreFragment extends BaseFragment {
     public void setUpImg(String file, String phone, String token) {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
-        PATH = HttpPath.PATHS + HttpPath.MEM_UPIMG + "sign=" +
+        PATH = HttpPath.MEM_UPIMG + "sign=" +
                 MD5Util.getMD5String("phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + HttpPath.KEY);
 
         System.out.println("上传图片 = " + PATH);
@@ -284,22 +291,28 @@ public class XStoreFragment extends BaseFragment {
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     toast("图片上传成功");
-                    if (isDianZhao){
+                    if (isDianZhao) {
                         imageDianZhaoUrl = addrReturn.getData().toString();
-                    }else {
+                    } else {
                         imageHeadURl = addrReturn.getData().toString();
                     }
-                    Log.d("mmmmmmmm","图片服务器地址" + addrReturn.getData().toString());
-                }else {
+                    Log.d("mmmmmmmm", "图片服务器地址" + addrReturn.getData().toString());
+                } else {
                     toast("图片上传失败");
                 }
             }
+
             @Override
-            public void onError(Throwable ex, boolean isOnCallback) {}
+            public void onError(Throwable ex, boolean isOnCallback) {
+            }
+
             @Override
-            public void onCancelled(CancelledException cex) {}
+            public void onCancelled(CancelledException cex) {
+            }
+
             @Override
-            public void onFinished() {}
+            public void onFinished() {
+            }
         });
     }
 
@@ -310,7 +323,7 @@ public class XStoreFragment extends BaseFragment {
     /**
      * 图片上传
      */
-    public void imageUpdate(){
+    public void imageUpdate() {
         //有待更新 可以使用popupwindow来实现 注意点击出现时候的背景变化
         alertDialog = new AlertDialog.Builder(getActivity()).create();
         View localView = getLayoutInflater()
@@ -361,6 +374,7 @@ public class XStoreFragment extends BaseFragment {
     private static final int CODE_RESULT_REQUEST = 0xa2;
     private static final int CAMERA_PERMISSIONS_REQUEST_CODE = 0x03;
     private static final int STORAGE_PERMISSIONS_REQUEST_CODE = 0x04;
+
     /**
      * 自动获取相机权限
      */
@@ -433,11 +447,11 @@ public class XStoreFragment extends BaseFragment {
                 //拍照完成回调
                 case CODE_CAMERA_REQUEST:
                     cropImageUri = Uri.fromFile(fileCropUri);
-                    if (isDianZhao){
+                    if (isDianZhao) {
                         //店招图片,不需要裁切
                         cropImageUri = data.getData();
                         setImageShow();
-                    }else {
+                    } else {
                         PhotoUtils.cropImageUri(this, imageUri, cropImageUri, 1, 1, OUTPUT_X, OUTPUT_Y, CODE_RESULT_REQUEST);
                     }
                     break;
@@ -449,11 +463,11 @@ public class XStoreFragment extends BaseFragment {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             newUri = FileProvider.getUriForFile(getActivity(), "com.hb.fileprovider", new File(newUri.getPath()));
                         }
-                        if (isDianZhao){
+                        if (isDianZhao) {
                             //店招图片,不需要裁切
                             cropImageUri = data.getData();
                             setImageShow();
-                        }else {
+                        } else {
                             PhotoUtils.cropImageUri(this, newUri, cropImageUri, 1, 1, OUTPUT_X, OUTPUT_Y, CODE_RESULT_REQUEST);
                         }
                         //startPhotoZoom(cropImageUri);
@@ -462,7 +476,7 @@ public class XStoreFragment extends BaseFragment {
                     }
                     break;
                 case CODE_RESULT_REQUEST:
-                        setImageShow();
+                    setImageShow();
                     break;
                 default:
             }
@@ -472,11 +486,11 @@ public class XStoreFragment extends BaseFragment {
     /**
      * 设置显示图片并上传图片
      */
-    public void setImageShow(){
+    public void setImageShow() {
         Bitmap bitmap = PhotoUtils.getBitmapFromUri(cropImageUri, getActivity());
         if (bitmap != null) {
             showImages(bitmap);
-            setUpImg(FileUtil.saveFile(getActivity(), "temphead.jpg", bitmap), phone,token);
+            setUpImg(FileUtil.saveFile(getActivity(), "temphead.jpg", bitmap), phone, token);
         }
     }
 
