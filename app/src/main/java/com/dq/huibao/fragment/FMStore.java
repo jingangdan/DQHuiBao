@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +30,7 @@ import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
+import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.utils.SPUserInfo;
 import com.dq.huibao.view.DoubleWaveView;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
@@ -34,11 +38,11 @@ import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -68,7 +72,7 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
     private SPUserInfo spUserInfo;
     private String uid = "", phone = "", token = "";
 
-    private int page = 1, pageSize = 4;
+    private int page = 1, pageSize = 20;
 
     /**
      * 用户信息
@@ -82,8 +86,13 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
     ImageView xstoreHeadImage;
     ImageView xstoreSetting;
     TextView xstoreName,xstoreAllcount;
+    EditText searchView;
     /**是否是刷新*/
     private boolean isRefresh = true;
+    /**没有更多商品*/
+    private boolean isNoMore = false;
+    /**是否为搜索状态*/
+    private boolean isSearch = false;
 
     /**小店自选状态**/
     public static boolean isZx = false;
@@ -114,10 +123,24 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
         xstoreSetting = headView.findViewById(R.id.xstore_setting);
         xstoreName = headView.findViewById(R.id.xstore_name);
         xstoreAllcount = headView.findViewById(R.id.xstore_allcount);
+        searchView = headView.findViewById(R.id.xstore_top_search);
         //点击事件
         xstoreSetting.setOnClickListener(this);
         butPercenLogin.setOnClickListener(this);
         view.findViewById(R.id.iv_base_back).setVisibility(View.GONE);
+        //搜索
+        searchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)){
+                    isSearch = true;
+                    searchGoods();
+                    listInit();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         isLogin();
         return view;
@@ -139,11 +162,19 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
     }
 
     /**
+     * 列表初始化
+     */
+    public void listInit(){
+        page = 1;
+        isNoMore = false;
+    }
+    /**
      * 下拉刷新
      */
     @Override
     public void onRefresh() {
-        page = 1;
+        isSearch = false;
+        listInit();
         isLogin();
     }
 
@@ -152,9 +183,18 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
      */
     @Override
     public void onLoadMore() {
-        isRefresh = false;
-        page++;
-        getStoreList();
+        if (isNoMore){
+            lRecyclerView.setNoMore(true);
+        }else {
+            isRefresh = false;
+            page++;
+            if (isSearch){
+                searchGoods();
+            }else {
+                getStoreList();
+            }
+        }
+
     }
 
     /**
@@ -233,13 +273,17 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
                     @Override
                     public void onSuccess(String result) {
                         XStoreGoods storeGoods = GsonUtil.gsonIntance().gsonToBean(result, XStoreGoods.class);
-//                        Log.d("mmmmmmmmm","小店首页列表:"+storeGoods.getData().getList().toString());
+                        Log.d("mmmmmmmmm","小店首页列表:"+storeGoods.getData().getList().toString());
                         if (isRefresh){
                             xstoreAllcount.setText(storeGoods.getData().getAllcount());
                             listAdapter.clear();
                         }
                         lRecyclerView.refreshComplete(pageSize);
                         listAdapter.addAll(storeGoods.getData().getList());
+                        //判断是否还有更多商品
+                        if (storeGoods.getData().getIsload() == 0){
+                            isNoMore = true;
+                        }
                     }
 
                     @Override
@@ -258,7 +302,57 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
                     }
                 });
     }
+    /**
+     * 搜索商品
+     */
+    public void searchGoods() {
+        Map<String, String> map = new HashMap<>();
+        map.put("mid", uid);
+        map.put("page", "" + page);
+        map.put("pagesize", "" + pageSize);
+        map.put("keyword", "" + searchView.getText().toString());
+        Log.d("mmmmmmmmm","小店首页搜索列表:"+map.toString());
+        HttpxUtils.Get(getActivity(),HttpPath.PATHS + HttpPath.XSHOP_GOODS_SEARCH, map,
+                new Callback.CommonCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+//                        if (result)
+                        Log.d("mmmmmmmmm","小店首页搜索列表:"+result);
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            if (jsonObject.getInt("status") == 1){
+                                XStoreGoods searchGoods = GsonUtil.gsonIntance().gsonToBean(result, XStoreGoods.class);
+                                listAdapter.clear();
+                                listAdapter.addAll(searchGoods.getData().getList());
+                                if (searchGoods.getData().getIsload() == 0){
+                                    isNoMore = true;
+                                }
+                            }else {
+                                listAdapter.clear();
+                                toast(jsonObject.getString("data"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        System.out.println("获取小店搜索信息 = 失败" + ex.getMessage());
+
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+                });
+    }
     /**
      * 更新ui
      */
@@ -269,12 +363,13 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
                 .placeholder(R.mipmap.ic_header)
                 .error(R.mipmap.ic_header)
                 .into(xstoreHeadImage);
-        Glide.with(getActivity())
-                .load(HttpPath.NEW_HEADER + info.getData().getFocusthumb())
-                .crossFade(1000)
-                .placeholder(R.mipmap.icon_empty001)
-                .error(R.mipmap.icon_error001)
-                .into(xstoreTopBackgroundImage);
+        ImageUtils.loadIntoUseFitWidth2(getActivity(), HttpPath.NEW_HEADER + info.getData().getFocusthumb(), R.mipmap.icon_empty001, xstoreTopBackgroundImage);
+//        Glide.with(getActivity())
+//                .load(HttpPath.NEW_HEADER + info.getData().getFocusthumb())
+//                .crossFade(1000)
+//                .placeholder(R.mipmap.icon_empty001)
+//                .error(R.mipmap.icon_error001)
+//                .into(xstoreTopBackgroundImage);
         xstoreName.setText(info.getData().getShopname());
     }
 

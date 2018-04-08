@@ -28,6 +28,7 @@ import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
+import com.dq.huibao.utils.ShowUtils;
 import com.dq.huibao.view.PullToRefreshLayout;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
@@ -88,6 +89,7 @@ public class XStoreSetFragment extends BaseFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     xstoreSettingLayout.setVisibility(View.VISIBLE);
+                    getData();
                 } else {
                     xstoreSettingLayout.setVisibility(View.GONE);
                 }
@@ -153,15 +155,14 @@ public class XStoreSetFragment extends BaseFragment {
                     public void onSuccess(String result) {
                         yzGoodsOld = GsonUtil.gsonIntance().gsonToBean(result, XStoreZXGoods.class);
                         //更新ui
+                        yzGoodsResult.getData().getList().clear();
                         yzGoodsResult.getData().getList().addAll(yzGoodsOld.getData().getList());
                         zxyxGoodsAdapter.clear();
                         zxyxGoodsAdapter.addAll(yzGoodsResult.getData().getList());
                         //获取id
                         for (XStoreZXGoods.DataBean.ListBean bean : yzGoodsOld.getData().getList()){
-                            if (bean.getFlag().equals("1")){
-                                idsSetOld.add(bean.getId());
-                                idsSet.add(bean.getId());
-                            }
+                            idsSetOld.add(bean.getId());
+                            idsSet.add(bean.getId());
                         }
                         Log.d("mmmmmmmm","开启自选页网络获取idsList="+idsSet);
                         System.out.println("获取小店已选商品 = " + yzGoodsOld.getData().getList().toString());
@@ -253,6 +254,7 @@ public class XStoreSetFragment extends BaseFragment {
                         idsSetOld.clear();
                         yzGoodsOld.getData().getList().clear();
                         zxyxGoodsAdapter.clear();
+                        xstoreSettingZx.setChecked(false);
                         toast("关闭成功");
                     }
 
@@ -300,15 +302,35 @@ public class XStoreSetFragment extends BaseFragment {
                 break;
             case R.id.xstore_setting_ok://确认
                 if (xstoreSettingZx.isChecked()){
-                    submitGoods();
+                    if (idsSet.size() > 0){
+                        submitGoods();
+                    }else {
+                        dialogRemoveAll();
+                    }
                 }else {
                     //提示移除所有商品是否关闭
-                    removeAll();
+                    dialogRemoveAll();
                 }
                 break;
         }
     }
 
+    /**
+     * 提示是否移除全部
+     */
+    public void dialogRemoveAll(){
+        ShowUtils.showDialog(getActivity(), "提示", "是否移除全部商品", new ShowUtils.OnDialogListener() {
+            @Override
+            public void confirm() {
+                removeAll();
+            }
+
+            @Override
+            public void cancel() {
+                getData();
+            }
+        });
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

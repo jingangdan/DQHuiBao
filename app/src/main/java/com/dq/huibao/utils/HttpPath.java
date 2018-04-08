@@ -609,4 +609,10 @@ public class HttpPath {
      * 需要验证：token,sign,timestamp,phone
      */
     public static final String XSHOP_MOVE_GOODS = "Member/movegoods";
+
+    /**
+     * 关闭自选商品搜索
+     * 参数：mid=uid,page,pagesize,keyword=搜索关键字
+     */
+    public static final String XSHOP_GOODS_SEARCH = "Member/SearchGoods";
 }

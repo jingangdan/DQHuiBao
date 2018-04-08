@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/xstore_toplayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="300dp"
     android:background="@color/dark">
 
     <ImageView
@@ -28,14 +28,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_below="@+id/xstore_name"
-            android:background="@color/lightGray">
+            android:layout_below="@+id/xstore_name">
             <LinearLayout
+                android:id="@+id/item_xstore_top_linearlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="10dp"
-                android:background="@color/white"
+                android:background="#88ffffff"
                 android:gravity="right|center_vertical">
                 <TextView
                     android:layout_width="0dp"
@@ -78,19 +78,23 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
             </LinearLayout>
-            <TextView
+            <EditText
+                android:id="@+id/xstore_top_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:padding="10dp"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
+                android:imeOptions="actionSearch"
                 android:background="@color/white"
+                android:singleLine="true"
                 android:gravity="center_horizontal"
-                android:text="搜索"/>
+                android:hint="搜索"/>
         </LinearLayout>
         <ImageView
             android:id="@+id/xstore_head_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="left"
             android:src="@mipmap/ic_launcher"
             android:layout_margin="10dp"/>

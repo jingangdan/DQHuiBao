@@ -200,6 +200,7 @@ public class XStoreFragment extends BaseFragment {
                 .error(R.mipmap.icon_error001)
                 .into(xstoreInfoDianzhao);
         xstoreInfoName.setText(TextUtils.isEmpty(info.getData().getShopname())?"":info.getData().getShopname());
+        xstoreInfoJieshao.setText(info.getData().getIntro());
     }
 
     /**
@@ -218,7 +219,7 @@ public class XStoreFragment extends BaseFragment {
         map.put("phone", phone);
         map.put("timestamp", String.valueOf((System.currentTimeMillis() / 1000)));
         map.put("token", token);
-        System.out.println("提交小店信息 = " + PATH);
+        System.out.println("提交小店信息 = " + map.toString());
         HttpxUtils.Post(getActivity(),PATH, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -379,7 +380,7 @@ public class XStoreFragment extends BaseFragment {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     imageUri = FileProvider.getUriForFile(getActivity(), "com.hb.fileprovider", fileUri);
                 }
-                PhotoUtils.takePicture(getActivity(), imageUri, CODE_CAMERA_REQUEST);
+                PhotoUtils.takePicture(this, imageUri, CODE_CAMERA_REQUEST);
             } else {
                 toast("设备没有SD卡");
             }
@@ -398,7 +399,7 @@ public class XStoreFragment extends BaseFragment {
                         imageUri = Uri.fromFile(fileUri);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                             imageUri = FileProvider.getUriForFile(getActivity(), "com.hb.fileprovider", fileUri);//通过FileProvider创建一个content类型的Uri
-                        PhotoUtils.takePicture(getActivity(), imageUri, CODE_CAMERA_REQUEST);
+                        PhotoUtils.takePicture(this, imageUri, CODE_CAMERA_REQUEST);
                     } else {
                         toast("设备没有SD卡");
                     }

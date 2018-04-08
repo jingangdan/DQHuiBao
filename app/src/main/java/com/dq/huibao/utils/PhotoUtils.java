@@ -34,6 +34,19 @@ public class PhotoUtils {
         intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         activity.startActivityForResult(intentCamera, requestCode);
     }
+    /**
+     * @param fragment    当前fragment
+     * @param imageUri    拍照后照片存储路径
+     * @param requestCode 调用系统相机请求码
+     */
+    public static void takePicture(Fragment fragment, Uri imageUri, int requestCode) {
+        //调用系统相机
+        Intent intentCamera = new Intent();
+        intentCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+        //将拍照结果保存至photo_file的Uri中，不保留在相册中
+        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        fragment.startActivityForResult(intentCamera, requestCode);
+    }
 
     /**
      * @param activity    当前activity

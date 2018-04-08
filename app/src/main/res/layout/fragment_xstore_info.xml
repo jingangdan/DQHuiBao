@@ -1,82 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/lightGray"
-    android:paddingTop="10dp">
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:background="@color/white"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="小店名称"/>
-        <EditText
-            android:id="@+id/xstore_info_name"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/lightGray"
+        android:paddingTop="10dp">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <TextView
-        style="@style/xstore_line"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:background="@color/white"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="小店头像"/>
-        <ImageView
-            android:id="@+id/xstore_info_head"
-            android:layout_width="80dp"
-            android:layout_height="80dp" />
-    </LinearLayout>
-    <TextView
-        style="@style/xstore_line"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:background="@color/white"
-        android:gravity="center_vertical">
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="小店名称"/>
+            <EditText
+                android:id="@+id/xstore_info_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null" />
+        </LinearLayout>
         <TextView
-            android:layout_width="wrap_content"
+            style="@style/xstore_line"/>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="小店店招"/>
-        <ImageView
-            android:id="@+id/xstore_info_dianzhao"
-            android:layout_width="wrap_content"
-            android:layout_height="120dp"/>
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="小店头像"/>
+            <ImageView
+                android:id="@+id/xstore_info_head"
+                android:layout_width="80dp"
+                android:layout_height="80dp" />
+        </LinearLayout>
+        <TextView
+            style="@style/xstore_line"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="小店店招"/>
+            <ImageView
+                android:id="@+id/xstore_info_dianzhao"
+                android:layout_width="wrap_content"
+                android:layout_height="120dp"/>
+        </LinearLayout>
+        <TextView
+            style="@style/xstore_line"/>
+        <EditText
+            android:id="@+id/xstore_info_jieshao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:cursorVisible="true"
+            android:textCursorDrawable="@null"
+            android:hint="小店介绍，分享你的小店"
+            android:gravity="left|top"
+            android:padding="10dp"
+            android:lines="4"/>
+        <Button
+            android:id="@+id/xstore_info_ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@drawable/buttonshape"
+            android:textColor="@color/white"
+            android:text="确认"/>
     </LinearLayout>
-    <TextView
-        style="@style/xstore_line"/>
-    <EditText
-        android:id="@+id/xstore_info_jieshao"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:hint="小店介绍，分享你的小店"
-        android:gravity="left|top"
-        android:padding="10dp"
-        android:lines="4"/>
-    <Button
-        android:id="@+id/xstore_info_ok"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:background="@drawable/buttonshape"
-        android:textColor="@color/white"
-        android:text="确认"/>
-</LinearLayout>
+</ScrollView>
