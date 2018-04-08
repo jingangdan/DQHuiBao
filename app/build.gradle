@@ -58,6 +58,7 @@ dependencies {
     compile project(':sharesdk')
     compile project(':update_version')
     compile files('libs/alipaySdk-20170922.jar')
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.2'
 }
 
 /*强制版本号统一*/

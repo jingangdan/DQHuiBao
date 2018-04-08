@@ -107,7 +107,7 @@ public class FMHomePage extends BaseFragment implements
         view = inflater.inflate(R.layout.fm_homepage, null);
         ButterKnife.bind(this, view);
 
-        startProgressDialog();
+       // startProgressDialog();
 
         getLogin();
 
@@ -160,12 +160,12 @@ public class FMHomePage extends BaseFragment implements
     public void getIndex(String phone, String token) {
         PATH = HttpPath.PATHS + HttpPath.INDEXT_INDEX;
         System.out.println("首页 = " + PATH);
-        HttpxUtils.Get(PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
                 System.out.println("首页 = " + result);
-                stopProgressDialog();
+               // stopProgressDialog();
                 linHpNetwork.setVisibility(View.VISIBLE);
                 linHpNonetwork.setVisibility(View.GONE);
                 Index index = GsonUtil.gsonIntance().gsonToBean(result, Index.class);
@@ -182,7 +182,7 @@ public class FMHomePage extends BaseFragment implements
             @SuppressLint("WrongConstant")
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                stopProgressDialog();
+                //stopProgressDialog();
                 linHpNetwork.setVisibility(View.GONE);
                 linHpNonetwork.setVisibility(View.VISIBLE);
                 //toast(ex.getMessage());
@@ -224,7 +224,7 @@ public class FMHomePage extends BaseFragment implements
 
         System.out.println("签到信息 = " + PATH);
 
-        HttpxUtils.Get(PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("签到信息 = " + result);
@@ -274,7 +274,7 @@ public class FMHomePage extends BaseFragment implements
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         System.out.println("签到 = " + PATH);
-        HttpxUtils.Post(PATH, null,
+        HttpxUtils.Post(getActivity(),PATH, null,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -472,21 +472,21 @@ public class FMHomePage extends BaseFragment implements
     }
 
     /*开始dialog*/
-    private void startProgressDialog() {
-        if (progressDialog == null) {
-            progressDialog = CustomProgress.createDialog(getActivity());
-            progressDialog.setMessage("请稍候...");
-        }
-        progressDialog.show();
-    }
+//    private void startProgressDialog() {
+//        if (progressDialog == null) {
+//            progressDialog = CustomProgress.createDialog(getActivity());
+//            progressDialog.setMessage("请稍候...");
+//        }
+//        progressDialog.show();
+//    }
 
     /*结束dialog*/
-    private void stopProgressDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-            progressDialog = null;
-        }
-    }
+//    private void stopProgressDialog() {
+//        if (progressDialog != null) {
+//            progressDialog.dismiss();
+//            progressDialog = null;
+//        }
+//    }
 
     @Override
     public void onFooterRefresh(PullToRefreshView view) {
@@ -507,7 +507,7 @@ public class FMHomePage extends BaseFragment implements
         pullToRefreshView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startProgressDialog();
+               // startProgressDialog();
                 //刷新数据
                 pullToRefreshView.onHeaderRefreshComplete("更新于:"
                         + Calendar.getInstance().getTime().toLocaleString());

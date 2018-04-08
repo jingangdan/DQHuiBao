@@ -308,7 +308,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
 
                 System.out.println("用户头像 = " + weChat.getIcon());
 
-                postLoginTest(weChat.getUnionid());
+                //postLoginTest(weChat.getUnionid());
 
                 //下面就可以利用获取的用户信息登录自己的服务器或者做自己想做的事啦!
                 //。。。
@@ -340,62 +340,6 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
         if (progressDialog != null)
             progressDialog.dismiss();
     }
-
-    /**
-     * 测试登录
-     *
-     * @param unionid
-     */
-    public void postLoginTest(String unionid) {
-
-        PATH = HttpPath.PATH + HttpPath.SHOP_GOODS_LOGIN +
-                "unionid=" + unionid + "&stamp=" + (System.currentTimeMillis() / 1000) + "&doc=" +
-                MD5Util.getMD5String(HttpPath.SHOP_GOODS_LOGIN + "unionid=" + unionid + "&stamp=" + (System.currentTimeMillis() / 1000) + "&dequanhuibaocom");
-
-        params = new RequestParams(PATH);
-        System.out.println("测试登录 = " + PATH);
-        x.http().post(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("测试登录 = " + result);
-                        LoginBean loginBean = GsonUtil.gsonIntance().gsonToBean(result, LoginBean.class);
-                        if (loginBean.getResult().equals("1")) {
-                            toast("登录成功");
-                            spUserInfo.saveLogin("1");//微信登录成功记录 1
-                            spUserInfo.saveLoginReturn(result);//登录成功记录返回信息
-
-                            intent = new Intent();
-                            intent.putExtra("uid", loginBean.getData().getId());
-                            setResult(2, intent);
-
-                            LoginActivity.this.finish();
-
-                        } else if (loginBean.getResult().equals("0")) {
-                            toast("登录失败");
-                        } else {
-                            toast("未知原因");
-                        }
-
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(CancelledException cex) {
-
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
-    }
-
 
     /**
      * 登录

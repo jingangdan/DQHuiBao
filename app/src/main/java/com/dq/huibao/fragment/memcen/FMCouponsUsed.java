@@ -135,7 +135,7 @@ public class FMCouponsUsed extends BaseFragment {
      *                used 和past 都为空  未使用
      */
     public void getCoupons(String unionid, String used, String past, int page) {
-        PATH = HttpPath.PATH + HttpPath.SHOP_MEMBER_COUPON +
+        PATH = HttpPath.PATHS + HttpPath.SHOP_MEMBER_COUPON +
                 "unionid=" + unionid + "&stamp=" + (System.currentTimeMillis() / 1000) + "&doc=" +
                 MD5Util.getMD5String(HttpPath.SHOP_MEMBER_COUPON + "unionid=" + unionid + "&stamp=" + (System.currentTimeMillis() / 1000) + "&dequanhuibaocom") +
                 "&used=" + used + "&past=" + past + "&page=" + page;

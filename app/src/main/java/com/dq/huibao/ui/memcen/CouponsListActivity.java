@@ -96,7 +96,7 @@ public class CouponsListActivity extends BaseActivity {
      * @param page
      */
     public void getCouponsList(String unionid, int page) {
-        PATH = HttpPath.PATH + HttpPath.SHOP_COUPON_INDEX +
+        PATH = HttpPath.PATHS + HttpPath.SHOP_COUPON_INDEX +
                 "unionid=" + unionid + "&stamp=" + (System.currentTimeMillis() / 1000) + "&doc=" +
                 MD5Util.getMD5String(HttpPath.SHOP_COUPON_INDEX + "unionid=" + unionid + "&stamp=" + (System.currentTimeMillis() / 1000) + "&dequanhuibaocom") +
                 "&page=" + page;

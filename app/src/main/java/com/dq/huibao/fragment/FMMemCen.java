@@ -504,17 +504,13 @@ public class FMMemCen extends BaseFragment implements
         spUserInfo = new SPUserInfo(getActivity().getApplication());
 
         if (spUserInfo.getLogin().equals("1")) {
-
             if (!(spUserInfo.getLoginReturn().equals(""))) {
                 Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
                 phone = login.getData().getPhone();
                 token = login.getData().getToken();
-
                 getMember(phone, token);
-
                 getSignIndex(phone, token);
             }
-
             linPercenLogin.setVisibility(View.VISIBLE);
             linPercenNoLogin.setVisibility(View.GONE);
         } else {
@@ -652,11 +648,14 @@ public class FMMemCen extends BaseFragment implements
                     public void onSuccess(String result) {
                         System.out.println("退出登录 = " + result);
                         Account account = GsonUtil.gsonIntance().gsonToBean(result, Account.class);
-
                         if (account.getStatus() == 1) {
+                            toast(""+account.getData());
                             spUserInfo.saveLogin("");
+                            System.out.println("111");
                             spUserInfo.saveLoginReturn("");
+                            System.out.println("222");
                             isLogin();
+                            System.out.println("333");
                         } else {
                             toast("" + account.getData());
                         }
@@ -781,7 +780,7 @@ public class FMMemCen extends BaseFragment implements
     public void getVersion(final String version) {
         PATH = HttpPath.PATHS + HttpPath.CHECK_VERSION + "version=" + version;
         System.out.println("版本更新 = " + PATH);
-        HttpxUtils.Get(PATH,
+        HttpxUtils.Get(getActivity(),PATH,
                 null,
                 new Callback.CommonCallback<String>() {
                     @Override

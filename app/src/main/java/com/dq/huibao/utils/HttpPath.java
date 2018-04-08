@@ -7,9 +7,6 @@ package com.dq.huibao.utils;
 
 public class HttpPath {
 
-    /*总的请求头*/
-    public static final String PATH = "http://www.dequanhuibao.com/addons/sz_yi/core/api/index.php?";
-
     /*
     * 搜索
     * 参数：

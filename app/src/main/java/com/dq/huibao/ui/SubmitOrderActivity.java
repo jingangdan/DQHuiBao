@@ -438,7 +438,7 @@ public class SubmitOrderActivity extends BaseActivity {
                 MD5Util.getMD5String("addrid=" + addrid + "&count=" + count + "&goodsid=" + cartids + "&optionid=" + optionid + "&phone=" + phone + "&remark=" + remarks + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + HttpPath.KEY);
 
         System.out.println("提交订单（立即购买） = " + PATH);
-        HttpxUtils.Post(PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("提交订单（立即购买） = " + result);

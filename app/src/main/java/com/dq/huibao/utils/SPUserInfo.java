@@ -36,6 +36,7 @@ public class SPUserInfo {
     /*存储用户登录返回信息*/
     public boolean saveLoginReturn(String info) {
         android.content.SharedPreferences sp = app.getSharedPreferences("loginReturnList", 0);
+
         return sp.edit().putString("login", info).commit();
     }
 

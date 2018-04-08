@@ -154,7 +154,7 @@ public class XStoreFragment extends BaseFragment {
         Map<String, String> map = new HashMap<>();
         map.put("mid", uid);
         map.put("set", "1");
-        HttpxUtils.Get(HttpPath.PATHS + HttpPath.XSHOP_INFO, map,
+        HttpxUtils.Get(getActivity(),HttpPath.PATHS + HttpPath.XSHOP_INFO, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -219,7 +219,7 @@ public class XStoreFragment extends BaseFragment {
         map.put("timestamp", String.valueOf((System.currentTimeMillis() / 1000)));
         map.put("token", token);
         System.out.println("提交小店信息 = " + PATH);
-        HttpxUtils.Post(PATH, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(getActivity(),PATH, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("mmmmm小店信息提交返回 = " + result);

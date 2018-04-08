@@ -82,4 +82,31 @@ public class ImageUtils {
                 });
 
     }
+
+    public static void loadIntoUseFitWidth2(final Context context, final String imageUrl, int emptyImageId, final ImageView imageView) {
+        Glide.with(context)
+                .load(imageUrl)
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(emptyImageId)
+                .into(new BitmapImageViewTarget(imageView) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        super.setResource(resource);
+                        int width = resource.getWidth();
+                        int height = resource.getHeight();
+                        //获取imageView的宽
+                        int imageViewWidth = imageView.getWidth();
+                        //计算缩放比例
+                        float sy = (float) (imageViewWidth * 0.1) / (float) (width * 0.1);
+                        //计算图片等比例放大后的高
+                        int imageViewHeight = (int) (height * sy);
+
+                        ViewGroup.LayoutParams params = imageView.getLayoutParams();
+                        params.height = imageViewHeight;
+                        imageView.setLayoutParams(params);
+                    }
+                });
+
+    }
 }

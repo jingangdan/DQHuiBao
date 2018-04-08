@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.xstore.XStoreGoods;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.view.lrecyclerview.ListBaseAdapter;
 import com.dq.huibao.view.lrecyclerview.SuperViewHolder;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
@@ -47,10 +48,13 @@ public class XStoreIndexAdapter extends ListBaseAdapter<XStoreGoods.DataBean.Lis
         TextView price = holder.getView(R.id.item_xstore_goods_price);
         TextView oldPrice = holder.getView(R.id.item_xstore_goods_oldprice);
         oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);  //添加删除线
-        Glide.with(mContext)
-                .load(HttpPath.NEW_HEADER + listBean.getThumb())
-                .placeholder(R.mipmap.icon_stub)
-                .into(imageView);
+//        Glide.with(mContext)
+//                .load(HttpPath.NEW_HEADER + listBean.getThumb())
+//                .placeholder(R.mipmap.icon_stub)
+//                .into(imageView);
+
+        ImageUtils.loadIntoUseFitWidth2(mContext, HttpPath.NEW_HEADER + listBean.getThumb(), R.mipmap.icon_stub, imageView);
+
         name.setText(listBean.getGoodsname());
         price.setText("￥ " + listBean.getMarketprice());
         oldPrice.setText("￥ " + listBean.getProductprice());

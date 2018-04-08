@@ -319,7 +319,7 @@ public class KeywordsActivity extends Activity {
      * @param keywords
      */
     public void getSearch(String keywords) {
-        PATH = HttpPath.PATH + HttpPath.SHOP_SEARCH + "keywords=" + keywords;
+        PATH = HttpPath.PATHS + HttpPath.SHOP_SEARCH + "keywords=" + keywords;
 
         params = new RequestParams(PATH);
         System.out.println("搜索 = " + PATH);

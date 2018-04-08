@@ -1,5 +1,6 @@
 package com.dq.huibao.ui.xstore;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -82,6 +83,7 @@ public class XStoreSetFragment extends BaseFragment {
         ButterKnife.bind(this, view);
 
         xstoreSettingZx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @SuppressLint("WrongConstant")
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -145,7 +147,7 @@ public class XStoreSetFragment extends BaseFragment {
     public void getData(){
         Map<String, String> map = new HashMap<>();
         map.put("mid",uid);
-        HttpxUtils.Get(HttpPath.PATHS + HttpPath.XSHOP_YX_GOODS, map,
+        HttpxUtils.Get(getActivity(),HttpPath.PATHS + HttpPath.XSHOP_YX_GOODS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -196,7 +198,7 @@ public class XStoreSetFragment extends BaseFragment {
         map.put("token", token);
 
         Log.d("mmmmmm","提交已选商品map="+map.toString());
-        HttpxUtils.Get(PATH, map,
+        HttpxUtils.Get(getActivity(),PATH, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -242,7 +244,7 @@ public class XStoreSetFragment extends BaseFragment {
         map.put("token", token);
 
         Log.d("mmmmmm","移除删除已选商品map="+map.toString());
-        HttpxUtils.Get(PATH, map,
+        HttpxUtils.Get(getActivity(),PATH, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {

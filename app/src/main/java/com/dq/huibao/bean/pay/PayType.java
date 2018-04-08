@@ -9,7 +9,6 @@ import java.util.List;
 
 public class PayType {
 
-
     /**
      * status : 1
      * data : {"order":{"id":"74","pay_money":"5.00","ordersn":"RN201802281650446425"},"paytype":[{"code":"alipay","img":"/Public/api/alipay.png","name":"支付宝支付"}]}

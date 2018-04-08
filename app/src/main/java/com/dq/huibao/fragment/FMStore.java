@@ -87,6 +87,7 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
 
     /**小店自选状态**/
     public static boolean isZx = false;
+    @SuppressLint("WrongConstant")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -190,7 +191,7 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
         getStoreList();
         Map<String, String> map = new HashMap<>();
         map.put("mid", uid);
-        HttpxUtils.Get(HttpPath.PATHS + HttpPath.XSHOP_INFO, map,
+        HttpxUtils.Get(getActivity(),HttpPath.PATHS + HttpPath.XSHOP_INFO, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -227,7 +228,7 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
         map.put("page", "" + page);
         map.put("pagesize", "" + pageSize);
 //        Log.d("mmmmmmmmm","小店首页列表:"+map.toString());
-        HttpxUtils.Get(HttpPath.PATHS + HttpPath.XSHOP_GOODS, map,
+        HttpxUtils.Get(getActivity(),HttpPath.PATHS + HttpPath.XSHOP_GOODS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {

@@ -55,6 +55,7 @@ import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
 import com.dq.huibao.view.goodsdetails_foot.GradationScrollView;
@@ -467,63 +468,61 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
     public void getGoodsDetail(String id, String token, String phone) {
         PATH = HttpPath.PATHS + HttpPath.GOODS_DETAIL +
                 "id=" + id + "&token=" + token + "&phone=" + phone;
-        params = new RequestParams(PATH);
+        //params = new RequestParams(PATH);
         System.out.println("商品详情 = " + PATH);
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("商品详情 = " + result);
-                        goodsDetail = GsonUtil.gsonIntance().gsonToBean(result, GoodsDetail.class);
+        HttpxUtils.Get(TAG, PATH,null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("商品详情 = " + result);
+                goodsDetail = GsonUtil.gsonIntance().gsonToBean(result, GoodsDetail.class);
 
-                        picsList.clear();
-                        specsList.clear();
-                        optionsList.clear();
-                        commentList.clear();
-
-
-                        picsList = goodsDetail.getData().getThumb_url();
-
-                        if (!goodsDetail.getData().getSpec().toString().equals("[]")) {
-                            specsList = goodsDetail.getData().getSpec();
-                        }
-                        if (!goodsDetail.getData().getOption().toString().equals("[]")) {
-                            optionsList = goodsDetail.getData().getOption();
-                        }
+                picsList.clear();
+                specsList.clear();
+                optionsList.clear();
+                commentList.clear();
 
 
-                        title = goodsDetail.getData().getGoodsname();
-                        marketprice = "" + goodsDetail.getData().getMarketprice();
-                        total = "" + goodsDetail.getData().getStock();
-                        sales = "" + goodsDetail.getData().getSales();
-                        content = goodsDetail.getData().getContent();
-                        isCollection = goodsDetail.getData().getCollect();
+                picsList = goodsDetail.getData().getThumb_url();
 
-                        tvGdTitle.setText("" + goodsDetail.getData().getGoodsname());
+                if (!goodsDetail.getData().getSpec().toString().equals("[]")) {
+                    specsList = goodsDetail.getData().getSpec();
+                }
+                if (!goodsDetail.getData().getOption().toString().equals("[]")) {
+                    optionsList = goodsDetail.getData().getOption();
+                }
 
-                        setLunbotu();
 
-                        initData();
+                title = goodsDetail.getData().getGoodsname();
+                marketprice = "" + goodsDetail.getData().getMarketprice();
+                total = "" + goodsDetail.getData().getStock();
+                sales = "" + goodsDetail.getData().getSales();
+                content = goodsDetail.getData().getContent();
+                isCollection = goodsDetail.getData().getCollect();
 
-                        getWebHTML(content);
+                tvGdTitle.setText("" + goodsDetail.getData().getGoodsname());
 
-                    }
+                setLunbotu();
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
+                initData();
 
-                    }
+                getWebHTML(content);
+            }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                    }
+            }
 
-                    @Override
-                    public void onFinished() {
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-                    }
-                });
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     /**

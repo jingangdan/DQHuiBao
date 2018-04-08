@@ -268,8 +268,8 @@ public class MainActivity extends FragmentActivity {
                 }
                 break;
             case 4:
-                ivHpStore.setImageResource(R.mipmap.icon_store002);
-                tvHpStore.setTextColor(mycolor);
+                ivStore.setImageResource(R.mipmap.icon_store002);
+                tvStore.setTextColor(mycolor);
                 if (fmStore == null) {
                     fmStore = new FMStore();
                     ft.add(R.id.content, fmStore);
@@ -279,7 +279,6 @@ public class MainActivity extends FragmentActivity {
                 break;
 
             case 6:
-
                 ivHpStore.setImageResource(R.mipmap.icon_store002);
                 tvHpStore.setTextColor(mycolor);
 
@@ -374,7 +373,7 @@ public class MainActivity extends FragmentActivity {
     public void getVersion(final String version) {
         PATH = HttpPath.PATHS + HttpPath.CHECK_VERSION + "version=" + version;
         System.out.println("版本更新 = " + PATH);
-        HttpxUtils.Get(PATH,
+        HttpxUtils.Get(this,PATH,
                 null,
                 new Callback.CommonCallback<String>() {
                     @SuppressLint("WrongConstant")
