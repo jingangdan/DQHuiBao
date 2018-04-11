@@ -77,4 +77,27 @@ public class TopicScrollView extends ScrollView {
 
     }
 
+    @Override
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        super.onScrollChanged(l, t, oldl, oldt);
+        if (mOnScrollChanged != null) {
+            mOnScrollChanged.onScroll(t);
+        }
+    }
+
+    /**
+     *
+     */
+    public interface OnScrollChanged {
+        /**
+         * 滚动距离
+         * @param t
+         */
+        void onScroll(int t);
+    }
+    private TopicScrollView.OnScrollChanged mOnScrollChanged;
+
+    public void setOnScrollChanged(TopicScrollView.OnScrollChanged onScrollChanged) {
+        this.mOnScrollChanged = onScrollChanged;
+    }
 }

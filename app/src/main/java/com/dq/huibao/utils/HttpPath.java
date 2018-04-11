@@ -218,7 +218,8 @@ public class HttpPath {
      * search  搜索
      * url # 不做操作
      */
-    public static final String INDEXT_INDEX = HEADER + "Index/index";
+//    public static final String INDEXT_INDEX = HEADER + "Index/index";//旧接口
+    public static final String INDEXT_INDEX = HEADER + "Index/appindex";
 
     /**
      * 15.

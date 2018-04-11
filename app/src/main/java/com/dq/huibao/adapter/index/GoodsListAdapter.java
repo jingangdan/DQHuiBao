@@ -25,10 +25,10 @@ import java.util.List;
 
 public class GoodsListAdapter extends RecyclerView.Adapter<GoodsListAdapter.MyViewHolder>{
     private Context mContext;
-    private List<Index.DataBean.GlistBean.GoodslistBean> goodsList;
+    private List<Index.DataBean.ChildBean> goodsList;
     private OnItemClickListener onItemClickListener;
 
-    public GoodsListAdapter(Context mContext, List<Index.DataBean.GlistBean.GoodslistBean> goodsList) {
+    public GoodsListAdapter(Context mContext, List<Index.DataBean.ChildBean> goodsList) {
         this.mContext = mContext;
         this.goodsList = goodsList;
     }
@@ -60,7 +60,6 @@ public class GoodsListAdapter extends RecyclerView.Adapter<GoodsListAdapter.MyVi
         ImageUtils.loadIntoUseFitWidths(mContext,
                 HttpPath.IMG_HEADER+goodsList.get(position).getThumb(),
                 R.mipmap.icon_empty002,
-                R.mipmap.icon_error002,
                 holder.img);
 
         holder.tv_name.setText("" + goodsList.get(position).getGoodsname());

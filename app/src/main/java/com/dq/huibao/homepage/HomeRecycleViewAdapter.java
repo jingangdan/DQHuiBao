@@ -4,27 +4,35 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.dq.huibao.Interface.HomePageInterface;
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.index.AppimglistAdapter;
 import com.dq.huibao.adapter.index.GListAdapter;
+import com.dq.huibao.adapter.index.GoodsListAdapter;
 import com.dq.huibao.adapter.index.MenuAdapter;
 import com.dq.huibao.bean.index.Index;
 import com.dq.huibao.lunbotu.CycleViewPager;
 import com.dq.huibao.rollpagerview.ImageLoopAdapter;
 import com.dq.huibao.rollpagerview.OnItemClickListener;
 import com.dq.huibao.rollpagerview.RollPagerView;
-import com.dq.huibao.ui.KeywordsActivity;
+import com.dq.huibao.ui.GoodsDetailsActivity;
+import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.ImageUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,44 +41,42 @@ import java.util.List;
  */
 
 public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
-
     /**
-     * 类型1：搜索
+     * 类型1：banner
      */
-    public static final int TYPE_SEARCG = 0;
-
+    public static final String TYPE_BANNER = "banner";
     /**
-     * 类型2：banner
+     * 类型2：菜单
      */
-    public static final int TYPE_BANNER = 1;
+    public static final String TYPE_MENU = "menu";
     /**
-     * 类型3：菜单
+     * 类型3：公告
      */
-    public static final int TYPE_MENU = 2;
+    public static final String TYPE_NOTICE = "notice";
     /**
      * 类型4：图片组
+     * 需要判断childlist大小，宽度
      */
-    public static final int TYPE_IMGLIST = 3;
+    public static final String TYPE_IMGLIST = "imglist";
     /**
      * 类型5：商品列表
      */
-    public static final int TYPE_GOODSLIST = 4;
+    public static final String TYPE_GOODSLIST = "glist";
 
 
     /**
      * 当前类型
      */
-    public int currentType = TYPE_MENU;
+    public String currentType = TYPE_MENU;
 
     private final Context mContext;
     private List<Index.DataBean> dataList;
+
+    private GridLayoutManager mManager;
     /**
      * 以后用它来初始化布局
      */
     private final LayoutInflater mLayoutInflater;
-
-    GridLayoutManager mManager;
-    private Intent intent;
     private HomePageInterface hpInterface;
 
     public HomeRecycleViewAdapter(Context mContext, List<Index.DataBean> dataList) {
@@ -79,9 +85,6 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
 
         //以后用它来初始化布局
         mLayoutInflater = LayoutInflater.from(mContext);
-
-        mManager = null;
-        intent = null;
     }
 
     public void setHpInterface(HomePageInterface hpInterface) {
@@ -97,20 +100,21 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
      */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        if (viewType == TYPE_SEARCG) {
-            return new SearchViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_search, parent, false));
-        } else if (viewType == TYPE_BANNER) {
+        String type = dataList.get(viewType).getModule();
+        if (TYPE_BANNER.equals(type)) {
             return new BannerViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_banner, parent, false));
-        } else if (viewType == TYPE_MENU) {
+        } else if (TYPE_MENU.equals(type)) {
             return new MenuViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_menu, parent, false));
-        } else if (viewType == TYPE_IMGLIST) {
-            return new ImgListViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_imglist, parent, false));
-        } else if (viewType == TYPE_GOODSLIST) {
+        }else if (TYPE_NOTICE.equals(type)) {
+            return new NoticeViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_notice, parent, false));
+        } else if (TYPE_IMGLIST.equals(type)) {
+            return new ImgListViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_imglist, parent, false),dataList.get(viewType).getWidth());
+        } else if (TYPE_GOODSLIST.equals(type)) {
             return new GoodsListViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_goodslist, parent, false));
         }
         return null;
     }
+
 
     /**
      * 相当于getView中的绑定数据模块
@@ -120,24 +124,30 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position) == TYPE_SEARCG) {
-            SearchViewHolder searchViewHolder = (SearchViewHolder) holder;
-            searchViewHolder.setData();
-        } else if (getItemViewType(position) == TYPE_BANNER) {
+
+        String type = dataList.get(getItemViewType(position)).getModule();
+        if (TYPE_BANNER.equals(type)) {
             BannerViewHolder bannerViewHolder = (BannerViewHolder) holder;
-            bannerViewHolder.setData(dataList.get(0).getBanner());
-        } else if (getItemViewType(position) == TYPE_MENU) {
+            bannerViewHolder.setData(dataList.get(position).getChild());
+        } else if (TYPE_MENU.equals(type)) {
             MenuViewHolder menuViewHolder = (MenuViewHolder) holder;
-            menuViewHolder.setData(dataList.get(0).getMenu());
-        } else if (getItemViewType(position) == TYPE_IMGLIST) {
+            menuViewHolder.setData(dataList.get(position).getChild());
+        } else if (TYPE_NOTICE.equals(type)) {
+            NoticeViewHolder noticeViewHolder = (NoticeViewHolder) holder;
+            noticeViewHolder.setData(dataList.get(position).getChild());
+        } else if (TYPE_IMGLIST.equals(type)) {
             ImgListViewHolder imgListViewHolder = (ImgListViewHolder) holder;
-            imgListViewHolder.setData(dataList.get(0).getAppimglist());
-        } else if (getItemViewType(position) == TYPE_GOODSLIST) {
+            imgListViewHolder.setData(dataList.get(position).getChild());
+        } else if (TYPE_GOODSLIST.equals(type)) {
             GoodsListViewHolder goodsListViewHolder = (GoodsListViewHolder) holder;
-            goodsListViewHolder.setData(dataList.get(0).getGlist());
+            goodsListViewHolder.setData(dataList.get(position).getChild());
         }
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     /**
      * 总共有多少个item
      *
@@ -145,67 +155,7 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
      */
     @Override
     public int getItemCount() {
-        return 5;
-    }
-
-    /**
-     * 得到类型
-     */
-    @Override
-    public int getItemViewType(int position) {
-        switch (position) {
-            case TYPE_SEARCG:
-                currentType = TYPE_SEARCG;
-                break;
-            case TYPE_BANNER:
-                currentType = TYPE_BANNER;
-                break;
-            case TYPE_MENU:
-                currentType = TYPE_MENU;
-                break;
-            case TYPE_IMGLIST:
-                currentType = TYPE_IMGLIST;
-                break;
-            case TYPE_GOODSLIST:
-                currentType = TYPE_GOODSLIST;
-
-                break;
-        }
-        return currentType;
-    }
-
-    class SearchViewHolder extends RecyclerView.ViewHolder {
-        private final Context mContext;
-        private LinearLayout linearLayout;
-        private ImageView iv_search;
-        private EditText editText;
-
-        public SearchViewHolder(Context mContext, View itemView) {
-            super(itemView);
-            this.mContext = mContext;
-            linearLayout = itemView.findViewById(R.id.lin_hp_search);
-            iv_search = itemView.findViewById(R.id.iv_hp_sreach);
-            editText = itemView.findViewById(R.id.et_hp_search);
-        }
-
-        public void setData() {
-            linearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //暴露search接口
-                    hpInterface.doSearch();
-                }
-            });
-
-            editText.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //暴露search接口
-                    hpInterface.doSearch();
-                }
-            });
-
-        }
+        return dataList.size();
     }
 
     class BannerViewHolder extends RecyclerView.ViewHolder {
@@ -220,11 +170,11 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
             DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
             int width = dm.widthPixels;
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rollPagerView.getLayoutParams();
-            params.height = width / 3;//宽高比 1:3
+            params.height = width / 2;//宽高比 1:2
             rollPagerView.setLayoutParams(params);
         }
 
-        public void setData(final List<Index.DataBean.BannerBean> bannerBeans) {
+        public void setData(final List<Index.DataBean.ChildBean> bannerBeans) {
             rollPagerView.setAdapter(new ImageLoopAdapter(rollPagerView, mContext, bannerBeans));
             rollPagerView.setOnItemClickListener(new OnItemClickListener() {
                 @Override
@@ -254,7 +204,7 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
 
         }
 
-        public void setData(final List<Index.DataBean.MenuBean> menuBeans) {
+        public void setData(final List<Index.DataBean.ChildBean> menuBeans) {
             mManager = new GridLayoutManager(mContext, 5, GridLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(mManager);
             final MenuAdapter menuAdapter = new MenuAdapter(mContext, menuBeans);
@@ -274,54 +224,106 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
 
         }
     }
+    class NoticeViewHolder extends RecyclerView.ViewHolder {
+
+        private final Context mContext;
+        private TextView textView;
+
+        public NoticeViewHolder(Context mContext, View itemView) {
+            super(itemView);
+            this.mContext = mContext;
+            textView =  itemView.findViewById(R.id.homepage_notice);
+
+        }
+
+        public void setData(final List<Index.DataBean.ChildBean> noticeBeans) {
+            textView.setText(noticeBeans.get(0).getExplain());
+        }
+    }
 
     class ImgListViewHolder extends RecyclerView.ViewHolder {
         private Context mContext;
         private RecyclerView recyclerView;
+        LinearLayout linearLayout;
+        private List<ImageView> imageViews = new ArrayList<>();
+        //imaList下布局类型
+        /**
+         * 是否是横着的布局
+         * 100:正常列表-----
+         * 1000：横向滑动
+         * 50:流布局
+         */
+        private String widthPraent = "100";
 
-        public ImgListViewHolder(Context mContext, View itemView) {
+        public ImgListViewHolder(Context mContext, View itemView, String type) {
             super(itemView);
             this.mContext = mContext;
+            widthPraent = type;
             recyclerView = (RecyclerView) itemView.findViewById(R.id.rv_imglist);
+            linearLayout = itemView.findViewById(R.id.imagelist_3_layout);
+            imageViews.add((ImageView) itemView.findViewById(R.id.imagelist_3_1));
+            imageViews.add((ImageView) itemView.findViewById(R.id.imagelist_3_2));
+            imageViews.add((ImageView) itemView.findViewById(R.id.imagelist_3_3));
         }
 
-        public void setData(final List<Index.DataBean.AppimglistBean> appimglistBeans) {
-
-            mManager = new GridLayoutManager(mContext, 4, GridLayoutManager.VERTICAL, false);
-            mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    String imgwidth = appimglistBeans.get(position).getWidth();
-                    if (imgwidth.equals("50")) {
-                        return 2;
-                    } else if (imgwidth.equals("100")) {
-                        return 4;
-                    } else if (imgwidth.equals("25")) {
+        public void setData(final List<Index.DataBean.ChildBean> appimglistBeans) {
+            int layoutId = R.layout.item_hp_picture;
+            if (widthPraent.equals("100")) {//正常卡片布局
+                mManager = new GridLayoutManager(mContext, 4, GridLayoutManager.VERTICAL, false);
+                mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        String imgwidth = appimglistBeans.get(position).getWidth();
+                        if (imgwidth.equals("50")) {
+                            return 2;
+                        } else if (imgwidth.equals("100")) {
+                            return 4;
+                        }
                         return 1;
                     }
-                    return 1;
+                });
+                recyclerView.setLayoutManager(mManager);
+            }else if (widthPraent.equals("50")){//特殊布局
+                linearLayout.setVisibility(View.VISIBLE);
+                for (int i = 0; i < appimglistBeans.size(); i++) {
+                    ImageUtils.loadIntoUseFitWidths(mContext,HttpPath.NEW_HEADER + appimglistBeans.get(i).getThumb(),
+                            R.mipmap.icon_empty003,imageViews.get(i));
                 }
-            });
-
-            recyclerView.setLayoutManager(mManager);
-            final AppimglistAdapter appimglistAdapter = new AppimglistAdapter(mContext, appimglistBeans);
+            }else if (widthPraent.equals("1000")){//横向布局
+                layoutId = R.layout.item_hp_picture_horizontal;
+//                mManager = new GridLayoutManager(mContext, 1, GridLayoutManager.HORIZONTAL, false);
+//                mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//                    @Override
+//                    public int getSpanSize(int position) {
+//                        String imgwidth = appimglistBeans.get(position).getWidth();
+//                        if (imgwidth.equals("50")) {
+//                            return 2;
+//                        } else if (imgwidth.equals("100")) {
+//                            return 4;
+//                        }
+//                        return 1;
+//                    }
+//                });
+                recyclerView.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
+            }
+            final AppimglistAdapter appimglistAdapter = new AppimglistAdapter(mContext, appimglistBeans,layoutId);
             recyclerView.setAdapter(appimglistAdapter);
 
             appimglistAdapter.setOnItemClickListener(new com.dq.huibao.Interface.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    hpInterface.doHomePage(
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        hpInterface.doHomePage(
                             position,
                             appimglistBeans.get(position).getTitle(),
                             appimglistBeans.get(position).getType(),
                             appimglistBeans.get(position).getContent()
-                    );
-                }
-            });
+                        );
+                    }
+                });
 
-        }
+            }
+
     }
-
 
     class GoodsListViewHolder extends RecyclerView.ViewHolder {
 
@@ -334,11 +336,19 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
             recyclerView = (RecyclerView) itemView.findViewById(R.id.rv_goodslist);
         }
 
-        public void setData(List<Index.DataBean.GlistBean> glistBeans) {
-            mManager = new GridLayoutManager(mContext, 1, GridLayoutManager.VERTICAL, false);
-            recyclerView.setLayoutManager(mManager);
-            GListAdapter gListAdapter = new GListAdapter(mContext, glistBeans);
-            recyclerView.setAdapter(gListAdapter);
+        public void setData(final List<Index.DataBean.ChildBean> glistBeans) {
+            recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2, GridLayoutManager.VERTICAL, false));
+            final GoodsListAdapter goodsListAdapter = new GoodsListAdapter(mContext, glistBeans);
+            recyclerView.setAdapter(goodsListAdapter);
+
+            goodsListAdapter.setOnItemClickListener(new com.dq.huibao.Interface.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    Intent intent = new Intent(mContext, GoodsDetailsActivity.class);
+                    intent.putExtra("gid", glistBeans.get(position).getId());
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 

@@ -1,5 +1,7 @@
 package com.dq.huibao.bean.index;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -9,14 +11,13 @@ import java.util.List;
 
 public class Index {
 
-
     /**
      * status : 1
-     * data : {"banner":[{"id":"14","title":"休闲零食","thumb":"/attachment/admin//20180109/1515482176_2030471201.png","width":"100","type":"cate","content":"160","postion":"appbanner","explain":"美食","displayorder":"5","type_name":null},{"id":"13","title":"奢华服装","thumb":"/attachment/admin//20180109/1515482148_1621848798.jpg","width":"100","type":"cate","content":"117","postion":"appbanner","explain":"服装-女装","displayorder":"4","type_name":null},{"id":"12","title":"优惠专区","thumb":"/attachment/admin//20180109/1515482127_1034125863.jpg","width":"100","type":"cate","content":"162","postion":"appbanner","explain":"数码产品","displayorder":"3","type_name":null},{"id":"11","title":"批发专区","thumb":"/attachment/admin//20180109/1515482109_1808559096.jpg","width":"100","type":"cate","content":"161","postion":"appbanner","explain":"生活必备","displayorder":"2","type_name":null},{"id":"10","title":"爱拼才会赢","thumb":"/attachment/admin//20180109/1515482078_1336605997.jpg","width":"100","type":"cate","content":"107","postion":"appbanner","explain":"服装","displayorder":"1","type_name":null}],"menu":[{"id":"4","title":"美食天地","thumb":"/attachment/admin//20180108/1515392111_1254453000.png","type":"cate","content":"160","displayorder":"4","explain":"分类"},{"id":"3","title":"生活必备","thumb":"/attachment/admin//20180108/1515392072_1807396613.png","type":"cate","content":"161","displayorder":"3","explain":"分类"},{"id":"2","title":"服装专区","thumb":"/attachment/admin//20180108/1515392015_1829963740.png","type":"cate","content":"107","displayorder":"2","explain":"分类"},{"id":"1","title":"手机数码","thumb":"/attachment/admin//20180108/1515384269_918838910.png","type":"cate","content":"137","displayorder":"1","explain":"分类"}],"appimglist":[{"id":"15","title":"新人福利","thumb":"/attachment/admin//20180109/1515482204_1048592760.png","width":"50","type":"search","content":"isrecommand=1&amp;isnew=1","postion":"appimglist","explain":"推荐,新上","displayorder":"3","type_name":null},{"id":"16","title":"玩赚App","thumb":"/attachment/admin//20180109/1515482253_79286201.png","width":"50","type":"custom","content":"22","postion":"appimglist","explain":"品牌","displayorder":"2","type_name":null},{"id":"17","title":"话费充值","thumb":"/attachment/admin//20180109/1515482286_991534263.png","width":"100","type":"goods","content":"2890","postion":"appimglist","explain":"全国手机充值话费直充快充充值","displayorder":"0","type_name":null}],"glist":[{"id":"7","type":"list","content":"2560,2653,2591,2590","displayorder":"3","thumb":"/attachment/admin//20180109/1515482350_830947724.jpg","pagesize":"4","explain":null,"goodslist":[{"id":"2560","thumb":"/attachment/images/sz_yi/1604/2017/12/fI19TkcmnZf4Fn3nnI8k4mMZdJ995j.jpg","goodsname":"手表时尚韩版男士学生超薄礼品表便宜石英男表","marketprice":"36.00","productprice":"56.00"},{"id":"2590","thumb":"/attachment/images/sz_yi/1604/2017/12/F99cH120x7u1XT7n07Xclu0Zxs0T1c.jpg","goodsname":"金丝虎新品男士保暖白色男式衬衫衣长袖加绒加厚衬衫商务长袖男装","marketprice":"70.00","productprice":"159.00"},{"id":"2591","thumb":"/attachment/images/1604/2017/12/K8apuZbP80pN3AGGqJWO8sSoOQG8GH.jpg","goodsname":"冬季男士职业加绒加厚保暖衬衫商务纯色长袖衬衫免烫白色保暖衬衫","marketprice":"78.00","productprice":"158.00"},{"id":"2653","thumb":"/attachment/images/1604/2017/12/M8zB8Gk2yqNi3Dgqq5y222G838cBiy.jpg","goodsname":"新款欧美简约牛津电脑背包 学生科技书包轻便男包 休闲双肩包批发","marketprice":"118.00","productprice":"168.00"}]},{"id":"8","type":"search","content":null,"displayorder":"2","thumb":"/attachment/admin//20180109/1515482350_830947724.jpg","pagesize":"6","explain":{"type_name":"服装","content":"107","type":"cate"},"goodslist":[{"id":"2419","goodsname":"绿叶爱生活竹纤维男式船袜","thumb":"/attachment/images/sz_yi/1604/2017/12/rhhyggQffu6Hq6WXwGY9QF6QGgf6HX.jpg","marketprice":"63.00","unit":"双","productprice":"63.00","ishot":"0","isrecommand":"0","isnew":"0","isdiscount":"0","issendfree":"0","istime":"0"},{"id":"2420","goodsname":"爱生活竹纤维男士短袜船袜女士船袜","thumb":"/attachment/images/sz_yi/1604/2017/12/pzt9Cq281mNd8QzgdzyGdd5Z188yN8.jpg","marketprice":"70.00","unit":"双","productprice":"70.00","ishot":"0","isrecommand":"0","isnew":"0","isdiscount":"0","issendfree":"0","istime":"0"},{"id":"2421","goodsname":"绿叶爱生活竹纤维女式船袜防臭白色袜子女抗菌透气隐形棉袜7双装","thumb":"/attachment/images/sz_yi/1604/2017/12/kg0ncUc0K1OBz5cx6o5OzOObqv6VGG.jpg","marketprice":"63.00","unit":"双","productprice":"63.00","ishot":"0","isrecommand":"0","isnew":"0","isdiscount":"0","issendfree":"0","istime":"0"},{"id":"2422","goodsname":"绿叶爱生活竹纤维女士浅口袜短袜棉质吸汗女式袜子7双装薄款秋季","thumb":"/attachment/images/sz_yi/1604/2017/12/ryEC75YLaLCC5gdvP5D8aYE5IYdVPA.jpg","marketprice":"56.00","unit":"双","productprice":"56.00","ishot":"0","isrecommand":"0","isnew":"0","isdiscount":"0","issendfree":"0","istime":"0"},{"id":"2424","goodsname":"绿叶爱生活拖鞋夏居家男女夏季亚麻情侣家居厚底防滑室内凉鞋条纹","thumb":"/attachment/images/sz_yi/1604/2017/12/dm93509nSa40069N983llrhSR6Hj14.jpg","marketprice":"18.00","unit":"双","productprice":"18.00","ishot":"0","isrecommand":"0","isnew":"0","isdiscount":"0","issendfree":"0","istime":"0"},{"id":"2492","goodsname":"正品绿叶爱生活男士真丝睡衣套装长款","thumb":"/attachment/images/sz_yi/1604/2017/12/Lbmm8HM82LP0Cm4Lm48HHptBhyL84m.jpg","marketprice":"639.00","unit":"套","productprice":"639.00","ishot":"0","isrecommand":"0","isnew":"0","isdiscount":"0","issendfree":"0","istime":"0"}]},{"id":"9","type":"search","content":null,"displayorder":"1","thumb":"/attachment/admin//20180109/1515482350_830947724.jpg","pagesize":"4","explain":{"type_name":"推荐,新上","content":"isrecommand=1,isnew=1","type":"search"},"goodslist":[{"id":"2350","goodsname":"2盒起购泰国小老板海苔卷32.4克脆紫菜烤海苔卷即食进口零食原味bigroll","thumb":"/attachment/images/1604/2017/12/oQw88Gmnny9oY0Zn6m7vcyVOQtTINE.jpg","marketprice":"10.90","unit":"盒","productprice":"18.00","ishot":"0","isrecommand":"1","isnew":"1","isdiscount":"0","issendfree":"0","istime":"0"},{"id":"2356","goodsname":"猪肉片酱烤200g风味肉干精 肉类零食特产","thumb":"/attachment/images/sz_yi/1604/2017/12/S7S7TG7ubGv7T3PKGKCYPgvSPYHHsy.jpg","marketprice":"15.40","unit":"","productprice":"28.00","ishot":"1","isrecommand":"1","isnew":"1","isdiscount":"0","issendfree":"0","istime":"0"},{"id":"2359","goodsname":"开口松子500克坚果特产炒货东北红松子原味","thumb":"/attachment/images/1604/2017/12/Obg92fDBghNbvznbFFtNa2Atf99D9H.jpg","marketprice":"45.00","unit":"","productprice":"59.00","ishot":"0","isrecommand":"1","isnew":"1","isdiscount":"0","issendfree":"0","istime":"0"},{"id":"2376","goodsname":"香港原装食品2盒起购 进口佐敦-多维骨头饼干 热卖休闲饼干零食135g","thumb":"/attachment/images/sz_yi/1604/2017/12/kH3e8uVe0Z00Rar5K4VU0034RrIbQK.jpg","marketprice":"7.90","unit":"盒","productprice":"11.00","ishot":"0","isrecommand":"1","isnew":"1","isdiscount":"0","issendfree":"0","istime":"0"}]}]}
+     * data : [{"id":"10","title":"首页顶部banner","orderdisplay":"1","type":"mobile","width":"100","module":"banner","float":"left","isshow":"1","child":[{"id":"1","title":"","thumb":"http://new.dequanhuibao.com/attachment/admin//20180109/1515482176_2030471201.png","width":"100","type":"url","content":"#","module_id":"10","explain":"","displayorder":"0"},{"id":"2","title":"","thumb":"http://new.dequanhuibao.com/attachment/admin//20180109/1515482148_1621848798.jpg","width":"100","type":"url","content":"#","module_id":"10","explain":"","displayorder":"0"},{"id":"3","title":"","thumb":"http://new.dequanhuibao.com/attachment/admin//20180109/1515482127_1034125863.jpg","width":"100","type":"url","content":"#","module_id":"10","explain":"","displayorder":"0"},{"id":"4","title":"","thumb":"http://new.dequanhuibao.com/attachment/admin//20180109/1515482109_1808559096.jpg","width":"100","type":"url","content":"#","module_id":"10","explain":"","displayorder":"0"},{"id":"5","title":"","thumb":"http://new.dequanhuibao.com/attachment/admin//20180109/1515482078_1336605997.jpg","width":"100","type":"url","content":"#","module_id":"10","explain":"","displayorder":"0"}]},{"id":"11","title":"首页菜单","orderdisplay":"2","type":"mobile","width":"100","module":"menu","float":"left","isshow":"1","child":[{"id":"5","title":"热卖推荐","thumb":"/attachment/admin//20180320/1521544001_903727785.png","type":"search","content":"isrecommand=1&ishot=1","displayorder":"5","explain":"推荐,热卖"},{"id":"4","title":"美食天地","thumb":"/attachment/admin//20180320/1521544035_667764337.png","type":"cate","content":"723","displayorder":"4","explain":"美食"},{"id":"3","title":"生活必备","thumb":"/attachment/admin//20180108/1515392072_1807396613.png","type":"cate","content":"722","displayorder":"3","explain":"生活日常"},{"id":"2","title":"服装专区","thumb":"/attachment/admin//20180108/1515392015_1829963740.png","type":"cate","content":"718","displayorder":"2","explain":"服饰"},{"id":"1","title":"每日签到","thumb":"/attachment/admin//20180131/1517368916_894989743.png","type":"action","content":"sign","displayorder":"1","explain":"签到"}]},{"id":"12","title":"公告","orderdisplay":"3","type":"mobile","width":"100","module":"notice","float":"left","isshow":"1","child":[{"id":"7","title":"","thumb":"","width":"100","type":"cate","content":"470","module_id":"12","explain":"服饰-女装-衬衫","displayorder":"0"}]},{"id":"21","title":"热门精选","orderdisplay":"4","type":"mobile","width":"100","module":"imglist","float":"left","isshow":"1","child":[{"id":"8","title":"","thumb":"/attachment/admin//20180409/01523267173_850487962.jpg","width":"25","type":"url","content":"#","module_id":"21","explain":"","displayorder":"0"},{"id":"9","title":"","thumb":"/attachment/admin//20180409/01523267173_850487962.jpg","width":"25","type":"url","content":"#","module_id":"21","explain":"","displayorder":"0"},{"id":"10","title":"","thumb":"/attachment/admin//20180409/01523267173_850487962.jpg","width":"25","type":"url","content":"#","module_id":"21","explain":"","displayorder":"0"},{"id":"11","title":"","thumb":"/attachment/admin//20180409/01523267173_850487962.jpg","width":"25","type":"url","content":"#","module_id":"21","explain":"","displayorder":"0"}]},{"id":"22","title":"爱生活","orderdisplay":"5","type":"mobile","width":"100","module":"imglist","float":"left","isshow":"1","child":[]},{"id":"23","title":"为您推荐","orderdisplay":"6","type":"mobile","width":"100","module":"imglist","float":"left","isshow":"1","child":[]},{"id":"24","title":"全场秒杀仅限快捷支付","orderdisplay":"7","type":"mobile","width":"100","module":"imglist","float":"right","isshow":"1","child":[]},{"id":"25","title":"第二件半价","orderdisplay":"8","type":"mobile","width":"100","module":"imglist","float":"left","isshow":"1","child":[]},{"id":"27","title":"精选商品","orderdisplay":"9","type":"mobile","width":"100","module":"glist","float":"right","isshow":"1","child":[{"id":"25730","thumb":"/attachment/images/sz_yi/1604/2017/12/q6V22yGzsg72wTLtnjy2w4AK2tV2Oy.jpg","goodsname":"四川特产美食 蜀道香麻辣鸭舌头金钩10g小吃零食","marketprice":"4.00","productprice":"5.00","width":"100"}]},{"id":"31","title":"商品列表10","orderdisplay":"10","type":"mobile","width":"100","module":"glist","float":"right","isshow":"1","child":[{"id":"25726","thumb":"/attachment/images/sz_yi/1604/2017/12/fOO4oOvo3NNN0nZN3FdV440N4IfnBI.jpg","goodsname":"蜀道香麻辣鱿鱼条20g 四川特产即食海鲜小吃麻辣鱿鱼丝休闲零食","marketprice":"3.00","productprice":"5.00","width":"100"}]},{"id":"32","title":"商品列表11","orderdisplay":"11","type":"mobile","width":"100","module":"glist","float":"left","isshow":"1","child":[{"id":"25743","thumb":"/attachment/images/sz_yi/1604/2017/12/p4Xt84g4r3S88Z3yx49c0xxy7cxGD8.jpg","goodsname":"马奇新新马来西亚进口LEXUS力士系列巧克力味涂层夹心饼干200g","marketprice":"12.80","productprice":"19.90","width":"100"}]},{"id":"33","title":"商品列表12","orderdisplay":"12","type":"mobile","width":"100","module":"glist","float":"left","isshow":"1","child":[{"id":"25638","thumb":"/attachment/images/sz_yi/1604/2017/12/RX4GUG0ZZevX6cV0gZ7wLS4VvVExm6.jpg","goodsname":"印尼进口Gery芝莉奶酪芝士夹心饼干220g单独盒装cheese休闲零食品","marketprice":"9.90","productprice":"15.80","width":"100"}]}]
      */
 
     private int status;
-    private DataBean data;
+    private List<DataBean> data;
 
     public int getStatus() {
         return status;
@@ -26,523 +27,267 @@ public class Index {
         this.status = status;
     }
 
-    public DataBean getData() {
+    public List<DataBean> getData() {
         return data;
     }
 
-    public void setData(DataBean data) {
+    public void setData(List<DataBean> data) {
         this.data = data;
     }
 
     public static class DataBean {
-        private List<BannerBean> banner;
-        private List<MenuBean> menu;
-        private List<AppimglistBean> appimglist;
-        private List<GlistBean> glist;
+        /**
+         * id : 10
+         * title : 首页顶部banner
+         * orderdisplay : 1
+         * type : mobile
+         * width : 100
+         * module : banner
+         * float : left
+         * isshow : 1
+         * child : [{"id":"1","title":"","thumb":"http://new.dequanhuibao.com/attachment/admin//20180109/1515482176_2030471201.png","width":"100","type":"url","content":"#","module_id":"10","explain":"","displayorder":"0"},{"id":"2","title":"","thumb":"http://new.dequanhuibao.com/attachment/admin//20180109/1515482148_1621848798.jpg","width":"100","type":"url","content":"#","module_id":"10","explain":"","displayorder":"0"},{"id":"3","title":"","thumb":"http://new.dequanhuibao.com/attachment/admin//20180109/1515482127_1034125863.jpg","width":"100","type":"url","content":"#","module_id":"10","explain":"","displayorder":"0"},{"id":"4","title":"","thumb":"http://new.dequanhuibao.com/attachment/admin//20180109/1515482109_1808559096.jpg","width":"100","type":"url","content":"#","module_id":"10","explain":"","displayorder":"0"},{"id":"5","title":"","thumb":"http://new.dequanhuibao.com/attachment/admin//20180109/1515482078_1336605997.jpg","width":"100","type":"url","content":"#","module_id":"10","explain":"","displayorder":"0"}]
+         */
 
-        public List<BannerBean> getBanner() {
-            return banner;
+        private String id;
+        private String title;
+        private String orderdisplay;
+        private String type;
+        private String width;
+        private String module;
+        @SerializedName("float")
+        private String floatX;
+        private String isshow;
+        private List<ChildBean> child;
+
+        public String getId() {
+            return id;
         }
 
-        public void setBanner(List<BannerBean> banner) {
-            this.banner = banner;
+        public void setId(String id) {
+            this.id = id;
         }
 
-        public List<MenuBean> getMenu() {
-            return menu;
+        public String getTitle() {
+            return title;
         }
 
-        public void setMenu(List<MenuBean> menu) {
-            this.menu = menu;
+        public void setTitle(String title) {
+            this.title = title;
         }
 
-        public List<AppimglistBean> getAppimglist() {
-            return appimglist;
+        public String getOrderdisplay() {
+            return orderdisplay;
         }
 
-        public void setAppimglist(List<AppimglistBean> appimglist) {
-            this.appimglist = appimglist;
+        public void setOrderdisplay(String orderdisplay) {
+            this.orderdisplay = orderdisplay;
         }
 
-        public List<GlistBean> getGlist() {
-            return glist;
+        public String getType() {
+            return type;
         }
 
-        public void setGlist(List<GlistBean> glist) {
-            this.glist = glist;
+        public void setType(String type) {
+            this.type = type;
         }
 
-        public static class BannerBean {
-            /**
-             * id : 14
-             * title : 休闲零食
-             * thumb : /attachment/admin//20180109/1515482176_2030471201.png
-             * width : 100
-             * type : cate
-             * content : 160
-             * postion : appbanner
-             * explain : 美食
-             * displayorder : 5
-             * type_name : null
-             */
-
-            private String id;
-            private String title;
-            private String thumb;
-            private String width;
-            private String type;
-            private String content;
-            private String postion;
-            private String explain;
-            private String displayorder;
-            private Object type_name;
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public String getTitle() {
-                return title;
-            }
-
-            public void setTitle(String title) {
-                this.title = title;
-            }
-
-            public String getThumb() {
-                return thumb;
-            }
-
-            public void setThumb(String thumb) {
-                this.thumb = thumb;
-            }
-
-            public String getWidth() {
-                return width;
-            }
-
-            public void setWidth(String width) {
-                this.width = width;
-            }
-
-            public String getType() {
-                return type;
-            }
-
-            public void setType(String type) {
-                this.type = type;
-            }
-
-            public String getContent() {
-                return content;
-            }
-
-            public void setContent(String content) {
-                this.content = content;
-            }
-
-            public String getPostion() {
-                return postion;
-            }
-
-            public void setPostion(String postion) {
-                this.postion = postion;
-            }
-
-            public String getExplain() {
-                return explain;
-            }
-
-            public void setExplain(String explain) {
-                this.explain = explain;
-            }
-
-            public String getDisplayorder() {
-                return displayorder;
-            }
-
-            public void setDisplayorder(String displayorder) {
-                this.displayorder = displayorder;
-            }
-
-            public Object getType_name() {
-                return type_name;
-            }
-
-            public void setType_name(Object type_name) {
-                this.type_name = type_name;
-            }
+        public String getWidth() {
+            return width;
         }
 
-        public static class MenuBean {
-            /**
-             * id : 4
-             * title : 美食天地
-             * thumb : /attachment/admin//20180108/1515392111_1254453000.png
-             * type : cate
-             * content : 160
-             * displayorder : 4
-             * explain : 分类
-             */
-
-            private String id;
-            private String title;
-            private String thumb;
-            private String type;
-            private String content;
-            private String displayorder;
-            private String explain;
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public String getTitle() {
-                return title;
-            }
-
-            public void setTitle(String title) {
-                this.title = title;
-            }
-
-            public String getThumb() {
-                return thumb;
-            }
-
-            public void setThumb(String thumb) {
-                this.thumb = thumb;
-            }
-
-            public String getType() {
-                return type;
-            }
-
-            public void setType(String type) {
-                this.type = type;
-            }
-
-            public String getContent() {
-                return content;
-            }
-
-            public void setContent(String content) {
-                this.content = content;
-            }
-
-            public String getDisplayorder() {
-                return displayorder;
-            }
-
-            public void setDisplayorder(String displayorder) {
-                this.displayorder = displayorder;
-            }
-
-            public String getExplain() {
-                return explain;
-            }
-
-            public void setExplain(String explain) {
-                this.explain = explain;
-            }
+        public void setWidth(String width) {
+            this.width = width;
         }
 
-        public static class AppimglistBean {
-            /**
-             * id : 15
-             * title : 新人福利
-             * thumb : /attachment/admin//20180109/1515482204_1048592760.png
-             * width : 50
-             * type : search
-             * content : isrecommand=1&amp;isnew=1
-             * postion : appimglist
-             * explain : 推荐,新上
-             * displayorder : 3
-             * type_name : null
-             */
-
-            private String id;
-            private String title;
-            private String thumb;
-            private String width;
-            private String type;
-            private String content;
-            private String postion;
-            private String explain;
-            private String displayorder;
-            private Object type_name;
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public String getTitle() {
-                return title;
-            }
-
-            public void setTitle(String title) {
-                this.title = title;
-            }
-
-            public String getThumb() {
-                return thumb;
-            }
-
-            public void setThumb(String thumb) {
-                this.thumb = thumb;
-            }
-
-            public String getWidth() {
-                return width;
-            }
-
-            public void setWidth(String width) {
-                this.width = width;
-            }
-
-            public String getType() {
-                return type;
-            }
-
-            public void setType(String type) {
-                this.type = type;
-            }
-
-            public String getContent() {
-                return content;
-            }
-
-            public void setContent(String content) {
-                this.content = content;
-            }
-
-            public String getPostion() {
-                return postion;
-            }
-
-            public void setPostion(String postion) {
-                this.postion = postion;
-            }
-
-            public String getExplain() {
-                return explain;
-            }
-
-            public void setExplain(String explain) {
-                this.explain = explain;
-            }
-
-            public String getDisplayorder() {
-                return displayorder;
-            }
-
-            public void setDisplayorder(String displayorder) {
-                this.displayorder = displayorder;
-            }
-
-            public Object getType_name() {
-                return type_name;
-            }
-
-            public void setType_name(Object type_name) {
-                this.type_name = type_name;
-            }
+        public String getModule() {
+            return module;
         }
 
-        public static class GlistBean {
-            /**
-             * id : 7
-             * type : list
-             * content : 2560,2653,2591,2590
-             * displayorder : 3
-             * thumb : /attachment/admin//20180109/1515482350_830947724.jpg
-             * pagesize : 4
-             * explain : null
-             * goodslist : [{"id":"2560","thumb":"/attachment/images/sz_yi/1604/2017/12/fI19TkcmnZf4Fn3nnI8k4mMZdJ995j.jpg","goodsname":"手表时尚韩版男士学生超薄礼品表便宜石英男表","marketprice":"36.00","productprice":"56.00"},{"id":"2590","thumb":"/attachment/images/sz_yi/1604/2017/12/F99cH120x7u1XT7n07Xclu0Zxs0T1c.jpg","goodsname":"金丝虎新品男士保暖白色男式衬衫衣长袖加绒加厚衬衫商务长袖男装","marketprice":"70.00","productprice":"159.00"},{"id":"2591","thumb":"/attachment/images/1604/2017/12/K8apuZbP80pN3AGGqJWO8sSoOQG8GH.jpg","goodsname":"冬季男士职业加绒加厚保暖衬衫商务纯色长袖衬衫免烫白色保暖衬衫","marketprice":"78.00","productprice":"158.00"},{"id":"2653","thumb":"/attachment/images/1604/2017/12/M8zB8Gk2yqNi3Dgqq5y222G838cBiy.jpg","goodsname":"新款欧美简约牛津电脑背包 学生科技书包轻便男包 休闲双肩包批发","marketprice":"118.00","productprice":"168.00"}]
-             */
+        public void setModule(String module) {
+            this.module = module;
+        }
 
-            private String id;
-            private String type;
-            private String content;
-            private String displayorder;
-            private String thumb;
-            private String pagesize;
-            private Object explain;
-            private List<GoodslistBean> goodslist;
+        public String getFloatX() {
+            return floatX;
+        }
 
-            public String getId() {
-                return id;
-            }
+        public void setFloatX(String floatX) {
+            this.floatX = floatX;
+        }
 
-            public void setId(String id) {
-                this.id = id;
-            }
+        public String getIsshow() {
+            return isshow;
+        }
 
-            public String getType() {
-                return type;
-            }
+        public void setIsshow(String isshow) {
+            this.isshow = isshow;
+        }
 
-            public void setType(String type) {
-                this.type = type;
-            }
+        public List<ChildBean> getChild() {
+            return child;
+        }
 
-            public String getContent() {
-                return content;
-            }
-
-            public void setContent(String content) {
-                this.content = content;
-            }
-
-            public String getDisplayorder() {
-                return displayorder;
-            }
-
-            public void setDisplayorder(String displayorder) {
-                this.displayorder = displayorder;
-            }
-
-            public String getThumb() {
-                return thumb;
-            }
-
-            public void setThumb(String thumb) {
-                this.thumb = thumb;
-            }
-
-            public String getPagesize() {
-                return pagesize;
-            }
-
-            public void setPagesize(String pagesize) {
-                this.pagesize = pagesize;
-            }
-
-            public Object getExplain() {
-                return explain;
-            }
-
-            public void setExplain(Object explain) {
-                this.explain = explain;
-            }
-
-            public List<GoodslistBean> getGoodslist() {
-                return goodslist;
-            }
-
-            public void setGoodslist(List<GoodslistBean> goodslist) {
-                this.goodslist = goodslist;
-            }
-
-            public static class GoodslistBean {
-                /**
-                 * id : 2560
-                 * thumb : /attachment/images/sz_yi/1604/2017/12/fI19TkcmnZf4Fn3nnI8k4mMZdJ995j.jpg
-                 * goodsname : 手表时尚韩版男士学生超薄礼品表便宜石英男表
-                 * marketprice : 36.00
-                 * productprice : 56.00
-                 */
-
-                private String id;
-                private String thumb;
-                private String goodsname;
-                private String marketprice;
-                private String productprice;
-
-                public String getId() {
-                    return id;
-                }
-
-                public void setId(String id) {
-                    this.id = id;
-                }
-
-                public String getThumb() {
-                    return thumb;
-                }
-
-                public void setThumb(String thumb) {
-                    this.thumb = thumb;
-                }
-
-                public String getGoodsname() {
-                    return goodsname;
-                }
-
-                public void setGoodsname(String goodsname) {
-                    this.goodsname = goodsname;
-                }
-
-                public String getMarketprice() {
-                    return marketprice;
-                }
-
-                public void setMarketprice(String marketprice) {
-                    this.marketprice = marketprice;
-                }
-
-                public String getProductprice() {
-                    return productprice;
-                }
-
-                public void setProductprice(String productprice) {
-                    this.productprice = productprice;
-                }
-
-                @Override
-                public String toString() {
-                    return "GoodslistBean{" +
-                            "id='" + id + '\'' +
-                            ", thumb='" + thumb + '\'' +
-                            ", goodsname='" + goodsname + '\'' +
-                            ", marketprice='" + marketprice + '\'' +
-                            ", productprice='" + productprice + '\'' +
-                            '}';
-                }
-            }
-
-            @Override
-            public String toString() {
-                return "GlistBean{" +
-                        "id='" + id + '\'' +
-                        ", type='" + type + '\'' +
-                        ", content='" + content + '\'' +
-                        ", displayorder='" + displayorder + '\'' +
-                        ", thumb='" + thumb + '\'' +
-                        ", pagesize='" + pagesize + '\'' +
-                        ", explain=" + explain +
-                        ", goodslist=" + goodslist +
-                        '}';
-            }
+        public void setChild(List<ChildBean> child) {
+            this.child = child;
         }
 
         @Override
         public String toString() {
             return "DataBean{" +
-                    "banner=" + banner +
-                    ", menu=" + menu +
-                    ", appimglist=" + appimglist +
-                    ", glist=" + glist +
+                    "id='" + id + '\'' +
+                    ", title='" + title + '\'' +
+                    ", orderdisplay='" + orderdisplay + '\'' +
+                    ", type='" + type + '\'' +
+                    ", width='" + width + '\'' +
+                    ", module='" + module + '\'' +
+                    ", floatX='" + floatX + '\'' +
+                    ", isshow='" + isshow + '\'' +
+                    ", child=" + child +
                     '}';
         }
-    }
 
-    @Override
-    public String toString() {
-        return "Index{" +
-                "status=" + status +
-                ", data=" + data +
-                '}';
+        public static class ChildBean {
+            /**
+             * id : 1
+             * title :
+             * thumb : http://new.dequanhuibao.com/attachment/admin//20180109/1515482176_2030471201.png
+             * width : 100
+             * type : url
+             * content : #
+             * module_id : 10
+             * explain :
+             * displayorder : 0
+             */
+
+            private String id;
+            private String title;
+            private String thumb;
+            private String width;
+            private String type;
+            private String content;
+            private String module_id;
+            private String explain;
+            private String displayorder;
+            /**
+             * goodsname : 马奇新新马来西亚进口LEXUS力士系列巧克力味涂层夹心饼干200g
+             * marketprice : 12.80
+             * productprice : 19.90
+             */
+
+            private String goodsname;
+            private String marketprice;
+            private String productprice;
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getThumb() {
+                return thumb;
+            }
+
+            public void setThumb(String thumb) {
+                this.thumb = thumb;
+            }
+
+            public String getWidth() {
+                return width;
+            }
+
+            public void setWidth(String width) {
+                this.width = width;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+
+            public String getContent() {
+                return content;
+            }
+
+            public void setContent(String content) {
+                this.content = content;
+            }
+
+            public String getModule_id() {
+                return module_id;
+            }
+
+            public void setModule_id(String module_id) {
+                this.module_id = module_id;
+            }
+
+            public String getExplain() {
+                return explain;
+            }
+
+            public void setExplain(String explain) {
+                this.explain = explain;
+            }
+
+            public String getDisplayorder() {
+                return displayorder;
+            }
+
+            public void setDisplayorder(String displayorder) {
+                this.displayorder = displayorder;
+            }
+
+            @Override
+            public String toString() {
+                return "ChildBean{" +
+                        "id='" + id + '\'' +
+                        ", title='" + title + '\'' +
+                        ", thumb='" + thumb + '\'' +
+                        ", width='" + width + '\'' +
+                        ", type='" + type + '\'' +
+                        ", content='" + content + '\'' +
+                        ", module_id='" + module_id + '\'' +
+                        ", explain='" + explain + '\'' +
+                        ", displayorder='" + displayorder + '\'' +
+                        '}';
+            }
+
+            public String getGoodsname() {
+                return goodsname;
+            }
+
+            public void setGoodsname(String goodsname) {
+                this.goodsname = goodsname;
+            }
+
+            public String getMarketprice() {
+                return marketprice;
+            }
+
+            public void setMarketprice(String marketprice) {
+                this.marketprice = marketprice;
+            }
+
+            public String getProductprice() {
+                return productprice;
+            }
+
+            public void setProductprice(String productprice) {
+                this.productprice = productprice;
+            }
+        }
     }
 }

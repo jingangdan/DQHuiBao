@@ -313,6 +313,9 @@ public class PullToRefreshView extends LinearLayout {
         // if (mLock) {
         // return true;
         // }
+        if (mOnScrollChanged != null) {
+            mOnScrollChanged.onScroll(event);
+        }
         int y = (int) event.getRawY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -656,5 +659,15 @@ public class PullToRefreshView extends LinearLayout {
     public interface OnHeaderRefreshListener {
         public void onHeaderRefresh(PullToRefreshView view);
     }
+    /**
+     *  滑动监听
+     */
+    public interface OnScrollChanged {
+        void onScroll(MotionEvent event);
+    }
+    private OnScrollChanged mOnScrollChanged;
 
+    public void setOnScrollChanged(OnScrollChanged onScrollChanged) {
+        this.mOnScrollChanged = onScrollChanged;
+    }
 }

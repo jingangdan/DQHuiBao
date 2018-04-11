@@ -6,10 +6,6 @@ package com.dq.huibao.Interface;
  */
 
 public interface HomePageInterface {
-    /**
-     * 搜索
-     */
-    void doSearch();
 
     /**
      * @param position 组元素位置

@@ -25,10 +25,10 @@ import java.util.List;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MyViewHolder> {
     private Context mContext;
-    private List<Index.DataBean.MenuBean> menuList;
+    private List<Index.DataBean.ChildBean> menuList;
     private OnItemClickListener onItemClickListener;
 
-    public MenuAdapter(Context mContext, List<Index.DataBean.MenuBean> menuList) {
+    public MenuAdapter(Context mContext, List<Index.DataBean.ChildBean> menuList) {
         this.mContext = mContext;
         this.menuList = menuList;
     }
@@ -60,7 +60,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MyViewHolder> 
         Glide.with(mContext)
                 .load(HttpPath.NEW_HEADER + menuList.get(position).getThumb())
                 .placeholder(R.mipmap.icon_empty)
-                .error(R.mipmap.icon_error)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(holder.img);
 

@@ -642,7 +642,6 @@ public class MainActivity extends FragmentActivity {
 //        }
 //    }
 
-
     //双击的时间间隔
     private long millis = 0;
 
@@ -660,7 +659,7 @@ public class MainActivity extends FragmentActivity {
             //双击退出
             if (System.currentTimeMillis() - millis < 1000) {
                 //System.exit(0);
-                this.finish();
+                finish();
                 return super.onKeyDown(keyCode, event);
             } else {
                 Toast.makeText(this, "再次点击退出程序", Toast.LENGTH_SHORT).show();

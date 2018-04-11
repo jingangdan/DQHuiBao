@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +26,11 @@ import java.util.List;
 
 public class GListAdapter extends RecyclerView.Adapter<GListAdapter.MyViewHolder> {
     private Context mContext;
-    private List<Index.DataBean.GlistBean> glist;
+    private List<Index.DataBean.ChildBean> glist;
     private OnItemClickListener onItemClickListener;
     private Intent intent;
 
-    public GListAdapter(Context mContext, List<Index.DataBean.GlistBean> glist) {
+    public GListAdapter(Context mContext, List<Index.DataBean.ChildBean> glist) {
         this.mContext = mContext;
         this.glist = glist;
         intent = null;
@@ -49,6 +50,7 @@ public class GListAdapter extends RecyclerView.Adapter<GListAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int i) {
+        Log.e("ffffffffffffffff","ssssssssss");
         if (onItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -59,22 +61,22 @@ public class GListAdapter extends RecyclerView.Adapter<GListAdapter.MyViewHolder
             });
         }
 
-        ImageUtils.loadIntoUseFitWidth(mContext,
-                HttpPath.NEW_HEADER + glist.get(i).getThumb(),
-                R.mipmap.icon_empty001,
-                R.mipmap.icon_error001,
-                holder.img);
+//        ImageUtils.loadIntoUseFitWidth(mContext,
+//                HttpPath.NEW_HEADER + glist.get(i).getThumb(),
+//                R.mipmap.icon_empty001,
+//                R.mipmap.icon_error001,
+//                holder.img);
 
 
         holder.recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2, GridLayoutManager.VERTICAL, false));
-        final GoodsListAdapter goodsListAdapter = new GoodsListAdapter(mContext, glist.get(i).getGoodslist());
+        final GoodsListAdapter goodsListAdapter = new GoodsListAdapter(mContext, glist);
         holder.recyclerView.setAdapter(goodsListAdapter);
 
         goodsListAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 intent = new Intent(mContext, GoodsDetailsActivity.class);
-                intent.putExtra("gid", glist.get(i).getGoodslist().get(position).getId());
+                intent.putExtra("gid", glist.get(i).getId());
                 mContext.startActivity(intent);
             }
         });

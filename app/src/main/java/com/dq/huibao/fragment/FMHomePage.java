@@ -3,6 +3,7 @@ package com.dq.huibao.fragment;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -42,6 +44,7 @@ import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
 import com.dq.huibao.view.CustomProgress;
+import com.dq.huibao.view.TopicScrollView;
 
 import org.xutils.common.Callback;
 import org.xutils.ex.HttpException;
@@ -80,6 +83,10 @@ public class FMHomePage extends BaseFragment implements
     LinearLayout linHpNetwork;
     @Bind(R.id.but_refresh)
     Button butRefresh;
+    @Bind(R.id.home_topicScrollView)
+    TopicScrollView topicScrollView;
+    @Bind(R.id.search_layout)
+    LinearLayout searchLayout;
     private View view;
     private CustomProgress progressDialog = null;
 
@@ -114,6 +121,33 @@ public class FMHomePage extends BaseFragment implements
         pullToRefreshView.setOnHeaderRefreshListener(this);
         pullToRefreshView.setOnFooterRefreshListener(this);
         pullToRefreshView.setLastUpdated(new Date().toLocaleString());
+
+        pullToRefreshView.setOnScrollChanged(new PullToRefreshView.OnScrollChanged() {
+            @Override
+            public void onScroll(MotionEvent event) {
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_MOVE:
+                        searchLayout.setVisibility(View.GONE);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        searchLayout.setVisibility(View.VISIBLE);
+                        break;
+                }
+
+            }
+        });
+        topicScrollView.setOnScrollChanged(new TopicScrollView.OnScrollChanged() {
+            @Override
+            public void onScroll(int t) {
+                if (t < 30){
+                    searchLayout.setBackgroundColor(Color.argb(0,0,0,0));
+                }else {
+                    searchLayout.setBackgroundColor(getActivity().getResources().getColor(R.color.bg_white));
+                }
+            }
+        });
+    //intent = new Intent(getActivity(), KeywordsActivity.class);
+//        startActivityForResult(intent, CodeUtils.HOMEPAGE);
         return view;
     }
 
@@ -144,6 +178,23 @@ public class FMHomePage extends BaseFragment implements
         }
     }
 
+    /**
+     * 搜索栏的所有点击事件
+     * @param v
+     */
+    @OnClick({R.id.homepage_location,R.id.et_hp_search,R.id.homepage_scan,R.id.homepage_message})
+    public void onSearchClick(View v){
+        switch (v.getId()){
+            case R.id.homepage_location://定位
+                break;
+            case R.id.et_hp_search://搜索
+                break;
+            case R.id.homepage_scan://扫描二维码
+                break;
+            case R.id.homepage_message://消息
+                break;
+        }
+    }
 
     /**
      * 获取首页信息
@@ -170,7 +221,7 @@ public class FMHomePage extends BaseFragment implements
                 linHpNonetwork.setVisibility(View.GONE);
                 Index index = GsonUtil.gsonIntance().gsonToBean(result, Index.class);
                 dataList.clear();
-                dataList.add(index.getData());
+                dataList.addAll(index.getData());
 
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 homeRecycleAdapter = new HomeRecycleViewAdapter(getActivity(), dataList);
@@ -328,13 +379,8 @@ public class FMHomePage extends BaseFragment implements
     }
 
     @Override
-    public void doSearch() {
-        intent = new Intent(getActivity(), KeywordsActivity.class);
-        startActivityForResult(intent, CodeUtils.HOMEPAGE);
-    }
-
-    @Override
     public void doHomePage(int position, String title, String type, String content) {
+        if (content.equals("#")) return;
         switch (type) {
             case "url":
                 //链接 web
