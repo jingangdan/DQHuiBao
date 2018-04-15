@@ -222,6 +222,13 @@ public class HttpPath {
     public static final String INDEXT_INDEX = HEADER + "Index/appindex";
 
     /**
+     * 获取首页底部更多商品
+     * 方式：get/post
+     * 参数：page,pagesize
+     */
+    public static final String INDEXT_INDEX_MORE_GOODS = HEADER + "Index/indexgoods";
+
+    /**
      * 15.
      * 添加购物车
      * 方式：post/get
@@ -613,4 +620,112 @@ public class HttpPath {
 
     /*获取推荐商品*/
     public static final String SHOP_GOODS_RECOMMENT = HEADER + "api=shop/Goods/recommand&i=1604";
+
+    /**
+     * 拼团首页列表
+     * 方式:get/post
+     * 参数:page,pagesize
+     */
+    public static final String PINTUAN_INDEX = HEADER + "/Tuan/tuanlist";
+
+    /**
+     * 拼团详情
+     * 方式:get/post
+     * 参数：商品id,拼团id
+     * 返回值：  footer_status  拼团状态 （1有效 ，0无效）
+     *          Tuanid  拼团id
+     *          Tuanprice  团购价
+     *          marketprice  单独购买价
+     *          Productprice  原价
+     */
+    public static final String PINTUAN_DETAILS = HEADER + "Tuan/content";
+
+    /**
+     * 参团验证
+     * 方式:get/post
+     * 参数：商品id,拼团id
+     */
+    public static final String PINTUAN_VERIFY = HEADER + "Tuan/verify";
+
+    /**
+     * 拼团确认订单
+     * 方式:get/post
+     * 参数：
+     *      pid   单独购买不需要，开团购买pid=0，团员参团 pid为团长id
+     *      Uid
+     *      Tuanid
+     *      Goodsid
+     *      Count 购买数量
+     *      Is_tuan  购买状态 1 拼团买 0 单独买
+     *      Ids   //购买者选择的商品规格id组[1,3,5,4]
+     */
+    public static final String PINTUAN_TUAN_CONFIRM = HEADER + "Tuan/confirm";
+
+    /**
+     * 拼团添加订单
+     * 方式:get/post
+     * 参数：
+     *      uid  用户id
+     *      pid  团长id  （pid=0团长）
+     *      count  商品数量
+     *      is_tuan 单独买0 拼团买1
+     *      addrid  收货地址id，如果不传获取默认地址
+     *      remark  用户对商家的话
+     *      tuanid  拼团id
+     *      goodsid  商品id
+     */
+    public static final String PINTUAN_TUAN_ADDORDER = HEADER + "Tuan/addOrder";
+
+
+    //积分==========
+
+    /**
+     * 积分可兑换商品类型
+     * 方式:get/post
+     * 参数：id=uid
+     */
+    public static final String JIFEN_FULI_TYPE = HEADER + "Score/typelist";
+
+    /**
+     * 积分可兑换商品列表
+     * 方式:get/post
+     * 参数：typeid,page,pagesize
+     */
+    public static final String JIFEN_FULI_GOODS = HEADER + "Score/goodslist";
+
+    /**
+     * 积分可兑换商品详情
+     * 方式:get/post
+     * 参数：id=goodslist列表的item-id
+     */
+    public static final String JIFEN_FULI_GOODDETAILS = HEADER + "Score/goodsinfo";
+
+    /**
+     * 积分兑换的商品记录
+     * 方式:get/post
+     * 参数：mid=uid,page,pagesize
+     */
+    public static final String JIFEN_LOGS = HEADER + "Score/logs";
+
+    /**
+     * 积分使用记录
+     * 方式:get/post
+     * 参数：mid=uid，page,pagesize
+     *      type:score积分 balance现金
+     *      actiontype:recharge充值 exchange兑换 consump消费
+     */
+    public static final String JIFEN_USERLOGS = HEADER + "Score/userlogs";
+
+    /**
+     * 积分兑换下单
+     * 方式:get/post
+     * 参数：gid=商品id
+     *      mid=uid
+     *      price=价格
+     *      expprice=快递费
+     *      score=积分
+     *      goodsname=商品名称
+     *      epxid=地址id
+     */
+    public static final String JIFEN_SAVEORDER = HEADER + "Score/saveorder";
 }

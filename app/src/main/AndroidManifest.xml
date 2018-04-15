@@ -242,7 +242,15 @@
             android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <!--小店信息-->
         <activity android:name=".ui.xstore.XStoreSettingActivity" />
+        <!--小店自选商品选择页-->
         <activity android:name=".ui.xstore.XStoreGoodsActivity" />
+        <!--拼团首页-->
+        <activity android:name=".ui.pintuan.PinTuanActivity" />
+        <!--拼团详情页-->
+        <activity android:name=".ui.pintuan.PinTuanDetailsActivity" />
+        <activity android:name=".ui.college_go.CollegeGoActivity" />
+        <activity android:name=".ui.jifen.JiFenActivity" />
+        <activity android:name=".ui.pintuan.PTSubmitOrderActivity" />
 
         <!--增加图片清晰度-->
         <meta-data

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_nonetwork" />
+
+    <LinearLayout
+        android:id="@+id/college_go_network"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.dq.huibao.refresh.PullToRefreshView
+            android:id="@+id/college_go_hp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.dq.huibao.view.TopicScrollView
+                android:id="@+id/college_go_topicScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:descendantFocusability="blocksDescendants">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/college_go_listview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+
+            </com.dq.huibao.view.TopicScrollView>
+
+        </com.dq.huibao.refresh.PullToRefreshView>
+
+[    </LinearLayout>
+    <include layout="@layout/layout_search"/>
+</FrameLayout>

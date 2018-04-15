@@ -1,50 +1,36 @@
-package com.dq.huibao.fragment;
+package com.dq.huibao.ui.college_go;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dq.huibao.Interface.HomePageInterface;
 import com.dq.huibao.R;
-import com.dq.huibao.base.BaseFragment;
+import com.dq.huibao.adapter.college_go.CollegeGoHomeAdapter;
+import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.bean.homepage.IndexMoreGoods;
 import com.dq.huibao.bean.index.Index;
-import com.dq.huibao.bean.memcen.Sign;
-import com.dq.huibao.bean.memcen.SignIndex;
-import com.dq.huibao.homepage.HomeRecycleViewAdapter;
 import com.dq.huibao.refresh.PullToRefreshView;
 import com.dq.huibao.ui.GoodsDetailsActivity;
 import com.dq.huibao.ui.GoodsListActivity;
 import com.dq.huibao.ui.LoginActivity;
-import com.dq.huibao.ui.jifen.JiFenActivity;
 import com.dq.huibao.ui.pintuan.PinTuanActivity;
-import com.dq.huibao.ui.college_go.CollegeGoActivity;
 import com.dq.huibao.ui.homepage.WebActivity;
-import com.dq.huibao.ui.memcen.SignRuleActivity;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
-import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
 import com.dq.huibao.view.CustomProgress;
 import com.dq.huibao.view.TopicScrollView;
@@ -64,30 +50,29 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 首页
+ * 同学拼go首页
  * Created by jingang on 2018/1/29.
  */
 
-public class FMHomePage extends BaseFragment implements
-        HomePageInterface
-        ,
+public class CollegeGoActivity extends BaseActivity implements
+        HomePageInterface,
         PullToRefreshView.OnFooterRefreshListener,
         PullToRefreshView.OnHeaderRefreshListener {
 
-    @Bind(R.id.lv_home_listview)
+    @Bind(R.id.college_go_listview)
     RecyclerView recyclerView;
 
-    @Bind(R.id.ptrv_hp)
+    @Bind(R.id.college_go_hp)
     PullToRefreshView pullToRefreshView;
 
     /*无网络或网络不佳*/
     @Bind(R.id.lin_hp_nonetwork)
     LinearLayout linHpNonetwork;
-    @Bind(R.id.lin_hp_network)
+    @Bind(R.id.college_go_network)
     LinearLayout linHpNetwork;
     @Bind(R.id.but_refresh)
     Button butRefresh;
-    @Bind(R.id.home_topicScrollView)
+    @Bind(R.id.college_go_topicScrollView)
     TopicScrollView topicScrollView;
     @Bind(R.id.search_layout)
     LinearLayout searchLayout;
@@ -97,7 +82,7 @@ public class FMHomePage extends BaseFragment implements
     /*接口地址*/
     private String PATH = "", MD5_PATH = "";
 
-    private HomeRecycleViewAdapter homeRecycleAdapter;
+    private CollegeGoHomeAdapter collegeGoHomeAdapter;
     List<Index.DataBean> dataList = new ArrayList<>();
 
     /**/
@@ -114,14 +99,14 @@ public class FMHomePage extends BaseFragment implements
     //
     private int page = 1,pagesize = 10;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fm_homepage, null);
-        ButterKnife.bind(this, view);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_college_go);
+        ButterKnife.bind(this, this);
 
         // startProgressDialog();
-
+        setTitleName("同学拼go");
         getLogin();
 
         pullToRefreshView.setOnHeaderRefreshListener(this);
@@ -148,11 +133,12 @@ public class FMHomePage extends BaseFragment implements
                 if (t < 30){
                     searchLayout.setBackgroundColor(Color.argb(0,0,0,0));
                 }else {
-                    searchLayout.setBackgroundColor(getActivity().getResources().getColor(R.color.bg_white));
+                    searchLayout.setBackgroundColor(getResources().getColor(R.color.bg_white));
                 }
             }
         });
-        return view;
+        //
+        findViewById(R.id.homepage_message).setVisibility(View.GONE);
     }
 
     /*获取登录返回的数据*/
@@ -163,8 +149,6 @@ public class FMHomePage extends BaseFragment implements
                 phone = login.getData().getPhone();
                 token = login.getData().getToken();
                 getIndex(phone, token);
-
-                getSignIndex(phone, token);
             }
 
         } else {
@@ -174,7 +158,7 @@ public class FMHomePage extends BaseFragment implements
 
     /*登录状态*/
     public boolean isLogin() {
-        spUserInfo = new SPUserInfo(getActivity().getApplication());
+        spUserInfo = new SPUserInfo(getApplication());
         if (spUserInfo.getLogin().equals("1")) {
             return true;
         } else {
@@ -186,22 +170,22 @@ public class FMHomePage extends BaseFragment implements
      * 搜索栏的所有点击事件
      * @param v
      */
-    @OnClick({R.id.homepage_location,R.id.et_hp_search,R.id.homepage_scan,R.id.homepage_message})
-    public void onSearchClick(View v){
-        switch (v.getId()){
-            case R.id.homepage_location://定位
-                break;
-            case R.id.et_hp_search://搜索
-                break;
-            case R.id.homepage_scan://扫描二维码
-                break;
-            case R.id.homepage_message://消息
-                break;
-        }
-    }
+//    @OnClick({R.id.homepage_location,R.id.et_hp_search,R.id.homepage_scan,R.id.homepage_message})
+//    public void onSearchClick(View v){
+//        switch (v.getId()){
+//            case R.id.homepage_location://定位
+//                break;
+//            case R.id.et_hp_search://搜索
+//                break;
+//            case R.id.homepage_scan://扫描二维码
+//                break;
+//            case R.id.homepage_message://消息
+//                break;
+//        }
+//    }
 
     /**
-     * 获取首页信息
+     * 获取拼go首页信息
      * <p>
      * -url链接
      * article文章
@@ -215,7 +199,7 @@ public class FMHomePage extends BaseFragment implements
     public void getIndex(String phone, String token) {
         PATH = HttpPath.INDEXT_INDEX;
         System.out.println("首页 = " + PATH);
-        HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
@@ -227,14 +211,14 @@ public class FMHomePage extends BaseFragment implements
                 dataList.clear();
                 dataList.addAll(index.getData());
 
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                homeRecycleAdapter = new HomeRecycleViewAdapter(getActivity(), dataList);
-                recyclerView.setAdapter(homeRecycleAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(CollegeGoActivity.this));
+                collegeGoHomeAdapter = new CollegeGoHomeAdapter(CollegeGoActivity.this, dataList);
+                recyclerView.setAdapter(collegeGoHomeAdapter);
 
-                homeRecycleAdapter.setHpInterface(FMHomePage.this);
+                collegeGoHomeAdapter.setHpInterface(CollegeGoActivity.this);
 
                 //刷新并获取底部更多商品
-                homeRecycleAdapter.refreshMoreGoods();
+                collegeGoHomeAdapter.refreshMoreGoods();
                 getMoreGoods();
             }
 
@@ -271,107 +255,13 @@ public class FMHomePage extends BaseFragment implements
     }
 
     /**
-     * 获取签到信息
-     *
-     * @param phone
-     * @param token
-     */
-    public void getSignIndex(String phone, String token) {
-        MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.ACTIVITYSIGN_INDEX + MD5_PATH + "&sign=" +
-                MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-
-        System.out.println("签到信息 = " + PATH);
-
-        HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                System.out.println("签到信息 = " + result);
-                SignIndex signIndex = GsonUtil.gsonIntance().gsonToBean(result, SignIndex.class);
-                if (signIndex.getStatus() == 1) {
-                    cansign = signIndex.getData().isCansign();
-                    cur_count = signIndex.getData().getCur_count();
-                    cur_money = signIndex.getData().getCur_money();
-
-                    if (cansign) {
-                        tv_sign.setText("签到");
-                    } else {
-                        tv_sign.setText("已签到");
-                    }
-                    tv_sign_days.setText("" + cur_count + "天");
-
-                }
-
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
-    }
-
-    /**
-     * 签到
-     *
-     * @param phone
-     * @param token
-     */
-    public void setSign(String phone, String token) {
-        MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.ACTIVITY_SIGN + MD5_PATH + "&sign=" +
-                MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-
-        System.out.println("签到 = " + PATH);
-        HttpxUtils.Post(getActivity(), PATH, null,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("签到 = " + result);
-                        Sign sign = GsonUtil.gsonIntance().gsonToBean(result, Sign.class);
-                        if (sign.getStatus() == 1) {
-                            toast("" + sign.getData().getMsg());
-                            tv_sign.setText("已签到");
-                        } else if (sign.getStatus() == 0) {
-                            toast("" + sign.getData().getMsg());
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(CancelledException cex) {
-
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
-    }
-
-    /**
      * 获取底部更多商品
      */
     public void getMoreGoods(){
         Map<String,String> map = new HashMap<>();
         map.put("page",page + "");
         map.put("pagesize",pagesize + "");
-        HttpxUtils.Get(getActivity(),HttpPath.INDEXT_INDEX_MORE_GOODS, map,
+        HttpxUtils.Get(this,HttpPath.INDEXT_INDEX_MORE_GOODS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -380,7 +270,7 @@ public class FMHomePage extends BaseFragment implements
                             pullToRefreshView.onFooterRefreshComplete();//加载更多数据
 
                         IndexMoreGoods indexMoreGoods = GsonUtil.gsonIntance().gsonToBean(result, IndexMoreGoods.class);
-                        homeRecycleAdapter.setMoreGoods(indexMoreGoods.getData().getList());
+                        collegeGoHomeAdapter.setMoreGoods(indexMoreGoods.getData().getList());
                     }
 
                     @Override
@@ -410,24 +300,20 @@ public class FMHomePage extends BaseFragment implements
         }
     }
 
-    @Override
-    protected void lazyLoad() {
-
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
 
     @Override
     public void doHomePage(int position, String title, String type, String content) {
         if (content.equals("#")) return;
         switch (type) {
             case "url":
+                //拼团
+                if ("pintuan".equals(content)){
+                    intent = new Intent(this, PinTuanActivity.class);
+                    startActivity(intent);
+                    return;
+                }
                 //链接 web
-                intent = new Intent(getActivity(), WebActivity.class);
+                intent = new Intent(this, WebActivity.class);
                 intent.putExtra("url", content);
                 startActivityForResult(intent, CodeUtils.HOMEPAGE);
                 break;
@@ -436,7 +322,7 @@ public class FMHomePage extends BaseFragment implements
                 break;
             case "cate":
                 //分类（商品列表）
-                intent = new Intent(getActivity(), GoodsListActivity.class);
+                intent = new Intent(this, GoodsListActivity.class);
                 intent.putExtra("content", "cate=" + content);
                 intent.putExtra("catename", title);
                 intent.putExtra("keywords", "");
@@ -444,13 +330,13 @@ public class FMHomePage extends BaseFragment implements
                 break;
             case "goods":
                 //商品详情
-                intent = new Intent(getActivity(), GoodsDetailsActivity.class);
+                intent = new Intent(this, GoodsDetailsActivity.class);
                 intent.putExtra("gid", content);
                 startActivityForResult(intent, CodeUtils.HOMEPAGE);
                 break;
             case "custom":
                 //自定义分类
-                intent = new Intent(getActivity(), GoodsListActivity.class);
+                intent = new Intent(this, GoodsListActivity.class);
                 intent.putExtra("content", "cate=" + content);
                 intent.putExtra("catename", title);
                 intent.putExtra("keywords", "");
@@ -461,7 +347,7 @@ public class FMHomePage extends BaseFragment implements
                 break;
             case "search":
                 //搜索
-                intent = new Intent(getActivity(), GoodsListActivity.class);
+                intent = new Intent(this, GoodsListActivity.class);
                 intent.putExtra("content", content);
                 intent.putExtra("catename", title);
                 intent.putExtra("keywords", "");
@@ -470,55 +356,13 @@ public class FMHomePage extends BaseFragment implements
             case "#":
                 //不做操作
                 break;
+
             case "action":
                 if (content.equals("sign")) {
                     if (isLogin()) {
                         if (!(spUserInfo.getLoginReturn().equals(""))) {
-                            Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
-                            phone = login.getData().getPhone();
-                            token = login.getData().getToken();
 
-                            final AlertDialog dlg = new AlertDialog.Builder(getActivity()).create();
-                            dlg.show();
-                            Window window = dlg.getWindow();
-                            window.setGravity(Gravity.CENTER);//设置弹框在屏幕的下方
-                            window.setContentView(R.layout.dialog_sign);
-                            tv_sign = window.findViewById(R.id.tv_sign);
-                            tv_sign_rule = window.findViewById(R.id.tv_sign_rule);
-                            tv_sign_days = window.findViewById(R.id.tv_sign_days);
-
-                            //设置弹框的高为屏幕的一半宽是屏幕的宽
-                            WindowManager windowManager = getActivity().getWindowManager();
-                            Display display = windowManager.getDefaultDisplay();
-                            WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
-                            lp.width = (int) (display.getWidth() * 0.7); //设置宽度
-                            lp.height = (int) (display.getHeight() * 0.5); //设置宽度
-                            dlg.getWindow().setAttributes(lp);
-
-                            tv_sign.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    if (cansign) {
-                                        setSign(phone, token);
-                                    } else {
-                                        toast("已签到");
-                                    }
-
-                                }
-                            });
-
-                            tv_sign_rule.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    intent = new Intent(getActivity(), SignRuleActivity.class);
-                                    intent.putExtra("phone", phone);
-                                    intent.putExtra("token", token);
-                                    startActivity(intent);
-
-                                    dlg.dismiss();
-                                }
-                            });
-                        } else {
+                           } else {
                             dialog();
                         }
                     } else {
@@ -528,20 +372,7 @@ public class FMHomePage extends BaseFragment implements
                 }
 
                 break;
-            case "other":
-                if ("pintuan".equals(content)){
-                    //拼团
-                    intent = new Intent(getActivity(), PinTuanActivity.class);
-                    startActivity(intent);
-                }else if ("dxspg".equals(content)){
-                    //大学生拼购
-                    intent = new Intent(getActivity(), CollegeGoActivity.class);
-                    startActivity(intent);
-                }else if ("score".equals(content)){
-                    intent = new Intent(getActivity(), JiFenActivity.class);
-                    startActivity(intent);
-                }
-                break;
+
             default:
                 break;
         }
@@ -549,14 +380,14 @@ public class FMHomePage extends BaseFragment implements
 
     /**/
     public void dialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("确定登录？");
         builder.setTitle("提示：未登录");
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                intent = new Intent(getActivity(), LoginActivity.class);
+                intent = new Intent(CollegeGoActivity.this, LoginActivity.class);
                 startActivityForResult(intent, CodeUtils.HOMEPAGE);
 
 

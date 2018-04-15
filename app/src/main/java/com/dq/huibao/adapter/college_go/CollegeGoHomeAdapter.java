@@ -1,18 +1,14 @@
-package com.dq.huibao.homepage;
+package com.dq.huibao.adapter.college_go;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,13 +16,11 @@ import android.widget.TextView;
 import com.dq.huibao.Interface.HomePageInterface;
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.index.AppimglistAdapter;
-import com.dq.huibao.adapter.index.GListAdapter;
 import com.dq.huibao.adapter.index.GoodsListAdapter;
 import com.dq.huibao.adapter.index.IndexMoreGoodsListAdapter;
 import com.dq.huibao.adapter.index.MenuAdapter;
 import com.dq.huibao.bean.homepage.IndexMoreGoods;
 import com.dq.huibao.bean.index.Index;
-import com.dq.huibao.lunbotu.CycleViewPager;
 import com.dq.huibao.rollpagerview.ImageLoopAdapter;
 import com.dq.huibao.rollpagerview.OnItemClickListener;
 import com.dq.huibao.rollpagerview.RollPagerView;
@@ -38,11 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 首页
+ * 拼go首页
  * Created by jingang on 2018/02/01.
  */
 
-public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
+public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
     /**
      * 类型1：banner
      */
@@ -81,7 +75,7 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
     private final LayoutInflater mLayoutInflater;
     private HomePageInterface hpInterface;
 
-    public HomeRecycleViewAdapter(Context mContext, List<Index.DataBean> dataList) {
+    public CollegeGoHomeAdapter(Context mContext, List<Index.DataBean> dataList) {
         this.mContext = mContext;
         this.dataList = dataList;
 
@@ -182,7 +176,7 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
             DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
             int width = dm.widthPixels;
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rollPagerView.getLayoutParams();
-            params.height = width / 7 * 4;//宽高比 1:2
+            params.height = width / 2;//宽高比 1:2
             rollPagerView.setLayoutParams(params);
         }
 

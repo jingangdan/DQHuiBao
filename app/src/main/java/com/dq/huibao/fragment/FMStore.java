@@ -24,6 +24,7 @@ import com.dq.huibao.base.BaseFragment;
 import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.bean.xstore.XStoreGoods;
 import com.dq.huibao.bean.xstore.XStoreInfo;
+import com.dq.huibao.ui.GoodsDetailsActivity;
 import com.dq.huibao.ui.LoginActivity;
 import com.dq.huibao.ui.xstore.XStoreSettingActivity;
 import com.dq.huibao.utils.CodeUtils;
@@ -33,6 +34,7 @@ import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.utils.SPUserInfo;
 import com.dq.huibao.view.DoubleWaveView;
+import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
@@ -53,7 +55,7 @@ import butterknife.ButterKnife;
  * Description：小店
  * Created by jingang on 2017/10/20.
  */
-public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMoreListener, View.OnClickListener {
+public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMoreListener, View.OnClickListener, OnItemClickListener {
     @Bind(R.id.lin_xstore_nologin)
     LinearLayout linPercenNoLogin;
     @Bind(R.id.tv_base_title)
@@ -128,6 +130,8 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
         xstoreSetting.setOnClickListener(this);
         butPercenLogin.setOnClickListener(this);
         view.findViewById(R.id.iv_base_back).setVisibility(View.GONE);
+        //
+        lRecyclerViewAdapter.setOnItemClickListener(this);
         //搜索
         searchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -411,5 +415,12 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
                 isLogin();
             }
         }
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Intent intent = new Intent(getActivity(), GoodsDetailsActivity.class);
+        intent.putExtra("gid", listAdapter.getDataList().get(position).getId());
+        startActivityForResult(intent, CodeUtils.HOMEPAGE);
     }
 }

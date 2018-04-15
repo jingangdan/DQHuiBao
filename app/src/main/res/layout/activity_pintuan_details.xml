@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main">
+
+    <com.dq.huibao.view.TopicScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/pintuan_isPin_layout"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/include_header_pintuan_details"/>
+
+            <include layout="@layout/include_footer_pintuan_details"/>
+
+        </LinearLayout>
+
+    </com.dq.huibao.view.TopicScrollView>
+
+    <!--底部-->
+    <LinearLayout
+        android:id="@+id/pintuan_isPin_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bg_main"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/pintuan_danmai"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.3"
+            android:background="@color/but_put_in"
+            android:text="直接购买"
+            android:textColor="#fff"
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/pintuan_pintuan"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.7"
+            android:background="@color/mycolor"
+            android:text="拼团"
+            android:textColor="#fff"
+            android:textSize="18dp" />
+
+    </LinearLayout>
+    <!--底部-->
+    <LinearLayout
+        android:id="@+id/pintuan_isNoPin_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bg_main"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/pintuan_no_btn"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.7"
+            android:background="@color/mycolor"
+            android:text="查看更多拼团"
+            android:textColor="#fff"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+    <!--模糊-->
+    <LinearLayout
+        android:id="@+id/pintuan_choice_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#90000000"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+    </LinearLayout>
+
+</RelativeLayout>

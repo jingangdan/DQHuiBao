@@ -23,7 +23,7 @@ public class ImageUtils {
      */
     public static void loadIntoUseFitWidth(final Context context, final String imageUrl, int emptyImageId, int errorImageId, final ImageView imageView) {
         Glide.with(context)
-                .load(imageUrl)
+                .load(getImagePath(imageUrl))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
@@ -57,7 +57,7 @@ public class ImageUtils {
 
     public static void loadIntoUseFitWidths(final Context context, final String imageUrl, int emptyImageId, int errorImageId, final ImageView imageView) {
         Glide.with(context)
-                .load(imageUrl)
+                .load(getImagePath(imageUrl))
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(emptyImageId)
@@ -84,9 +84,9 @@ public class ImageUtils {
     }
     public static void loadIntoUseFitWidths(final Context context, final String imageUrl, int emptyImageId, final ImageView imageView) {
         Glide.with(context)
-                .load(imageUrl)
+                .load(getImagePath(imageUrl))
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(emptyImageId)
                 .into(new BitmapImageViewTarget(imageView) {
                     @Override
@@ -111,7 +111,7 @@ public class ImageUtils {
 
     public static void loadIntoUseFitWidth2(final Context context, final String imageUrl, int emptyImageId, final ImageView imageView) {
         Glide.with(context)
-                .load(imageUrl)
+                .load(getImagePath(imageUrl))
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(emptyImageId)
@@ -134,5 +134,18 @@ public class ImageUtils {
                     }
                 });
 
+    }
+
+    /**
+     * 判断是否是完整地址（是否含有htpp://
+     * @param path
+     * @return
+     */
+    public static String getImagePath(String path){
+        if (path.indexOf("http://") >= 0){
+            return path;
+        }else {
+            return HttpPath.NEW_HEADER + path;
+        }
     }
 }

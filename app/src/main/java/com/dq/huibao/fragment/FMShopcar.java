@@ -141,6 +141,7 @@ public class FMShopcar extends BaseFragment implements
         shopCartAdapter.setModifyCountInterface(this);// 关键步骤2,设置数量增减接口
         exListView.setAdapter(shopCartAdapter);
 
+        view.findViewById(R.id.iv_base_back).setVisibility(View.GONE);
         isLogin();
 
         return view;
