@@ -25,11 +25,15 @@ import com.dq.huibao.rollpagerview.ImageLoopAdapter;
 import com.dq.huibao.rollpagerview.OnItemClickListener;
 import com.dq.huibao.rollpagerview.RollPagerView;
 import com.dq.huibao.ui.GoodsDetailsActivity;
+import com.dq.huibao.ui.college_go.PinGoGoodsActivity;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.ImageUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import butterknife.Bind;
 
 /**
  * 拼go首页
@@ -66,6 +70,7 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
     public String currentType = TYPE_MENU;
 
     private final Context mContext;
+
     private List<Index.DataBean> dataList;
 
     private GridLayoutManager mManager;
@@ -96,7 +101,7 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
      */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == dataList.size()){
+        if (viewType == dataList.size()) {
             goodsListMoreViewHolder = new GoodsListMoreViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_goodslist, parent, false));
             return goodsListMoreViewHolder;
         }
@@ -105,10 +110,10 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
             return new BannerViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_banner, parent, false));
         } else if (TYPE_MENU.equals(type)) {
             return new MenuViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_menu, parent, false));
-        }else if (TYPE_NOTICE.equals(type)) {
-            return new NoticeViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_notice, parent, false));
+        } else if (TYPE_NOTICE.equals(type)) {
+            return new PinGoeViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_pingo, parent, false),0);
         } else if (TYPE_IMGLIST.equals(type)) {
-            return new ImgListViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_imglist, parent, false),dataList.get(viewType).getWidth());
+            return new ImgListViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_imglist, parent, false), dataList.get(viewType).getWidth());
         } else if (TYPE_GOODSLIST.equals(type)) {
             return new GoodsListViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_goodslist, parent, false));
         }
@@ -125,7 +130,7 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         //底部加载更多商品直接return
-        if (position == dataList.size()){
+        if (position == dataList.size()) {
             goodsListMoreViewHolder.setData();
             return;
         }
@@ -138,8 +143,8 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
             MenuViewHolder menuViewHolder = (MenuViewHolder) holder;
             menuViewHolder.setData(dataList.get(position).getChild());
         } else if (TYPE_NOTICE.equals(type)) {
-            NoticeViewHolder noticeViewHolder = (NoticeViewHolder) holder;
-            noticeViewHolder.setData(dataList.get(position).getChild());
+            PinGoeViewHolder pinGoeViewHolder = (PinGoeViewHolder) holder;
+            pinGoeViewHolder.setData(dataList.get(position).getChild());
         } else if (TYPE_IMGLIST.equals(type)) {
             ImgListViewHolder imgListViewHolder = (ImgListViewHolder) holder;
             imgListViewHolder.setData(dataList.get(position).getChild());
@@ -153,6 +158,7 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         return position;
     }
+
     /**
      * 总共有多少个item
      *
@@ -230,20 +236,61 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
 
         }
     }
-    class NoticeViewHolder extends RecyclerView.ViewHolder {
 
+    class PinGoeViewHolder extends RecyclerView.ViewHolder {
         private final Context mContext;
-        private TextView textView;
-
-        public NoticeViewHolder(Context mContext, View itemView) {
+        /*最外层layout*/
+        LinearLayout pinGoLayout;
+        /*左侧：剩余单数，提示(xx发起..)，优惠(下单优惠多少)*/
+        TextView pingoLeftShengyudanshu,pingoLeftTishi,pingoLeftYouhui;
+        /*左侧：listview*/
+        RecyclerView pingoLeftList;
+        /*中间图标*/
+        ImageView pingoCenterImage;
+        /*中间提示,时间*/
+        TextView pingoCenterTishi,pingoCenterTime;
+        /*右侧：剩余单数，提示(xx发起..)，优惠(下单优惠多少)*/
+        TextView pingoRightShengyudanshu,pingoRightTishi,pingoRightYouhui;
+        /*右侧：listview*/
+        RecyclerView pingoRightList;
+        /*区分立减还是折扣:0-立减，1-折扣*/
+        private int type = 0;
+        //
+        PinGoIndexChildAdapter leftAdapter,rightAdapter;
+        public PinGoeViewHolder(Context mContext, View itemView,int type) {
             super(itemView);
             this.mContext = mContext;
-            textView =  itemView.findViewById(R.id.homepage_notice);
+            this.type = type;
+            pinGoLayout = itemView.findViewById(R.id.pingo_layout);
+            pingoLeftShengyudanshu = itemView.findViewById(R.id.pingo_left_shengyudanshu);
+            pingoLeftList = itemView.findViewById(R.id.pingo_left_list);
+            pingoLeftTishi = itemView.findViewById(R.id.pingo_left_tishi);
+            pingoLeftYouhui = itemView.findViewById(R.id.pingo_left_youhui);
+            pingoCenterImage = itemView.findViewById(R.id.pingo_center_image);
+            pingoCenterTishi = itemView.findViewById(R.id.pingo_center_tishi);
+            pingoCenterTime = itemView.findViewById(R.id.pingo_center_time);
+            pingoRightShengyudanshu = itemView.findViewById(R.id.pingo_right_shengyudanshu);
+            pingoRightList = itemView.findViewById(R.id.pingo_right_list);
+            pingoRightTishi = itemView.findViewById(R.id.pingo_right_tishi);
+            pingoRightYouhui = itemView.findViewById(R.id.pingo_right_youhui);
 
         }
 
         public void setData(final List<Index.DataBean.ChildBean> noticeBeans) {
-            textView.setText(noticeBeans.get(0).getExplain());
+            pingoLeftList.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
+            pingoRightList.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
+            leftAdapter = new PinGoIndexChildAdapter(mContext,new ArrayList<String>(Arrays.asList(new String[4])));
+            pingoLeftList.setAdapter(leftAdapter);
+            rightAdapter = new PinGoIndexChildAdapter(mContext,new ArrayList<String>(Arrays.asList(new String[4])));
+            pingoRightList.setAdapter(rightAdapter);
+            leftAdapter.setOnItemClickListener(new com.dq.huibao.Interface.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    Intent intent = new Intent(mContext, PinGoGoodsActivity.class);
+                    mContext.startActivity(intent);
+                }
+            });
+//            textView.setText(noticeBeans.get(0).getExplain());
         }
     }
 
@@ -289,45 +336,32 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
                     }
                 });
                 recyclerView.setLayoutManager(mManager);
-            }else if (widthPraent.equals("50")){//特殊布局
+            } else if (widthPraent.equals("50")) {//特殊布局
                 linearLayout.setVisibility(View.VISIBLE);
                 for (int i = 0; i < appimglistBeans.size(); i++) {
-                    ImageUtils.loadIntoUseFitWidths(mContext,HttpPath.NEW_HEADER + appimglistBeans.get(i).getThumb(),
-                            R.mipmap.icon_empty003,imageViews.get(i));
+                    ImageUtils.loadIntoUseFitWidths(mContext, HttpPath.NEW_HEADER + appimglistBeans.get(i).getThumb(),
+                            R.mipmap.icon_empty003, imageViews.get(i));
                 }
-            }else if (widthPraent.equals("1000")){//横向布局
+            } else if (widthPraent.equals("1000")) {//横向布局
                 layoutId = R.layout.item_hp_picture_horizontal;
-//                mManager = new GridLayoutManager(mContext, 1, GridLayoutManager.HORIZONTAL, false);
-//                mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//                    @Override
-//                    public int getSpanSize(int position) {
-//                        String imgwidth = appimglistBeans.get(position).getWidth();
-//                        if (imgwidth.equals("50")) {
-//                            return 2;
-//                        } else if (imgwidth.equals("100")) {
-//                            return 4;
-//                        }
-//                        return 1;
-//                    }
-//                });
-                recyclerView.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
+                recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
             }
-            final AppimglistAdapter appimglistAdapter = new AppimglistAdapter(mContext, appimglistBeans,layoutId);
+            final AppimglistAdapter appimglistAdapter = new AppimglistAdapter(mContext, appimglistBeans, layoutId);
             recyclerView.setAdapter(appimglistAdapter);
 
             appimglistAdapter.setOnItemClickListener(new com.dq.huibao.Interface.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        hpInterface.doHomePage(
+                @Override
+                public void onItemClick(View view, int position) {
+                    hpInterface.doHomePage(
                             position,
                             appimglistBeans.get(position).getTitle(),
                             appimglistBeans.get(position).getType(),
                             appimglistBeans.get(position).getContent()
-                        );
-                    }
-                });
+                    );
+                }
+            });
 
-            }
+        }
 
     }
 
@@ -360,10 +394,11 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
 
     /**
      * 加载更多商品
+     *
      * @param glistBeans:
      */
-    public void setMoreGoods(List<IndexMoreGoods.DataBean.ListBean> glistBeans){
-        if (goodsListMoreViewHolder != null){
+    public void setMoreGoods(List<IndexMoreGoods.DataBean.ListBean> glistBeans) {
+        if (goodsListMoreViewHolder != null) {
             goodsListMoreViewHolder.addData(glistBeans);
         }
     }
@@ -371,20 +406,23 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
     /**
      * 刷新更多商品
      */
-    public void refreshMoreGoods(){
+    public void refreshMoreGoods() {
         if (goodsListMoreViewHolder != null)
             goodsListMoreViewHolder.refresh();
     }
+
     /**
      * 更多商品
      */
     GoodsListMoreViewHolder goodsListMoreViewHolder = null;
+
     class GoodsListMoreViewHolder extends RecyclerView.ViewHolder {
 
         private final Context mContext;
         private RecyclerView recyclerView;
         IndexMoreGoodsListAdapter goodsListAdapter;
         List<IndexMoreGoods.DataBean.ListBean> glistBeans = new ArrayList<>();
+
         public GoodsListMoreViewHolder(Context mContext, View itemView) {
             super(itemView);
             this.mContext = mContext;
@@ -410,7 +448,7 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
         /**
          * 刷新数据
          */
-        public void addData(List<IndexMoreGoods.DataBean.ListBean> list){
+        public void addData(List<IndexMoreGoods.DataBean.ListBean> list) {
             glistBeans.addAll(list);
             goodsListAdapter.notifyDataSetChanged();
         }
@@ -418,7 +456,7 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
         /**
          * 刷新数据
          */
-        public void refresh(){
+        public void refresh() {
             glistBeans.clear();
             goodsListAdapter.notifyDataSetChanged();
         }

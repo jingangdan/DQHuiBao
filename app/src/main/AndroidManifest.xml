@@ -251,6 +251,7 @@
         <activity android:name=".ui.college_go.CollegeGoActivity" />
         <activity android:name=".ui.jifen.JiFenActivity" />
         <activity android:name=".ui.pintuan.PTSubmitOrderActivity" />
+        <activity android:name=".ui.college_go.PinGoGoodsActivity" />
 
         <!--增加图片清晰度-->
         <meta-data

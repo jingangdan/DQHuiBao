@@ -54,7 +54,7 @@
             android:id="@+id/tv_pay_price"
             style="@style/text_red"
             android:layout_alignParentRight="true"
-            android:text="100.00" />
+            android:text="0.00" />
 
     </RelativeLayout>
 

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+    <ImageView
+        android:id="@+id/item_pingo_goods_list_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_empty"/>
+    <TextView
+        android:id="@+id/item_pingo_goods_list_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/item_pingo_goods_list_image"
+        android:maxLines="1"
+        android:text="良品铺子手动打开佛山京东方撒娇的佛i"/>
+    <TextView
+        android:id="@+id/item_pingo_goods_list_youhui"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red_normal"
+        android:layout_alignLeft="@+id/item_pingo_goods_list_name"
+        android:layout_below="@+id/item_pingo_goods_list_name"
+        android:text="买两件立减2元"/>
+
+    <TextView
+        android:id="@+id/item_pingo_goods_list_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red_normal"
+        android:layout_alignLeft="@+id/item_pingo_goods_list_name"
+        android:layout_below="@+id/item_pingo_goods_list_youhui"
+        android:textSize="16sp"
+        android:text="￥1.00"/>
+
+    <TextView
+        android:id="@+id/item_pingo_goods_list_old_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/item_pingo_goods_list_price"
+        android:layout_alignTop="@+id/item_pingo_goods_list_price"
+        android:textSize="16sp"
+        android:text="￥3.00"/>
+
+    <TextView
+        android:id="@+id/item_pingo_goods_list_msq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/item_pingo_goods_list_old_price"
+        android:textColor="@color/white"
+        android:background="@drawable/yuanjiao_red"
+        android:text="马上抢"/>
+
+    <ProgressBar
+        android:id="@+id/item_pingo_goods_list_progress"
+        android:layout_width="130dp"
+        android:layout_height="30dp"
+        style="?android:progressBarStyleHorizontal"
+        android:progressDrawable="@drawable/progressbar_pingo_goods"
+        android:progress="23"
+        android:layout_alignLeft="@+id/item_pingo_goods_list_price"
+        android:layout_alignParentBottom="true"/>
+
+    <TextView
+        android:id="@+id/item_pingo_goods_list_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/red_normal"
+        android:text="200件已抢"/>
+</RelativeLayout>

@@ -368,7 +368,7 @@ public class PayActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                Log.e("第三方下单 失败","" + ex.toString());
             }
 
             @Override

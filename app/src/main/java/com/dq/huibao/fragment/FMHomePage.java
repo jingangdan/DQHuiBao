@@ -136,7 +136,6 @@ public class FMHomePage extends BaseFragment implements
                         searchLayout.setVisibility(View.GONE);
                         break;
                     case MotionEvent.ACTION_UP:
-                        searchLayout.setVisibility(View.VISIBLE);
                         break;
                 }
 
@@ -220,6 +219,8 @@ public class FMHomePage extends BaseFragment implements
             @Override
             public void onSuccess(String result) {
                 System.out.println("首页 = " + result);
+                //刷新完成，显示搜索框
+                searchLayout.setVisibility(View.VISIBLE);
                 // stopProgressDialog();
                 linHpNetwork.setVisibility(View.VISIBLE);
                 linHpNonetwork.setVisibility(View.GONE);

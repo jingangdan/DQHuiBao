@@ -1,6 +1,7 @@
-package com.dq.huibao.ui.jifen;
+package com.dq.huibao.ui.college_go;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,8 +12,11 @@ import android.view.ViewGroup;
 
 import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
+import com.dq.huibao.adapter.college_go.PinGoGoodsAdapter;
+import com.dq.huibao.adapter.college_go.PinGoGoodsTopAdapter;
 import com.dq.huibao.adapter.jifen.JiFenFuLiGoodsAdapter;
 import com.dq.huibao.adapter.jifen.JiFenFuLiTypeAdapter;
+import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.base.BaseFragment;
 import com.dq.huibao.bean.jifen.JiFenFuLiGoods;
 import com.dq.huibao.bean.jifen.JiFenFuLiType;
@@ -27,6 +31,8 @@ import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 
 import org.xutils.common.Callback;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,11 +40,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * 积分福利--兑换商品
+ * 同学拼go -商品列表页
  * Created by d on 2018/4/2.
  */
 
-public class JifenFlFragment extends BaseFragment {
+public class PinGoGoodsActivity extends BaseActivity {
     View view = null;
     @Bind(R.id.list_jifen_fuli)
     LRecyclerView jifenFuliListView;
@@ -47,20 +53,20 @@ public class JifenFlFragment extends BaseFragment {
     private String uid = "", phone = "", token = "";
     private int page = 1,pagesieze = 20;
     //
-    JiFenFuLiType jiFenFuLiType;
     View headerView;
     //
-    JiFenFuLiGoodsAdapter jiFenFuLiGoodsAdapter;
+    PinGoGoodsAdapter pinGoListGoodsAdapter;
     LRecyclerViewAdapter lRecyclerViewGoodsAdapter;
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_jifen_fuli, null);
-        ButterKnife.bind(this, view);
 
-        jiFenFuLiGoodsAdapter = new JiFenFuLiGoodsAdapter(getActivity());
-        lRecyclerViewGoodsAdapter = new LRecyclerViewAdapter(jiFenFuLiGoodsAdapter);
-        jifenFuliListView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_jifen_fuli);
+        ButterKnife.bind(this, this);
+
+        pinGoListGoodsAdapter = new PinGoGoodsAdapter(this);
+        lRecyclerViewGoodsAdapter = new LRecyclerViewAdapter(pinGoListGoodsAdapter);
+        jifenFuliListView.setLayoutManager(new LinearLayoutManager(this));
         jifenFuliListView.setAdapter(lRecyclerViewGoodsAdapter);
 
         jifenFuliListView.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -72,8 +78,7 @@ public class JifenFlFragment extends BaseFragment {
         jifenFuliListView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                jiFenFuLiGoodsAdapter.clear();
-                jiFenFuLiType.getData().clear();
+                pinGoListGoodsAdapter.clear();
                 jifenFuliListView.setNoMore(false);
                 page = 1;
                 getListData();
@@ -82,51 +87,25 @@ public class JifenFlFragment extends BaseFragment {
 
         addHeadView();
         getListData();
-        return view;
+        getGoods();
     }
+
     //
-    JiFenFuLiTypeAdapter typeAdapter;
+    PinGoGoodsTopAdapter topAdapter;
     RecyclerView typeLecyclerView;
     private void addHeadView() {
-        headerView = LayoutInflater.from(getActivity()).inflate(R.layout.header_jifen_fuli,null);
-        typeLecyclerView = headerView.findViewById(R.id.list_jifen_fuli_type);
-        typeLecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
+        headerView = LayoutInflater.from(this).inflate(R.layout.header_pingo_goods_layout,null);
+        typeLecyclerView = headerView.findViewById(R.id.header_pingo_goodsTop_list);
+        typeLecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         lRecyclerViewGoodsAdapter.addHeaderView(headerView);
-
-    }
-
-    public static JifenFlFragment newInstance(String uid, String phone, String token) {
-
-        Bundle args = new Bundle();
-        args.putString("uid", uid);
-        args.putString("phone", phone);
-        args.putString("token", token);
-        JifenFlFragment fragment = new JifenFlFragment();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            uid = getArguments().getString("uid");
-            phone = getArguments().getString("phone");
-            token = getArguments().getString("token");
-        }
-    }
+    protected void onDestroy() {
+        super.onDestroy();
 
-    @Override
-    protected void lazyLoad() {
-
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
 
     /**
      * 获取积分商品分类
@@ -134,26 +113,26 @@ public class JifenFlFragment extends BaseFragment {
     public void getListData() {
         Map<String, String> map = new HashMap<>();
         map.put("id", uid);
-        HttpxUtils.Get(getActivity(), HttpPath.JIFEN_FULI_TYPE, map,
+        HttpxUtils.Get(this, HttpPath.JIFEN_FULI_TYPE, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        jiFenFuLiType = GsonUtil.gsonIntance().gsonToBean(result, JiFenFuLiType.class);
-                        System.out.println("获取积分兑换商品分类 = " + jiFenFuLiType.getData().toString());
-                        typeAdapter = new JiFenFuLiTypeAdapter(getActivity(),jiFenFuLiType.getData());
-                        typeAdapter.setOnItemClickListener(new OnItemClickListener() {
+//                        jiFenFuLiType = GsonUtil.gsonIntance().gsonToBean(result, JiFenFuLiType.class);
+//                        System.out.println("同学拼go顶部数据获取 = " + jiFenFuLiType.getData().toString());
+                        topAdapter = new PinGoGoodsTopAdapter(PinGoGoodsActivity.this,new ArrayList<String>(Arrays.asList(new String[6])));
+                        topAdapter.setOnItemClickListener(new OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                getGoods(jiFenFuLiType.getData().get(position).getId());
+
                             }
                         });
-                        typeLecyclerView.setAdapter(typeAdapter);
-                        getGoods(jiFenFuLiType.getData().get(0).getId());
+                        typeLecyclerView.setAdapter(topAdapter);
+
                     }
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取积分兑换商品分类 = 失败" + ex.getMessage());
+                        System.out.println("同学拼go顶部数据获取 = 失败" + ex.getMessage());
                     }
 
                     @Override
@@ -171,16 +150,16 @@ public class JifenFlFragment extends BaseFragment {
     /**
      * 获取商品列表
      */
-    public void getGoods(String id){
+    public void getGoods(){
         Map<String, String> map = new HashMap<>();
-        map.put("id", id);
-        HttpxUtils.Get(getActivity(), HttpPath.JIFEN_FULI_GOODS, map,
+        map.put("id", "2");
+        HttpxUtils.Get(this, HttpPath.JIFEN_FULI_GOODS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
                         JiFenFuLiGoods goods = GsonUtil.gsonIntance().gsonToBean(result, JiFenFuLiGoods.class);
                         System.out.println("获取积分兑换商品 = " + goods.getData().toString());
-                        jiFenFuLiGoodsAdapter.addAll(goods.getData());
+                        pinGoListGoodsAdapter.addAll(new ArrayList<String>(Arrays.asList(new String[10])));
                         jifenFuliListView.refreshComplete(pagesieze);
                     }
 

@@ -22,11 +22,9 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +34,7 @@ import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.pintuan.PTChooseAdapter;
 import com.dq.huibao.adapter.pintuan.PTParmasAdapter;
-import com.dq.huibao.adapter.pintuan.PTkaiTuanAdapter;
+import com.dq.huibao.adapter.pintuan.PTTuanListAdapter;
 import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.PinTuanDetails;
 import com.dq.huibao.bean.account.Account;
@@ -48,7 +46,6 @@ import com.dq.huibao.lunbotu.ViewFactory;
 import com.dq.huibao.ui.InjoyActivity;
 import com.dq.huibao.ui.LoginActivity;
 import com.dq.huibao.ui.ShowBigPictrueActivity;
-import com.dq.huibao.ui.SubmitOrderActivity;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
@@ -90,8 +87,8 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
     TextView pintuanTvTotal;
     /*拼团-团列表*/
     @Bind(R.id.pintuan_list)
-    ListView pinTuanListView;
-    PTkaiTuanAdapter pTkaiTuanAdapter;
+    RecyclerView pinTuanListView;
+    PTTuanListAdapter pTkaiTuanAdapter;
     /**/
     @Bind(R.id.pintuan_scrollview)
     GradationScrollView scrollView;
@@ -182,6 +179,8 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
         gdParmasAdapter = new PTParmasAdapter(TAG, paramsList);
         pintuanRvParams.setLayoutManager(new LinearLayoutManager(TAG));
         pintuanRvParams.setAdapter(gdParmasAdapter);
+
+        pinTuanListView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
 
         intent = getIntent();
         gid = intent.getStringExtra("gid");
@@ -327,7 +326,6 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
         Map<String, String> map = new HashMap<>();
         map.put("goodsid", gid);
         map.put("tuanid", tuanId);
-        Log.d("fffffffffffff", "拼团商品详情=" + map.toString());
         HttpxUtils.Get(this, HttpPath.PINTUAN_DETAILS, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -360,17 +358,18 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
                 //
                 danduPrice = goodsDetail.getData().getMarketprice();
                 pintuanPrice = goodsDetail.getData().getTuanprice();
-                //
+                //拼团列表
                 if (!goodsDetail.getList().equals("[]")){
-                    pTkaiTuanAdapter = new PTkaiTuanAdapter(PinTuanDetailsActivity.this,goodsDetail.getList());
+                    pTkaiTuanAdapter = new PTTuanListAdapter(PinTuanDetailsActivity.this,goodsDetail.getList());
                     pinTuanListView.setAdapter(pTkaiTuanAdapter);
-                    pinTuanListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    pTkaiTuanAdapter.setOnItemClickListener(new OnItemClickListener() {
                         @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        public void onItemClick(View view, int position) {
                             orderType = "1";
                             pid = goodsDetail.getList().get(position).getPid();
-                            //验证
-                            verifyTuan();
+                            //选择规格
+                            setPopTest(false,true);
+                            setBackgroundBlack(pintuanAllChoice, 0);
                         }
                     });
                 }

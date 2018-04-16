@@ -273,7 +273,10 @@ public class PTSubmitOrderActivity extends BaseActivity {
                 PinTuanCheckOrder checkOrder = GsonUtil.gsonIntance().gsonToBean(result, PinTuanCheckOrder.class);
 
                 updateUI(checkOrder);
-                pay_all = checkOrder.getData().getMoney_all();
+                /*商品总价 + 运费 - 优惠*/
+                pay_all = checkOrder.getData().getMoney_all()
+                        + checkOrder.getData().getDispatch_all()
+                        - checkOrder.getData().getDiscount_all();
 
                 tvConfirmPay.setText("需付：¥" + pay_all);
             }
@@ -310,7 +313,7 @@ public class PTSubmitOrderActivity extends BaseActivity {
     /*商品规格*/
 //        tvItemCoOption;
     /*商品价格*/
-        tvItemCoMarketprice.setText("￥:" + Float.intBitsToFloat(checkOrder.getData().getMoney_all())/Float.intBitsToFloat(checkOrder.getData().getCount()));
+        tvItemCoMarketprice.setText("￥" + Float.intBitsToFloat(checkOrder.getData().getMoney_all())/Float.intBitsToFloat(checkOrder.getData().getCount()));
     /*商品数量*/
         tvItemCoBuycount.setText("数量 x" + count);
     /*留言*/
@@ -320,9 +323,9 @@ public class PTSubmitOrderActivity extends BaseActivity {
     /*商品总价*/
         ptTvCheckorderMoney.setText("￥" + checkOrder.getData().getMoney_all());
     /*运费*/
-//        ptTvCheckorderDispatch;
+        ptTvCheckorderDispatch.setText("￥" + checkOrder.getData().getDispatch_all());
     /*会员优惠*/
-//        ptTvCoDiscountAll;
+        ptTvCoDiscountAll.setText("￥" + checkOrder.getData().getDiscount_all());
     /**/
 //        ImageView ptIvYouhuiquanTight;
     /*商品小计价格*/
@@ -358,6 +361,7 @@ public class PTSubmitOrderActivity extends BaseActivity {
                     intent.putExtra("price", "" + pay_all);
                     intent.putExtra("phone", phone);
                     intent.putExtra("token", token);
+                    intent.putExtra("uid", uid);
                     startActivityForResult(intent, CodeUtils.CONFIRM_ORDER);
 
                     setResult();
