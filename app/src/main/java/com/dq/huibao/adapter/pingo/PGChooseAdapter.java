@@ -1,4 +1,4 @@
-package com.dq.huibao.adapter.pintuan;
+package com.dq.huibao.adapter.pingo;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,7 +10,8 @@ import android.widget.TextView;
 
 import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
-import com.dq.huibao.bean.pintuan.PinTuanDetails;
+import com.dq.huibao.bean.goods.GoodsDetail;
+import com.dq.huibao.bean.pingo.PinGoGoodDetails;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 
 import java.util.List;
@@ -23,13 +24,13 @@ import java.util.List;
  * Created by jingang on 2017/11/10.
  */
 
-public class PTChooseAdapter extends RecyclerView.Adapter<PTChooseAdapter.MyViewHolder> {
+public class PGChooseAdapter extends RecyclerView.Adapter<PGChooseAdapter.MyViewHolder> {
     private Context mContext;
-    private List<PinTuanDetails.DataBean.SpecBean.ItemsBean> itemList;
+    private List<PinGoGoodDetails.DataBean.SpecBean.ItemBean> itemList;
     private OnItemClickListener mOnItemClickListener;
     private int mSelect = -1;
 
-    public PTChooseAdapter(Context mContext, List<PinTuanDetails.DataBean.SpecBean.ItemsBean> itemList) {
+    public PGChooseAdapter(Context mContext, List<PinGoGoodDetails.DataBean.SpecBean.ItemBean> itemList) {
         this.mContext = mContext;
         this.itemList = itemList;
     }

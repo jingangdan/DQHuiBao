@@ -57,4 +57,7 @@ public class CodeUtils {
     public static final int XSTORE_GOODS_RESULT = 0x17;
 
 
+    /*拼go首页*/
+    public static final int PINGO_HOMEPAGE = 0x18;
+
 }

@@ -1,4 +1,4 @@
-package com.dq.huibao.adapter.college_go;
+package com.dq.huibao.adapter.pingo;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,13 +6,16 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.dq.huibao.Interface.HomePageInterface;
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.index.AppimglistAdapter;
@@ -21,11 +24,15 @@ import com.dq.huibao.adapter.index.IndexMoreGoodsListAdapter;
 import com.dq.huibao.adapter.index.MenuAdapter;
 import com.dq.huibao.bean.homepage.IndexMoreGoods;
 import com.dq.huibao.bean.index.Index;
+import com.dq.huibao.bean.pingo.PinGoCenterTuan;
+import com.dq.huibao.bean.pingo.PinGoIndex;
+import com.dq.huibao.bean.pingo.PinGoIndexMoreGoods;
 import com.dq.huibao.rollpagerview.ImageLoopAdapter;
 import com.dq.huibao.rollpagerview.OnItemClickListener;
 import com.dq.huibao.rollpagerview.RollPagerView;
 import com.dq.huibao.ui.GoodsDetailsActivity;
-import com.dq.huibao.ui.college_go.PinGoGoodsActivity;
+import com.dq.huibao.ui.pingo.PinGoGoodsActivity;
+import com.dq.huibao.utils.CountDownUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.ImageUtils;
 
@@ -33,14 +40,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import butterknife.Bind;
-
 /**
  * 拼go首页
  * Created by jingang on 2018/02/01.
  */
 
-public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
+public class PinGoHomeAdapter extends RecyclerView.Adapter {
     /**
      * 类型1：banner
      */
@@ -52,7 +57,7 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
     /**
      * 类型3：公告
      */
-    public static final String TYPE_NOTICE = "notice";
+    public static final String TYPE_PINGO = "dxspg";
     /**
      * 类型4：图片组
      * 需要判断childlist大小，宽度
@@ -71,7 +76,7 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
 
     private final Context mContext;
 
-    private List<Index.DataBean> dataList;
+    private List<PinGoIndex.DataBean> dataList;
 
     private GridLayoutManager mManager;
     /**
@@ -80,7 +85,7 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
     private final LayoutInflater mLayoutInflater;
     private HomePageInterface hpInterface;
 
-    public CollegeGoHomeAdapter(Context mContext, List<Index.DataBean> dataList) {
+    public PinGoHomeAdapter(Context mContext, List<PinGoIndex.DataBean> dataList) {
         this.mContext = mContext;
         this.dataList = dataList;
 
@@ -108,12 +113,11 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
         String type = dataList.get(viewType).getModule();
         if (TYPE_BANNER.equals(type)) {
             return new BannerViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_banner, parent, false));
-        } else if (TYPE_MENU.equals(type)) {
-            return new MenuViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_menu, parent, false));
-        } else if (TYPE_NOTICE.equals(type)) {
-            return new PinGoeViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_pingo, parent, false),0);
         } else if (TYPE_IMGLIST.equals(type)) {
             return new ImgListViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_imglist, parent, false), dataList.get(viewType).getWidth());
+        } else if (TYPE_PINGO.equals(type)) {
+            pinGoeViewHolder = new PinGoeViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_pingo, parent, false));
+            return pinGoeViewHolder;
         } else if (TYPE_GOODSLIST.equals(type)) {
             return new GoodsListViewHolder(mContext, mLayoutInflater.inflate(R.layout.layout_goodslist, parent, false));
         }
@@ -139,15 +143,12 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
         if (TYPE_BANNER.equals(type)) {
             BannerViewHolder bannerViewHolder = (BannerViewHolder) holder;
             bannerViewHolder.setData(dataList.get(position).getChild());
-        } else if (TYPE_MENU.equals(type)) {
-            MenuViewHolder menuViewHolder = (MenuViewHolder) holder;
-            menuViewHolder.setData(dataList.get(position).getChild());
-        } else if (TYPE_NOTICE.equals(type)) {
-            PinGoeViewHolder pinGoeViewHolder = (PinGoeViewHolder) holder;
-            pinGoeViewHolder.setData(dataList.get(position).getChild());
-        } else if (TYPE_IMGLIST.equals(type)) {
+        }  else if (TYPE_IMGLIST.equals(type)) {
             ImgListViewHolder imgListViewHolder = (ImgListViewHolder) holder;
             imgListViewHolder.setData(dataList.get(position).getChild());
+        } else if (TYPE_PINGO.equals(type)) {
+            PinGoeViewHolder pinGoeViewHolder = (PinGoeViewHolder) holder;
+            pinGoeViewHolder.setData();
         } else if (TYPE_GOODSLIST.equals(type)) {
             GoodsListViewHolder goodsListViewHolder = (GoodsListViewHolder) holder;
             goodsListViewHolder.setData(dataList.get(position).getChild());
@@ -186,8 +187,8 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
             rollPagerView.setLayoutParams(params);
         }
 
-        public void setData(final List<Index.DataBean.ChildBean> bannerBeans) {
-            rollPagerView.setAdapter(new ImageLoopAdapter(rollPagerView, mContext, bannerBeans));
+        public void setData(final List<PinGoIndex.DataBean.ChildBean> bannerBeans) {
+            rollPagerView.setAdapter(new PGImageLoopAdapter(rollPagerView, mContext, bannerBeans));
             rollPagerView.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
@@ -204,149 +205,145 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
 
     }
 
-    class MenuViewHolder extends RecyclerView.ViewHolder {
-
-        private final Context mContext;
-        private RecyclerView recyclerView;
-
-        public MenuViewHolder(Context mContext, View itemView) {
-            super(itemView);
-            this.mContext = mContext;
-            recyclerView = (RecyclerView) itemView.findViewById(R.id.rv_menu);
-
-        }
-
-        public void setData(final List<Index.DataBean.ChildBean> menuBeans) {
-            mManager = new GridLayoutManager(mContext, 5, GridLayoutManager.VERTICAL, false);
-            recyclerView.setLayoutManager(mManager);
-            final MenuAdapter menuAdapter = new MenuAdapter(mContext, menuBeans);
-            recyclerView.setAdapter(menuAdapter);
-
-            menuAdapter.setOnItemClickListener(new com.dq.huibao.Interface.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    hpInterface.doHomePage(
-                            position,
-                            menuBeans.get(position).getTitle(),
-                            menuBeans.get(position).getType(),
-                            menuBeans.get(position).getContent()
-                    );
-                }
-            });
-
-        }
-    }
-
+    /**
+     * 拼go
+     */
     class PinGoeViewHolder extends RecyclerView.ViewHolder {
         private final Context mContext;
-        /*最外层layout*/
-        LinearLayout pinGoLayout;
-        /*左侧：剩余单数，提示(xx发起..)，优惠(下单优惠多少)*/
-        TextView pingoLeftShengyudanshu,pingoLeftTishi,pingoLeftYouhui;
         /*左侧：listview*/
-        RecyclerView pingoLeftList;
-        /*中间图标*/
-        ImageView pingoCenterImage;
-        /*中间提示,时间*/
-        TextView pingoCenterTishi,pingoCenterTime;
+        RecyclerView lijianLeftList;
+        /*时间*/
+        TextView lijianTime,zhekouTime;
         /*右侧：剩余单数，提示(xx发起..)，优惠(下单优惠多少)*/
-        TextView pingoRightShengyudanshu,pingoRightTishi,pingoRightYouhui;
+        TextView lijianRightShengyudanshu,lijianRightTishi,lijianRightYouhui;
         /*右侧：listview*/
-        RecyclerView pingoRightList;
+        RecyclerView lijianRightList;
         /*区分立减还是折扣:0-立减，1-折扣*/
-        private int type = 0;
-        //
+        /**顺序立减左侧-立减右侧-折扣左侧-折扣右侧*/
+        /*地区名称*/
+        List<TextView> pingodiquName = new ArrayList<>();
+        /*提示剩余单数*/
+        List<TextView> pingosyds = new ArrayList<>();
+        /*最近一个加入拼团的人*/
+        List<TextView> newPeople = new ArrayList<>();
+        /*优惠方式或者额度*/
+        List<TextView> youhui = new ArrayList<>();
+        /*参团人员列表*/
+        List<RecyclerView> recycleViews = new ArrayList<>();
+        List<PinGoIndexChildAdapter> adapters = new ArrayList<>();
         PinGoIndexChildAdapter leftAdapter,rightAdapter;
-        public PinGoeViewHolder(Context mContext, View itemView,int type) {
+        /*数据*/
+        List<PinGoCenterTuan.DataBean.ListBeanX> dataList = new ArrayList<>();
+        public PinGoeViewHolder(Context mContext, View itemView) {
             super(itemView);
             this.mContext = mContext;
-            this.type = type;
-            pinGoLayout = itemView.findViewById(R.id.pingo_layout);
-            pingoLeftShengyudanshu = itemView.findViewById(R.id.pingo_left_shengyudanshu);
-            pingoLeftList = itemView.findViewById(R.id.pingo_left_list);
-            pingoLeftTishi = itemView.findViewById(R.id.pingo_left_tishi);
-            pingoLeftYouhui = itemView.findViewById(R.id.pingo_left_youhui);
-            pingoCenterImage = itemView.findViewById(R.id.pingo_center_image);
-            pingoCenterTishi = itemView.findViewById(R.id.pingo_center_tishi);
-            pingoCenterTime = itemView.findViewById(R.id.pingo_center_time);
-            pingoRightShengyudanshu = itemView.findViewById(R.id.pingo_right_shengyudanshu);
-            pingoRightList = itemView.findViewById(R.id.pingo_right_list);
-            pingoRightTishi = itemView.findViewById(R.id.pingo_right_tishi);
-            pingoRightYouhui = itemView.findViewById(R.id.pingo_right_youhui);
-
+            /*地区名称*/
+            pingodiquName.add((TextView) itemView.findViewById(R.id.pingo_lijian_left_name));
+            pingodiquName.add((TextView) itemView.findViewById(R.id.pingo_lijian_right_name));
+            pingodiquName.add((TextView) itemView.findViewById(R.id.pingo_zhekou_left_name));
+            pingodiquName.add((TextView) itemView.findViewById(R.id.pingo_zhekou_right_name));
+            /*剩余单数提示*/
+            pingosyds.add((TextView) itemView.findViewById(R.id.pingo_lijian_left_shengyudanshu));
+            pingosyds.add((TextView) itemView.findViewById(R.id.pingo_lijian_right_shengyudanshu));
+            pingosyds.add((TextView) itemView.findViewById(R.id.pingo_zhekou_left_shengyudanshu));
+            pingosyds.add((TextView) itemView.findViewById(R.id.pingo_zhekou_right_shengyudanshu));
+            /*最近一个加入拼团的人*/
+            newPeople.add((TextView) itemView.findViewById(R.id.pingo_lijian_left_tishi));
+            newPeople.add((TextView) itemView.findViewById(R.id.pingo_lijian_right_tishi));
+            newPeople.add((TextView) itemView.findViewById(R.id.pingo_zhekou_left_tishi));
+            newPeople.add((TextView) itemView.findViewById(R.id.pingo_zhekou_right_tishi));
+            /*优惠方式或者额度*/
+            youhui.add((TextView) itemView.findViewById(R.id.pingo_lijian_left_youhui));
+            youhui.add((TextView) itemView.findViewById(R.id.pingo_lijian_right_youhui));
+            youhui.add((TextView) itemView.findViewById(R.id.pingo_zhekou_left_youhui));
+            youhui.add((TextView) itemView.findViewById(R.id.pingo_zhekou_right_youhui));
+            /*参团人员列表*/
+            recycleViews.add((RecyclerView) itemView.findViewById(R.id.pingo_lijian_left_list));
+            recycleViews.add((RecyclerView) itemView.findViewById(R.id.pingo_lijian_right_list));
+            recycleViews.add((RecyclerView) itemView.findViewById(R.id.pingo_zhekou_left_list));
+            recycleViews.add((RecyclerView) itemView.findViewById(R.id.pingo_zhekou_right_list));
+            /*时间*/
+            lijianTime = itemView.findViewById(R.id.pingo_lijian_center_time);
+            zhekouTime = itemView.findViewById(R.id.pingo_zhekou_center_time);
+            //
         }
 
-        public void setData(final List<Index.DataBean.ChildBean> noticeBeans) {
-            pingoLeftList.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
-            pingoRightList.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
-            leftAdapter = new PinGoIndexChildAdapter(mContext,new ArrayList<String>(Arrays.asList(new String[4])));
-            pingoLeftList.setAdapter(leftAdapter);
-            rightAdapter = new PinGoIndexChildAdapter(mContext,new ArrayList<String>(Arrays.asList(new String[4])));
-            pingoRightList.setAdapter(rightAdapter);
-            leftAdapter.setOnItemClickListener(new com.dq.huibao.Interface.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    Intent intent = new Intent(mContext, PinGoGoodsActivity.class);
-                    mContext.startActivity(intent);
-                }
-            });
-//            textView.setText(noticeBeans.get(0).getExplain());
+        public void setData() {
+            dataList.add(new PinGoCenterTuan.DataBean.ListBeanX());
+            dataList.add(new PinGoCenterTuan.DataBean.ListBeanX());
+            dataList.add(new PinGoCenterTuan.DataBean.ListBeanX());
+            dataList.add(new PinGoCenterTuan.DataBean.ListBeanX());
+            for (int i = 0; i < 4; i++) {
+                recycleViews.get(i).setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
+            }
+        }
+
+        /**
+         * 刷新数据
+         * @param dataBeans
+         */
+        public void refreshData(PinGoCenterTuan.DataBean dataBeans){
+            Long time = (Long.parseLong((dataBeans.getEndtime()+"")) - System.currentTimeMillis()/1000);
+            CountDownUtil countDownUtil = new CountDownUtil(time * 1000,lijianTime,zhekouTime);
+            countDownUtil.countdown();
+            //设置倒计时
+            dataList.clear();
+            adapters.clear();
+            dataList.add(dataBeans.getList().get(0).get(0));
+            dataList.add(dataBeans.getList().get(0).get(1));
+            dataList.add(dataBeans.getList().get(1).get(0));
+            dataList.add(dataBeans.getList().get(1).get(1));
+            for (int i = 0; i < 4; i++) {
+                //地区名称
+                pingodiquName.get(i).setText(dataList.get(i).getRegname());
+                //还剩几单
+                pingosyds.get(i).setText("还剩" + (Integer.parseInt(dataList.get(i).getMaxcount()) - Integer.parseInt(dataList.get(i).getTuancount())) + "单");
+                //最新加入的人员
+                newPeople.get(i).setText(dataList.get(i).getList().get(dataList.get(i).getList().size()-1).getRname() + "刚刚加入团");
+                //优惠
+                youhui.get(i).setText("加入立"+ (i < 2 ? "减"+dataList.get(i).getJian()+"元" : "打"+dataList.get(i).getZhe()+"折"));
+                //设置参团人员
+                adapters.add(new PinGoIndexChildAdapter(mContext,dataList.get(i).getList(),dataList.get(i).getDistype()));
+                adapters.get(i).setOnItemClickListener(new PinGoIndexChildAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(String type) {
+                        hpInterface.doHomePage(0, "","goodsList", type);
+                    }
+                });
+                recycleViews.get(i).setAdapter(adapters.get(i));
+            }
+        }
+    }
+    PinGoeViewHolder pinGoeViewHolder = null;
+    /**
+     * 刷新拼go信息
+     * @param dataBeans
+     */
+    public void refreshPinGo(PinGoCenterTuan.DataBean dataBeans){
+        if (pinGoeViewHolder != null){
+            pinGoeViewHolder.refreshData(dataBeans);
         }
     }
 
+    /**
+     * imageList
+     */
     class ImgListViewHolder extends RecyclerView.ViewHolder {
         private Context mContext;
         private RecyclerView recyclerView;
-        LinearLayout linearLayout;
-        private List<ImageView> imageViews = new ArrayList<>();
-        //imaList下布局类型
-        /**
-         * 是否是横着的布局
-         * 100:正常列表-----
-         * 1000：横向滑动
-         * 50:流布局
-         */
-        private String widthPraent = "100";
-
         public ImgListViewHolder(Context mContext, View itemView, String type) {
             super(itemView);
             this.mContext = mContext;
-            widthPraent = type;
             recyclerView = (RecyclerView) itemView.findViewById(R.id.rv_imglist);
-            linearLayout = itemView.findViewById(R.id.imagelist_3_layout);
-            imageViews.add((ImageView) itemView.findViewById(R.id.imagelist_3_1));
-            imageViews.add((ImageView) itemView.findViewById(R.id.imagelist_3_2));
-            imageViews.add((ImageView) itemView.findViewById(R.id.imagelist_3_3));
         }
 
-        public void setData(final List<Index.DataBean.ChildBean> appimglistBeans) {
-            int layoutId = R.layout.item_hp_picture;
-            if (widthPraent.equals("100")) {//正常卡片布局
-                mManager = new GridLayoutManager(mContext, 4, GridLayoutManager.VERTICAL, false);
-                mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                    @Override
-                    public int getSpanSize(int position) {
-                        String imgwidth = appimglistBeans.get(position).getWidth();
-                        if (imgwidth.equals("50")) {
-                            return 2;
-                        } else if (imgwidth.equals("100")) {
-                            return 4;
-                        }
-                        return 1;
-                    }
-                });
-                recyclerView.setLayoutManager(mManager);
-            } else if (widthPraent.equals("50")) {//特殊布局
-                linearLayout.setVisibility(View.VISIBLE);
-                for (int i = 0; i < appimglistBeans.size(); i++) {
-                    ImageUtils.loadIntoUseFitWidths(mContext, HttpPath.NEW_HEADER + appimglistBeans.get(i).getThumb(),
-                            R.mipmap.icon_empty003, imageViews.get(i));
-                }
-            } else if (widthPraent.equals("1000")) {//横向布局
-                layoutId = R.layout.item_hp_picture_horizontal;
-                recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        public void setData(final List<PinGoIndex.DataBean.ChildBean> listBeans) {
+            int layoutid = R.layout.item_pingo_image;
+            if (listBeans.get(0).getType().equals("other") && !"#".equals(listBeans.get(0).getContent())){
+                layoutid = R.layout.item_pingo_image_text;
             }
-            final AppimglistAdapter appimglistAdapter = new AppimglistAdapter(mContext, appimglistBeans, layoutId);
+            recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+            final PinGoimglistAdapter appimglistAdapter = new PinGoimglistAdapter(mContext, listBeans,layoutid);
             recyclerView.setAdapter(appimglistAdapter);
 
             appimglistAdapter.setOnItemClickListener(new com.dq.huibao.Interface.OnItemClickListener() {
@@ -354,9 +351,9 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
                 public void onItemClick(View view, int position) {
                     hpInterface.doHomePage(
                             position,
-                            appimglistBeans.get(position).getTitle(),
-                            appimglistBeans.get(position).getType(),
-                            appimglistBeans.get(position).getContent()
+                            listBeans.get(position).getTitle(),
+                            listBeans.get(position).getType(),
+                            listBeans.get(position).getContent()
                     );
                 }
             });
@@ -376,17 +373,20 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
             recyclerView = (RecyclerView) itemView.findViewById(R.id.rv_goodslist);
         }
 
-        public void setData(final List<Index.DataBean.ChildBean> glistBeans) {
-            recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2, GridLayoutManager.VERTICAL, false));
-            final GoodsListAdapter goodsListAdapter = new GoodsListAdapter(mContext, glistBeans);
+        public void setData(final List<PinGoIndex.DataBean.ChildBean> glistBeans) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
+            final PGGoodsListAdapter goodsListAdapter = new PGGoodsListAdapter(mContext, glistBeans);
             recyclerView.setAdapter(goodsListAdapter);
 
             goodsListAdapter.setOnItemClickListener(new com.dq.huibao.Interface.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    Intent intent = new Intent(mContext, GoodsDetailsActivity.class);
-                    intent.putExtra("gid", glistBeans.get(position).getId());
-                    mContext.startActivity(intent);
+                    hpInterface.doHomePage(
+                            position,
+                            glistBeans.get(position).getTitle(),
+                            "goods",
+                            glistBeans.get(position).getId()
+                    );
                 }
             });
         }
@@ -397,7 +397,7 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
      *
      * @param glistBeans:
      */
-    public void setMoreGoods(List<IndexMoreGoods.DataBean.ListBean> glistBeans) {
+    public void setMoreGoods(List<PinGoIndexMoreGoods.DataBean.ListBean> glistBeans) {
         if (goodsListMoreViewHolder != null) {
             goodsListMoreViewHolder.addData(glistBeans);
         }
@@ -420,8 +420,8 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
 
         private final Context mContext;
         private RecyclerView recyclerView;
-        IndexMoreGoodsListAdapter goodsListAdapter;
-        List<IndexMoreGoods.DataBean.ListBean> glistBeans = new ArrayList<>();
+        PinGoMoreGoodsAdapter goodsListAdapter;
+        List<PinGoIndexMoreGoods.DataBean.ListBean> glistBeans = new ArrayList<>();
 
         public GoodsListMoreViewHolder(Context mContext, View itemView) {
             super(itemView);
@@ -431,15 +431,18 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
 
         public void setData() {
             recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2, GridLayoutManager.VERTICAL, false));
-            goodsListAdapter = new IndexMoreGoodsListAdapter(mContext, glistBeans);
+            goodsListAdapter = new PinGoMoreGoodsAdapter(mContext, glistBeans);
             recyclerView.setAdapter(goodsListAdapter);
 
             goodsListAdapter.setOnItemClickListener(new com.dq.huibao.Interface.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    Intent intent = new Intent(mContext, GoodsDetailsActivity.class);
-                    intent.putExtra("gid", glistBeans.get(position).getId());
-                    mContext.startActivity(intent);
+                    hpInterface.doHomePage(
+                            position,
+                            glistBeans.get(position).getGoodsname(),
+                            "goods",
+                            glistBeans.get(position).getId()
+                    );
                 }
             });
 
@@ -448,7 +451,7 @@ public class CollegeGoHomeAdapter extends RecyclerView.Adapter {
         /**
          * 刷新数据
          */
-        public void addData(List<IndexMoreGoods.DataBean.ListBean> list) {
+        public void addData(List<PinGoIndexMoreGoods.DataBean.ListBean> list) {
             glistBeans.addAll(list);
             goodsListAdapter.notifyDataSetChanged();
         }

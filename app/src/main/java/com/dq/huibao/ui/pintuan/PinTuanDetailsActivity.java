@@ -36,7 +36,7 @@ import com.dq.huibao.adapter.pintuan.PTChooseAdapter;
 import com.dq.huibao.adapter.pintuan.PTParmasAdapter;
 import com.dq.huibao.adapter.pintuan.PTTuanListAdapter;
 import com.dq.huibao.base.BaseActivity;
-import com.dq.huibao.bean.PinTuanDetails;
+import com.dq.huibao.bean.pintuan.PinTuanDetails;
 import com.dq.huibao.bean.account.Account;
 import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.bean.cart.Cart;

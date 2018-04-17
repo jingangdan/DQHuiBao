@@ -1,7 +1,8 @@
-package com.dq.huibao.adapter.pintuan;
+package com.dq.huibao.adapter.pingo;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,25 +12,28 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
-import com.dq.huibao.bean.pintuan.PinTuanDetails;
+import com.dq.huibao.bean.index.Index;
+import com.dq.huibao.bean.pingo.PinGoIndex;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.ImageUtils;
 
 import java.util.List;
 
 /**
- * 同学拼go上边横向的商品列表adapter
+ * 拼go首页 图片组 适配器
  * Created by jingang on 2018/1/10.
  */
 
-public class PTTuanListAdapter extends RecyclerView.Adapter<PTTuanListAdapter.MyViewHolder> {
+public class PinGoimglistAdapter extends RecyclerView.Adapter<PinGoimglistAdapter.MyViewHolder> {
     private Context mContext;
-    private List<PinTuanDetails.ListBean> listBean;
+    private List<PinGoIndex.DataBean.ChildBean> appimgList;
     private OnItemClickListener onItemClickListener;
-    private int layoutId;
-    public PTTuanListAdapter(Context mContext, List<PinTuanDetails.ListBean> appimgList) {
+    int layoutId;
+    public PinGoimglistAdapter(Context mContext, List<PinGoIndex.DataBean.ChildBean> appimgList,int layout) {
         this.mContext = mContext;
-        this.listBean = appimgList;
+        this.appimgList = appimgList;
+        layoutId = layout;
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -39,7 +43,7 @@ public class PTTuanListAdapter extends RecyclerView.Adapter<PTTuanListAdapter.My
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         MyViewHolder vh = new MyViewHolder(
-                LayoutInflater.from(mContext).inflate(R.layout.item_pintuan_list, viewGroup, false)
+                LayoutInflater.from(mContext).inflate(layoutId, viewGroup, false)
         );
         return vh;
     }
@@ -56,31 +60,29 @@ public class PTTuanListAdapter extends RecyclerView.Adapter<PTTuanListAdapter.My
             });
 
         }
-        holder.name.setText(listBean.get(i).getNickname());
-        holder.num.setText("剩余名额:" + listBean.get(i).getDiffnum());
-        Glide.with(mContext)
-                .load(HttpPath.NEW_HEADER + listBean.get(i).getHeadimgurl())
-                .placeholder(R.mipmap.icon_empty)
-                .into(holder.img);
-//        holder.type.setText(listBean.get(i).getTname());
-//        ImageUtils.loadIntoUseFitWidth2(mContext, HttpPath.NEW_HEADER + listBean.get(i).getThumb(), R.mipmap.icon_stub, holder.img);
+        if (appimgList.get(i).getType().equals("other") && !"#".equals(appimgList.get(i).getContent())){
+            holder.name.setText(appimgList.get(i).getContent());
+        }
+        ImageUtils.loadIntoUseFitWidths(mContext,
+                HttpPath.NEW_HEADER + appimgList.get(i).getThumb(),
+                R.mipmap.icon_empty002,
+                holder.img);
+
+
     }
 
     @Override
     public int getItemCount() {
-        return listBean.size();
+        return appimgList.size();
     }
 
     public class MyViewHolder extends BaseRecyclerViewHolder {
         private ImageView img;
-        /*昵称，名额数*/
-        private TextView name,num;
-
+        TextView name;
         public MyViewHolder(View view) {
             super(view);
-            img =  view.findViewById(R.id.item_pt_list_image);
-            name =  view.findViewById(R.id.item_pt_list_name);
-            num =  view.findViewById(R.id.item_pt_list_peopleNum);
+            img =  view.findViewById(R.id.item_pingo_image_text_img);
+            name =  view.findViewById(R.id.item_pingo_image_text_text);
         }
     }
 }

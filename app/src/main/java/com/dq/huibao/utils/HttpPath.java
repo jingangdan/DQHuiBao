@@ -728,4 +728,71 @@ public class HttpPath {
      *      epxid=地址id
      */
     public static final String JIFEN_SAVEORDER = HEADER + "Score/saveorder";
+
+    /**
+     * 同学拼go
+     *
+     */
+    public static final String PINGO_INFEX = HEADER + "Student/index";
+
+    /**
+     * 同学拼go拼团信息
+     */
+    public static final String PINGO_CENTER_TUAN = HEADER + "Student/indextuan";
+
+    /**
+     * 同学拼go首页更多商品,商品详情页top列表(需要isindex，distype)，list列表(只需要distype)
+     * 参数:page,pagesize,typeid,
+     *      isindex=1:首页推荐或者列表页top推荐，
+     *      distype：jian/zhe
+     */
+    public static final String PINGO_MORE_GOODS = HEADER + "Student/goodslist";
+
+    /**
+     * 同学拼go商品详情
+     * 参数：id=id
+     */
+    public static final String PINGO_GOODS_DETAIL = HEADER + "Student/goodsinfo";
+
+    /**
+     * 同学拼go购物车列表
+     * 参数：mid=id
+     */
+
+    public static final String PINGO_CARTLIST = HEADER + "Student/cartlist";
+
+    /**
+     * 同学拼go购物车添加商品
+     * 参数：mid=id
+     *      goodsid
+     *      count
+     *      optionid
+     */
+    public static final String PINGO_CART_ADD = HEADER + "Student/addcart";
+
+    /**
+     * 同学拼go购物车删除商品
+     * 参数：mid=id
+     *      id=购物车id
+     */
+    public static final String PINGO_CART_DELETE = HEADER + "Student/delcart";
+
+    /**
+     * 同学拼go购物车更新
+     * 参数：id=id--购物车id
+     *      mid=uid
+     *      goodsid
+     *      count=1默认
+     *      dotype 选项：inc/dec  inc增加；dec减少
+     */
+    public static final String PINGO_CART_UPDATA = HEADER + "Student/upcartcount";
+    //地区选择
+    public static final String PINGO_REGION = HEADER + "Student/region";
+    /**
+     * mid
+     regid=地区id
+     distype=zhe
+     cartids=[1,2]
+     */
+    public static final String PINGO_ADDORDER = HEADER + "Student/addorder";
 }

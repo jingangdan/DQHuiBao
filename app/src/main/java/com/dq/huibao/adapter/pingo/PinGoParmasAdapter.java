@@ -1,4 +1,4 @@
-package com.dq.huibao.adapter.pintuan;
+package com.dq.huibao.adapter.pingo;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dq.huibao.R;
-import com.dq.huibao.bean.pintuan.PinTuanDetails;
+import com.dq.huibao.bean.goods.GoodsDetail;
+import com.dq.huibao.bean.pingo.PinGoGoodDetails;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 
 import java.util.List;
@@ -16,21 +17,20 @@ import java.util.List;
 //import com.dq.huibao.bean.goodsdetail.Params;
 
 /**
- * 拼团
  * Description：
  * Created by jingang on 2017/11/13.
  */
 
-public class PTParmasAdapter extends RecyclerView.Adapter<PTParmasAdapter.MyViewHolder> {
+public class PinGoParmasAdapter extends RecyclerView.Adapter<PinGoParmasAdapter.MyViewHolder> {
     private Context mContext;
     //private List<Params> paramsList;
-    private List<PinTuanDetails.DataBean.ParamBean> paramsList;
+    private List<PinGoGoodDetails.DataBean.ParamBean> paramsList;
 
     //    public GdParmasAdapter(Context mContext, List<Params> paramsList) {
 //        this.mContext = mContext;
 //        this.paramsList = paramsList;
 //    }
-    public PTParmasAdapter(Context mContext, List<PinTuanDetails.DataBean.ParamBean> paramsList) {
+    public PinGoParmasAdapter(Context mContext, List<PinGoGoodDetails.DataBean.ParamBean> paramsList) {
         this.mContext = mContext;
         this.paramsList = paramsList;
     }

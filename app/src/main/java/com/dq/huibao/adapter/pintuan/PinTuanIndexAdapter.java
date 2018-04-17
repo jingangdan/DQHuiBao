@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dq.huibao.R;
-import com.dq.huibao.bean.PinTuanIndex;
+import com.dq.huibao.bean.pintuan.PinTuanIndex;
 import com.dq.huibao.ui.pintuan.PinTuanDetailsActivity;
 import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.view.lrecyclerview.ListBaseAdapter;

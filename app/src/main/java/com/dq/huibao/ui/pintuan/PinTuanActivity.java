@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import com.dq.huibao.adapter.pintuan.PinTuanIndexAdapter;
 import com.dq.huibao.R;
 import com.dq.huibao.base.BaseActivity;
-import com.dq.huibao.bean.PinTuanIndex;
+import com.dq.huibao.bean.pintuan.PinTuanIndex;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;

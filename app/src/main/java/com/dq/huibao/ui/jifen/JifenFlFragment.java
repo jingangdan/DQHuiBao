@@ -66,7 +66,7 @@ public class JifenFlFragment extends BaseFragment {
         jifenFuliListView.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-
+//                getGoods();
             }
         });
         jifenFuliListView.setOnRefreshListener(new OnRefreshListener() {

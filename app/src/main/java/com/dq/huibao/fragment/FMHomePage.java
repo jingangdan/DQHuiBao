@@ -37,7 +37,7 @@ import com.dq.huibao.ui.GoodsListActivity;
 import com.dq.huibao.ui.LoginActivity;
 import com.dq.huibao.ui.jifen.JiFenActivity;
 import com.dq.huibao.ui.pintuan.PinTuanActivity;
-import com.dq.huibao.ui.college_go.CollegeGoActivity;
+import com.dq.huibao.ui.pingo.PinGoActivity;
 import com.dq.huibao.ui.homepage.WebActivity;
 import com.dq.huibao.ui.memcen.SignRuleActivity;
 import com.dq.huibao.utils.CodeUtils;
@@ -536,7 +536,7 @@ public class FMHomePage extends BaseFragment implements
                     startActivity(intent);
                 }else if ("dxspg".equals(content)){
                     //大学生拼购
-                    intent = new Intent(getActivity(), CollegeGoActivity.class);
+                    intent = new Intent(getActivity(), PinGoActivity.class);
                     startActivity(intent);
                 }else if ("score".equals(content)){
                     intent = new Intent(getActivity(), JiFenActivity.class);

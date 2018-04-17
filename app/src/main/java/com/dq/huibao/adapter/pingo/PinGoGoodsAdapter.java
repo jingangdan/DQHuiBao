@@ -1,12 +1,17 @@
-package com.dq.huibao.adapter.college_go;
+package com.dq.huibao.adapter.pingo;
 
 import android.content.Context;
-import android.widget.Button;
+import android.graphics.Paint;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.dq.huibao.R;
+import com.dq.huibao.bean.pingo.PinGoIndexMoreGoods;
+import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.view.lrecyclerview.ListBaseAdapter;
 import com.dq.huibao.view.lrecyclerview.SuperViewHolder;
 
@@ -15,7 +20,7 @@ import com.dq.huibao.view.lrecyclerview.SuperViewHolder;
  * Created by d on 2018/4/3.
  */
 
-public class PinGoGoodsAdapter extends ListBaseAdapter<String> {
+public class PinGoGoodsAdapter extends ListBaseAdapter<PinGoIndexMoreGoods.DataBean.ListBean> {
 
     public PinGoGoodsAdapter(Context context) {
         super(context);
@@ -28,7 +33,7 @@ public class PinGoGoodsAdapter extends ListBaseAdapter<String> {
 
     @Override
     public void onBindItemHolder(SuperViewHolder holder, int position) {
-//        JiFenFuLiGoods.DataBean listBean = mDataList.get(position);
+        PinGoIndexMoreGoods.DataBean.ListBean listBean = mDataList.get(position);
         ImageView imageView = holder.getView(R.id.item_pingo_goods_list_image);
         TextView name = holder.getView(R.id.item_pingo_goods_list_name);
         TextView price = holder.getView(R.id.item_pingo_goods_list_price);
@@ -43,16 +48,23 @@ public class PinGoGoodsAdapter extends ListBaseAdapter<String> {
 //                .placeholder(R.mipmap.icon_stub)
 //                .into(imageView);
 
-//        ImageUtils.loadIntoUseFitWidth2(mContext, HttpPath.NEW_HEADER + listBean.getThumb(), R.mipmap.icon_stub, imageView);
-//
-//        name.setText(listBean.getGoodsname());
-//        price.setText("￥" + listBean.getPrice() +"  +  " + listBean.getScore() + "积分");
-//
-//        qianggou.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        ImageUtils.loadIntoUseFitWidth2(mContext, HttpPath.NEW_HEADER + listBean.getThumb(), R.mipmap.icon_stub, imageView);
+
+        name.setText(listBean.getGoodsname());
+        price.setText("￥" + listBean.getMarketprice());
+//        oldprice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//        oldprice.setText("￥" + listBean.getMarketprice());
+        youhui.setVisibility(View.GONE);
+
+        number.setText(listBean.getSalecount() + "已抢");
+        progressBar.setMax(Integer.parseInt(listBean.getStock()));
+        progressBar.setProgress(Integer.parseInt(listBean.getSalecount()));
+
+        qianggou.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }

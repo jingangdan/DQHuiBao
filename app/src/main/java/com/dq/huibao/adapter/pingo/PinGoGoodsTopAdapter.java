@@ -1,16 +1,19 @@
-package com.dq.huibao.adapter.college_go;
+package com.dq.huibao.adapter.pingo;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
-import com.dq.huibao.bean.index.Index;
+import com.dq.huibao.bean.pingo.GoodsListTop;
+import com.dq.huibao.bean.pingo.PinGoIndexMoreGoods;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.ImageUtils;
@@ -18,17 +21,18 @@ import com.dq.huibao.utils.ImageUtils;
 import java.util.List;
 
 /**
- * 拼go首页模块内list 适配器
+ * 同学拼go上边横向的商品列表adapter
  * Created by jingang on 2018/1/10.
  */
 
-public class PinGoIndexChildAdapter extends RecyclerView.Adapter<PinGoIndexChildAdapter.MyViewHolder> {
+public class PinGoGoodsTopAdapter extends RecyclerView.Adapter<PinGoGoodsTopAdapter.MyViewHolder> {
     private Context mContext;
-    private List<String> dataList;
+    private List<GoodsListTop.DataBean.ListBean> listBean;
     private OnItemClickListener onItemClickListener;
-    public PinGoIndexChildAdapter(Context mContext, List<String> list) {
+    private int layoutId;
+    public PinGoGoodsTopAdapter(Context mContext, List<GoodsListTop.DataBean.ListBean> appimgList) {
         this.mContext = mContext;
-        this.dataList = list;
+        this.listBean = appimgList;
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -38,7 +42,7 @@ public class PinGoIndexChildAdapter extends RecyclerView.Adapter<PinGoIndexChild
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         MyViewHolder vh = new MyViewHolder(
-                LayoutInflater.from(mContext).inflate(R.layout.item_pingo_index_child, viewGroup, false)
+                LayoutInflater.from(mContext).inflate(R.layout.item_pinggo_goods_top, viewGroup, false)
         );
         return vh;
     }
@@ -55,25 +59,27 @@ public class PinGoIndexChildAdapter extends RecyclerView.Adapter<PinGoIndexChild
             });
 
         }
-//        ImageUtils.loadIntoUseFitWidths(mContext,
-//                HttpPath.NEW_HEADER + dataList.get(i),
-//                R.mipmap.icon_empty002,
-//                holder.img);
-
-
+        holder.price.setText(listBean.get(i).getMarketprice());
+        holder.oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        holder.oldPrice.setText(listBean.get(i).getProductprice());
+        Glide.with(mContext).load(HttpPath.NEW_HEADER + listBean.get(i).getThumb()).into(holder.img);
+//        ImageUtils.loadIntoUseFitWidth2(mContext, HttpPath.NEW_HEADER + listBean.get(i).getThumb(), R.mipmap.icon_stub, holder.img);
     }
 
     @Override
     public int getItemCount() {
-        return dataList.size();
+        return listBean.size();
     }
 
     public class MyViewHolder extends BaseRecyclerViewHolder {
         private ImageView img;
+        private TextView price,oldPrice;
 
         public MyViewHolder(View view) {
             super(view);
-            img = (ImageView) view.findViewById(R.id.item_pingo_index_child_image);
+            img =  view.findViewById(R.id.item_pingo_goods_top_image);
+            price =  view.findViewById(R.id.item_pingo_goods_top_price);
+            oldPrice =  view.findViewById(R.id.item_pingo_goods_top_oldprice);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.dq.huibao.bean;
+package com.dq.huibao.bean.pintuan;
 
 import java.util.List;
 
