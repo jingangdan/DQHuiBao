@@ -36,16 +36,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
-import com.dq.huibao.adapter.gd.ChooseAdapter;
-import com.dq.huibao.adapter.gd.GdCommentAdapter;
-import com.dq.huibao.adapter.gd.GdParmasAdapter;
 import com.dq.huibao.adapter.pingo.PGChooseAdapter;
 import com.dq.huibao.adapter.pingo.PinGoParmasAdapter;
 import com.dq.huibao.bean.account.Account;
 import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.bean.addr.AddrReturn;
 import com.dq.huibao.bean.cart.Cart;
-import com.dq.huibao.bean.goods.GoodsDetail;
 import com.dq.huibao.bean.pingo.PinGoGoodDetails;
 import com.dq.huibao.lunbotu.ADInfo;
 import com.dq.huibao.lunbotu.CycleViewPager;
@@ -55,7 +51,6 @@ import com.dq.huibao.ui.InjoyActivity;
 import com.dq.huibao.ui.LoginActivity;
 import com.dq.huibao.ui.ShowBigPictrueActivity;
 import com.dq.huibao.ui.SubmitOrderActivity;
-import com.dq.huibao.ui.memcen.ShopcarActivity;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
@@ -230,7 +225,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
 
     /*本地轻量型缓存*/
     private SPUserInfo spUserInfo;
-    private String token = "", phone = "", username = "";
+    private String token = "", phone = "", username = "",uid = "";
 
     private PinGoGoodDetails goodsDetail;
     /*选择规格*/
@@ -347,7 +342,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
             case R.id.rel_gd_shopcar:
                 //购物车
                 if (isLogin()) {
-                    intent = new Intent(TAG, ShopcarActivity.class);
+                    intent = new Intent(TAG, PinGoCartActivity.class);
                     startActivity(intent);
                 } else {
                     dialog();
@@ -447,6 +442,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
             Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
             phone = login.getData().getPhone();
             token = login.getData().getToken();
+            uid = login.getData().getUid();
             username = login.getData().getNickname();
             getGoodsDetail(gid, token, phone);
 
@@ -916,8 +912,8 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
     private String cartadd_string = "";
 
     public void cartAdd(String phone, String token, final String gid, String optionid, int count) {
-        MD5_PATH = "count=" + count + "&goodsid=" + gid + "&optionid=" + optionid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.CART_ADD + MD5_PATH + "&sign=" +
+        MD5_PATH = "?count=" + count + "&mid=" + uid +"&goodsid=" + gid + "&optionid=" + optionid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
+        PATH = HttpPath.PINGO_CART_ADD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
         System.out.println("添加购物车 = " + PATH);
         HttpxUtils.Post(TAG, PATH, null, new Callback.CommonCallback<String>() {
@@ -926,18 +922,10 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
             public void onSuccess(String result) {
                 cartadd_string = result;
                 System.out.println("添加购物车 = " + result);
-                cart = GsonUtil.gsonIntance().gsonToBean(result, Cart.class);
-                if (cart.getData().getCart().size() > 0) {
+                AddrReturn aReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                if (aReturn.getStatus() == 1) {
                     Toast.makeText(TAG, "添加成功", Toast.LENGTH_SHORT).show();
 
-                    for (int i = 0; i < cart.getData().getCart().size(); i++) {
-                        for (int j = 0; j < cart.getData().getCart().get(i).getGoodslist().size(); j++) {
-                            if (gid.equals(cart.getData().getCart().get(i).getGoodslist().get(j).getGoodsid())) {
-                                tvShopcarNum.setText("" + cart.getData().getCart().get(i).getGoodslist().get(j).getCount());
-                            }
-                        }
-
-                    }
                     popWindow.dismiss();
 
                 } else {
@@ -947,6 +935,8 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
+
+                System.out.println("添加购物车 =失败 " + ex.toString());
                 setLoginAgain(cartadd_string);
             }
 

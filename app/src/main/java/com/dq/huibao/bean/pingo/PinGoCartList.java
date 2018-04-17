@@ -8,9 +8,10 @@ import java.util.List;
  */
 
 public class PinGoCartList {
+
     /**
      * status : 1
-     * data : {"list":[{"id":"132","uid":"21","goodsid":"5","count":"3","createtime":null,"shopid":"0","marketprice":"162.00","optionid":"223019","type":"1"}]}
+     * data : {"list":[{"id":"132","uid":"21","goodsid":"5","count":"7","createtime":null,"shopid":"0","marketprice":"162.00","optionid":"223019","type":"1"},{"id":"134","uid":"21","goodsid":"3","count":"2","createtime":null,"shopid":"0","marketprice":"12.80","optionid":"223019","type":"1"},{"id":"135","uid":"21","goodsid":"1","count":"8","createtime":null,"shopid":"0","marketprice":"1.50","optionid":"0","type":"1"}]}
      */
 
     private int status;
@@ -48,7 +49,7 @@ public class PinGoCartList {
              * id : 132
              * uid : 21
              * goodsid : 5
-             * count : 3
+             * count : 7
              * createtime : null
              * shopid : 0
              * marketprice : 162.00
