@@ -254,6 +254,7 @@
         <activity android:name=".ui.pingo.PinGoGoodsActivity" />
         <activity android:name=".ui.pingo.PinGoDetailsActivity" />
         <activity android:name=".ui.pingo.PinGoCartActivity" />
+        <activity android:name=".ui.pingo.PinGoSubmitOrderActivity" />
 
         <!--增加图片清晰度-->
         <meta-data

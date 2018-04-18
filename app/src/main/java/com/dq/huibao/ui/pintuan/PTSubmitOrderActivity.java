@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +32,8 @@ import com.dq.huibao.utils.SPUserInfo;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -336,6 +339,14 @@ public class PTSubmitOrderActivity extends BaseActivity {
      * 提交订单（立即购买）
      */
     public void orderBuynow() {
+        String s = "";
+        try {
+            s = URLEncoder.encode(ptEtCheckorderComment.getText().toString(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String ss = Base64.encodeToString(s.getBytes(), Base64.DEFAULT);
+        ss = ss.replaceAll("[\\s*\t\n\r]", "");
 //        MD5_PATH = "addrid=" + addrid + "&count=" + count + "&goodsid=" + cartids + "&optionid=" + optionid + "&phone=" + phone + "&remark=" + remark + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 //
 //        PATH = HttpPath.PINTUAN_TUAN_ADDORDER + MD5_PATH + "&sign=" +
@@ -348,7 +359,7 @@ public class PTSubmitOrderActivity extends BaseActivity {
         map.put("tuanid", tuanid);
         map.put("goodsid", goodsid);
         map.put("addrid", addrid);
-        map.put("remark", ptEtCheckorderComment.getText().toString());
+        map.put("remark", ss);
         System.out.println("提交订单（立即购买） = " + map.toString());
         HttpxUtils.Post(this, HttpPath.PINTUAN_TUAN_ADDORDER, map, new Callback.CommonCallback<String>() {
             @Override

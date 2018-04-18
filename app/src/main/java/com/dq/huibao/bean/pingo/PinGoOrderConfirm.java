@@ -1,18 +1,17 @@
 package com.dq.huibao.bean.pingo;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 /**
- * 拼go购物车列表
- * Created by d on 2018/4/17.
+ * 购物车确认订单-拼go
+ * Created by d on 2018/4/18.
  */
 
-public class PinGoCartList {
+public class PinGoOrderConfirm {
+
     /**
      * status : 1
-     * data : {"list":[{"id":"134","uid":"21","goodsid":"3","count":"2","createtime":null,"shopid":"0","marketprice":"162.00","optionid":"223019","type":"1","goodsname":"马奇新新马来西亚进口LEXUS力士系列巧克力味涂层夹心饼干200g","thumb":"images/sz_yi/1604/2017/12/p4Xt84g4r3S88Z3yx49c0xxy7cxGD8.jpg","optiontitle":"均码+白色"},{"id":"135","uid":"21","goodsid":"1","count":"8","createtime":null,"shopid":"0","marketprice":"1.50","optionid":"0","type":"1","goodsname":"久久丫甜辣薄豆干好吃的豆腐干","thumb":"images/sz_yi/1604/2017/12/F5iAUklELCEcrH755EA8klHikLI5e8.jpg","optiontitle":""}]}
+     * data : {"allcount":7,"expprice":0,"allprice":108.6,"list":[{"id":"136","uid":"21","goodsid":"4","count":"6","createtime":null,"shopid":"0","marketprice":"15.80","optionid":"232717","type":"1","goodsname":"鼠大厨开心果108gX1袋 休闲零食坚果炒货干果","distype":"打折","thumb":"/attachment/images/sz_yi/1604/2017/12/j5ipzl926p56pPVLto24Z4PLmmTkP6.jpg","optiontitle":"原味","allprice":94.8},{"id":"143","uid":"21","goodsid":"6","count":"1","createtime":null,"shopid":"0","marketprice":"13.80","optionid":"0","type":"1","goodsname":"儿童宝宝益智玩具7色雪花片100片积木玩具拼插拼装积木玩具","distype":"打折","thumb":"/attachment/images/sz_yi/1604/2017/11/CsqQnXZnJl9Zt968FfsQs7j9EFsFZe.jpg","optiontitle":"","allprice":13.8}]}
      */
 
     private int status;
@@ -35,7 +34,51 @@ public class PinGoCartList {
     }
 
     public static class DataBean {
+        /**
+         * allcount : 7
+         * expprice : 0
+         * allprice : 108.6
+         * list : [{"id":"136","uid":"21","goodsid":"4","count":"6","createtime":null,"shopid":"0","marketprice":"15.80","optionid":"232717","type":"1","goodsname":"鼠大厨开心果108gX1袋 休闲零食坚果炒货干果","distype":"打折","thumb":"/attachment/images/sz_yi/1604/2017/12/j5ipzl926p56pPVLto24Z4PLmmTkP6.jpg","optiontitle":"原味","allprice":94.8},{"id":"143","uid":"21","goodsid":"6","count":"1","createtime":null,"shopid":"0","marketprice":"13.80","optionid":"0","type":"1","goodsname":"儿童宝宝益智玩具7色雪花片100片积木玩具拼插拼装积木玩具","distype":"打折","thumb":"/attachment/images/sz_yi/1604/2017/11/CsqQnXZnJl9Zt968FfsQs7j9EFsFZe.jpg","optiontitle":"","allprice":13.8}]
+         */
+
+        private int allcount;
+        private int expprice;
+        private double allprice;
+
+        public String getCommet() {
+            return commet;
+        }
+
+        public void setCommet(String commet) {
+            this.commet = commet;
+        }
+
+        private String commet;
         private List<ListBean> list;
+
+        public int getAllcount() {
+            return allcount;
+        }
+
+        public void setAllcount(int allcount) {
+            this.allcount = allcount;
+        }
+
+        public int getExpprice() {
+            return expprice;
+        }
+
+        public void setExpprice(int expprice) {
+            this.expprice = expprice;
+        }
+
+        public double getAllprice() {
+            return allprice;
+        }
+
+        public void setAllprice(double allprice) {
+            this.allprice = allprice;
+        }
 
         public List<ListBean> getList() {
             return list;
@@ -47,18 +90,20 @@ public class PinGoCartList {
 
         public static class ListBean {
             /**
-             * id : 134
+             * id : 136
              * uid : 21
-             * goodsid : 3
-             * count : 2
+             * goodsid : 4
+             * count : 6
              * createtime : null
              * shopid : 0
-             * marketprice : 162.00
-             * optionid : 223019
+             * marketprice : 15.80
+             * optionid : 232717
              * type : 1
-             * goodsname : 马奇新新马来西亚进口LEXUS力士系列巧克力味涂层夹心饼干200g
-             * thumb : images/sz_yi/1604/2017/12/p4Xt84g4r3S88Z3yx49c0xxy7cxGD8.jpg
-             * optiontitle : 均码+白色
+             * goodsname : 鼠大厨开心果108gX1袋 休闲零食坚果炒货干果
+             * distype : 打折
+             * thumb : /attachment/images/sz_yi/1604/2017/12/j5ipzl926p56pPVLto24Z4PLmmTkP6.jpg
+             * optiontitle : 原味
+             * allprice : 94.8
              */
 
             private String id;
@@ -71,22 +116,10 @@ public class PinGoCartList {
             private String optionid;
             private String type;
             private String goodsname;
+            private String distype;
             private String thumb;
             private String optiontitle;
-            public boolean isChoosed;
-            /**
-             * createtime : null
-             * distype : 立减
-             */
-            private String distype;
-
-            public boolean isChoosed() {
-                return isChoosed;
-            }
-
-            public void setChoosed(boolean choosed) {
-                isChoosed = choosed;
-            }
+            private double allprice;
 
             public String getId() {
                 return id;
@@ -168,6 +201,14 @@ public class PinGoCartList {
                 this.goodsname = goodsname;
             }
 
+            public String getDistype() {
+                return distype;
+            }
+
+            public void setDistype(String distype) {
+                this.distype = distype;
+            }
+
             public String getThumb() {
                 return thumb;
             }
@@ -184,12 +225,12 @@ public class PinGoCartList {
                 this.optiontitle = optiontitle;
             }
 
-            public String getDistype() {
-                return distype;
+            public double getAllprice() {
+                return allprice;
             }
 
-            public void setDistype(String distype) {
-                this.distype = distype;
+            public void setAllprice(double allprice) {
+                this.allprice = allprice;
             }
         }
     }

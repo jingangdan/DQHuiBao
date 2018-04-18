@@ -786,13 +786,53 @@ public class HttpPath {
      *      dotype 选项：inc/dec  inc增加；dec减少
      */
     public static final String PINGO_CART_UPDATA = HEADER + "Student/upcartcount";
-    //地区选择
-    public static final String PINGO_REGION = HEADER + "Student/region";
+
     /**
-     * mid
-     regid=地区id
-     distype=zhe
-     cartids=[1,2]
+     * 拼go所属区域选择
+     * */
+    public static final String PINGO_REGION = HEADER + "Student/region";
+
+    /**
+     *确认订单--购物车
+     * 参数：mid=uid
+     *      regid=区域id---临沂大学，医专
+     *      cartids=购物车id
      */
-    public static final String PINGO_ADDORDER = HEADER + "Student/addorder";
+    public static final String PINGO_CART_ISORDER = HEADER + "Student/isorder";
+
+    /**
+     *确认订单--商品详情
+     * 参数：mid=uid
+     *      goodsid=区域id---临沂大学，医专
+     *      optionid=购物车id
+     */
+    public static final String PINGO_GOOD_ISORDER = HEADER + "Student/buynow";
+
+    //提交拼go订单需要选择支付类型：货到付款还是在线支付
+    //货到付款直接下单成功，在线支付返回订单号然后调用第三方支付
+    /**
+     * 拼go--提交购物车订单
+     * 参数：mid=uid
+     *      epxid=地址id
+     *      paytype=支付方式
+     *      regid=地区id
+     *      distype=zhe
+     *      cartids=1,2
+     */
+    public static final String PINGO_CART_SUBMITORDER = HEADER + "Student/submitorder";
+
+    /**
+     * 拼go--提交商品---商品详情页过来的
+     * 参数：mid=uid
+     *      epxid=地址id
+     *      paytype=支付方式
+     *      regid=地区id
+     *      distype=zhe
+     *      tips=备注
+     *      goodsid
+     *      optionid
+     *      count
+     *      allprice
+     */
+    public static final String PINGO_GOOD_SUBMITORDER = HEADER + "Student/buynoworder";
 }

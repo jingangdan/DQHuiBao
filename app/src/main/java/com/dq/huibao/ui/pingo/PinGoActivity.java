@@ -375,7 +375,7 @@ public class PinGoActivity extends BaseActivity implements
             case "goods":
                 //商品详情
                 intent = new Intent(this, PinGoDetailsActivity.class);
-                intent.putExtra("gid", content);
+                intent.putExtra("id", content);
                 startActivityForResult(intent, CodeUtils.PINGO_HOMEPAGE);
                 break;
             case "goodsList":

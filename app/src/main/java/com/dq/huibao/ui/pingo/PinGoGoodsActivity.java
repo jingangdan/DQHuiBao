@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -159,6 +160,7 @@ public class PinGoGoodsActivity extends BaseActivity {
         map.put("page",page + "");
         map.put("pagesize",pagesize + "");
         map.put("distype", goodsType);
+        Log.d("获取首页底部更多商品信息",""+map.toString());
         HttpxUtils.Get(this,HttpPath.PINGO_MORE_GOODS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
