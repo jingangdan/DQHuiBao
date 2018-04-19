@@ -1,9 +1,11 @@
 package com.dq.huibao.ui.pingo;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -29,6 +31,8 @@ import com.dq.huibao.bean.addr.AddrReturn;
 import com.dq.huibao.bean.cart.CheckOrder;
 import com.dq.huibao.bean.pingo.PinGoCartList;
 import com.dq.huibao.bean.pingo.PinGoOrderConfirm;
+import com.dq.huibao.bean.pingo.PinGoiQuSelect;
+import com.dq.huibao.ui.LoginActivity;
 import com.dq.huibao.ui.PayActivity;
 import com.dq.huibao.ui.addr.AddAddressActivity;
 import com.dq.huibao.ui.addr.AddrListActivity;
@@ -98,6 +102,9 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
     private double pay_all = 0.00;
     //支付方式：1：货到付款    2：在线支付
     private String paytype = "2";
+
+    //区域数据
+    PinGoiQuSelect pinGoiQuSelect = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +117,6 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
         count = intent.getStringExtra("count");
         optionid = intent.getStringExtra("optioned");
         tag = intent.getStringExtra("tag");
-        regid = intent.getStringExtra("regid");
 
         mManager = new LinearLayoutManager(this);
         submitOrderAdapter = new PinGoSubmitOrderAdapter(this, shopList);
@@ -119,6 +125,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
         rvSibmitorder.setAdapter(submitOrderAdapter);
 
         isLogin();
+        diquData();
 
     }
 
@@ -145,8 +152,10 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
                 break;
 
             case R.id.but_confirm_pay:
-                selectPayType();
-
+                if (pinGoiQuSelect == null){
+                    diquData();
+                }
+                alertDialog.show();
                 break;
             default:
                 break;
@@ -461,7 +470,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
      * 提交订单
      */
     public void submitOrder(){
-        popupWindow.dismiss();
+        alertDialog.dismiss();
         //提交订单
         pay_all = shopList.get(0).getAllprice();
 
@@ -481,47 +490,65 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
         }
     }
 
-    //
-    PopupWindow popupWindow = null;
-    View popview;
-
     /**
-     * 创建pop
+     * 地区
      */
-    public void selectPayType(){
+    public void diquData(){
+        HttpxUtils.Get(this,HttpPath.PINGO_REGION, null,
+                new Callback.CommonCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        System.out.println("地区地区 = " + result);
+                        pinGoiQuSelect = GsonUtil.gsonIntance().gsonToBean(result, PinGoiQuSelect.class);
+                        if (diQuAdapter != null){
+                            diQuAdapter.notifyDataSetChanged();
+                        }else {
+                            createDialog();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        System.out.println("地区地区= 失败" + ex.getMessage());
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+                });
+    }
+
+    PinGoQuYuAdapter diQuAdapter;
+    AlertDialog alertDialog = null;
+    View popview;
+    public void createDialog(){
         popview = View.inflate(this, R.layout.pingo_pop_paytype,
                 null);
-        // 最后一个参数false 代表：不与其余布局发生交互， true代表：可以与其余布局发生交互事件
-        popupWindow = new PopupWindow(popview,
-                ViewGroup.LayoutParams.FILL_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                false) {
-
-            // 重写popupWindow消失时事件
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(popview);
+        alertDialog = builder.create();
+        RecyclerView recyclerView = popview.findViewById(R.id.pop_pingo_paytype_diqu);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        diQuAdapter = new PinGoQuYuAdapter(this,pinGoiQuSelect.getData().getList());
+        recyclerView.setAdapter(diQuAdapter);
+        diQuAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void dismiss() {
-                super.dismiss();
+            public void onItemClick(View view, int position) {
+//                toast(pinGoiQuSelect.getData().getList().get(position).getRegname());
+                regid = pinGoiQuSelect.getData().getList().get(position).getId();
             }
-        };
-        // 设置Pop入场动画效果
-        popupWindow.setAnimationStyle(R.style.pop_style);
-        // 设置Pop响应内部区域焦点
-        popupWindow.setFocusable(true);
-        // 设置Pop响应外部区域焦点
-        popupWindow.setOutsideTouchable(true);
-        // 设置PopupWindow弹出软键盘模式（此处为覆盖式）
-        popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        // 响应返回键必须的语句
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        // 依附的父布局自己设定，我这里为了方便，这样写的。
-        popupWindow.showAtLocation(tvConfirmPay, Gravity.BOTTOM, 0, 0);
+        });
         //货到付款
         popview.findViewById(R.id.pop_pingo_paytype_hdfk).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 paytype = "1";
-                submitOrder();
             }
         });
         //在线支付
@@ -529,7 +556,17 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 paytype = "2";
-                submitOrder();
+            }
+        });
+        //确认
+        popview.findViewById(R.id.pop_pingo_paytype_ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (regid.equals("")){
+                    toast("请选择所在区域");
+                }else {
+                    submitOrder();
+                }
             }
         });
     }

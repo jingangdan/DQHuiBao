@@ -248,13 +248,21 @@
         <activity android:name=".ui.pintuan.PinTuanActivity" />
         <!--拼团详情页-->
         <activity android:name=".ui.pintuan.PinTuanDetailsActivity" />
+        <!--拼go主页-->
         <activity android:name=".ui.pingo.PinGoActivity" />
+        <!--积分兑换主页-->
         <activity android:name=".ui.jifen.JiFenActivity" />
+        <!--拼团提交订单页-->
         <activity android:name=".ui.pintuan.PTSubmitOrderActivity" />
+        <!--拼go商品列表页-->
         <activity android:name=".ui.pingo.PinGoGoodsActivity" />
+        <!--拼go商品详情页-->
         <activity android:name=".ui.pingo.PinGoDetailsActivity" />
-        <activity android:name=".ui.pingo.PinGoCartActivity" />
+        <!--拼go购物车页-->
+        <!--拼go订单提交页-->
         <activity android:name=".ui.pingo.PinGoSubmitOrderActivity" />
+        <!--拼go我的订单页-->
+        <activity android:name=".ui.pingo.PinGoOrdersActivity" />
 
         <!--增加图片清晰度-->
         <meta-data

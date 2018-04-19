@@ -59,27 +59,31 @@
                 android:background="@drawable/yuanjiao_red"/>
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginBottom="5dp">
             <ProgressBar
                 android:id="@+id/item_pingo_goods_list_progress"
                 android:layout_width="130dp"
                 android:layout_height="20dp"
                 style="?android:progressBarStyleHorizontal"
-                android:progressDrawable="@drawable/progressbar_pingo_goods"
-                android:progress="23"/>
+                android:progressDrawable="@drawable/progressbar_pingo_goods"/>
             <TextView
+                android:id="@+id/item_pingo_goods_list_progress_text"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:textSize="9sp"/>
             <TextView
                 android:id="@+id/item_pingo_goods_list_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:textColor="@color/red_normal"/>
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

@@ -37,7 +37,7 @@ public class JiFenFuLiGoodsAdapter extends ListBaseAdapter<JiFenFuLiGoods.DataBe
         ImageView imageView = holder.getView(R.id.item_jifen_goods_imageView);
         TextView name = holder.getView(R.id.item_jifen_goods_name);
         TextView price = holder.getView(R.id.item_jifen_goods_price);
-        Button qianggou = holder.getView(R.id.item_jifen_goods_qg);
+        TextView qianggou = holder.getView(R.id.item_jifen_goods_qg);
 //        Glide.with(mContext)
 //                .load(HttpPath.NEW_HEADER + listBean.getThumb())
 //                .placeholder(R.mipmap.icon_stub)

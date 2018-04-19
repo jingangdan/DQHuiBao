@@ -1,7 +1,7 @@
 package com.dq.huibao.ui.memcen;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +22,7 @@ import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.bean.cart.Cart;
 import com.dq.huibao.ui.SubmitOrderActivity;
+import com.dq.huibao.ui.pingo.PinGoSubmitOrderActivity;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
@@ -33,6 +34,7 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -219,10 +221,10 @@ public class ShopcarActivity extends BaseActivity implements
      * @param optionid
      * @param count
      */
-    public void cartAdd(final int groupPosition, final int childPosition, final View showCountView, boolean isChecked,
+    public void cartAdd(final int groupPosition, final int childPosition, final View showCountView, boolean isChecked,String type,
                         String phone, String token, final String gid, String optionid, final int count, final int tag) {
         MD5_PATH = "count=" + count + "&goodsid=" + gid + "&optionid=" + optionid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.CART_ADD + MD5_PATH + "&sign=" +
+        PATH = HttpPath.CART_ADD + MD5_PATH +"&type=1" + type + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
         System.out.println("添加购物车 = " + PATH);
         HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
@@ -406,11 +408,35 @@ public class ShopcarActivity extends BaseActivity implements
                     toast("请选择要支付的商品");
                     return;
                 }
+                //判断是不是同一个类型---立减或者折扣
+                String typeYH = "";
+                for (int i = 0; i < shopList.size() ; i++) {
+                    for (int j = 0; j < shopList.get(i).getGoodslist().size() ; j++) {
+                        if (ids.indexOf(shopList.get(i).getGoodslist().get(j).getId()) >= 0){
+                            //被选中的
+                            if (typeYH.equals("")){
+                                typeYH = shopList.get(i).getGoodslist().get(j).getDistype();
+                            }
+                            if (!typeYH.equals(shopList.get(i).getGoodslist().get(j).getDistype())){
+                                toast("请选择优惠类型的商品");
+                                return;
+                            }
+                        }
+                    }
 
-                intent = new Intent(ShopcarActivity.this, SubmitOrderActivity.class);
-                intent.putExtra("cartids", ids);
-                intent.putExtra("tag", "0");
-                startActivityForResult(intent, CodeUtils.CART_AC);
+                }
+                toast("类型=="+typeYH);
+                if (typeYH.equals("")){//正常提交订单
+                    intent = new Intent(this, SubmitOrderActivity.class);
+                    intent.putExtra("cartids", ids);
+                    intent.putExtra("tag", "0");
+                    startActivityForResult(intent, CodeUtils.CART_FM);
+                }else {//拼go提交订单
+                    intent = new Intent(this, PinGoSubmitOrderActivity.class);
+                    intent.putExtra("cartids", ids);
+                    intent.putExtra("tag", "0");
+                    startActivityForResult(intent, CodeUtils.CART_FM);
+                }
                 break;
 
             default:
@@ -487,7 +513,7 @@ public class ShopcarActivity extends BaseActivity implements
     @Override
     public void doIncrease(int groupPosition, int childPosition, View showCountView, boolean isChecked,
                            String gid, String optionid, int count) {
-        cartAdd(groupPosition, childPosition, showCountView, isChecked,
+        cartAdd(groupPosition, childPosition, showCountView, isChecked,shopList.get(groupPosition).getGoodslist().get(childPosition).getType(),
                 phone, token, gid, optionid, count, 1);
 
 //        Cart.DataBean.GoodslistBean product = (Cart.DataBean.GoodslistBean) shopTestAdapter.getChild(groupPosition,
@@ -513,7 +539,7 @@ public class ShopcarActivity extends BaseActivity implements
     public void doDecrease(int groupPosition, int childPosition, View showCountView, boolean isChecked,
                            String gid, String optionid, int count) {
 
-        cartAdd(groupPosition, childPosition, showCountView, isChecked,
+        cartAdd(groupPosition, childPosition, showCountView, isChecked,shopList.get(groupPosition).getGoodslist().get(childPosition).getType(),
                 phone, token, gid, optionid, -1, 0);
 //        Cart.DataBean.GoodslistBean product = (Cart.DataBean.GoodslistBean) shopCartAdapter.getChild(groupPosition,
 //                childPosition);
@@ -623,7 +649,7 @@ public class ShopcarActivity extends BaseActivity implements
                 }
             }
         }
-
+        totalPrice = new BigDecimal(totalPrice).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
         tv_show_price.setText("￥" + totalPrice);
         //tvGoToPay.setText("去支付(" + totalCount + ")");
         //计算购物车的金额为0时候清空购物车的视图

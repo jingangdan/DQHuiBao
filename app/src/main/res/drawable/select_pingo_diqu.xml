@@ -26,9 +26,15 @@
             <corners android:radius="10dp" />
         </shape>
     </item>
+    <item android:state_activated="true" >
+        <shape>
+            <solid android:color="@color/dark"/>
+            <corners android:radius="10dp" />
+        </shape>
+    </item>
     <item>
         <shape>
-            <solid android:color="@color/white"/>
+            <solid android:color="@color/lightGray"/>
             <corners android:radius="10dp" />
         </shape>
     </item>

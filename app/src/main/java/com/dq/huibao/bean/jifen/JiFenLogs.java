@@ -10,7 +10,7 @@ import java.util.List;
 public class JiFenLogs {
     /**
      * status : 1
-     * data : [{"id":"1","mid":"21","gid":"2","goodsname":"商品名称","price":"5.00","score":"3000","expprice":"6.00","paystatus":"0","expstatus":"0","status":"0","addtime":null,"expaddr":"邮寄地址","mobile":"联系手机","addressee":"联系人","youbian":"邮编","expcode":"快递单号","expname":"快递公司"}]
+     * data : [{"id":"1","mid":"21","gid":"2","goodsname":"商品名称","price":"5.00","score":"3000","expprice":"6.00","paystatus":"0","expstatus":"0","status":"0","addtime":null,"expaddr":"邮寄地址","mobile":"联系手机","addressee":"联系人","youbian":"邮编","expcode":"快递单号","expname":"快递公司","thumb":"/attachment/images/sz_yi/1604/2017/12/IhPH666W6G607NnP6XPXph9rPPXhWy.jpg"}]
      */
 
     private int status;
@@ -51,6 +51,7 @@ public class JiFenLogs {
          * youbian : 邮编
          * expcode : 快递单号
          * expname : 快递公司
+         * thumb : /attachment/images/sz_yi/1604/2017/12/IhPH666W6G607NnP6XPXph9rPPXhWy.jpg
          */
 
         private String id;
@@ -63,13 +64,14 @@ public class JiFenLogs {
         private String paystatus;
         private String expstatus;
         private String status;
-        private Object addtime;
+        private String addtime;
         private String expaddr;
         private String mobile;
         private String addressee;
         private String youbian;
         private String expcode;
         private String expname;
+        private String thumb;
 
         public String getId() {
             return id;
@@ -151,11 +153,11 @@ public class JiFenLogs {
             this.status = status;
         }
 
-        public Object getAddtime() {
+        public String getAddtime() {
             return addtime;
         }
 
-        public void setAddtime(Object addtime) {
+        public void setAddtime(String addtime) {
             this.addtime = addtime;
         }
 
@@ -205,6 +207,14 @@ public class JiFenLogs {
 
         public void setExpname(String expname) {
             this.expname = expname;
+        }
+
+        public String getThumb() {
+            return thumb;
+        }
+
+        public void setThumb(String thumb) {
+            this.thumb = thumb;
         }
     }
 }

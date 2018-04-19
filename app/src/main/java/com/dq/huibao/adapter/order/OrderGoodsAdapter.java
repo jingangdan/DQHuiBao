@@ -67,9 +67,9 @@ public class OrderGoodsAdapter extends RecyclerView.Adapter<OrderGoodsAdapter.My
 
 
         holder.goodsname.setText("" + goodsList.get(positon).getGoodsname());
-        holder.optionname.setText("" + goodsList.get(positon).getOptionname());
+        holder.optionname.setText("规格:" + goodsList.get(positon).getOptionname());
         holder.price.setText("¥" + goodsList.get(positon).getPrice());
-        holder.count.setText("" + goodsList.get(positon).getCount());
+        holder.count.setText("数量" + goodsList.get(positon).getCount());
 
     }
 

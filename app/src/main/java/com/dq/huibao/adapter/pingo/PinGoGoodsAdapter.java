@@ -2,6 +2,7 @@ package com.dq.huibao.adapter.pingo;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -40,6 +41,7 @@ public class PinGoGoodsAdapter extends ListBaseAdapter<PinGoIndexMoreGoods.DataB
         TextView oldprice = holder.getView(R.id.item_pingo_goods_list_old_price);
         TextView youhui = holder.getView(R.id.item_pingo_goods_list_youhui);
         TextView number = holder.getView(R.id.item_pingo_goods_list_number);
+        TextView baifenbi = holder.getView(R.id.item_pingo_goods_list_progress_text);//百分比
         ProgressBar progressBar = holder.getView(R.id.item_pingo_goods_list_progress);
         //马上抢
         TextView qianggou = holder.getView(R.id.item_pingo_goods_list_msq);
@@ -59,7 +61,7 @@ public class PinGoGoodsAdapter extends ListBaseAdapter<PinGoIndexMoreGoods.DataB
         number.setText(listBean.getSalecount() + "已抢");
         progressBar.setMax(Integer.parseInt(listBean.getStock()));
         progressBar.setProgress(Integer.parseInt(listBean.getSalecount()));
-
+        baifenbi.setText(Integer.parseInt(listBean.getSalecount()) * 100 / Integer.parseInt(listBean.getStock())+"%");
         qianggou.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,28 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:background="@color/white">
     <TextView
-        android:id="@+id/pop_pingo_paytype_hdfk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="所在地区选择"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/pop_pingo_paytype_diqu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/pressed_pingo_paytype"
-        android:gravity="center_horizontal"
-        android:textColor="@color/black"
-        android:padding="15dp"
-        android:textSize="18sp"
-        android:text="货到付款"/>
+        android:layout_marginBottom="10dp"
+        android:numColumns="4">
+
+    </android.support.v7.widget.RecyclerView>
     <TextView
-        android:id="@+id/pop_pingo_paytype_zxzf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="选择支付方式"/>
+    <RadioGroup
+        android:id="@+id/pop_pingo_paytype_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/pressed_pingo_paytype"
+        android:orientation="vertical">
+        <RadioButton
+            android:id="@+id/pop_pingo_paytype_hdfk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:background="@drawable/pressed_pingo_paytype"
+            android:gravity="center_horizontal"
+            android:textColor="@color/select_pingo_paytype_text_color"
+            android:padding="10dp"
+            android:textSize="18sp"
+            android:text="货到付款"/>
+        <RadioButton
+            android:id="@+id/pop_pingo_paytype_zxzf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:background="@drawable/pressed_pingo_paytype"
+            android:layout_weight="1"
+            android:checked="true"
+            android:gravity="center_horizontal"
+            android:textColor="@color/select_pingo_paytype_text_color"
+            android:padding="10dp"
+            android:textSize="18sp"
+            android:text="在线支付"/>
+    </RadioGroup>
+    <Button
+        android:id="@+id/pop_pingo_paytype_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pressed_pingo_paytype_red"
         android:layout_weight="1"
+        android:layout_margin="10dp"
         android:gravity="center_horizontal"
-        android:textColor="@color/black"
-        android:padding="15dp"
+        android:textColor="@color/white"
+        android:padding="10dp"
         android:textSize="18sp"
-        android:text="在线支付"/>
+        android:text="确认"/>
 </LinearLayout>

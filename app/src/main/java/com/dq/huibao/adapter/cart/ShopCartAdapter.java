@@ -167,7 +167,12 @@ public class ShopCartAdapter extends BaseExpandableListAdapter {
             }
 
             cholder.tvPrice.setText("¥" + goodsInfo.getMarketprice());
-            //cholder.tvProductprice.setText("" + goodsInfo.getGoods().getOption().getProductprice());
+//            cholder.tvProductprice.setText("" + goodsInfo.getGoods().getOption().getProductprice());//原价
+
+            cholder.tvProductprice.setTextColor(context.getResources().getColor(R.color.green_normal));
+            cholder.tvProductprice.setText((goodsInfo.getDistype().equals("jian"))?"立减":(goodsInfo.getDistype().equals("zhe")?"打折":""));
+            cholder.tvProductprice.setVisibility(View.VISIBLE);
+
             cholder.etNum.setText("" + goodsInfo.getCount());
 
             cholder.checkBox.setChecked(goodsInfo.isChoosed());

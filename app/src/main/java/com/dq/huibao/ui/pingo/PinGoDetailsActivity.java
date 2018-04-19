@@ -53,6 +53,7 @@ import com.dq.huibao.ui.GoodsListActivity;
 import com.dq.huibao.ui.InjoyActivity;
 import com.dq.huibao.ui.LoginActivity;
 import com.dq.huibao.ui.ShowBigPictrueActivity;
+import com.dq.huibao.ui.memcen.ShopcarActivity;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
@@ -262,7 +263,6 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         gid = intent.getStringExtra("id");
 
         spUserInfo = new SPUserInfo(getApplication());
-        diquData();
         initDate();
 
     }
@@ -344,7 +344,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
             case R.id.rel_gd_shopcar:
                 //购物车
                 if (isLogin()) {
-                    intent = new Intent(TAG, PinGoCartActivity.class);
+                    intent = new Intent(TAG, ShopcarActivity.class);
                     startActivity(intent);
                 } else {
                     dialog();
@@ -371,7 +371,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
                         setPopTest(2);
                         setBackgroundBlack(all_choice_layout, 0);
                     } else {
-                        selectDiqu();
+                        toSubActivity();
                     }
 
                 } else {
@@ -724,117 +724,6 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
 
             };
 
-    /**
-     * 地区
-     */
-    public void diquData(){
-        HttpxUtils.Get(this,HttpPath.PINGO_REGION, null,
-                new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("地区地区 = " + result);
-                        pinGoiQuSelect = GsonUtil.gsonIntance().gsonToBean(result, PinGoiQuSelect.class);
-                        pinGoiQuSelect = GsonUtil.gsonIntance().gsonToBean(result, PinGoiQuSelect.class);
-                        if (diQuAdapter != null){
-                            diQuAdapter.notifyDataSetChanged();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("地区地区= 失败" + ex.getMessage());
-                    }
-
-                    @Override
-                    public void onCancelled(CancelledException cex) {
-
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
-    }
-    //
-    PopupWindow popupWindow = null;
-    PinGoQuYuAdapter diQuAdapter;
-    View viewDiqu;
-    /**
-     * 选择地区
-     */
-    public void selectDiqu() {
-        if (pinGoiQuSelect == null){
-            diquData();
-        }
-//        if (popupWindow == null){
-//            createPop();
-//        }
-        createPop();
-        // 依附的父布局自己设定，我这里为了方便，这样写的。
-        popupWindow.showAtLocation(all_choice_layout, Gravity.BOTTOM, 0, 0);
-    }
-    //区域数据
-    PinGoiQuSelect pinGoiQuSelect = null;
-    /**
-     * 创建pop
-     */
-    public void createPop(){
-        viewDiqu = View.inflate(this, R.layout.pingo_pop_diqu_choose,
-                null);
-        // 最后一个参数false 代表：不与其余布局发生交互， true代表：可以与其余布局发生交互事件
-        popupWindow = new PopupWindow(viewDiqu,
-                ViewGroup.LayoutParams.FILL_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                false) {
-
-            // 重写popupWindow消失时事件
-            @Override
-            public void dismiss() {
-                super.dismiss();
-            }
-        };
-        // 设置Pop入场动画效果
-        popupWindow.setAnimationStyle(R.style.pop_style);
-        // 设置Pop响应内部区域焦点
-        popupWindow.setFocusable(true);
-        // 设置Pop响应外部区域焦点
-        popupWindow.setOutsideTouchable(true);
-        // 设置PopupWindow弹出软键盘模式（此处为覆盖式）
-        popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        // 响应返回键必须的语句
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        // 依附的父布局自己设定，我这里为了方便，这样写的。
-//        popupWindow.showAtLocation(rl_bottom, Gravity.BOTTOM, 0, 0);
-
-        RecyclerView recyclerView = viewDiqu.findViewById(R.id.list_pingo_diqu);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-        diQuAdapter = new PinGoQuYuAdapter(this,pinGoiQuSelect.getData().getList());
-        recyclerView.setAdapter(diQuAdapter);
-        diQuAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                popupWindow.dismiss();
-                toSubmitActivity(pinGoiQuSelect.getData().getList().get(position).getId());
-            }
-        });
-    }
-
-    /**
-     *
-     */
-    private void toSubmitActivity(String regid) {
-        intent = new Intent(TAG, PinGoSubmitOrderActivity.class);
-        intent.putExtra("goodsid", gid);
-        intent.putExtra("tag", "1");
-        intent.putExtra("count", num + "");
-        intent.putExtra("regid", regid);
-        intent.putExtra("optioned", optionid);
-        startActivity(intent);
-    }
-
-
     /*popupwindows*/
     private PopupWindow popWindow;
     private View view;
@@ -969,8 +858,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
 
                         } else if (tag == 2) {
                             //立即购买
-                            popWindow.dismiss();
-                            selectDiqu();
+                            toSubActivity();
                         }
                         popWindow.dismiss();
                     } else {
@@ -987,8 +875,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
 
                     } else if (tag == 2) {
                         //立即购买
-                        popWindow.dismiss();
-                        selectDiqu();
+                        toSubActivity();
                     }
                     popWindow.dismiss();
                 }
@@ -998,7 +885,14 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         });
 
     }
-
+    public void toSubActivity(){
+        intent = new Intent(TAG, PinGoSubmitOrderActivity.class);
+        intent.putExtra("goodsid", gid);
+        intent.putExtra("tag", "1");
+        intent.putExtra("count", num + "");
+        intent.putExtra("optioned", optionid);
+        startActivity(intent);
+    }
     /**
      * 添加购物车
      *
@@ -1011,29 +905,36 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
     private String cartadd_string = "";
 
     public void cartAdd(String phone, String token, final String gid, String optionid, int count) {
-        MD5_PATH = "?count=" + count + "&mid=" + uid +"&goodsid=" + gid + "&optionid=" + optionid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.PINGO_CART_ADD + MD5_PATH + "&sign=" +
+        MD5_PATH = "count=" + count + "&goodsid=" + gid + "&optionid=" + optionid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
+        PATH = HttpPath.CART_ADD + MD5_PATH + "&type=1"+ "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
         System.out.println("添加购物车 = " + PATH);
-        HttpxUtils.Get(TAG, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(TAG, PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
                 cartadd_string = result;
                 System.out.println("添加购物车 = " + result);
-                AddrReturn aReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
-                if (aReturn.getStatus() == 1) {
+                cart = GsonUtil.gsonIntance().gsonToBean(result, Cart.class);
+                if (cart.getData().getCart().size() > 0) {
                     Toast.makeText(TAG, "添加成功", Toast.LENGTH_SHORT).show();
-                    popWindow.dismiss();
 
-                } else {
-                    Toast.makeText(TAG, "添加失败", Toast.LENGTH_SHORT).show();
+                    for (int i = 0; i < cart.getData().getCart().size(); i++) {
+                        for (int j = 0; j < cart.getData().getCart().get(i).getGoodslist().size(); j++) {
+                            if (gid.equals(cart.getData().getCart().get(i).getGoodslist().get(j).getGoodsid())) {
+                                tvShopcarNum.setText("" + cart.getData().getCart().get(i).getGoodslist().get(j).getCount());
+                            }
+                        }
+
+                    }
+                    popWindow.dismiss();
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
 
+                Toast.makeText(TAG, "添加失败", Toast.LENGTH_SHORT).show();
                 System.out.println("添加购物车 =失败 " + ex.toString());
                 setLoginAgain(cartadd_string);
             }

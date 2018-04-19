@@ -134,8 +134,26 @@ public class Cart {
                 private String shopid;
                 private String marketprice;
                 private String optionid;
+                private String distype;
                 private GoodsBean goods;
 
+                public String getDistype() {
+                    return distype;
+                }
+
+                public void setDistype(String distype) {
+                    this.distype = distype;
+                }
+
+                public String getType() {
+                    return type;
+                }
+
+                public void setType(String type) {
+                    this.type = type;
+                }
+
+                private String type;
                 public boolean isCheck = false;
                 public boolean isChoosed;
 

@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,27 +48,38 @@ public class PinGoQuYuAdapter extends RecyclerView.Adapter<PinGoQuYuAdapter.MyVi
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int i) {
-        if (onItemClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+//        if (onItemClickListener != null) {
+//            holder.itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//
+//                }
+//            });
+//
+//        }
+        holder.name.setText(listBeans.get(i).getRegname());
+        holder.name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    if (nowcheckBox != null && nowcheckBox != holder.name){
+                        nowcheckBox.setChecked(false);
+                    }
                     int position = holder.getLayoutPosition(); // 1
                     onItemClickListener.onItemClick(holder.itemView, position); // 2
+                    nowcheckBox = holder.name;
                 }
-            });
-
-        }
-        holder.name.setText(listBeans.get(i).getRegname());
-
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return listBeans.size();
     }
-
+    CheckBox nowcheckBox;
     public class MyViewHolder extends BaseRecyclerViewHolder {
-        TextView name;
+        CheckBox name;
         public MyViewHolder(View view) {
             super(view);
             name =  view.findViewById(R.id.item_pingo_diqu);

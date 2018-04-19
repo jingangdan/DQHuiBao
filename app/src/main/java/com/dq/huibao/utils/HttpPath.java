@@ -729,6 +729,7 @@ public class HttpPath {
      */
     public static final String JIFEN_SAVEORDER = HEADER + "Score/saveorder";
 
+    //同学拼go=================================
     /**
      * 同学拼go
      *
@@ -835,4 +836,10 @@ public class HttpPath {
      *      allprice
      */
     public static final String PINGO_GOOD_SUBMITORDER = HEADER + "Student/buynoworder";
+
+    /**
+     * 拼go--订单记录
+     * 参数：mid=uid
+     */
+    public static final String PINGO_MYORDER = HEADER + "Student/myorder";
 }

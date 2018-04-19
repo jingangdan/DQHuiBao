@@ -1,16 +1,21 @@
 package com.dq.huibao.ui.jifen;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.SimpleFragmentPagerAdapter;
 import com.dq.huibao.base.BaseActivity;
+import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.ui.xstore.XStoreFragment;
 import com.dq.huibao.ui.xstore.XStoreSetFragment;
+import com.dq.huibao.utils.GsonUtil;
+import com.dq.huibao.utils.SPUserInfo;
 import com.dq.huibao.view.NoScrollViewPager;
 
 import java.util.ArrayList;
@@ -43,11 +48,8 @@ public class JiFenActivity extends BaseActivity implements ViewPager.OnPageChang
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tablayout);
 
+        isLogin();
         ButterKnife.bind(this);
-        intent = getIntent();
-        uid = intent.getStringExtra("uid");
-        phone = intent.getStringExtra("phone");
-        token = intent.getStringExtra("token");
 
         fragments.add(JifenFlFragment.newInstance(uid,phone,token));
         fragments.add(MyJfFragment.newInstance(uid,phone,token));
@@ -64,7 +66,23 @@ public class JiFenActivity extends BaseActivity implements ViewPager.OnPageChang
         noScrollViewPager.setOnPageChangeListener(this);
         tabLayout.setupWithViewPager(noScrollViewPager);
     }
+    /*
+      * 判断登录状态
+      *  */
+    @SuppressLint("WrongConstant")
+    public void isLogin() {
+        SPUserInfo spUserInfo = new SPUserInfo(this.getApplication());
 
+        if (spUserInfo.getLogin().equals("1")) {
+
+            if (!(spUserInfo.getLoginReturn().equals(""))) {
+                Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
+                phone = login.getData().getPhone();
+                token = login.getData().getToken();
+                uid = login.getData().getUid();
+            }
+        }
+    }
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 

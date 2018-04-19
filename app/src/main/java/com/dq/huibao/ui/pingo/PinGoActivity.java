@@ -431,7 +431,10 @@ public class PinGoActivity extends BaseActivity implements
                     content = "jian";
                 }else if ("周五秒杀".equals(content)){
                     content = "jian";
+                }else if ("论坛".equals(content)){
+                    content = "jian";
                 }
+
                 //商品列表
                 intent = new Intent(this, PinGoGoodsActivity.class);
                 intent.putExtra("goodsType", content);

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--状态选择器的文件放到drawable文件夹下-->
+    <!-- 对应的状态控制都是包含在item内的，根据不同的状态来设定不同的视觉资源-->
+    <item android:state_checked="true" >
+        <shape>
+            <solid android:color="@color/red_normal"/>
+            <corners android:radius="10dp"/>
+        </shape>
+    </item>
+    <item android:state_pressed="true" >
+        <shape>
+            <solid android:color="@color/red_normal"/>
+            <corners android:radius="10dp"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/red_pressed"/>
+            <corners android:radius="10dp"/>
+        </shape>
+    </item>
+</selector >

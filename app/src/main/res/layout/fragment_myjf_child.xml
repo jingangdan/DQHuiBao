@@ -1,0 +1,10 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/lightGray">
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:id="@+id/list_myjf_child"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.github.jdsjlzx.recyclerview.LRecyclerView>
+</RelativeLayout>
