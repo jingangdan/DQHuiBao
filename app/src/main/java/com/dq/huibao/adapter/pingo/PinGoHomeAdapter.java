@@ -289,28 +289,38 @@ public class PinGoHomeAdapter extends RecyclerView.Adapter {
             //设置倒计时
             dataList.clear();
             adapters.clear();
-            dataList.add(dataBeans.getList().get(0).get(0));
-            dataList.add(dataBeans.getList().get(0).get(1));
-            dataList.add(dataBeans.getList().get(1).get(0));
-            dataList.add(dataBeans.getList().get(1).get(1));
-            for (int i = 0; i < 4; i++) {
-                //地区名称
-                pingodiquName.get(i).setText(dataList.get(i).getRegname());
-                //还剩几单
-                pingosyds.get(i).setText("还剩" + (Integer.parseInt(dataList.get(i).getMaxcount()) - Integer.parseInt(dataList.get(i).getTuancount())) + "单");
-                //最新加入的人员
-                newPeople.get(i).setText(dataList.get(i).getList().get(dataList.get(i).getList().size()-1).getRname() + "刚刚加入团");
-                //优惠
-                youhui.get(i).setText("加入立"+ (i < 2 ? "减"+dataList.get(i).getJian()+"元" : "打"+dataList.get(i).getZhe()+"折"));
-                //设置参团人员
-                adapters.add(new PinGoIndexChildAdapter(mContext,dataList.get(i).getList(),dataList.get(i).getDistype()));
-                adapters.get(i).setOnItemClickListener(new PinGoIndexChildAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(String type) {
-                        hpInterface.doHomePage(0, "","goodsList", type);
-                    }
-                });
-                recycleViews.get(i).setAdapter(adapters.get(i));
+
+            try {
+                dataList.add(dataBeans.getList().get(0).get(0));
+                dataList.add(dataBeans.getList().get(0).get(1));
+                dataList.add(dataBeans.getList().get(1).get(0));
+                dataList.add(dataBeans.getList().get(1).get(1));
+                for (int i = 0; i < dataList.size(); i++) {
+                    //地区名称
+//                    pingodiquName.get(i).setText(dataList.get(i).getRegname());
+//                    //还剩几单
+//                    pingosyds.get(i).setText("还剩" + (Integer.parseInt(dataList.get(i).getMaxcount()) - Integer.parseInt(dataList.get(i).getTuancount())) + "单");
+//                    //最新加入的人员
+//                    if (dataList.get(i).getList().size() != 0){
+//                        newPeople.get(i).setText(dataList.get(i).getList().get(dataList.get(i).getList().size()-1).getRname() + "刚刚加入团");
+//                    }
+                    //优惠
+//                    youhui.get(i).setText("加入立"+ (i < 2 ? "减"+dataList.get(i).getJian()+"元" : "打"+dataList.get(i).getZhe()+"折"));
+                    //设置参团人员
+                for (int j=0;j < (4 - dataList.get(i).getList().size());j++){
+                    dataList.get(i).getList().add(new PinGoCenterTuan.DataBean.ListBeanX.ListBean());
+                }
+                    adapters.add(new PinGoIndexChildAdapter(mContext,dataList.get(i).getList(),dataList.get(i).getDistype()));
+                    adapters.get(i).setOnItemClickListener(new PinGoIndexChildAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(String type) {
+                            hpInterface.doHomePage(0, "","goodsList", type);
+                        }
+                    });
+                    recycleViews.get(i).setAdapter(adapters.get(i));
+                }
+            }catch (Exception e){
+                Log.e("fffffffffffff = ","拼go信息 = "+e.toString());
             }
         }
     }
