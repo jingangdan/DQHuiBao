@@ -298,7 +298,7 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
             }else if (widthPraent.equals("50")){//特殊布局
                 linearLayout.setVisibility(View.VISIBLE);
                 for (int i = 0; i < appimglistBeans.size(); i++) {
-                    ImageUtils.loadIntoUseFitWidths(mContext,HttpPath.NEW_HEADER + appimglistBeans.get(i).getThumb(),
+                    ImageUtils.loadIntoUseFitWidths(mContext,appimglistBeans.get(i).getThumb(),
                             R.mipmap.icon_empty003,imageViews.get(i));
                 }
             }else if (widthPraent.equals("1000")){//横向布局

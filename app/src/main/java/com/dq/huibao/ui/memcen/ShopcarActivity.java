@@ -20,6 +20,7 @@ import com.dq.huibao.R;
 import com.dq.huibao.adapter.cart.ShopCartAdapter;
 import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.account.Login;
+import com.dq.huibao.bean.addr.AddrReturn;
 import com.dq.huibao.bean.cart.Cart;
 import com.dq.huibao.ui.SubmitOrderActivity;
 import com.dq.huibao.ui.pingo.PinGoSubmitOrderActivity;
@@ -224,7 +225,7 @@ public class ShopcarActivity extends BaseActivity implements
     public void cartAdd(final int groupPosition, final int childPosition, final View showCountView, boolean isChecked,String type,
                         String phone, String token, final String gid, String optionid, final int count, final int tag) {
         MD5_PATH = "count=" + count + "&goodsid=" + gid + "&optionid=" + optionid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.CART_ADD + MD5_PATH +"&type=1" + type + "&sign=" +
+        PATH = HttpPath.CART_ADD + MD5_PATH +"&type=" + type + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
         System.out.println("添加购物车 = " + PATH);
         HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
@@ -286,7 +287,7 @@ public class ShopcarActivity extends BaseActivity implements
      * @param token
      * @param ids
      */
-    public void cartDel(String phone, String token, String ids) {
+    public void cartDel(final String phone, final String token, String ids) {
         MD5_PATH = "ids=" + ids + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
         PATH = HttpPath.CART_DEL +
                 MD5_PATH + "&sign=" +
@@ -296,6 +297,11 @@ public class ShopcarActivity extends BaseActivity implements
             @Override
             public void onSuccess(String result) {
                 System.out.println("删除购物车 = " + result);
+                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                if (addrReturn.getStatus() == 1) {
+                    toast("" + addrReturn.getData());
+                    getCart(phone, token);
+                }
             }
 
             @Override
@@ -393,7 +399,7 @@ public class ShopcarActivity extends BaseActivity implements
                             public void onClick(DialogInterface dialog, int which) {
                                 //doDelete();
                                 System.out.println("ids = " + ids);
-                                //cartDel(phone, token, ids);
+                                cartDel(phone, token, ids);
                                 //删除操作
                             }
                         });

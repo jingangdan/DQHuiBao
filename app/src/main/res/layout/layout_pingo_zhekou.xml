@@ -35,13 +35,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red_pressed"
-                    android:text="临沂大学"/>
+                    android:text=""/>
                 <TextView
                     android:id="@+id/pingo_zhekou_left_shengyudanshu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:text="还剩3单"/>
+                    android:text="还剩 单"/>
             </LinearLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/pingo_zhekou_left_list"
@@ -59,8 +59,7 @@
                 android:maxLines="1"
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="11sp"
-                android:text="xxx发起拼团,赶快加入吧"/>
+                android:textSize="11sp"/>
             <TextView
                 android:id="@+id/pingo_zhekou_left_youhui"
                 android:layout_width="wrap_content"
@@ -118,13 +117,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red_pressed"
-                    android:text="山东医专"/>
+                    android:text=""/>
                 <TextView
                     android:id="@+id/pingo_zhekou_right_shengyudanshu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:text="还剩3单"/>
+                    android:text="还剩 单"/>
             </LinearLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/pingo_zhekou_right_list"
@@ -142,8 +141,7 @@
                 android:maxLines="1"
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="11sp"
-                android:text="xxx发起拼团,赶快加入吧"/>
+                android:textSize="11sp"/>
             <TextView
                 android:id="@+id/pingo_zhekou_right_youhui"
                 android:layout_width="wrap_content"

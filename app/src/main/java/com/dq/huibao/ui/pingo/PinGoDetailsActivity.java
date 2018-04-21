@@ -59,6 +59,7 @@ import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
+import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
 import com.dq.huibao.utils.ShowUtils;
@@ -216,7 +217,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
     private RequestParams params;
 
     /*图片*/
-    public static List<String> picsList = new ArrayList<>();
+    public static List<String> picsList = new ArrayList<String>();
 
     /*UI赋值*/
     private String title = "", marketprice = "", total = "", sales = "";
@@ -475,39 +476,38 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
             @Override
             public void onSuccess(String result) {
                 System.out.println("拼go商品详情 = " + result);
-                try {
-                    goodsDetail = GsonUtil.gsonIntance().gsonToBean(result, PinGoGoodDetails.class);
-                    picsList.clear();
-                    specsList.clear();
-                    optionsList.clear();
+                goodsDetail = GsonUtil.gsonIntance().gsonToBean(result, PinGoGoodDetails.class);
+                picsList.clear();
+                specsList.clear();
+                optionsList.clear();
 //                commentList.clear();
 
-                    picsList = goodsDetail.getData().getThumb_url();
+                picsList = goodsDetail.getData().getThumb_url();
 
-                    if (!goodsDetail.getData().getSpec().toString().equals("[]")) {
-                        specsList = goodsDetail.getData().getSpec();
-                    }
-                    if (!goodsDetail.getData().getOption().toString().equals("[]")) {
-                        optionsList = goodsDetail.getData().getOption();
-                    }
+                if (!goodsDetail.getData().getSpec().toString().equals("[]")) {
+                    specsList = goodsDetail.getData().getSpec();
+                }
+                if (!goodsDetail.getData().getOption().toString().equals("[]")) {
+                    optionsList = goodsDetail.getData().getOption();
+                }
 
-                    title = goodsDetail.getData().getGoodsname();
-                    marketprice = "" + goodsDetail.getData().getMarketprice();
-                    total = "" + goodsDetail.getData().getStock();
-                    sales = "" + goodsDetail.getData().getSalecount();
-                    content = goodsDetail.getData().getContent();
+                title = goodsDetail.getData().getGoodsname();
+                marketprice = "" + goodsDetail.getData().getMarketprice();
+                total = "" + goodsDetail.getData().getStock();
+                sales = "" + goodsDetail.getData().getSalecount();
+                content = goodsDetail.getData().getContent();
 //                isCollection = goodsDetail.getData().getCollect();
 
-                    tvGdTitle.setText("" + goodsDetail.getData().getGoodsname());
+                tvGdTitle.setText("" + goodsDetail.getData().getGoodsname());
 
+                try {
                     setLunbotu();
-
-                    initData();
-
-                    getWebHTML(content);
                 }catch (Exception ex){
-                    Log.e("ffffffffff",""+ex.toString());
+                    System.out.println("拼go商品详情 =失败 " + ex.toString());
                 }
+                initData();
+                getWebHTML(content);
+
             }
 
             @Override
@@ -676,7 +676,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         infos = new ArrayList<>();
         for (int i = 0; i < picsList.size(); i++) {
             info = new ADInfo();
-            info.setUrl(HttpPath.IMG_HEADER + picsList.get(i).toString());
+            info.setUrl(ImageUtils.getImagePath(picsList.get(i).toString()));
             info.setContent("");
             info.setImg("");
             infos.add(info);
@@ -689,7 +689,6 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         }
         // 将第一个ImageView添加进来
         views.add(ViewFactory.getImageView(TAG, infos.get(0).getUrl()));
-
         // 设置循环，在调用setData方法前调用
         cycleViewPager.setCycle(true);
 
@@ -716,6 +715,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
                         intent = new Intent(TAG, ShowBigPictrueActivity.class);
                         intent.putExtra("position", index);
                         intent.putExtra("picslist", picsList.toString());
+                        intent.putStringArrayListExtra("picsList", (ArrayList<String>) picsList);
                         startActivity(intent);
 
                     }
@@ -787,10 +787,8 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         specAdapter = new SpecAdapter(this, specsList);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(specAdapter);
-
-
         Glide.with(TAG)
-                .load(HttpPath.IMG_HEADER + goodsDetail.getData().getThumb())
+                .load(ImageUtils.getImagePath(goodsDetail.getData().getThumb()))
                 .placeholder(R.mipmap.icon_empty002)
                 .error(R.mipmap.icon_error002)
                 .into(iv_thumb);
@@ -970,7 +968,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
                 "</head>";
         String html = "<html>" + head + "<body>" + html_bady + "</body></html>";
 
-        webView.loadDataWithBaseURL(HttpPath.IMG_HEADER, html, "text/html", "utf-8", null);
+        webView.loadDataWithBaseURL(HttpPath.NEW_HEADER, html, "text/html", "utf-8", null);
 
     }
 
@@ -1165,7 +1163,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
 
                     } else {
                         Glide.with(mContext)
-                                .load(HttpPath.IMG_HEADER + specBeanList.get(i).getItem().get(position).getThumb())
+                                .load(ImageUtils.getImagePath(specBeanList.get(i).getItem().get(position).getThumb()))
                                 .placeholder(R.mipmap.icon_empty002)
                                 .error(R.mipmap.icon_error002)
                                 .into(iv_thumb);

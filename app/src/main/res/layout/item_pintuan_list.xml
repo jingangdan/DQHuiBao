@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/bg_pintuan_people_list"
     android:gravity="center_vertical|center_horizontal"
     android:padding="10dp"
     android:layout_margin="5dp"
-    android:orientation="vertical">
+    android:orientation="horizontal">
     <ImageView
         android:id="@+id/item_pt_list_image"
         android:layout_width="40dp"

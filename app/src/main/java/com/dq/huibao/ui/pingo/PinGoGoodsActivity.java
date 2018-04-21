@@ -48,7 +48,7 @@ public class PinGoGoodsActivity extends BaseActivity {
     /*本地轻量型缓存*/
     private SPUserInfo spUserInfo;
     private String uid = "", phone = "", token = "";
-    private int page = 1,pagesize = 20;
+    private int page = 1,pagesize = 10;
     //
     View headerView;
     //
@@ -178,7 +178,7 @@ public class PinGoGoodsActivity extends BaseActivity {
                             }
                         });
                         goodsListView.refreshComplete(pagesize);
-                        if (indexMoreGoods.getData().getList().size() == 0)
+                        if (indexMoreGoods.getData().getList() == null || indexMoreGoods.getData().getList().size() < pagesize)
                             goodsListView.setNoMore(true);
                     }
 

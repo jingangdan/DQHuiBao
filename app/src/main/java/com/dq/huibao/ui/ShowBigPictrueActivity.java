@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.dq.huibao.R;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.view.goodsdetails.PictrueFragment;
 import com.dq.huibao.view.HackyViewPager;
 
@@ -40,8 +41,9 @@ public class ShowBigPictrueActivity extends FragmentActivity {
         intent = getIntent();
         position = intent.getIntExtra("position", 0);
         pics = intent.getStringExtra("picslist");
+        picsList = intent.getStringArrayListExtra("picsList");
 
-        picsList = GoodsDetailsActivity.picsList;
+//        picsList = GoodsDetailsActivity.picsList;
 
         initViewPager();
 
@@ -66,7 +68,7 @@ public class ShowBigPictrueActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             //int show_resId = resId[position];
-            String show_resId = HttpPath.IMG_HEADER + picsList.get(position).toString();
+            String show_resId = ImageUtils.getImagePath(picsList.get(position).toString());
 
             return new PictrueFragment(show_resId);
         }

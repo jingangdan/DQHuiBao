@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.jifen.JiFenFuLiGoods;
 import com.dq.huibao.bean.xstore.XStoreGoods;
@@ -43,8 +44,11 @@ public class JiFenFuLiGoodsAdapter extends ListBaseAdapter<JiFenFuLiGoods.DataBe
 //                .placeholder(R.mipmap.icon_stub)
 //                .into(imageView);
 
-        ImageUtils.loadIntoUseFitWidth2(mContext, HttpPath.NEW_HEADER + listBean.getThumb(), R.mipmap.icon_stub, imageView);
-
+//        ImageUtils.loadIntoUseFitWidth2(mContext,, R.mipmap.icon_stub, imageView);
+        Glide.with(mContext)
+                .load(ImageUtils.getImagePath(listBean.getThumb()))
+                .placeholder( R.mipmap.icon_stub)
+                .into(imageView);
         name.setText(listBean.getGoodsname());
         price.setText("￥" + listBean.getPrice() +"  +  " + listBean.getScore() + "积分");
 

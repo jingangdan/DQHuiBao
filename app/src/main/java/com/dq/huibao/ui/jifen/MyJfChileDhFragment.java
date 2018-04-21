@@ -109,6 +109,9 @@ public class MyJfChileDhFragment extends BaseFragment {
                         System.out.println("积分兑换商品记录 = " + result);
                         JiFenLogs jiFenLogs = GsonUtil.gsonIntance().gsonToBean(result, JiFenLogs.class);
                         jiFenLogsAdapter.addAll(jiFenLogs.getData());
+                        if (jiFenLogs.getData() == null || jiFenLogs.getData().size() < pagesize){
+                            lRecyclerView.setNoMore(true);
+                        }
                         //更新ui
                     }
 

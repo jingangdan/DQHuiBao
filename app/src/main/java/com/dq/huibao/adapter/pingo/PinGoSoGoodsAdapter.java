@@ -22,6 +22,7 @@ import com.dq.huibao.bean.cart.CheckOrder;
 import com.dq.huibao.bean.pingo.PinGoOrderConfirm;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.ImageUtils;
 
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class PinGoSoGoodsAdapter extends RecyclerView.Adapter<PinGoSoGoodsAdapte
 //                holder.img);
 
         Glide.with(mContext)
-                .load(HttpPath.IMG_HEADER + goodsList.get(position).getThumb())
+                .load(ImageUtils.getImagePath(goodsList.get(position).getThumb()))
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(holder.img);

@@ -81,7 +81,6 @@ public class XStoreGoodsActivity extends BaseActivity implements AdapterView.OnI
     /**保存选择的商品列表*/
     List<XStoreZXGoods.DataBean.ListBean> xzGoodsList = new ArrayList<>();
     //
-    boolean isNoMore = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,12 +112,8 @@ public class XStoreGoodsActivity extends BaseActivity implements AdapterView.OnI
         xstoreGoodsListRight.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                if (isNoMore){
-                    xstoreGoodsListRight.setNoMore(true);
-                }else {
-                    page++;
-                    getGoods();
-                }
+                page++;
+                getGoods();
             }
         });
         //存在的已选商品
@@ -184,7 +179,6 @@ public class XStoreGoodsActivity extends BaseActivity implements AdapterView.OnI
     public void getGoodsInit(){
         goodsAdapter.clear();
         page = 1;
-        isNoMore = false;
         xstoreGoodsListRight.setNoMore(false);
         getGoods();
     }
@@ -211,17 +205,19 @@ public class XStoreGoodsActivity extends BaseActivity implements AdapterView.OnI
                                 xstoreGoodsListRight.refreshComplete(pagesize);
                                 //
                                 getDataIdstr(storeZXGoods.getData().getList());
-                                goodsAdapter.clear();
                                 goodsAdapter.addAll(storeZXGoods.getData().getList());
-                                if (storeZXGoods.getData().getIsload() == 0){
-                                    isNoMore = true;
+                                if (storeZXGoods.getData() == null || storeZXGoods.getData().getIsload() == 0 || storeZXGoods.getData().getList().size() < pagesize){
+                                    xstoreGoodsListRight.setNoMore(true);
                                 }
                                 System.out.println("获取小店自选商品 = " + storeZXGoods.getData().getList().toString());
                             }else {
 //                                toast(jsonObject.getString("data"));
-                                xstoreGoodsListRight.setVisibility(View.GONE);
+                                if (goodsAdapter.getDataList().size() == 0){
+                                    xstoreGoodsListRight.setVisibility(View.GONE);
+                                }
                             }
-                        } catch (JSONException e) {
+                        } catch (Exception e) {
+                            System.out.println("获取小店自选商品 = 失败" + e.toString());
                             e.printStackTrace();
                         }
 

@@ -1,7 +1,9 @@
 package com.dq.huibao.ui.pintuan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import com.dq.huibao.adapter.pintuan.PinTuanIndexAdapter;
 import com.dq.huibao.R;
@@ -10,6 +12,7 @@ import com.dq.huibao.bean.pintuan.PinTuanIndex;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
+import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
@@ -36,7 +39,7 @@ public class PinTuanActivity extends BaseActivity {
     PinTuanIndexAdapter listAdapter;
     LRecyclerViewAdapter lRecyclerViewAdapter;
     //
-    private int page = 1, pageSize = 20;
+    private int page = 1, pageSize = 10;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +52,7 @@ public class PinTuanActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 listAdapter.clear();
+                lRecyclerView.setNoMore(false);
                 page = 1;
                 getListData();
             }
@@ -63,6 +67,15 @@ public class PinTuanActivity extends BaseActivity {
         //
         listAdapter = new PinTuanIndexAdapter(this);
         lRecyclerViewAdapter = new LRecyclerViewAdapter(listAdapter);
+        lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(PinTuanActivity.this,PinTuanDetailsActivity.class);
+                intent.putExtra("gid",pinTuanIndex.getData().getList().get(position).getGoodsid());
+                intent.putExtra("tuanId",pinTuanIndex.getData().getList().get(position).getId());
+                startActivity(intent);
+            }
+        });
         lRecyclerView.setAdapter(lRecyclerViewAdapter);
         //
         getListData();
@@ -83,7 +96,7 @@ public class PinTuanActivity extends BaseActivity {
                         pinTuanIndex = GsonUtil.gsonIntance().gsonToBean(result, PinTuanIndex.class);
                         listAdapter.addAll(pinTuanIndex.getData().getList());
                         lRecyclerView.refreshComplete(pageSize);
-                        if (pinTuanIndex.getData().getList().size() == 0){
+                        if (pinTuanIndex.getData().getList().size() == 0 || pinTuanIndex.getData().getList().size() < pageSize){
                             lRecyclerView.setNoMore(true);
                         }
                     }

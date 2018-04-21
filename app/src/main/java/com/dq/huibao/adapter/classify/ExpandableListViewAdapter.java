@@ -96,7 +96,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
         }
         childholder.tv_neme.setText(name);
-        GlideUtils.loadImageView(mContext, HttpPath.IMG_HEADER + img, childholder.img);
+        GlideUtils.loadImageView(mContext, ImageUtils.getImagePath(img), childholder.img);
 
         childholder.img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +113,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
             childholder.tv_name2.setVisibility(View.VISIBLE);
             childholder.img2.setVisibility(View.VISIBLE);
             childholder.tv_name2.setText(name2);
-            GlideUtils.loadImageView(mContext, HttpPath.IMG_HEADER + img2, childholder.img2);
+            GlideUtils.loadImageView(mContext, ImageUtils.getImagePath(img2), childholder.img2);
 
             childholder.img2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -133,7 +133,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
             childholder.tv_name3.setVisibility(View.VISIBLE);
             childholder.img3.setVisibility(View.VISIBLE);
             childholder.tv_name3.setText(name3);
-            GlideUtils.loadImageView(mContext, HttpPath.IMG_HEADER + img3, childholder.img3);
+            GlideUtils.loadImageView(mContext, ImageUtils.getImagePath(img3), childholder.img3);
             childholder.img3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -199,7 +199,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         String img = dataBeans.get(groupPosition).getAdvimg();
         if (!img.equals("")) {
             ImageUtils.loadIntoUseFitWidth(mContext,
-                    HttpPath.IMG_HEADER + img,
+                    img,
                     R.mipmap.icon_empty002,
                     R.mipmap.icon_error002,
                     groupholder.img);

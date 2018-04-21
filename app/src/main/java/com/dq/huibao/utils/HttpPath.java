@@ -15,7 +15,7 @@ public class HttpPath {
     /**
      * 图片头部
      */
-    public static final String IMG_HEADER = "http://www.dequanhuibao.com/";
+//    public static final String IMG_HEADER = "http://www.dequanhuibao.com/";
 
     public static final String NEW_HEADER = "http://new.dequanhuibao.com/";
 
@@ -689,7 +689,7 @@ public class HttpPath {
     /**
      * 积分可兑换商品列表
      * 方式:get/post
-     * 参数：typeid,page,pagesize
+     * 参数：id,page,pagesize
      */
     public static final String JIFEN_FULI_GOODS = HEADER + "Score/goodslist";
 

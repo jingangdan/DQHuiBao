@@ -1,5 +1,6 @@
 package com.dq.huibao.ui.jifen;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -62,7 +63,17 @@ public class JifenFlFragment extends BaseFragment {
         lRecyclerViewGoodsAdapter = new LRecyclerViewAdapter(jiFenFuLiGoodsAdapter);
         jifenFuliListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         jifenFuliListView.setAdapter(lRecyclerViewGoodsAdapter);
-
+        lRecyclerViewGoodsAdapter.setOnItemClickListener(new com.github.jdsjlzx.interfaces.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getActivity(),JiFenGoodDetailActivity.class);
+                intent.putExtra("goodid",jiFenFuLiGoodsAdapter.getDataList().get(position).getId());
+                intent.putExtra("phone",phone);
+                intent.putExtra("token",token);
+                intent.putExtra("uid",uid);
+                startActivity(intent);
+            }
+        });
         jifenFuliListView.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
@@ -149,6 +160,9 @@ public class JifenFlFragment extends BaseFragment {
                         });
                         typeLecyclerView.setAdapter(typeAdapter);
                         getGoods(jiFenFuLiType.getData().get(0).getId());
+                        page = 1;
+                        jiFenFuLiGoodsAdapter.clear();
+                        jifenFuliListView.setNoMore(true);
                     }
 
                     @Override
@@ -182,6 +196,9 @@ public class JifenFlFragment extends BaseFragment {
                         System.out.println("获取积分兑换商品 = " + goods.getData().toString());
                         jiFenFuLiGoodsAdapter.addAll(goods.getData());
                         jifenFuliListView.refreshComplete(pagesieze);
+                        if (goods.getData() == null || goods.getData().size() < pagesieze){
+                            jifenFuliListView.setNoMore(true);
+                        }
                     }
 
                     @Override

@@ -3,6 +3,7 @@ package com.dq.huibao.adapter.index;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,10 +60,9 @@ public class IndexMoreGoodsListAdapter extends RecyclerView.Adapter<IndexMoreGoo
         }
         /*等比例显示图片*/
         ImageUtils.loadIntoUseFitWidths(mContext,
-                HttpPath.IMG_HEADER+goodsList.get(position).getThumb(),
+                goodsList.get(position).getThumb(),
                 R.mipmap.icon_empty002,
                 holder.img);
-
         holder.tv_name.setText("" + goodsList.get(position).getGoodsname());
 
         holder.tv_pricenow.setText("¥" + goodsList.get(position).getMarketprice());

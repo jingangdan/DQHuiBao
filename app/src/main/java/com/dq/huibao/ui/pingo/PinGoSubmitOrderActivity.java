@@ -123,7 +123,6 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
 
         rvSibmitorder.setLayoutManager(mManager);
         rvSibmitorder.setAdapter(submitOrderAdapter);
-
         isLogin();
         diquData();
 
@@ -153,9 +152,11 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
 
             case R.id.but_confirm_pay:
                 if (pinGoiQuSelect == null){
+                    toast("正在获取区域信息");
                     diquData();
+                }else {
+                    alertDialog.show();
                 }
-                alertDialog.show();
                 break;
             default:
                 break;

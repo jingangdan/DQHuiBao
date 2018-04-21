@@ -312,7 +312,7 @@ public class PayActivity extends BaseActivity {
         PATH = HttpPath.PAY_ORDER + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
-        System.out.println("第三方下单 = " + PATH);
+        System.out.println("选择支付方式 = = " + PATH);
         HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

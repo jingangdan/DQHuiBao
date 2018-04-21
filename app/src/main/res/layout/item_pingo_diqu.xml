@@ -10,5 +10,6 @@
         android:layout_height="wrap_content"
         android:button="@null"
         android:background="@drawable/select_pingo_diqu"
+        android:textColor="@color/white"
         android:padding="10dp"/>
 </LinearLayout>

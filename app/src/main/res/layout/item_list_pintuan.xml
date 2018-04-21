@@ -4,64 +4,62 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:orientation="vertical">
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_marginBottom="2dp">
     <ImageView
         android:id="@+id/item_pintuan_img"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitCenter"/>
-    <TextView
-        android:id="@+id/item_pintuan_ptName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:textSize="16sp"
-        android:text="拼团名称"/>
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"/>
     <TextView
         android:id="@+id/item_pintuan_goodName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxLines="1"
-        android:textSize="14sp"
         android:textColor="@color/black"
-        android:text="商品名称"/>
-    <LinearLayout
+        android:textSize="18sp"/>
+    <TextView
+        android:id="@+id/item_pintuan_ptName"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:textSize="14sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/item_pintuan_type"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@color/red_normal"
+            android:gravity="center_vertical"
+            android:textSize="18sp"/>
         <TextView
             android:id="@+id/item_pintuan_count"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textColor="@color/white"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:gravity="center_vertical|center_horizontal"
-            android:background="@color/dark"
-            android:text="参团人数"/>
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/white"/>
-        <TextView
-            android:id="@+id/item_pintuan_type"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textColor="@color/white"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:gravity="center_vertical|center_horizontal"
-            android:background="@color/dark"
-            android:text="折扣/价格"/>
+            android:background="@drawable/radius_left_pintuan"/>
+
         <TextView
             android:id="@+id/item_pintuan_go"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textColor="@color/white"
             android:background="@drawable/radius_right_pintuan"
-            android:padding="10dp"
-            android:text="去参团 >"/>
+            android:gravity="center_vertical|center_horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="立即参团"/>
 
     </LinearLayout>
 </LinearLayout>

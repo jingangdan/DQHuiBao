@@ -1,13 +1,18 @@
 package com.dq.huibao.ui.jifen;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.SimpleFragmentPagerAdapter;
@@ -27,36 +32,49 @@ import butterknife.ButterKnife;
 
 public class MyJfFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
     View view = null;/*本地轻量型缓存*/
-    @Bind(R.id.tabLayout)
-    TabLayout tabLayout;
-    @Bind(R.id.tb_noScrollViewPage)
-    NoScrollViewPager noScrollViewPager;
+    @Bind(R.id.radiogroup_myjifen)
+    RadioGroup radiogroupMyjifen;
     private String uid = "", phone = "", token = "";
 
-    private String[] titles = new String[]{"兑换记录", "使用记录"};
     private List<Fragment> fragments = new ArrayList<>();
 
     private SimpleFragmentPagerAdapter sfpAdapter;
+    FragmentTransaction fragmentTransaction;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_myjifen, null);
         ButterKnife.bind(this, view);
 
-        fragments.add(MyJfChileDhFragment.newInstance(uid,phone,token));
-        fragments.add(MyJfChileSyFragment.newInstance(uid,phone,token));
+        fragments.add(MyJfChileDhFragment.newInstance(uid, phone, token));
+        fragments.add(MyJfChileSyFragment.newInstance(uid, phone, token));
+
+        final FragmentManager fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fragment_myjifen,fragments.get(0),"dh");
+        fragmentTransaction.add(R.id.fragment_myjifen,fragments.get(1),"dh");
+        fragmentTransaction.hide(fragments.get(1));
+        fragmentTransaction.commit();
+        radiogroupMyjifen.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                fragmentTransaction = fragmentManager.beginTransaction();
+                switch (checkedId){
+                    case R.id.radiobutton_myjifen_1://兑换记录
+                        fragmentTransaction.hide(fragments.get(1));
+                        fragmentTransaction.show(fragments.get(0));
+                        fragmentTransaction.commit();
+                        break;
+                    case R.id.radiobutton_myjifen_2://使用记录
+                        fragmentTransaction.hide(fragments.get(0));
+                        fragmentTransaction.show(fragments.get(1));
+                        fragmentTransaction.commit();
+                        break;
+                }
+            }
+        });
 
 
-        sfpAdapter = new SimpleFragmentPagerAdapter(getChildFragmentManager(), getActivity(), fragments, titles);
-        noScrollViewPager.setAdapter(sfpAdapter);
-
-        noScrollViewPager.setCurrentItem(0);
-
-
-        noScrollViewPager.setOffscreenPageLimit(titles.length);
-
-        noScrollViewPager.setOnPageChangeListener(this);
-        tabLayout.setupWithViewPager(noScrollViewPager);
         return view;
     }
 
@@ -64,9 +82,9 @@ public class MyJfFragment extends BaseFragment implements ViewPager.OnPageChange
     public static MyJfFragment newInstance(String uid, String phone, String token) {
 
         Bundle args = new Bundle();
-        args.putString("uid",uid);
-        args.putString("phone",phone);
-        args.putString("token",token);
+        args.putString("uid", uid);
+        args.putString("phone", phone);
+        args.putString("token", token);
         MyJfFragment fragment = new MyJfFragment();
         fragment.setArguments(args);
         return fragment;

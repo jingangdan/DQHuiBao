@@ -53,7 +53,7 @@ public class XStoreIndexAdapter extends ListBaseAdapter<XStoreGoods.DataBean.Lis
 //                .placeholder(R.mipmap.icon_stub)
 //                .into(imageView);
 
-        ImageUtils.loadIntoUseFitWidth2(mContext, HttpPath.NEW_HEADER + listBean.getThumb(), R.mipmap.icon_stub, imageView);
+        ImageUtils.loadIntoUseFitWidth2(mContext, listBean.getThumb(), R.mipmap.icon_stub, imageView);
 
         name.setText(listBean.getGoodsname());
         price.setText("￥ " + listBean.getMarketprice());

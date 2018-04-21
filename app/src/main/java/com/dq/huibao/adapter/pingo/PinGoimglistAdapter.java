@@ -64,7 +64,7 @@ public class PinGoimglistAdapter extends RecyclerView.Adapter<PinGoimglistAdapte
             holder.name.setText(appimgList.get(i).getContent());
         }
         ImageUtils.loadIntoUseFitWidths(mContext,
-                HttpPath.NEW_HEADER + appimgList.get(i).getThumb(),
+                appimgList.get(i).getThumb(),
                 R.mipmap.icon_empty002,
                 holder.img);
 

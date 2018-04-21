@@ -21,6 +21,7 @@ import com.dq.huibao.R;
 import com.dq.huibao.bean.cart.CheckOrder;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.ImageUtils;
 
 import java.util.List;
 
@@ -82,7 +83,7 @@ public class SOGoodsAdapter extends RecyclerView.Adapter<SOGoodsAdapter.MyViewHo
 //                holder.img);
 
         Glide.with(mContext)
-                .load(HttpPath.IMG_HEADER + goodsList.get(position).getGoods().getThumb())
+                .load(ImageUtils.getImagePath(goodsList.get(position).getGoods().getThumb()))
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(holder.img);

@@ -262,7 +262,7 @@
         <!--拼go订单提交页-->
         <activity android:name=".ui.pingo.PinGoSubmitOrderActivity" />
         <!--拼go我的订单页-->
-        <activity android:name=".ui.pingo.PinGoOrdersActivity" />
+        <activity android:name=".ui.jifen.JiFenGoodDetailActivity" />
 
         <!--增加图片清晰度-->
         <meta-data

@@ -58,7 +58,7 @@ public class GoodsListAdapter extends RecyclerView.Adapter<GoodsListAdapter.MyVi
         }
         /*等比例显示图片*/
         ImageUtils.loadIntoUseFitWidths(mContext,
-                HttpPath.IMG_HEADER+goodsList.get(position).getThumb(),
+                goodsList.get(position).getThumb(),
                 R.mipmap.icon_empty002,
                 holder.img);
 

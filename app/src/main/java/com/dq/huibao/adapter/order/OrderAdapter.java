@@ -85,6 +85,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             holder.but_comment.setVisibility(View.GONE);
             holder.but_close.setVisibility(View.VISIBLE);
             holder.but_refund.setVisibility(View.GONE);
+            //
+            holder.but_del.setVisibility(View.GONE);
 
         } else if (status.equals("1")) {
             if (refund.equals("0")) {

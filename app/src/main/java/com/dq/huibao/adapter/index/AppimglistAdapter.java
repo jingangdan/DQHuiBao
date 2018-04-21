@@ -69,13 +69,13 @@ public class AppimglistAdapter extends RecyclerView.Adapter<AppimglistAdapter.My
 
             holder.img.setLayoutParams(layoutParams);
             Glide.with(mContext)
-                    .load(HttpPath.NEW_HEADER + appimgList.get(i).getThumb())
+                    .load(ImageUtils.getImagePath(appimgList.get(i).getThumb()))
                     .placeholder(R.mipmap.icon_empty002)
                     .into(holder.img);
             return;
         }
         ImageUtils.loadIntoUseFitWidths(mContext,
-                HttpPath.NEW_HEADER + appimgList.get(i).getThumb(),
+                appimgList.get(i).getThumb(),
                 R.mipmap.icon_empty002,
                 holder.img);
 

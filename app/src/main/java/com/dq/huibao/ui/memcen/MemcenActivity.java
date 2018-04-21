@@ -43,6 +43,7 @@ import com.dq.huibao.utils.FileUtil;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
+import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.PhotoUtils;
 import com.dq.huibao.utils.SPUserInfo;
@@ -394,7 +395,7 @@ public class MemcenActivity extends BaseActivity {
     public void setDate() {
         etMemberRealname.setText("" + realname);
         Glide.with(this)
-                .load(HttpPath.NEW_HEADER + headimgurl)
+                .load(ImageUtils.getImagePath(headimgurl))
                 .bitmapTransform(new GlideCircleTransform(this))
                 .crossFade(1000)
                 .error(R.mipmap.ic_header)

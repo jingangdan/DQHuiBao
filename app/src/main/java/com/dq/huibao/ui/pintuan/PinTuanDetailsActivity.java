@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
@@ -36,10 +37,10 @@ import com.dq.huibao.adapter.pintuan.PTChooseAdapter;
 import com.dq.huibao.adapter.pintuan.PTParmasAdapter;
 import com.dq.huibao.adapter.pintuan.PTTuanListAdapter;
 import com.dq.huibao.base.BaseActivity;
-import com.dq.huibao.bean.pintuan.PinTuanDetails;
 import com.dq.huibao.bean.account.Account;
 import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.bean.cart.Cart;
+import com.dq.huibao.bean.pintuan.PinTuanDetails;
 import com.dq.huibao.lunbotu.ADInfo;
 import com.dq.huibao.lunbotu.CycleViewPager;
 import com.dq.huibao.lunbotu.ViewFactory;
@@ -51,6 +52,7 @@ import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
+import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.utils.SPUserInfo;
 import com.dq.huibao.utils.ShowUtils;
 import com.dq.huibao.view.goodsdetails_foot.GradationScrollView;
@@ -117,10 +119,9 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
     /*拼团买*/
     @Bind(R.id.pintuan_pintuan)
     Button pintuanPintuan;
+    @Bind(R.id.pintuan_no_btn)
+    Button pintuanNoBtn;
     private WebSettings webSettings;
-
-    @Bind(R.id.pintuan_isNoPin_layout)
-    LinearLayout pintuanIsNoPinLayout;
     /*选择数量和颜色时背景变暗*/
     @Bind(R.id.pintuan_choice_layout)
     LinearLayout pintuanAllChoice;
@@ -156,7 +157,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
 
     /*本地轻量型缓存*/
     private SPUserInfo spUserInfo;
-    private String token = "", phone = "", username = "",uid = "";
+    private String token = "", phone = "", username = "", uid = "";
 
     private PinTuanDetails goodsDetail;
     /*选择规格*/
@@ -180,7 +181,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
         pintuanRvParams.setLayoutManager(new LinearLayoutManager(TAG));
         pintuanRvParams.setAdapter(gdParmasAdapter);
 
-        pinTuanListView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        pinTuanListView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         intent = getIntent();
         gid = intent.getStringExtra("gid");
@@ -192,9 +193,9 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
     }
 
     @SuppressLint({"WrongConstant", "ResourceAsColor"})
-    @OnClick({R.id.pt_rel_gd_choose,R.id.pintuan_danmai, R.id.pintuan_pintuan,
+    @OnClick({R.id.pt_rel_gd_choose, R.id.pintuan_danmai, R.id.pintuan_pintuan,
             R.id.pintuan_no_btn, R.id.pintuan_lin_distribution,
-            R.id.pintuan_tv_content, R.id.pintuan_tv_params})
+            R.id.pintuan_tv_content, R.id.pintuan_tv_params, R.id.pintuan_lin_gd_serice})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.pintuan_lin_distribution:
@@ -218,7 +219,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
                 break;
             case R.id.pt_rel_gd_choose://选择 规格
                 //选择商品规格和数量
-                setPopTest(true,orderType.equals("1"));
+                setPopTest(true, orderType.equals("1"));
                 setBackgroundBlack(pintuanAllChoice, 0);
                 break;
             case R.id.pintuan_danmai:
@@ -227,7 +228,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
                 orderType = "0";
                 if (isLogin()) {
                     if (optionid.equals("")) {
-                        setPopTest(false,false);
+                        setPopTest(false, false);
                         setBackgroundBlack(pintuanAllChoice, 0);
                     } else {
                         toSubmitActivity();
@@ -245,7 +246,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
                 orderType = "1";
                 if (isLogin()) {
                     if (optionid.equals("")) {
-                        setPopTest(false,true);
+                        setPopTest(false, true);
                         setBackgroundBlack(pintuanAllChoice, 0);
                     } else {
                         //需要验证是否还可以参团
@@ -259,7 +260,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
                 break;
             case R.id.pintuan_no_btn:
                 //拼团已满或者失效，查看更多拼团产品
-
+                finish();
                 break;
             case R.id.pintuan_tv_content:
                 //图文推荐
@@ -285,6 +286,11 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
                 gdParmasAdapter.notifyDataSetChanged();
 
 
+                break;
+            case R.id.pintuan_lin_gd_serice://客服
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "0539-7290757"));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 break;
         }
     }
@@ -333,9 +339,11 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
                 goodsDetail = GsonUtil.gsonIntance().gsonToBean(result, PinTuanDetails.class);
                 isSpecs = (goodsDetail.getData().getHasoption() == 1);
                 if (goodsDetail.getData().getFooter_status() == 0) {
-                    pintuanIsNoPinLayout.setVisibility(View.VISIBLE);
-                }else {
-                    pintuanIsNoPinLayout.setVisibility(View.GONE);
+                    pintuanPintuan.setVisibility(View.GONE);
+                    pintuanNoBtn.setVisibility(View.VISIBLE);
+                } else {
+                    pintuanPintuan.setVisibility(View.VISIBLE);
+                    pintuanNoBtn.setVisibility(View.GONE);
                 }
 
                 specsList.clear();
@@ -359,8 +367,8 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
                 danduPrice = goodsDetail.getData().getMarketprice();
                 pintuanPrice = goodsDetail.getData().getTuanprice();
                 //拼团列表
-                if (!goodsDetail.getList().equals("[]")){
-                    pTkaiTuanAdapter = new PTTuanListAdapter(PinTuanDetailsActivity.this,goodsDetail.getList());
+                if (!goodsDetail.getList().equals("[]")) {
+                    pTkaiTuanAdapter = new PTTuanListAdapter(PinTuanDetailsActivity.this, goodsDetail.getList());
                     pinTuanListView.setAdapter(pTkaiTuanAdapter);
                     pTkaiTuanAdapter.setOnItemClickListener(new OnItemClickListener() {
                         @Override
@@ -368,7 +376,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
                             orderType = "1";
                             pid = goodsDetail.getList().get(position).getPid();
                             //选择规格
-                            setPopTest(false,true);
+                            setPopTest(false, true);
                             setBackgroundBlack(pintuanAllChoice, 0);
                         }
                     });
@@ -401,7 +409,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
     /**
      * 拼团验证：包括发起和加入
      */
-    public void verifyTuan(){
+    public void verifyTuan() {
         Map<String, String> map = new HashMap<>();
         map.put("goodsid", gid);
         map.put("tuanid", tuanId);
@@ -413,10 +421,9 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
                 System.out.println("参团验证 = " + result);
                 try {
                     JSONObject jsonObject = new JSONObject(result);
-                    Log.e("fffffff参团验证",jsonObject.getInt("status")+"");
-                    if (jsonObject.getInt("status") == 1){
+                    if (jsonObject.getInt("status") == 1) {
                         toSubmitActivity();
-                    }else {
+                    } else {
                         toast("无法参团");
                     }
                 } catch (JSONException e) {
@@ -443,9 +450,9 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
     }
 
     /**
-     *  进入订单确认页
+     * 进入订单确认页
      */
-    public void toSubmitActivity(){
+    public void toSubmitActivity() {
         intent = new Intent(TAG, PTSubmitOrderActivity.class);
         intent.putExtra("goodsid", gid);
         intent.putExtra("tag", orderType);
@@ -463,7 +470,8 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
         ptTvContent.setText("" + title);
         pintuanTvMarketprice.setText("市场价 ¥ " + marketprice);
         pintuanTvTotal.setText("库存：" + total + " 销量：" + sales);
-        pintuanDanmai.setText("直接购买：￥" + danduPrice);
+//        pintuanDanmai.setText("直接购买：￥" + danduPrice);
+        pintuanDanmai.setText("￥" + danduPrice);
         pintuanPintuan.setText("拼团：￥" + pintuanPrice);
     }
 
@@ -480,7 +488,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
         infos = new ArrayList<>();
         for (int i = 0; i < picsList.size(); i++) {
             info = new ADInfo();
-            info.setUrl(HttpPath.IMG_HEADER + picsList.get(i).toString());
+            info.setUrl(ImageUtils.getImagePath(picsList.get(i).toString()));
             info.setContent("");
             info.setImg("");
             infos.add(info);
@@ -520,6 +528,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
                         intent = new Intent(TAG, ShowBigPictrueActivity.class);
                         intent.putExtra("position", index);
                         intent.putExtra("picslist", picsList.toString());
+                        intent.putStringArrayListExtra("picsList", (ArrayList<String>) picsList);
                         startActivity(intent);
 
                     }
@@ -544,8 +553,8 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
     private int num = 1;
 
     /**
-     *
      * 选择商品规格和数量
+     *
      * @param isOnlySel:是否是只选择规格，不购买
      * @param isPT:是否是拼团购买
      */
@@ -590,12 +599,12 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
         iv_thumb = (ImageView) view.findViewById(R.id.iv_pop_gd_thumb);
 
         recyclerView = view.findViewById(R.id.rv_goods_spec);
-        specAdapter = new PinTuanDetailsActivity.SpecAdapter(this, specsList);
+        specAdapter = new SpecAdapter(this, specsList);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(specAdapter);
 
         Glide.with(TAG)
-                .load(HttpPath.IMG_HEADER + goodsDetail.getData().getThumb())
+                .load(ImageUtils.getImagePath(goodsDetail.getData().getThumb()))
                 .placeholder(R.mipmap.icon_empty002)
                 .error(R.mipmap.icon_error002)
                 .into(iv_thumb);
@@ -652,16 +661,16 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
         tv_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isOnlySel){
+                if (isOnlySel) {
                     popWindow.dismiss();
                     return;
                 }
                 if (isSpecs && optionsList.size() > 0) {
                     if (!optionid.equals("")) {
                         //拼团购买，需要验证是否还可以加入
-                        if (isPT){
+                        if (isPT) {
                             verifyTuan();
-                        }else {//直接购买
+                        } else {//直接购买
                             toSubmitActivity();
                         }
                         popWindow.dismiss();
@@ -670,9 +679,9 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
                     }
                 } else {
                     //拼团购买，需要验证是否还可以加入
-                    if (isPT){
+                    if (isPT) {
                         verifyTuan();
-                    }else {//直接购买
+                    } else {//直接购买
                         toSubmitActivity();
                     }
                     popWindow.dismiss();
@@ -703,7 +712,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
                 "</head>";
         String html = "<html>" + head + "<body>" + html_bady + "</body></html>";
 
-        webView.loadDataWithBaseURL(HttpPath.IMG_HEADER, html, "text/html", "utf-8", null);
+        webView.loadDataWithBaseURL(HttpPath.NEW_HEADER, html, "text/html", "utf-8", null);
 
     }
 
@@ -825,7 +834,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
     String optionTitle = "";
     String optionSpecs = "";
 
-    public class SpecAdapter extends RecyclerView.Adapter<PinTuanDetailsActivity.SpecAdapter.MyViewHolder> {
+    public class SpecAdapter extends RecyclerView.Adapter<SpecAdapter.MyViewHolder> {
         private Context mContext;
         private List<PinTuanDetails.DataBean.SpecBean> specBeanList;
         private OnItemClickListener onItemClickListener;
@@ -840,14 +849,14 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
         }
 
         @Override
-        public PinTuanDetailsActivity.SpecAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int i) {
-            PinTuanDetailsActivity.SpecAdapter.MyViewHolder vh = new PinTuanDetailsActivity.SpecAdapter.MyViewHolder(
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int i) {
+            MyViewHolder vh = new MyViewHolder(
                     LayoutInflater.from(mContext).inflate(R.layout.item_spec, parent, false));
             return vh;
         }
 
         @Override
-        public void onBindViewHolder(final PinTuanDetailsActivity.SpecAdapter.MyViewHolder holder, final int i) {
+        public void onBindViewHolder(final MyViewHolder holder, final int i) {
             if (onItemClickListener != null) {
                 //
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -876,7 +885,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
 
                     } else {
                         Glide.with(mContext)
-                                .load(HttpPath.IMG_HEADER + specBeanList.get(i).getItems().get(position).getThumb())
+                                .load(ImageUtils.getImagePath(specBeanList.get(i).getItems().get(position).getThumb()))
                                 .placeholder(R.mipmap.icon_empty002)
                                 .error(R.mipmap.icon_error002)
                                 .into(iv_thumb);

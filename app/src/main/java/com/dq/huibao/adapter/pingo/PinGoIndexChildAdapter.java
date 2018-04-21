@@ -57,22 +57,26 @@ public class PinGoIndexChildAdapter extends RecyclerView.Adapter<PinGoIndexChild
             });
 
         }
-        if (i == dataList.size()){
+        if (dataList.get(i).getHeadimgurl() == null || dataList.get(i).getHeadimgurl().equals("")){
             Glide.with(mContext).load(R.mipmap.icon_pingo_list_peopeleadd).into(holder.img);
-            return;
-        }
-        ImageUtils.loadIntoUseFitWidths(mContext,
-                HttpPath.NEW_HEADER + dataList.get(i).getHeadimgurl(),
-                R.mipmap.ic_header,
-                holder.img);
+        }else {
+            Log.e("fffffffffffffff","touxiang===  "+ImageUtils.getImagePath(dataList.get(i).getHeadimgurl()));
+            Glide.with(mContext)
+                    .load(ImageUtils.getImagePath(dataList.get(i).getHeadimgurl()))
+                    .placeholder(R.mipmap.ic_header)
+                    .into(holder.img);
 
+//            ImageUtils.loadIntoUseFitWidths(mContext,
+//                    dataList.get(i).getHeadimgurl(),
+//                    R.mipmap.ic_header,
+//                    holder.img);
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        //添加
-        return dataList.size() + 1;
+        return dataList.size();
     }
 
     public class MyViewHolder extends BaseRecyclerViewHolder {

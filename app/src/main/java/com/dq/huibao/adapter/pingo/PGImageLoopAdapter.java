@@ -35,9 +35,7 @@ public class PGImageLoopAdapter extends LoopPagerAdapter {
         ImageView view = new ImageView(container.getContext());
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        //判断地址是否是完整的
-        String url = bannerBeans.get(position).getThumb().indexOf("http://") >= 0?bannerBeans.get(position).getThumb():HttpPath.NEW_HEADER + bannerBeans.get(position).getThumb();
-        ImageUtils.loadIntoUseFitWidths(mContext,url,
+        ImageUtils.loadIntoUseFitWidths(mContext,bannerBeans.get(position).getThumb(),
                 R.mipmap.icon_empty002,
                 view);
 

@@ -66,7 +66,7 @@ public class PayTypeAdapter extends RecyclerView.Adapter<PayTypeAdapter.MyViewHo
 
         Glide
                 .with(mContext)
-                .load(HttpPath.NEW_HEADER + list.get(i).getImg())
+                .load(ImageUtils.getImagePath(list.get(i).getImg()))
                 .asBitmap()
                 .into(holder.iv);
 

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.pintuan.PinTuanIndex;
 import com.dq.huibao.ui.pintuan.PinTuanDetailsActivity;
@@ -39,8 +40,10 @@ public class PinTuanIndexAdapter extends ListBaseAdapter<PinTuanIndex.DataBean.L
         TextView type = holder.getView(R.id.item_pintuan_type);
         TextView go = holder.getView(R.id.item_pintuan_go);
 
-        ImageUtils.loadIntoUseFitWidth2(mContext, listBean.getThumb(), R.mipmap.icon_empty001, imageView);
-
+        Glide.with(mContext)
+                .load(ImageUtils.getImagePath(listBean.getThumb()))
+                .placeholder(R.mipmap.icon_empty001)
+                .into(imageView);
         ptName.setText(listBean.getTuanname());
         goodName.setText(listBean.getGoodsname());
         count.setText(listBean.getMincount() + "人团");

@@ -14,6 +14,7 @@ import com.dq.huibao.R;
 import com.dq.huibao.bean.pintuan.PinTuanDetails;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.ImageUtils;
 
 import java.util.List;
 
@@ -56,11 +57,11 @@ public class PTTuanListAdapter extends RecyclerView.Adapter<PTTuanListAdapter.My
             });
 
         }
-        holder.name.setText(listBean.get(i).getNickname());
+        holder.name.setText(listBean.get(i).getNickname() + "发起拼团");
         holder.num.setText("剩余名额:" + listBean.get(i).getDiffnum());
         Glide.with(mContext)
-                .load(HttpPath.NEW_HEADER + listBean.get(i).getHeadimgurl())
-                .placeholder(R.mipmap.icon_empty)
+                .load(ImageUtils.getImagePath(listBean.get(i).getHeadimgurl()))
+                .placeholder(R.mipmap.ic_header)
                 .into(holder.img);
 //        holder.type.setText(listBean.get(i).getTname());
 //        ImageUtils.loadIntoUseFitWidth2(mContext, HttpPath.NEW_HEADER + listBean.get(i).getThumb(), R.mipmap.icon_stub, holder.img);

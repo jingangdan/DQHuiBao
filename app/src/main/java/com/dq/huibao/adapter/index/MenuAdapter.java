@@ -15,6 +15,7 @@ import com.dq.huibao.R;
 import com.dq.huibao.bean.index.Index;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.ImageUtils;
 
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MyViewHolder> 
         }
 
         Glide.with(mContext)
-                .load(HttpPath.NEW_HEADER + menuList.get(position).getThumb())
+                .load(ImageUtils.getImagePath(menuList.get(position).getThumb()))
                 .placeholder(R.mipmap.icon_empty)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(holder.img);

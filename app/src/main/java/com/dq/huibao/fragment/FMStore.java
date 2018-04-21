@@ -362,12 +362,12 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
      */
     public void updateUI(XStoreInfo info) {
         Glide.with(getActivity())
-                .load(HttpPath.NEW_HEADER + info.getData().getThumb())
+                .load(ImageUtils.getImagePath(info.getData().getThumb()))
                 .crossFade(1000)
                 .placeholder(R.mipmap.ic_header)
                 .error(R.mipmap.ic_header)
                 .into(xstoreHeadImage);
-        ImageUtils.loadIntoUseFitWidth2(getActivity(), HttpPath.NEW_HEADER + info.getData().getFocusthumb(), R.mipmap.icon_empty001, xstoreTopBackgroundImage);
+        ImageUtils.loadIntoUseFitWidth2(getActivity(), info.getData().getFocusthumb(), R.mipmap.icon_empty001, xstoreTopBackgroundImage);
 //        Glide.with(getActivity())
 //                .load(HttpPath.NEW_HEADER + info.getData().getFocusthumb())
 //                .crossFade(1000)

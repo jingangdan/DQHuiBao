@@ -18,6 +18,7 @@ import com.dq.huibao.R;
 import com.dq.huibao.bean.order.OrderDetail;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.ImageUtils;
 
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class OrderCommentAdapter extends RecyclerView.Adapter<OrderCommentAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         Glide.with(mContext)
-                .load(HttpPath.IMG_HEADER + goodsList.get(position).getThumb())
+                .load(ImageUtils.getImagePath(goodsList.get(position).getThumb()))
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(holder.img);

@@ -11,6 +11,7 @@ import com.dq.huibao.R;
 import com.dq.huibao.bean.jifen.JiFenLogs;
 import com.dq.huibao.bean.xstore.XStoreZXGoods;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.view.lrecyclerview.ListBaseAdapter;
 import com.dq.huibao.view.lrecyclerview.SuperViewHolder;
 
@@ -38,11 +39,11 @@ public class JiFenLogsAdapter extends ListBaseAdapter<JiFenLogs.DataBean> {
         TextView youfei = holder.getView(R.id.item_jifen_duihuan_youfei);
         //
         Glide.with(mContext)
-                .load(HttpPath.NEW_HEADER + listBean.getThumb())
+                .load(ImageUtils.getImagePath(listBean.getThumb()))
                 .placeholder(R.mipmap.icon_stub)
                 .into(imageView);
         name.setText(listBean.getGoodsname());
         price.setText("价格: ￥" + listBean.getPrice() + "  +  积分:"+listBean.getScore());
-        youfei.setText("运费: ￥" + listBean.getExpprice());
+//        youfei.setText("运费: ￥" + listBean.getExpprice());
     }
 }

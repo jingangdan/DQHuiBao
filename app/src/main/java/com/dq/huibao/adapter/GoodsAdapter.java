@@ -84,7 +84,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
         String img = goodsList.get(position).getThumb();
 
         ImageUtils.loadIntoUseFitWidth(mContext,
-                HttpPath.IMG_HEADER + img,
+                img,
                 R.mipmap.icon_empty002,
                 R.mipmap.icon_error002,
                 holder.img);

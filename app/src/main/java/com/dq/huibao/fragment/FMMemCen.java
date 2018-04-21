@@ -56,6 +56,7 @@ import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
+import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
 import com.dq.huibao.utils.ScreenUtils;
@@ -110,7 +111,7 @@ public class FMMemCen extends BaseFragment implements
     /*本地轻量型缓存*/
     private SPUserInfo spUserInfo;
     private String unionid = "";
-    private String phone = "", token = "";
+    private String phone = "", token = "",uid = "";
 
     /*接口地址*/
     private String PATH = "";
@@ -494,6 +495,7 @@ public class FMMemCen extends BaseFragment implements
         intent.putExtra("page", page);
         intent.putExtra("phone", phone);
         intent.putExtra("token", token);
+        intent.putExtra("uid", uid);
         startActivityForResult(intent, CodeUtils.MEMBER);
         //startActivity(intent);
     }
@@ -510,6 +512,7 @@ public class FMMemCen extends BaseFragment implements
                 Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
                 phone = login.getData().getPhone();
                 token = login.getData().getToken();
+                uid = login.getData().getUid();
                 getMember(phone, token);
                 getSignIndex(phone, token);
             }
@@ -596,7 +599,7 @@ public class FMMemCen extends BaseFragment implements
     public void setUserInfo(String avatar) {
 
         Glide.with(getActivity())
-                .load(HttpPath.NEW_HEADER + avatar)
+                .load(ImageUtils.getImagePath(avatar))
                 .bitmapTransform(new GlideCircleTransform(getActivity()))
                 .crossFade(1000)
                 .error(R.mipmap.ic_header)

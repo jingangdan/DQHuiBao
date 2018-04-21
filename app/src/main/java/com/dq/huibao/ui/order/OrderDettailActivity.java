@@ -22,6 +22,7 @@ import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
+import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.utils.MD5Util;
 
 import org.xutils.common.Callback;
@@ -236,7 +237,7 @@ public class OrderDettailActivity extends BaseActivity {
 
             }
             Glide.with(mContext)
-                    .load(HttpPath.IMG_HEADER + goodsList.get(position).getThumb())
+                    .load(ImageUtils.getImagePath(goodsList.get(position).getThumb()))
                     .asBitmap()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(holder.img);

@@ -13,6 +13,7 @@ import com.dq.huibao.R;
 import com.dq.huibao.bean.goods.GoodsDetail;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.ImageUtils;
 
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class GdCommentAdapter extends RecyclerView.Adapter<GdCommentAdapter.MyVi
         holder.tv_content.setText("" + commentList.get(position).getComment());
 
         Glide.with(mContext)
-                .load(HttpPath.NEW_HEADER + commentList.get(position).getHeadimgurl())
+                .load(ImageUtils.getImagePath(commentList.get(position).getHeadimgurl()))
                 .placeholder(R.mipmap.icon_empty002)
                 .error(R.mipmap.icon_error002)
                 .into(holder.iv_headimgurl);

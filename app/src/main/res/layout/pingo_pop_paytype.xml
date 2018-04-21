@@ -27,7 +27,7 @@
         android:id="@+id/pop_pingo_paytype_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
         <RadioButton
             android:id="@+id/pop_pingo_paytype_hdfk"
             android:layout_width="match_parent"
@@ -60,10 +60,9 @@
         android:layout_height="wrap_content"
         android:background="@drawable/pressed_pingo_paytype_red"
         android:layout_weight="1"
-        android:layout_margin="10dp"
-        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal|center_vertical"
         android:textColor="@color/white"
-        android:padding="10dp"
         android:textSize="18sp"
         android:text="确认"/>
 </LinearLayout>

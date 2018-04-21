@@ -63,7 +63,7 @@ public class PGGoodsListAdapter extends RecyclerView.Adapter<PGGoodsListAdapter.
         layoutParams.height = 360;
         holder.img.setLayoutParams(layoutParams);
 
-        Glide.with(mContext).load(HttpPath.IMG_HEADER+goodsList.get(position).getThumb())
+        Glide.with(mContext).load(ImageUtils.getImagePath(goodsList.get(position).getThumb()))
                 .placeholder(R.mipmap.icon_empty002)
                 .into(holder.img);
 

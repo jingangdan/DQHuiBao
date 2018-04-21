@@ -2,11 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/bg_main">
 
     <com.dq.huibao.view.TopicScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_above="@+id/pintuan_isPin_layout"
         android:scrollbars="none">
 
@@ -32,47 +34,62 @@
         android:background="@color/bg_main"
         android:gravity="center"
         android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/pintuan_danmai"
+        <LinearLayout
+            android:id="@+id/pintuan_lin_gd_serice"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="1.3"
-            android:background="@color/but_put_in"
-            android:text="直接购买"
-            android:textColor="#fff"
-            android:textSize="16dp" />
+            android:layout_weight="1"
+            android:gravity="center_horizontal|bottom"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/pintuan_pintuan"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1.7"
-            android:background="@color/mycolor"
-            android:text="拼团"
-            android:textColor="#fff"
-            android:textSize="18dp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_service001" />
 
-    </LinearLayout>
-    <!--底部-->
-    <LinearLayout
-        android:id="@+id/pintuan_isNoPin_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/bg_main"
-        android:gravity="center"
-        android:orientation="horizontal">
+            <TextView
+                style="@style/text_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:text="客服" />
 
-        <Button
-            android:id="@+id/pintuan_no_btn"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1.7"
-            android:background="@color/mycolor"
-            android:text="查看更多拼团"
-            android:textColor="#fff"
-            android:textSize="14dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <Button
+                android:id="@+id/pintuan_danmai"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.3"
+                android:background="@color/but_put_in"
+                android:text="直接购买"
+                android:textColor="#fff"
+                android:textSize="16dp" />
+
+            <Button
+                android:id="@+id/pintuan_pintuan"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.7"
+                android:background="@color/mycolor"
+                android:text="拼团"
+                android:textColor="#fff"
+                android:textSize="18dp" />
+            <Button
+                android:id="@+id/pintuan_no_btn"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.7"
+                android:visibility="gone"
+                android:background="@color/dark"
+                android:text="查看更多拼团"
+                android:textColor="#fff"
+                android:textSize="14dp" />
+        </LinearLayout>
 
     </LinearLayout>
     <!--模糊-->

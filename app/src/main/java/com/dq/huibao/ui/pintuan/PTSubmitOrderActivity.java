@@ -372,7 +372,6 @@ public class PTSubmitOrderActivity extends BaseActivity {
                     intent.putExtra("price", "" + pay_all);
                     intent.putExtra("phone", phone);
                     intent.putExtra("token", token);
-                    intent.putExtra("uid", uid);
                     startActivityForResult(intent, CodeUtils.CONFIRM_ORDER);
 
                     setResult();

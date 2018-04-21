@@ -11,8 +11,10 @@ import android.widget.RadioGroup;
 
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.jifen.JiFenLogsAdapter;
+import com.dq.huibao.adapter.jifen.JiFenLogsUserAdapter;
 import com.dq.huibao.base.BaseFragment;
 import com.dq.huibao.bean.jifen.JiFenLogs;
+import com.dq.huibao.bean.jifen.JiFenUserLogs;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
@@ -40,7 +42,7 @@ public class MyJfChileSyFragment extends BaseFragment {
     private String uid = "", phone = "", token = "";
     int page = 1,pagesize = 20;
 
-    JiFenLogsAdapter jiFenLogsAdapter;
+    JiFenLogsUserAdapter jiFenLogsAdapter;
     LRecyclerViewAdapter lRecyclerViewAdapter;
     /*当前选择的是否是兑换*/
     boolean isDuiHuan = true;
@@ -50,7 +52,7 @@ public class MyJfChileSyFragment extends BaseFragment {
         view = inflater.inflate(R.layout.fragment_myjf_child, null);
         ButterKnife.bind(this, view);
 
-        jiFenLogsAdapter = new JiFenLogsAdapter(getActivity());
+        jiFenLogsAdapter = new JiFenLogsUserAdapter(getActivity());
         lRecyclerViewAdapter = new LRecyclerViewAdapter(jiFenLogsAdapter);
         lRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         lRecyclerView.setAdapter(lRecyclerViewAdapter);
@@ -110,9 +112,12 @@ public class MyJfChileSyFragment extends BaseFragment {
                     @Override
                     public void onSuccess(String result) {
                         System.out.println("积分使用记录 = " + result);
-                        JiFenLogs jiFenLogs = GsonUtil.gsonIntance().gsonToBean(result, JiFenLogs.class);
-                        jiFenLogsAdapter.addAll(jiFenLogs.getData());
-                        //更新ui
+                        JiFenUserLogs jiFenUserLogs = GsonUtil.gsonIntance().gsonToBean(result, JiFenUserLogs.class);
+                        jiFenLogsAdapter.addAll(jiFenUserLogs.getData());
+                        //
+                        if (jiFenUserLogs.getData() == null || jiFenUserLogs.getData().size() < pagesize){
+                            lRecyclerView.setNoMore(true);
+                        }
                     }
 
                     @Override

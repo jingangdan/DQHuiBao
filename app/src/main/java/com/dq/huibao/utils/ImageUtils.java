@@ -3,6 +3,7 @@ package com.dq.huibao.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -142,10 +143,16 @@ public class ImageUtils {
      * @return
      */
     public static String getImagePath(String path){
+        if (path == null)
+            return "";
         if (path.indexOf("http://") >= 0){
-            return path;
+
+        }else if(path.indexOf("https://") >= 0){
+
         }else {
-            return HttpPath.NEW_HEADER + path;
+            path = HttpPath.NEW_HEADER + path;
         }
+//        Log.e("图片地址","图片地址="+path);
+        return path;
     }
 }

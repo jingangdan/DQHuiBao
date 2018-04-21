@@ -58,6 +58,7 @@ import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
+import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
 import com.dq.huibao.utils.ShowUtils;
@@ -500,8 +501,11 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
 
                 tvGdTitle.setText("" + goodsDetail.getData().getGoodsname());
 
-                setLunbotu();
-
+                try {
+                    setLunbotu();
+                }catch (Exception ex){
+                    System.out.println("拼go商品详情 =失败 " + ex.toString());
+                }
                 initData();
 
                 getWebHTML(content);
@@ -672,20 +676,23 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
         infos = new ArrayList<>();
         for (int i = 0; i < picsList.size(); i++) {
             info = new ADInfo();
-            info.setUrl(HttpPath.IMG_HEADER + picsList.get(i).toString());
+            info.setUrl(ImageUtils.getImagePath(picsList.get(i).toString()));
             info.setContent("");
             info.setImg("");
             infos.add(info);
         }
 
         // 将最后一个ImageView添加进来
-        views.add(ViewFactory.getImageView(TAG, infos.get(infos.size() - 1).getUrl()));
-        for (int i = 0; i < infos.size(); i++) {
-            views.add(ViewFactory.getImageView(TAG, infos.get(i).getUrl()));
+        if (infos.size() > 0){
+            views.add(ViewFactory.getImageView(TAG, infos.get(infos.size() - 1).getUrl()));
+            for (int i = 0; i < infos.size(); i++) {
+                views.add(ViewFactory.getImageView(TAG, infos.get(i).getUrl()));
+            }
+            // 将第一个ImageView添加进来
+            views.add(ViewFactory.getImageView(TAG, infos.get(0).getUrl()));
+        }else {
+            views.add(ViewFactory.getImageView(TAG, ""));
         }
-        // 将第一个ImageView添加进来
-        views.add(ViewFactory.getImageView(TAG, infos.get(0).getUrl()));
-
         // 设置循环，在调用setData方法前调用
         cycleViewPager.setCycle(true);
 
@@ -712,6 +719,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
                         intent = new Intent(TAG, ShowBigPictrueActivity.class);
                         intent.putExtra("position", index);
                         intent.putExtra("picslist", picsList.toString());
+                        intent.putStringArrayListExtra("picsList", (ArrayList<String>) picsList);
                         startActivity(intent);
 
                     }
@@ -787,7 +795,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
 
 
         Glide.with(TAG)
-                .load(HttpPath.IMG_HEADER + goodsDetail.getData().getThumb())
+                .load(ImageUtils.getImagePath(goodsDetail.getData().getThumb()))
                 .placeholder(R.mipmap.icon_empty002)
                 .error(R.mipmap.icon_error002)
                 .into(iv_thumb);
@@ -970,7 +978,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
                 "</head>";
         String html = "<html>" + head + "<body>" + html_bady + "</body></html>";
 
-        webView.loadDataWithBaseURL(HttpPath.IMG_HEADER, html, "text/html", "utf-8", null);
+        webView.loadDataWithBaseURL(HttpPath.NEW_HEADER, html, "text/html", "utf-8", null);
 
     }
 
@@ -1165,7 +1173,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
 
                     } else {
                         Glide.with(mContext)
-                                .load(HttpPath.IMG_HEADER + specBeanList.get(i).getItems().get(position).getThumb())
+                                .load(ImageUtils.getImagePath(specBeanList.get(i).getItems().get(position).getThumb()))
                                 .placeholder(R.mipmap.icon_empty002)
                                 .error(R.mipmap.icon_error002)
                                 .into(iv_thumb);

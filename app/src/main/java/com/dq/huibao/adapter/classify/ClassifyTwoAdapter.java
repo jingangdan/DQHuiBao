@@ -63,7 +63,7 @@ public class ClassifyTwoAdapter extends RecyclerView.Adapter<ClassifyTwoAdapter.
         String img = childrenList.get(position).getAdvimg();
         if (!img.equals("")) {
             ImageUtils.loadIntoUseFitWidth(mContext,
-                    HttpPath.NEW_HEADER + img,
+                    img,
                     R.mipmap.icon_empty002,
                     R.mipmap.icon_error002,
                     holder.img);

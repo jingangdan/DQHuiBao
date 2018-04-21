@@ -8,10 +8,9 @@ import java.util.List;
  */
 
 public class PinGoCenterTuan {
-
     /**
      * status : 1
-     * data : {"endtime":1524029400,"list":[[{"id":"1","regid":"1","mid":"2","jian":3.33,"zhe":null,"distype":"jian","maxcount":"5","addtime":"1523941422","endtime":null,"status":"0","tuancount":"2","orderprice":30,"regname":"临沂大学城","list":[{"id":"1","tuanid":"1","mid":"2","price":"20.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"逍遥","headimgurl":null},{"id":"2","tuanid":"1","mid":"4","price":"10.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"jingang","headimgurl":"/attachment/user//20180310/1520640871_1366171733.jpg"}]},{"id":"3","regid":"2","mid":"7","jian":3.33,"zhe":null,"distype":"jian","maxcount":"5","addtime":"1523941422","endtime":null,"status":"0","tuancount":"2","orderprice":40,"regname":"山东医专","list":[{"id":"5","tuanid":"3","mid":"7","price":"20.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"lionnnn","headimgurl":"/attachment/user//20180208/1518072488_75220307.jpg"},{"id":"6","tuanid":"3","mid":"8","price":"20.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"183****1017","headimgurl":null}]}],[{"id":"2","regid":"1","mid":"4","jian":null,"zhe":"9.00","distype":"zhe","maxcount":"5","addtime":"1523941422","endtime":null,"status":"0","tuancount":"2","orderprice":40,"regname":"临沂大学城","list":[{"id":"3","tuanid":"2","mid":"4","price":"20.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"jingang","headimgurl":"/attachment/user//20180310/1520640871_1366171733.jpg"},{"id":"4","tuanid":"2","mid":"7","price":"20.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"lionnnn","headimgurl":"/attachment/user//20180208/1518072488_75220307.jpg"}]},{"id":"4","regid":"2","mid":"8","jian":null,"zhe":"8.50","distype":"zhe","maxcount":"5","addtime":"1523941422","endtime":null,"status":"0","tuancount":"3","orderprice":50,"regname":"山东医专","list":[{"id":"7","tuanid":"4","mid":"8","price":"20.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"183****1017","headimgurl":null},{"id":"8","tuanid":"4","mid":"2","price":"20.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"逍遥","headimgurl":null},{"id":"9","tuanid":"4","mid":"4","price":"10.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"jingang","headimgurl":"/attachment/user//20180310/1520640871_1366171733.jpg"}]}]]}
+     * data : {"endtime":1524288600,"list":[[{"id":"3","regid":"1","mid":"21","jian":"0","zhe":null,"distype":"jian","maxcount":"5","nowcount":"1","addtime":"1524229655","endtime":"1524288600","status":"0","orderprice":3,"regname":"临沂大学城","list":[{"id":"3","tuanid":"3","mid":"21","price":"3.00","paystatus":"1","remoney":null,"restatus":"0","addtime":"1524229654","regid":"1","paytype":"2","distype":"jian","addr":"北京市北京市市辖区东城区顺利解决的功能","mobile":"15846985398","addressee":"～～～～","tips":"","rname":"158****8931","headimgurl":"/attachment/user//20180404/1522808772_326938360.jpg"}]},{"id":"","regid":"","mid":"","jian":"","zhe":"","distype":"","maxcount":"5","nowcount":"0","addtime":"","endtime":"","statis":"","regname":"山东医专","list":[]}],[{"id":"","regid":"","mid":"","jian":"","zhe":"","distype":"","maxcount":"5","nowcount":"0","addtime":"","endtime":"","statis":"","regname":"临沂大学城","list":[]},{"id":"","regid":"","mid":"","jian":"","zhe":"","distype":"","maxcount":"5","nowcount":"0","addtime":"","endtime":"","statis":"","regname":"山东医专","list":[]}]]}
      */
 
     private int status;
@@ -35,8 +34,8 @@ public class PinGoCenterTuan {
 
     public static class DataBean {
         /**
-         * endtime : 1524029400
-         * list : [[{"id":"1","regid":"1","mid":"2","jian":3.33,"zhe":null,"distype":"jian","maxcount":"5","addtime":"1523941422","endtime":null,"status":"0","tuancount":"2","orderprice":30,"regname":"临沂大学城","list":[{"id":"1","tuanid":"1","mid":"2","price":"20.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"逍遥","headimgurl":null},{"id":"2","tuanid":"1","mid":"4","price":"10.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"jingang","headimgurl":"/attachment/user//20180310/1520640871_1366171733.jpg"}]},{"id":"3","regid":"2","mid":"7","jian":3.33,"zhe":null,"distype":"jian","maxcount":"5","addtime":"1523941422","endtime":null,"status":"0","tuancount":"2","orderprice":40,"regname":"山东医专","list":[{"id":"5","tuanid":"3","mid":"7","price":"20.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"lionnnn","headimgurl":"/attachment/user//20180208/1518072488_75220307.jpg"},{"id":"6","tuanid":"3","mid":"8","price":"20.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"183****1017","headimgurl":null}]}],[{"id":"2","regid":"1","mid":"4","jian":null,"zhe":"9.00","distype":"zhe","maxcount":"5","addtime":"1523941422","endtime":null,"status":"0","tuancount":"2","orderprice":40,"regname":"临沂大学城","list":[{"id":"3","tuanid":"2","mid":"4","price":"20.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"jingang","headimgurl":"/attachment/user//20180310/1520640871_1366171733.jpg"},{"id":"4","tuanid":"2","mid":"7","price":"20.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"lionnnn","headimgurl":"/attachment/user//20180208/1518072488_75220307.jpg"}]},{"id":"4","regid":"2","mid":"8","jian":null,"zhe":"8.50","distype":"zhe","maxcount":"5","addtime":"1523941422","endtime":null,"status":"0","tuancount":"3","orderprice":50,"regname":"山东医专","list":[{"id":"7","tuanid":"4","mid":"8","price":"20.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"183****1017","headimgurl":null},{"id":"8","tuanid":"4","mid":"2","price":"20.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"逍遥","headimgurl":null},{"id":"9","tuanid":"4","mid":"4","price":"10.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"jingang","headimgurl":"/attachment/user//20180310/1520640871_1366171733.jpg"}]}]]
+         * endtime : 1524288600
+         * list : [[{"id":"3","regid":"1","mid":"21","jian":"0","zhe":null,"distype":"jian","maxcount":"5","nowcount":"1","addtime":"1524229655","endtime":"1524288600","status":"0","orderprice":3,"regname":"临沂大学城","list":[{"id":"3","tuanid":"3","mid":"21","price":"3.00","paystatus":"1","remoney":null,"restatus":"0","addtime":"1524229654","regid":"1","paytype":"2","distype":"jian","addr":"北京市北京市市辖区东城区顺利解决的功能","mobile":"15846985398","addressee":"～～～～","tips":"","rname":"158****8931","headimgurl":"/attachment/user//20180404/1522808772_326938360.jpg"}]},{"id":"","regid":"","mid":"","jian":"","zhe":"","distype":"","maxcount":"5","nowcount":"0","addtime":"","endtime":"","statis":"","regname":"山东医专","list":[]}],[{"id":"","regid":"","mid":"","jian":"","zhe":"","distype":"","maxcount":"5","nowcount":"0","addtime":"","endtime":"","statis":"","regname":"临沂大学城","list":[]},{"id":"","regid":"","mid":"","jian":"","zhe":"","distype":"","maxcount":"5","nowcount":"0","addtime":"","endtime":"","statis":"","regname":"山东医专","list":[]}]]
          */
 
         private int endtime;
@@ -60,35 +59,37 @@ public class PinGoCenterTuan {
 
         public static class ListBeanX {
             /**
-             * id : 1
+             * id : 3
              * regid : 1
-             * mid : 2
-             * jian : 3.33
+             * mid : 21
+             * jian : 0
              * zhe : null
              * distype : jian
              * maxcount : 5
-             * addtime : 1523941422
-             * endtime : null
+             * nowcount : 1
+             * addtime : 1524229655
+             * endtime : 1524288600
              * status : 0
-             * tuancount : 2
-             * orderprice : 30
+             * orderprice : 3
              * regname : 临沂大学城
-             * list : [{"id":"1","tuanid":"1","mid":"2","price":"20.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"逍遥","headimgurl":null},{"id":"2","tuanid":"1","mid":"4","price":"10.00","paystatus":"1","remoney":null,"restatus":"0","addtime":null,"rname":"jingang","headimgurl":"/attachment/user//20180310/1520640871_1366171733.jpg"}]
+             * list : [{"id":"3","tuanid":"3","mid":"21","price":"3.00","paystatus":"1","remoney":null,"restatus":"0","addtime":"1524229654","regid":"1","paytype":"2","distype":"jian","addr":"北京市北京市市辖区东城区顺利解决的功能","mobile":"15846985398","addressee":"～～～～","tips":"","rname":"158****8931","headimgurl":"/attachment/user//20180404/1522808772_326938360.jpg"}]
+             * statis :
              */
 
             private String id;
             private String regid;
             private String mid;
-            private double jian;
+            private String jian;
             private Object zhe;
             private String distype;
             private String maxcount;
+            private String nowcount;
             private String addtime;
-            private Object endtime;
+            private String endtime;
             private String status;
-            private String tuancount;
             private int orderprice;
             private String regname;
+            private String statis;
             private List<ListBean> list;
 
             public String getId() {
@@ -115,11 +116,11 @@ public class PinGoCenterTuan {
                 this.mid = mid;
             }
 
-            public double getJian() {
+            public String getJian() {
                 return jian;
             }
 
-            public void setJian(double jian) {
+            public void setJian(String jian) {
                 this.jian = jian;
             }
 
@@ -147,6 +148,14 @@ public class PinGoCenterTuan {
                 this.maxcount = maxcount;
             }
 
+            public String getNowcount() {
+                return nowcount;
+            }
+
+            public void setNowcount(String nowcount) {
+                this.nowcount = nowcount;
+            }
+
             public String getAddtime() {
                 return addtime;
             }
@@ -155,11 +164,11 @@ public class PinGoCenterTuan {
                 this.addtime = addtime;
             }
 
-            public Object getEndtime() {
+            public String getEndtime() {
                 return endtime;
             }
 
-            public void setEndtime(Object endtime) {
+            public void setEndtime(String endtime) {
                 this.endtime = endtime;
             }
 
@@ -169,14 +178,6 @@ public class PinGoCenterTuan {
 
             public void setStatus(String status) {
                 this.status = status;
-            }
-
-            public String getTuancount() {
-                return tuancount;
-            }
-
-            public void setTuancount(String tuancount) {
-                this.tuancount = tuancount;
             }
 
             public int getOrderprice() {
@@ -195,6 +196,14 @@ public class PinGoCenterTuan {
                 this.regname = regname;
             }
 
+            public String getStatis() {
+                return statis;
+            }
+
+            public void setStatis(String statis) {
+                this.statis = statis;
+            }
+
             public List<ListBean> getList() {
                 return list;
             }
@@ -205,16 +214,23 @@ public class PinGoCenterTuan {
 
             public static class ListBean {
                 /**
-                 * id : 1
-                 * tuanid : 1
-                 * mid : 2
-                 * price : 20.00
+                 * id : 3
+                 * tuanid : 3
+                 * mid : 21
+                 * price : 3.00
                  * paystatus : 1
                  * remoney : null
                  * restatus : 0
-                 * addtime : null
-                 * rname : 逍遥
-                 * headimgurl : null
+                 * addtime : 1524229654
+                 * regid : 1
+                 * paytype : 2
+                 * distype : jian
+                 * addr : 北京市北京市市辖区东城区顺利解决的功能
+                 * mobile : 15846985398
+                 * addressee : ～～～～
+                 * tips :
+                 * rname : 158****8931
+                 * headimgurl : /attachment/user//20180404/1522808772_326938360.jpg
                  */
 
                 private String id;
@@ -224,9 +240,16 @@ public class PinGoCenterTuan {
                 private String paystatus;
                 private Object remoney;
                 private String restatus;
-                private Object addtime;
+                private String addtime;
+                private String regid;
+                private String paytype;
+                private String distype;
+                private String addr;
+                private String mobile;
+                private String addressee;
+                private String tips;
                 private String rname;
-                private String headimgurl;
+                private String headimgurl ="";
 
                 public String getId() {
                     return id;
@@ -284,12 +307,68 @@ public class PinGoCenterTuan {
                     this.restatus = restatus;
                 }
 
-                public Object getAddtime() {
+                public String getAddtime() {
                     return addtime;
                 }
 
-                public void setAddtime(Object addtime) {
+                public void setAddtime(String addtime) {
                     this.addtime = addtime;
+                }
+
+                public String getRegid() {
+                    return regid;
+                }
+
+                public void setRegid(String regid) {
+                    this.regid = regid;
+                }
+
+                public String getPaytype() {
+                    return paytype;
+                }
+
+                public void setPaytype(String paytype) {
+                    this.paytype = paytype;
+                }
+
+                public String getDistype() {
+                    return distype;
+                }
+
+                public void setDistype(String distype) {
+                    this.distype = distype;
+                }
+
+                public String getAddr() {
+                    return addr;
+                }
+
+                public void setAddr(String addr) {
+                    this.addr = addr;
+                }
+
+                public String getMobile() {
+                    return mobile;
+                }
+
+                public void setMobile(String mobile) {
+                    this.mobile = mobile;
+                }
+
+                public String getAddressee() {
+                    return addressee;
+                }
+
+                public void setAddressee(String addressee) {
+                    this.addressee = addressee;
+                }
+
+                public String getTips() {
+                    return tips;
+                }
+
+                public void setTips(String tips) {
+                    this.tips = tips;
                 }
 
                 public String getRname() {

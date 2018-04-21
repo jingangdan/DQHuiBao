@@ -89,7 +89,7 @@ public class ShopCartAdapterOld extends RecyclerView.Adapter<ShopCartAdapterOld.
         }
 
         ImageUtils.loadIntoUseFitWidth(mContext,
-                HttpPath.IMG_HEADER + goodsList.get(position).getGoods().getThumb(),
+                goodsList.get(position).getGoods().getThumb(),
                 R.mipmap.icon_empty002,
                 R.mipmap.icon_error002,
                 holder.iv_show_pic);

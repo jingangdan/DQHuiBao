@@ -38,6 +38,7 @@ import com.dq.huibao.utils.FileUtil;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
+import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.PhotoUtils;
 import com.dq.huibao.utils.SPUserInfo;
@@ -193,14 +194,14 @@ public class XStoreFragment extends BaseFragment {
         imageHeadURl = info.getData().getThumb();
         imageDianZhaoUrl = info.getData().getFocusthumb();
         Glide.with(getActivity())
-                .load(HttpPath.NEW_HEADER + info.getData().getThumb())
+                .load(ImageUtils.getImagePath(info.getData().getThumb()))
 //                .placeholder(R.mipmap.)
                 .crossFade(1000)
                 .placeholder(R.mipmap.ic_header)
                 .error(R.mipmap.ic_header)
                 .into(xstoreInfoHead);
         Glide.with(getActivity())
-                .load(HttpPath.NEW_HEADER + info.getData().getFocusthumb())
+                .load(ImageUtils.getImagePath(info.getData().getFocusthumb()))
                 .crossFade(1000)
                 .placeholder(R.mipmap.icon_empty001)
                 .error(R.mipmap.icon_error001)

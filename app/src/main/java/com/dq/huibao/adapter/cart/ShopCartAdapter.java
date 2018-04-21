@@ -20,6 +20,7 @@ import com.dq.huibao.Interface.ModifyCountInterface;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.cart.Cart;
 import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.ImageUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -154,7 +155,7 @@ public class ShopCartAdapter extends BaseExpandableListAdapter {
 //                    cholder.ivAdapterListPic);
 
             Glide.with(context)
-                    .load(HttpPath.IMG_HEADER + goodsInfo.getGoods().getThumb())
+                    .load(ImageUtils.getImagePath(goodsInfo.getGoods().getThumb()))
                     .asBitmap()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(cholder.ivAdapterListPic);

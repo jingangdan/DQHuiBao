@@ -59,7 +59,7 @@ public class JiFenFuLiTypeAdapter extends RecyclerView.Adapter<JiFenFuLiTypeAdap
 
         }
         holder.type.setText(listBean.get(i).getTname());
-        ImageUtils.loadIntoUseFitWidth2(mContext, HttpPath.NEW_HEADER + listBean.get(i).getThumb(), R.mipmap.icon_stub, holder.img);
+        ImageUtils.loadIntoUseFitWidth2(mContext, listBean.get(i).getThumb(), R.mipmap.icon_stub, holder.img);
     }
 
     @Override

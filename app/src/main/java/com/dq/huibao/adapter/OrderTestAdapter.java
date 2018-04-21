@@ -118,7 +118,7 @@ public class OrderTestAdapter extends BaseExpandableListAdapter {
         if (goodsInfo != null) {
 
             ImageUtils.loadIntoUseFitWidth(context,
-                    HttpPath.IMG_HEADER + goodsInfo.getThumb(),
+                    goodsInfo.getThumb(),
                     R.mipmap.icon_empty002,
                     R.mipmap.icon_error002,
                     cholder.img);

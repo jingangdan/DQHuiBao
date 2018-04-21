@@ -64,7 +64,7 @@ public class ClassifyThreeAdapter extends RecyclerView.Adapter<ClassifyThreeAdap
 
         Glide
                 .with(mContext)
-                .load(HttpPath.IMG_HEADER + childrenBeanList.get(position).getThumb())
+                .load(ImageUtils.getImagePath(childrenBeanList.get(position).getThumb()))
                 .placeholder(R.mipmap.icon_empty002)
                 .error(R.mipmap.icon_error002)
                 .into(holder.img);
