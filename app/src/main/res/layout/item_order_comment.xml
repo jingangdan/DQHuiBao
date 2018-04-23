@@ -126,6 +126,8 @@
             <EditText
                 android:id="@+id/et_item_oc"
                 style="@style/text_main"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
                 android:layout_width="match_parent"
                 android:gravity="top"
                 android:hint="您的意见很重要，请点评一下吧"

@@ -26,6 +26,7 @@ public class ImageUtils {
         Glide.with(context)
                 .load(getImagePath(imageUrl))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .skipMemoryCache(true)
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -60,6 +61,7 @@ public class ImageUtils {
         Glide.with(context)
                 .load(getImagePath(imageUrl))
                 .asBitmap()
+                .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(emptyImageId)
                 .error(errorImageId)
@@ -87,8 +89,9 @@ public class ImageUtils {
         Glide.with(context)
                 .load(getImagePath(imageUrl))
                 .asBitmap()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .placeholder(emptyImageId)
+                .skipMemoryCache(true)
                 .into(new BitmapImageViewTarget(imageView) {
                     @Override
                     protected void setResource(Bitmap resource) {
@@ -114,7 +117,8 @@ public class ImageUtils {
         Glide.with(context)
                 .load(getImagePath(imageUrl))
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .placeholder(emptyImageId)
                 .into(new BitmapImageViewTarget(imageView) {
                     @Override

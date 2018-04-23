@@ -106,6 +106,8 @@ public class PinGoGoodsActivity extends BaseActivity {
         super.onDestroy();
 
         ButterKnife.unbind(this);
+
+        pinGoListGoodsAdapter.clear();
     }
 
     /**
@@ -128,7 +130,7 @@ public class PinGoGoodsActivity extends BaseActivity {
                             @Override
                             public void onItemClick(View view, int position) {
                                 Intent intent = new Intent(PinGoGoodsActivity.this,PinGoDetailsActivity.class);
-                                intent.putExtra("id",topGoods.getData().getList().get(position).getId());
+                                intent.putExtra("gid",topGoods.getData().getList().get(position).getId());
                                 startActivity(intent);
                             }
                         });
@@ -160,12 +162,12 @@ public class PinGoGoodsActivity extends BaseActivity {
         map.put("page",page + "");
         map.put("pagesize",pagesize + "");
         map.put("distype", goodsType);
-        Log.d("获取首页底部更多商品信息",""+map.toString());
+        Log.d("获取首页底部更多商品信息1111",""+map.toString());
         HttpxUtils.Get(this,HttpPath.PINGO_MORE_GOODS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("获取首页底部更多商品信息 = " + result);
+                        System.out.println("获取首页底部更多商品信息111 = " + result);
 
                         PinGoIndexMoreGoods indexMoreGoods = GsonUtil.gsonIntance().gsonToBean(result, PinGoIndexMoreGoods.class);
                         pinGoListGoodsAdapter.addAll(indexMoreGoods.getData().getList());
@@ -173,7 +175,7 @@ public class PinGoGoodsActivity extends BaseActivity {
                             @Override
                             public void onItemClick(View view, int position) {
                                 Intent intent = new Intent(PinGoGoodsActivity.this,PinGoDetailsActivity.class);
-                                intent.putExtra("id",pinGoListGoodsAdapter.getDataList().get(position).getId());
+                                intent.putExtra("gid",pinGoListGoodsAdapter.getDataList().get(position).getId());
                                 startActivity(intent);
                             }
                         });
@@ -184,7 +186,7 @@ public class PinGoGoodsActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取首页底部更多商品信息 = 失败" + ex.getMessage());
+                        System.out.println("获取首页底部更多商品信息1111 = 失败" + ex.getMessage());
                     }
 
                     @Override

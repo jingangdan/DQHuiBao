@@ -99,11 +99,15 @@ public class KeywordsActivity extends Activity {
     private SQLiteDatabase db;
     private BaseAdapter adapter;
 
+    //区分普通商品和拼go
+    int searchType = 0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_keywords);
         ButterKnife.bind(this);
+
+        searchType = getIntent().getIntExtra("searchType",0);
 
         rvKeywords.setLayoutManager(new LinearLayoutManager(this));
 
@@ -209,6 +213,7 @@ public class KeywordsActivity extends Activity {
                 intent.putExtra("content", "cate=");
                 intent.putExtra("catename", etSearchKeywords.getText().toString());
                 intent.putExtra("keywords", etSearchKeywords.getText().toString());
+                intent.putExtra("searchType", searchType);
                 startActivity(intent);
             }
         });

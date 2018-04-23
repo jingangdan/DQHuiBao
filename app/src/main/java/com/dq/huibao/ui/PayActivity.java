@@ -321,6 +321,7 @@ public class PayActivity extends BaseActivity {
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     if (paytype.equals("balance")) {
+                        toast("下单成功");
                         intent = new Intent(PayActivity.this, OrderActivity.class);
                         intent.putExtra("page", 2);
                         intent.putExtra("phone", phone);

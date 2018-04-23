@@ -1,6 +1,7 @@
 package com.dq.huibao.ui.pintuan;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -240,7 +241,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
 
                 break;
             case R.id.pintuan_pintuan:
-                //拼团购买
+                //开团购买
                 //价格需要更改
                 pid = "0";
                 orderType = "1";
@@ -332,6 +333,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
         Map<String, String> map = new HashMap<>();
         map.put("goodsid", gid);
         map.put("tuanid", tuanId);
+        System.out.println("拼团商品详情 = " + map.toString());
         HttpxUtils.Get(this, HttpPath.PINTUAN_DETAILS, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -366,6 +368,8 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
                 //
                 danduPrice = goodsDetail.getData().getMarketprice();
                 pintuanPrice = goodsDetail.getData().getTuanprice();
+                //团购本次最大购买数量
+                maxNum = Integer.parseInt(goodsDetail.getData().getBuycount());
                 //拼团列表
                 if (!goodsDetail.getList().equals("[]")) {
                     pTkaiTuanAdapter = new PTTuanListAdapter(PinTuanDetailsActivity.this, goodsDetail.getList());
@@ -374,10 +378,18 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
                         @Override
                         public void onItemClick(View view, int position) {
                             orderType = "1";
-                            pid = goodsDetail.getList().get(position).getPid();
+                            //进入团详情
+                            Intent intent = new Intent(PinTuanDetailsActivity.this,PinTuanTuanDetailsActivity.class);
+                            pid = goodsDetail.getList().get(position).getId();
+                            intent.putExtra("pid",pid);
+                            intent.putExtra("tuanid",goodsDetail.getList().get(position).getTuanid());
+                            intent.putExtra("goodsid",gid);
+                            startActivityForResult(intent,CodeUtils.PINTUAN_TUAN);
+
+                            //直接选择规格加入团
                             //选择规格
-                            setPopTest(false, true);
-                            setBackgroundBlack(pintuanAllChoice, 0);
+//                            setPopTest(false, true);
+//                            setBackgroundBlack(pintuanAllChoice, 0);
                         }
                     });
                 }
@@ -415,6 +427,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
         map.put("tuanid", tuanId);
         map.put("pid", pid);
         map.put("uid", uid);
+        System.out.println("参团验证 = " + map.toString());
         HttpxUtils.Get(this, HttpPath.PINTUAN_VERIFY, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -551,6 +564,8 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
     private SpecAdapter specAdapter;
     /*数量*/
     private int num = 1;
+    /*团购限制数量*/
+    private int maxNum = 0;
 
     /**
      * 选择商品规格和数量
@@ -637,6 +652,11 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
             @Override
             public void onClick(View view) {
                 num = Integer.parseInt(tv_num.getText().toString());
+                //拼团限购数量
+                if (orderType.equals("1") && num == maxNum){
+                    toast("限购" + maxNum + "件");
+                    return;
+                }
                 num++;
                 tv_num.setText("" + num);
             }
@@ -823,6 +843,11 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
             if (resultCode == CodeUtils.LOGIN) {
                 initDate();
             }
+        }else if (requestCode == CodeUtils.PINTUAN_TUAN && resultCode == Activity.RESULT_OK){
+            //参加团
+            orderType = "1";
+            setPopTest(false, true);
+            setBackgroundBlack(pintuanAllChoice, 0);
         }
     }
 
@@ -939,4 +964,5 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
             }
         }
     }
+
 }

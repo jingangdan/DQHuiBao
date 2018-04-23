@@ -50,7 +50,7 @@ public class PinGoGoodsAdapter extends ListBaseAdapter<PinGoIndexMoreGoods.DataB
 //                .placeholder(R.mipmap.icon_stub)
 //                .into(imageView);
 
-        ImageUtils.loadIntoUseFitWidth2(mContext, listBean.getThumb(), R.mipmap.icon_stub, imageView);
+        ImageUtils.loadIntoUseFitWidth2(mContext, listBean.getThumb(), R.mipmap.icon_empty002, imageView);
 
         name.setText(listBean.getGoodsname());
         price.setText("￥" + listBean.getMarketprice());
@@ -61,7 +61,6 @@ public class PinGoGoodsAdapter extends ListBaseAdapter<PinGoIndexMoreGoods.DataB
         number.setText(listBean.getSalecount() + "已抢");
         progressBar.setMax(Integer.parseInt(listBean.getStock()));
         progressBar.setProgress(Integer.parseInt(listBean.getSalecount()));
-        Log.e("fffffffffffffffffff","max="+Integer.parseInt(listBean.getStock())+"   progress="+Integer.parseInt(listBean.getSalecount()));
         baifenbi.setText(Integer.parseInt(listBean.getSalecount()) * 100 / Integer.parseInt(listBean.getStock())+"%");
         qianggou.setOnClickListener(new View.OnClickListener() {
             @Override

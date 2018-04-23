@@ -504,7 +504,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
                 try {
                     setLunbotu();
                 }catch (Exception ex){
-                    System.out.println("拼go商品详情 =失败 " + ex.toString());
+                    System.out.println("商品详情 =失败 " + ex.toString());
                 }
                 initData();
 
@@ -513,7 +513,8 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                System.out.println("商品详情 =失败 " + ex.toString());
+                Toast.makeText(GoodsDetailsActivity.this,"商品加载失败",Toast.LENGTH_SHORT);
             }
 
             @Override

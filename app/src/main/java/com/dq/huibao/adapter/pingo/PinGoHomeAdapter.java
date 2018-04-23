@@ -231,7 +231,6 @@ public class PinGoHomeAdapter extends RecyclerView.Adapter {
         /*参团人员列表*/
         List<RecyclerView> recycleViews = new ArrayList<>();
         List<PinGoIndexChildAdapter> adapters = new ArrayList<>();
-        PinGoIndexChildAdapter leftAdapter,rightAdapter;
         /*数据*/
         List<PinGoCenterTuan.DataBean.ListBeanX> dataList = new ArrayList<>();
         public PinGoeViewHolder(Context mContext, View itemView) {

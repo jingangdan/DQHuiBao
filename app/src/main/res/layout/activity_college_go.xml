@@ -62,8 +62,10 @@
             android:layout_margin="10dp"/>
         <!--android:src="@mipmap/icon_location"  />-->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/et_hp_search"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:gravity="center_vertical"
@@ -71,8 +73,7 @@
             android:paddingRight="10dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:background="@drawable/bg_top_search"
-            android:layout_weight="1">
+            android:background="@drawable/bg_top_search">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -83,17 +84,13 @@
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"
                 android:background="@color/lightGray"/>
-            <EditText
-                android:id="@+id/et_hp_search"
+            <TextView
                 style="@style/text_main"
                 android:layout_weight="1"
                 android:cursorVisible="true"
-                android:editable="false"
-                android:background="@null"
                 android:gravity="center_vertical"
                 android:hint="输入搜索关键字"
-                android:padding="3dp"
-                android:textCursorDrawable="@null" />
+                android:padding="3dp" />
             <ImageView
                 android:id="@+id/homepage_scan"
                 android:layout_width="24dp"
@@ -106,7 +103,6 @@
             android:id="@+id/homepage_message"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_margin="10dp" />
-
+            android:layout_margin="10dp"/>
     </LinearLayout>
 </FrameLayout>

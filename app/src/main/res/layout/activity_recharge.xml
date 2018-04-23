@@ -24,6 +24,8 @@
             android:id="@+id/et_recharge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:cursorVisible="true"
+            android:textCursorDrawable="@null"
             android:background="#fff"
             android:hint="输入充值金额"
             android:inputType="number"

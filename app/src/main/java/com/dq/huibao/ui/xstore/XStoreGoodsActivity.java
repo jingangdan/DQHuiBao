@@ -80,6 +80,7 @@ public class XStoreGoodsActivity extends BaseActivity implements AdapterView.OnI
     XStoreZXGoods yzGoods = new XStoreZXGoods();
     /**保存选择的商品列表*/
     List<XStoreZXGoods.DataBean.ListBean> xzGoodsList = new ArrayList<>();
+
     //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -295,5 +296,10 @@ public class XStoreGoodsActivity extends BaseActivity implements AdapterView.OnI
                 break;
         }
 //        getGoods(typeList.get(position).getId());
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        goodsAdapter.clear();
     }
 }

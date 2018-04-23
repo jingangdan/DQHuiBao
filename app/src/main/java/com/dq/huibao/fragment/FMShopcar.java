@@ -404,7 +404,8 @@ public class FMShopcar extends BaseFragment implements
                 }
                 alert = new AlertDialog.Builder(getActivity()).create();
                 alert.setTitle("操作提示");
-                alert.setMessage("您确定要将这些商品从购物车中移除吗？\n总计:\n" + totalCount + "种商品\n" + totalPrice + "元" + "\n商品id = " + ids);
+//                alert.setMessage("您确定要将这些商品从购物车中移除吗？\n总计:\n" + totalCount + "种商品\n" + totalPrice + "元" + "\n商品id = " + ids);
+                alert.setMessage("您确定要将这些商品从购物车中移除吗？\n总计:\n" + totalCount + "种商品\n" + totalPrice + "元");
                 alert.setButton(DialogInterface.BUTTON_NEGATIVE, "取消",
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -433,16 +434,16 @@ public class FMShopcar extends BaseFragment implements
                     return;
                 }
                 //判断是不是同一个类型---立减或者折扣
-                String typeYH = "";
+                String typeYH = null;
                 for (int i = 0; i < shopList.size() ; i++) {
                     for (int j = 0; j < shopList.get(i).getGoodslist().size() ; j++) {
                         if (ids.indexOf(shopList.get(i).getGoodslist().get(j).getId()) >= 0){
                             //被选中的
-                            if (typeYH.equals("")){
+                            if (typeYH == null){
                                 typeYH = shopList.get(i).getGoodslist().get(j).getDistype();
                             }
                             if (!typeYH.equals(shopList.get(i).getGoodslist().get(j).getDistype())){
-                                toast("请选择优惠类型的商品");
+                                toast("请选同类型商品");
                                 return;
                             }
                         }

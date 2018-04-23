@@ -263,6 +263,8 @@
         <activity android:name=".ui.pingo.PinGoSubmitOrderActivity" />
         <!--拼go我的订单页-->
         <activity android:name=".ui.jifen.JiFenGoodDetailActivity" />
+        <activity android:name=".ui.pintuan.PinTuanTuanDetailsActivity" />
+        <activity android:name=".ui.pintuan.MyPinTuanActivity" />
 
         <!--增加图片清晰度-->
         <meta-data

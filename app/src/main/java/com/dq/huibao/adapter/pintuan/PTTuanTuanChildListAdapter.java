@@ -9,27 +9,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.pintuan.PinTuanDetails;
+import com.dq.huibao.bean.pintuan.PinTuanTuanDetail;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
-import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.ImageUtils;
 
 import java.util.List;
 
 /**
- * 拼团团列表---商品详情页
+ * 团员列表---团详情页
  * Created by jingang on 2018/1/10.
  */
 
-public class PTTuanListAdapter extends RecyclerView.Adapter<PTTuanListAdapter.MyViewHolder> {
+public class PTTuanTuanChildListAdapter extends RecyclerView.Adapter<PTTuanTuanChildListAdapter.MyViewHolder> {
     private Context mContext;
-    private List<PinTuanDetails.ListBean> listBean;
+    private List<PinTuanTuanDetail.DataBean.MemberBean> listBean;
     private OnItemClickListener onItemClickListener;
     private int layoutId;
-    public PTTuanListAdapter(Context mContext, List<PinTuanDetails.ListBean> appimgList) {
+    public PTTuanTuanChildListAdapter(Context mContext, List<PinTuanTuanDetail.DataBean.MemberBean> appimgList) {
         this.mContext = mContext;
         this.listBean = appimgList;
     }
@@ -41,7 +40,7 @@ public class PTTuanListAdapter extends RecyclerView.Adapter<PTTuanListAdapter.My
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         MyViewHolder vh = new MyViewHolder(
-                LayoutInflater.from(mContext).inflate(R.layout.item_pintuan_list, viewGroup, false)
+                LayoutInflater.from(mContext).inflate(R.layout.item_pintuan_tuan_list, viewGroup, false)
         );
         return vh;
     }
@@ -58,11 +57,9 @@ public class PTTuanListAdapter extends RecyclerView.Adapter<PTTuanListAdapter.My
             });
 
         }
-        holder.name.setText(listBean.get(i).getNickname() + "发起拼团");
-        holder.num.setText("剩余名额:" + listBean.get(i).getDiffnum());
+        holder.name.setText(listBean.get(i).getNickname());
         Glide.with(mContext)
                 .load(ImageUtils.getImagePath(listBean.get(i).getHeadimgurl()))
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .placeholder(R.mipmap.ic_header)
                 .into(holder.img);
 //        holder.type.setText(listBean.get(i).getTname());
@@ -77,13 +74,12 @@ public class PTTuanListAdapter extends RecyclerView.Adapter<PTTuanListAdapter.My
     public class MyViewHolder extends BaseRecyclerViewHolder {
         private ImageView img;
         /*昵称，名额数*/
-        private TextView name,num;
+        private TextView name;
 
         public MyViewHolder(View view) {
             super(view);
-            img =  view.findViewById(R.id.item_pt_list_image);
-            name =  view.findViewById(R.id.item_pt_list_name);
-            num =  view.findViewById(R.id.item_pt_list_peopleNum);
+            img =  view.findViewById(R.id.item_pt_tuan_list_image);
+            name =  view.findViewById(R.id.item_pt_tuan_list_name);
         }
     }
 }

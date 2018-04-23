@@ -85,7 +85,8 @@ public class SOGoodsAdapter extends RecyclerView.Adapter<SOGoodsAdapter.MyViewHo
         Glide.with(mContext)
                 .load(ImageUtils.getImagePath(goodsList.get(position).getGoods().getThumb()))
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .skipMemoryCache(true)
                 .into(holder.img);
 
 

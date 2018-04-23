@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.pingo.PinGoCenterTuan;
@@ -60,9 +61,9 @@ public class PinGoIndexChildAdapter extends RecyclerView.Adapter<PinGoIndexChild
         if (dataList.get(i).getHeadimgurl() == null || dataList.get(i).getHeadimgurl().equals("")){
             Glide.with(mContext).load(R.mipmap.icon_pingo_list_peopeleadd).into(holder.img);
         }else {
-            Log.e("fffffffffffffff","touxiang===  "+ImageUtils.getImagePath(dataList.get(i).getHeadimgurl()));
             Glide.with(mContext)
                     .load(ImageUtils.getImagePath(dataList.get(i).getHeadimgurl()))
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .placeholder(R.mipmap.ic_header)
                     .into(holder.img);
 

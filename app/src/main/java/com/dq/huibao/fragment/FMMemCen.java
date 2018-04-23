@@ -50,6 +50,8 @@ import com.dq.huibao.ui.memcen.MemcenActivity;
 import com.dq.huibao.ui.memcen.ShopcarActivity;
 import com.dq.huibao.ui.memcen.SignRuleActivity;
 import com.dq.huibao.ui.order.OrderActivity;
+import com.dq.huibao.ui.pintuan.MyPinTuanActivity;
+import com.dq.huibao.ui.pintuan.PinTuanActivity;
 import com.dq.huibao.update.CustomVersionDialogActivity;
 import com.dq.huibao.update.UVService;
 import com.dq.huibao.utils.CodeUtils;
@@ -280,7 +282,7 @@ public class FMMemCen extends BaseFragment implements
             R.id.but_mc_menu12, R.id.but_mc_menu13,
             R.id.but_mc_aboutus, R.id.but_mc_collect,
             R.id.but_mem_recharge,
-            R.id.but_mc_update
+            R.id.but_mc_update,R.id.but_mc_pintuan
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -477,7 +479,12 @@ public class FMMemCen extends BaseFragment implements
                 dialog(phone, token);
 
                 break;
+            case R.id.but_mc_pintuan:
+                //拼团记录
+                Intent intent = new Intent(getActivity(),MyPinTuanActivity.class);
+                startActivity(intent);
 
+                break;
             default:
                 break;
 

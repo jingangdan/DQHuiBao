@@ -60,4 +60,7 @@ public class CodeUtils {
     /*拼go首页*/
     public static final int PINGO_HOMEPAGE = 0x18;
 
+    /*拼团商品详情页-团详情页请求*/
+    public static final int PINTUAN_TUAN = 0x19;
+
 }

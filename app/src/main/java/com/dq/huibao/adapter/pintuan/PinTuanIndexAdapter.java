@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.pintuan.PinTuanIndex;
 import com.dq.huibao.ui.pintuan.PinTuanDetailsActivity;
@@ -43,6 +44,7 @@ public class PinTuanIndexAdapter extends ListBaseAdapter<PinTuanIndex.DataBean.L
         Glide.with(mContext)
                 .load(ImageUtils.getImagePath(listBean.getThumb()))
                 .placeholder(R.mipmap.icon_empty001)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(imageView);
         ptName.setText(listBean.getTuanname());
         goodName.setText(listBean.getGoodsname());

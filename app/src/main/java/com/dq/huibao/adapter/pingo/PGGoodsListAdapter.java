@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.index.Index;
@@ -64,6 +65,7 @@ public class PGGoodsListAdapter extends RecyclerView.Adapter<PGGoodsListAdapter.
         holder.img.setLayoutParams(layoutParams);
 
         Glide.with(mContext).load(ImageUtils.getImagePath(goodsList.get(position).getThumb()))
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .placeholder(R.mipmap.icon_empty002)
                 .into(holder.img);
 

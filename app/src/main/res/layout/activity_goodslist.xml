@@ -8,6 +8,7 @@
     <include layout="@layout/include_header" />
 
     <LinearLayout
+        android:id="@+id/goodslist_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_white"
@@ -167,6 +168,8 @@
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
+                        android:cursorVisible="true"
+                        android:textCursorDrawable="@null"
                         android:background="@drawable/kuang_style"
                         android:hint="1"
                         android:inputType="number" />

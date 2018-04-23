@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ import com.dq.huibao.homepage.HomeRecycleViewAdapter;
 import com.dq.huibao.refresh.PullToRefreshView;
 import com.dq.huibao.ui.GoodsDetailsActivity;
 import com.dq.huibao.ui.GoodsListActivity;
+import com.dq.huibao.ui.KeywordsActivity;
 import com.dq.huibao.ui.LoginActivity;
 import com.dq.huibao.ui.jifen.JiFenActivity;
 import com.dq.huibao.ui.pintuan.PinTuanActivity;
@@ -136,6 +138,7 @@ public class FMHomePage extends BaseFragment implements
                         searchLayout.setVisibility(View.GONE);
                         break;
                     case MotionEvent.ACTION_UP:
+                        searchLayout.setVisibility(View.VISIBLE);
                         break;
                 }
 
@@ -151,6 +154,7 @@ public class FMHomePage extends BaseFragment implements
                 }
             }
         });
+
         return view;
     }
 
@@ -185,12 +189,15 @@ public class FMHomePage extends BaseFragment implements
      * 搜索栏的所有点击事件
      * @param v
      */
-    @OnClick({R.id.homepage_location,R.id.et_hp_search,R.id.homepage_scan,R.id.homepage_message})
+    @OnClick({R.id.homepage_location,R.id.homepage_scan,R.id.homepage_message,R.id.tv_hp_search})
     public void onSearchClick(View v){
         switch (v.getId()){
             case R.id.homepage_location://定位
                 break;
-            case R.id.et_hp_search://搜索
+            case R.id.tv_hp_search://搜索
+                //搜索
+                intent = new Intent(getActivity(), KeywordsActivity.class);
+                startActivity(intent);
                 break;
             case R.id.homepage_scan://扫描二维码
                 break;
@@ -212,6 +219,7 @@ public class FMHomePage extends BaseFragment implements
      * url # 不做操作
      */
     public void getIndex(String phone, String token) {
+        searchLayout.setVisibility(View.GONE);
         PATH = HttpPath.INDEXT_INDEX;
         System.out.println("首页 = " + PATH);
         HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {

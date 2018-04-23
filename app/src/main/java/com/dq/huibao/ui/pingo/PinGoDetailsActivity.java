@@ -49,6 +49,7 @@ import com.dq.huibao.bean.pingo.PinGoiQuSelect;
 import com.dq.huibao.lunbotu.ADInfo;
 import com.dq.huibao.lunbotu.CycleViewPager;
 import com.dq.huibao.lunbotu.ViewFactory;
+import com.dq.huibao.ui.GoodsDetailsActivity;
 import com.dq.huibao.ui.GoodsListActivity;
 import com.dq.huibao.ui.InjoyActivity;
 import com.dq.huibao.ui.LoginActivity;
@@ -74,13 +75,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-//import com.dq.huibao.bean.goodsdetail.Comment;
-//import com.dq.huibao.bean.goodsdetail.GoodsDetail;
-//import com.dq.huibao.bean.goodsdetail.Items;
-//import com.dq.huibao.bean.goodsdetail.Options;
-//import com.dq.huibao.bean.goodsdetail.Params;
-//import com.dq.huibao.bean.goodsdetail.Specs;
 
 /**
  * Description：商品详情
@@ -261,7 +255,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         rvGdParams.setAdapter(gdParmasAdapter);
 
         intent = getIntent();
-        gid = intent.getStringExtra("id");
+        gid = intent.getStringExtra("gid");
 
         spUserInfo = new SPUserInfo(getApplication());
         initDate();
@@ -514,6 +508,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
             public void onError(Throwable ex, boolean isOnCallback) {
                 System.out.println("拼go商品详情 =失败 " + ex.toString());
 
+                Toast.makeText(PinGoDetailsActivity.this,"商品加载失败",Toast.LENGTH_SHORT);
             }
 
             @Override

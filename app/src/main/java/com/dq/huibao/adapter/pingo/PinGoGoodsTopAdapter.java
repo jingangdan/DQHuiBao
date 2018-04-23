@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.pingo.GoodsListTop;
@@ -62,7 +63,10 @@ public class PinGoGoodsTopAdapter extends RecyclerView.Adapter<PinGoGoodsTopAdap
         holder.price.setText(listBean.get(i).getMarketprice());
         holder.oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.oldPrice.setText(listBean.get(i).getProductprice());
-        Glide.with(mContext).load(ImageUtils.getImagePath(listBean.get(i).getThumb())).into(holder.img);
+        Glide.with(mContext).load(ImageUtils.getImagePath(listBean.get(i)
+                .getThumb()))
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .into(holder.img);
 //        ImageUtils.loadIntoUseFitWidth2(mContext, HttpPath.NEW_HEADER + listBean.get(i).getThumb(), R.mipmap.icon_stub, holder.img);
     }
 

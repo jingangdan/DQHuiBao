@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.xstore.XStoreZXGoods;
 import com.dq.huibao.utils.HttpPath;
@@ -42,6 +43,7 @@ public abstract class XStoreZXYXGoodsAdapter extends ListBaseAdapter<XStoreZXGoo
         Glide.with(mContext)
                 .load(ImageUtils.getImagePath(listBean.getThumb()))
                 .placeholder(R.mipmap.icon_stub)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(imageView);
         name.setText(listBean.getGoodsname());
         price.setText("价格: ￥" + listBean.getMarketprice());

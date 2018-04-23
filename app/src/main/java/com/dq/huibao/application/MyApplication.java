@@ -2,6 +2,7 @@ package com.dq.huibao.application;
 
 import android.app.Application;
 
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -36,6 +37,7 @@ public class MyApplication extends Application {
 //        setIns();
 //        regToWx();
         setWxApp();
+        LeakCanary.install(this);
     }
 
     public void setWxApp() {

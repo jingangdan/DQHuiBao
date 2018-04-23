@@ -79,7 +79,7 @@ public class GlideUtils {
 
     //设置缓存策略
     public static void loadImageViewDiskCache(Context mContext, String path, ImageView mImageView) {
-        Glide.with(mContext).load(path).diskCacheStrategy(DiskCacheStrategy.ALL).into(mImageView);
+        Glide.with(mContext).load(path).diskCacheStrategy(DiskCacheStrategy.RESULT).into(mImageView);
     }
 
     /**

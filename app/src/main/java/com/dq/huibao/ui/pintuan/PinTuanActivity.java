@@ -88,6 +88,7 @@ public class PinTuanActivity extends BaseActivity {
         Map<String, String> map = new HashMap<>();
         map.put("page", "" + page);
         map.put("pagesize", "" + pageSize);
+        map.put("status", "0");//状态--正常状态的list
         HttpxUtils.Get(this, HttpPath.PINTUAN_INDEX, map,
                 new Callback.CommonCallback<String>() {
                     @Override

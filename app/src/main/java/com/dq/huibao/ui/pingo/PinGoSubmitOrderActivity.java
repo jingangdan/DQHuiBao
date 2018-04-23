@@ -486,8 +486,9 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
             } else if (tag.equals("0")) {
                 orderAdd(cartids, addrid, ss);
             }
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            toast("失败");
         }
     }
 

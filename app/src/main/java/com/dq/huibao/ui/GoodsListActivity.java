@@ -20,6 +20,8 @@ import com.dq.huibao.R;
 import com.dq.huibao.adapter.GoodsAdapter;
 import com.dq.huibao.bean.goods.GoodsList;
 import com.dq.huibao.refresh.PullToRefreshView;
+import com.dq.huibao.ui.pingo.PinGoDetailsActivity;
+import com.dq.huibao.ui.pingo.PinGoGoodsActivity;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
@@ -104,6 +106,8 @@ public class GoodsListActivity extends Activity implements
     private int index = 1;//页数
     private int total = 0;//总页数
 
+    //区分普通商品和拼go
+    int searchType = 0;
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -116,7 +120,7 @@ public class GoodsListActivity extends Activity implements
         content = intent.getStringExtra("content");
         catename = intent.getStringExtra("catename");
         keywords = intent.getStringExtra("keywords");
-
+        searchType = intent.getIntExtra("searchType",0);
         try {
             UTF_keywords = URLEncoder.encode(keywords, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -135,7 +139,12 @@ public class GoodsListActivity extends Activity implements
         goodsAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                intent = new Intent(TAG, GoodsDetailsActivity.class);
+                if (searchType == 1){
+                    intent = new Intent(TAG, PinGoDetailsActivity.class);
+                }else {
+                    intent = new Intent(TAG, GoodsDetailsActivity.class);
+                }
+
                 intent.putExtra("gid", goodsLists.get(position).getId());
                 startActivity(intent);
             }
@@ -146,6 +155,10 @@ public class GoodsListActivity extends Activity implements
         pullToRefreshView.setOnHeaderRefreshListener(this);
         pullToRefreshView.setOnFooterRefreshListener(this);
         pullToRefreshView.setLastUpdated(new Date().toLocaleString());
+
+        if (searchType == 1){
+            findViewById(R.id.goodslist_top).setVisibility(View.GONE);
+        }
 
     }
 
@@ -268,7 +281,7 @@ public class GoodsListActivity extends Activity implements
      */
     public void getGoodsList(String content, String keywords, int page) {
         PATH = HttpPath.GOODS_SEARCH +
-                content + "&keywords=" + keywords + "&page=" + page;
+                content + "&keywords=" + keywords + "&page=" + page + "&type="+searchType;
         System.out.println("商品列表 = " + PATH);
         HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
             @Override

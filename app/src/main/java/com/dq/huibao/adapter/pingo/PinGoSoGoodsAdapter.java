@@ -86,7 +86,7 @@ public class PinGoSoGoodsAdapter extends RecyclerView.Adapter<PinGoSoGoodsAdapte
         Glide.with(mContext)
                 .load(ImageUtils.getImagePath(goodsList.get(position).getThumb()))
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(holder.img);
 
 

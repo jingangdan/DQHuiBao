@@ -92,7 +92,7 @@ public class GoodsDetail {
         private int istime;
         private int canbuy;
         private int hasoption;
-        private double marketprice;
+        private String marketprice;
         private double discount;
         private String discount_text;
         private double discountprice;
@@ -317,11 +317,11 @@ public class GoodsDetail {
             this.hasoption = hasoption;
         }
 
-        public double getMarketprice() {
+        public String getMarketprice() {
             return marketprice;
         }
 
-        public void setMarketprice(double marketprice) {
+        public void setMarketprice(String marketprice) {
             this.marketprice = marketprice;
         }
 
@@ -617,7 +617,7 @@ public class GoodsDetail {
             private String weight;
             private String specs;
             private String gno;
-            private double discountprice;
+            private String discountprice;
 
             public String getId() {
                 return id;
@@ -707,11 +707,11 @@ public class GoodsDetail {
                 this.gno = gno;
             }
 
-            public double getDiscountprice() {
+            public String getDiscountprice() {
                 return discountprice;
             }
 
-            public void setDiscountprice(double discountprice) {
+            public void setDiscountprice(String discountprice) {
                 this.discountprice = discountprice;
             }
         }

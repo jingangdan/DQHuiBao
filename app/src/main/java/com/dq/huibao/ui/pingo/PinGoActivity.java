@@ -28,6 +28,7 @@ import com.dq.huibao.bean.pingo.PinGoIndexMoreGoods;
 import com.dq.huibao.refresh.PullToRefreshView;
 import com.dq.huibao.ui.GoodsDetailsActivity;
 import com.dq.huibao.ui.GoodsListActivity;
+import com.dq.huibao.ui.KeywordsActivity;
 import com.dq.huibao.ui.LoginActivity;
 import com.dq.huibao.ui.pintuan.PinTuanActivity;
 import com.dq.huibao.ui.homepage.WebActivity;
@@ -125,6 +126,7 @@ public class PinGoActivity extends BaseActivity implements
                         searchLayout.setVisibility(View.GONE);
                         break;
                     case MotionEvent.ACTION_UP:
+                        searchLayout.setVisibility(View.VISIBLE);
                         break;
                 }
 
@@ -141,7 +143,6 @@ public class PinGoActivity extends BaseActivity implements
             }
         });
         //
-        findViewById(R.id.homepage_message).setVisibility(View.GONE);
     }
 
     /*获取登录返回的数据*/
@@ -179,7 +180,10 @@ public class PinGoActivity extends BaseActivity implements
             case R.id.homepage_location://定位
                 break;
             case R.id.et_hp_search://搜索
-                toast("搜索");
+                //搜索
+                intent = new Intent(PinGoActivity.this, KeywordsActivity.class);
+                intent.putExtra("searchType",1);
+                startActivity(intent);
                 break;
             case R.id.homepage_scan://扫描二维码
                 break;
@@ -201,6 +205,7 @@ public class PinGoActivity extends BaseActivity implements
      * url # 不做操作
      */
     public void getIndex(String phone, String token) {
+        searchLayout.setVisibility(View.GONE);
         PATH = HttpPath.PINGO_INFEX;
         System.out.println("拼go首页 = " + PATH);
         HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
@@ -273,7 +278,6 @@ public class PinGoActivity extends BaseActivity implements
             @Override
             public void onSuccess(String result) {
                 System.out.println("拼go信息 = " + result);
-
                 PinGoCenterTuan centerTuan = GsonUtil.gsonIntance().gsonToBean(result, PinGoCenterTuan.class);
                 //刷新数据
                 collegeGoHomeAdapter.refreshPinGo(centerTuan.getData());
@@ -334,17 +338,6 @@ public class PinGoActivity extends BaseActivity implements
                     }
                 });
     }
-    @OnClick({R.id.but_refresh})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.but_refresh:
-                getLogin();
-                break;
-            default:
-                break;
-        }
-    }
-
 
     @Override
     public void doHomePage(int position, String title, String type, String content) {
@@ -376,7 +369,7 @@ public class PinGoActivity extends BaseActivity implements
             case "goods":
                 //商品详情
                 intent = new Intent(this, PinGoDetailsActivity.class);
-                intent.putExtra("id", content);
+                intent.putExtra("gid", content);
                 startActivityForResult(intent, CodeUtils.PINGO_HOMEPAGE);
                 break;
             case "goodsList":
@@ -398,11 +391,6 @@ public class PinGoActivity extends BaseActivity implements
                 break;
             case "search":
                 //搜索
-                intent = new Intent(this, GoodsListActivity.class);
-                intent.putExtra("content", content);
-                intent.putExtra("catename", title);
-                intent.putExtra("keywords", "");
-                startActivityForResult(intent, CodeUtils.PINGO_HOMEPAGE);
                 break;
             case "#":
                 //不做操作
@@ -433,7 +421,9 @@ public class PinGoActivity extends BaseActivity implements
                 }else if ("周五秒杀".equals(content)){
                     content = "jian";
                 }else if ("论坛".equals(content)){
-                    content = "jian";
+//                    content = "jian";
+                    toast("开发中");
+                    return;
                 }
 
                 //商品列表
@@ -514,4 +504,10 @@ public class PinGoActivity extends BaseActivity implements
         }, 1000);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dataList.clear();
+        collegeGoHomeAdapter = null;
+    }
 }

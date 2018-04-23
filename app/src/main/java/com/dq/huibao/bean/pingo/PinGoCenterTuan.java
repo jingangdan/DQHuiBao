@@ -87,7 +87,7 @@ public class PinGoCenterTuan {
             private String addtime;
             private String endtime;
             private String status;
-            private int orderprice;
+            private double orderprice;
             private String regname;
             private String statis;
             private List<ListBean> list;
@@ -180,11 +180,11 @@ public class PinGoCenterTuan {
                 this.status = status;
             }
 
-            public int getOrderprice() {
+            public double getOrderprice() {
                 return orderprice;
             }
 
-            public void setOrderprice(int orderprice) {
+            public void setOrderprice(double orderprice) {
                 this.orderprice = orderprice;
             }
 

@@ -156,8 +156,9 @@ public class SubmitOrderActivity extends BaseActivity {
                     }
 
 
-                } catch (UnsupportedEncodingException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
+                    toast("失败");
                 }
 
                 break;
@@ -330,7 +331,7 @@ public class SubmitOrderActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                System.out.println("确认订单（商品详情） =失败 " + ex.toString());
             }
 
             @Override

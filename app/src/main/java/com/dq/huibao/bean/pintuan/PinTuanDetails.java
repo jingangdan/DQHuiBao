@@ -8,10 +8,11 @@ import java.util.List;
  */
 
 public class PinTuanDetails {
+
     /**
      * status : 1
-     * data : {"id":20043,"goodsname":"4条装南极人男士内裤男 男平角裤纯棉质透气四角底裤衩青年短裤头","shopid":0,"thumb":"/attachment/images/sz_yi/1604/2017/09/Rpl0V8VEjb2eE3zjbJ3EBjB3bV3RBl.jpg","unit":"盒","status":1,"content":"<div><\/div><h1><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/Vp3iVp71Z3QZ3Itr9pzZIh3zIzxw1W.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/IAB3r13n2153ZE78U588eQqH8r1vE1.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/jRR4566lr2oM6dMa18IMxAMR165R0I.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/Oxx0DmHqxmjj7yy7QXYE7jD0SXCs0j.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/dJXq1ZyQATJJGgSFyJJX7XXAGIq21S.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/xp16bLpJJSbFfdH1t66fTDBmzwtJEz.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/vQsPPZqD70z8KA8U7Q85Hk8bb5588h.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/VMLazgVm5351A8kfj9KKJ93QkF8guL.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/qMl0V0F4S0Drsd4smtFfRZ6LSv4LvB.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/i5856tT3PD5TbZ6JqtRmk0Dj53bM8z.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/He33g669Ud761Av95Y3qq90at59DDy.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/whOBdb7B8is2b2O7OnH3nwBH7hH8Ab.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/B6757Q6r4TM772qtyBz4q649B6nr45.jpg\"/><br/><br/><\/h1>","gno":"","comment_score":"0.0","productprice":"260.00","costprice":40.9,"stock":796,"sales":15,"weight":0,"minbuy":0,"maxbuy":0,"ishot":1,"isrecommand":0,"isnew":0,"isdiscount":1,"issendfree":0,"istime":0,"thumb_url":["/attachment/images/sz_yi/1604/2017/09/ff9I5Xlf8ZhLmMKhH9rF65X5FJ0Mh9.jpg","/attachment/images/sz_yi/1604/2017/09/Y6Lm9FFh1Z39miRw8H63LRzlef394l.jpg","/attachment/images/sz_yi/1604/2017/09/WG99j3E99JCs9zj9IQOGSxJGCuGdzq.jpg","/attachment/images/sz_yi/1604/2017/09/Gy6NVjE20eic0e25cci9KKYjC0cEuP.jpg","/attachment/images/sz_yi/1604/2017/09/Rpl0V8VEjb2eE3zjbJ3EBjB3bV3RBl.jpg"],"canbuy":1,"hasoption":1,"spec":[{"id":"76317","goodsid":"20043","title":"尺码","content":null,"items":[{"id":"157312","specid":"76317","title":"XXXL","thumb":""},{"id":"157313","specid":"76317","title":"XXL","thumb":""},{"id":"157314","specid":"76317","title":"XL","thumb":""},{"id":"157315","specid":"76317","title":"L","thumb":""}]},{"id":"76318","goodsid":"20043","title":"颜色分类","content":null,"items":[{"id":"157316","specid":"76318","title":"乳白色","thumb":"/attachment/images/sz_yi/1604/2017/09/gxGqSUxUXDhuiAuxtdURhXr65Qu3uz.jpg"}]}],"option":[{"id":"176626","goodsid":"20043","title":"XL+乳白色","thumb":"","productprice":"56.80","marketprice":"42.90","costprice":"40.90","stock":"199","weight":"0","specs":"157314_157316","gno":"","discountprice":"42.90"},{"id":"176627","goodsid":"20043","title":"XXXL+乳白色","thumb":"","productprice":"56.80","marketprice":"42.90","costprice":"40.90","stock":"199","weight":"0","specs":"157312_157316","gno":"","discountprice":"42.90"},{"id":"176628","goodsid":"20043","title":"XXL+乳白色","thumb":"","productprice":"56.80","marketprice":"42.90","costprice":"40.90","stock":"199","weight":"0","specs":"157313_157316","gno":"","discountprice":"42.90"},{"id":"176629","goodsid":"20043","title":"L+乳白色","thumb":"","productprice":"56.80","marketprice":"42.90","costprice":"40.90","stock":"199","weight":"0","specs":"157315_157316","gno":"","discountprice":"42.90"}],"param":[{"id":"234072","goodsid":"20043","title":"条数","value":"4条","displayorder":"0"},{"id":"234073","goodsid":"20043","title":"适用对象","value":"青年","displayorder":"0"},{"id":"234074","goodsid":"20043","title":"款号","value":"6222210034","displayorder":"0"},{"id":"234075","goodsid":"20043","title":"适用性别","value":"男","displayorder":"0"},{"id":"234076","goodsid":"20043","title":"颜色分类","value":"乳白色","displayorder":"0"},{"id":"234077","goodsid":"20043","title":"款式","value":"平角裤","displayorder":"0"},{"id":"234078","goodsid":"20043","title":"腰型","value":"中腰","displayorder":"0"},{"id":"234079","goodsid":"20043","title":"材质","value":"棉","displayorder":"0"},{"id":"234080","goodsid":"20043","title":"成分含量","value":"95%以上","displayorder":"0"},{"id":"234081","goodsid":"20043","title":"图案","value":"其他","displayorder":"0"},{"id":"234082","goodsid":"20043","title":"服装款式细节","value":"U凸设计","displayorder":"0"},{"id":"234083","goodsid":"20043","title":"尺码","value":"XXXL,XXL,XL,L","displayorder":"0"},{"id":"234084","goodsid":"20043","title":"品牌","value":"南极人","displayorder":"0"}],"marketprice":"220.00","discount":0,"discount_text":"元","discountprice":42.9,"score":0,"comment":[],"collect":false,"footer_status":1,"tuanid":"12","tuanprice":"199.00"}
-     * list : [{"id":"1","uid":"2","pid":"0","starttime":"1523674816","endtime":"1524974816","tuanid":"12","num":"2","nickname":"1111","headimgurl":"","status":"0","price":"199.00","diffnum":8}]
+     * data : {"id":20043,"goodsname":"4条装南极人男士内裤男 男平角裤纯棉质透气四角底裤衩青年短裤头","shopid":0,"thumb":"/attachment/images/sz_yi/1604/2017/09/Rpl0V8VEjb2eE3zjbJ3EBjB3bV3RBl.jpg","unit":"盒","status":1,"content":"<div><\/div><h1><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/Vp3iVp71Z3QZ3Itr9pzZIh3zIzxw1W.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/IAB3r13n2153ZE78U588eQqH8r1vE1.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/jRR4566lr2oM6dMa18IMxAMR165R0I.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/Oxx0DmHqxmjj7yy7QXYE7jD0SXCs0j.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/dJXq1ZyQATJJGgSFyJJX7XXAGIq21S.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/xp16bLpJJSbFfdH1t66fTDBmzwtJEz.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/vQsPPZqD70z8KA8U7Q85Hk8bb5588h.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/VMLazgVm5351A8kfj9KKJ93QkF8guL.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/qMl0V0F4S0Drsd4smtFfRZ6LSv4LvB.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/i5856tT3PD5TbZ6JqtRmk0Dj53bM8z.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/He33g669Ud761Av95Y3qq90at59DDy.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/whOBdb7B8is2b2O7OnH3nwBH7hH8Ab.jpg\"/><br/><img alt=\"undefined\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/09/B6757Q6r4TM772qtyBz4q649B6nr45.jpg\"/><br/><br/><\/h1>","gno":"","comment_score":"0.0","productprice":"260.00","costprice":40.9,"stock":787,"sales":15,"weight":0,"minbuy":0,"maxbuy":0,"ishot":1,"isrecommand":0,"isnew":0,"isdiscount":1,"issendfree":0,"istime":0,"thumb_url":["/attachment/images/sz_yi/1604/2017/09/ff9I5Xlf8ZhLmMKhH9rF65X5FJ0Mh9.jpg","/attachment/images/sz_yi/1604/2017/09/Y6Lm9FFh1Z39miRw8H63LRzlef394l.jpg","/attachment/images/sz_yi/1604/2017/09/WG99j3E99JCs9zj9IQOGSxJGCuGdzq.jpg","/attachment/images/sz_yi/1604/2017/09/Gy6NVjE20eic0e25cci9KKYjC0cEuP.jpg","/attachment/images/sz_yi/1604/2017/09/Rpl0V8VEjb2eE3zjbJ3EBjB3bV3RBl.jpg"],"canbuy":1,"hasoption":1,"spec":[{"id":"76317","goodsid":"20043","title":"尺码","content":null,"items":[{"id":"157312","specid":"76317","title":"XXXL","thumb":""},{"id":"157313","specid":"76317","title":"XXL","thumb":""},{"id":"157314","specid":"76317","title":"XL","thumb":""},{"id":"157315","specid":"76317","title":"L","thumb":""}]},{"id":"76318","goodsid":"20043","title":"颜色分类","content":null,"items":[{"id":"157316","specid":"76318","title":"乳白色","thumb":"/attachment/images/sz_yi/1604/2017/09/gxGqSUxUXDhuiAuxtdURhXr65Qu3uz.jpg"}]}],"option":[{"id":"176626","goodsid":"20043","title":"XL+乳白色","thumb":"","productprice":"56.80","marketprice":"42.90","costprice":"40.90","stock":"199","weight":"0","specs":"157314_157316","gno":"","discountprice":"42.90"},{"id":"176627","goodsid":"20043","title":"XXXL+乳白色","thumb":"","productprice":"56.80","marketprice":"42.90","costprice":"40.90","stock":"199","weight":"0","specs":"157312_157316","gno":"","discountprice":"42.90"},{"id":"176628","goodsid":"20043","title":"XXL+乳白色","thumb":"","productprice":"56.80","marketprice":"42.90","costprice":"40.90","stock":"199","weight":"0","specs":"157313_157316","gno":"","discountprice":"42.90"},{"id":"176629","goodsid":"20043","title":"L+乳白色","thumb":"","productprice":"56.80","marketprice":"42.90","costprice":"40.90","stock":"199","weight":"0","specs":"157315_157316","gno":"","discountprice":"42.90"}],"param":[{"id":"234072","goodsid":"20043","title":"条数","value":"4条","displayorder":"0"},{"id":"234073","goodsid":"20043","title":"适用对象","value":"青年","displayorder":"0"},{"id":"234074","goodsid":"20043","title":"款号","value":"6222210034","displayorder":"0"},{"id":"234075","goodsid":"20043","title":"适用性别","value":"男","displayorder":"0"},{"id":"234076","goodsid":"20043","title":"颜色分类","value":"乳白色","displayorder":"0"},{"id":"234077","goodsid":"20043","title":"款式","value":"平角裤","displayorder":"0"},{"id":"234078","goodsid":"20043","title":"腰型","value":"中腰","displayorder":"0"},{"id":"234079","goodsid":"20043","title":"材质","value":"棉","displayorder":"0"},{"id":"234080","goodsid":"20043","title":"成分含量","value":"95%以上","displayorder":"0"},{"id":"234081","goodsid":"20043","title":"图案","value":"其他","displayorder":"0"},{"id":"234082","goodsid":"20043","title":"服装款式细节","value":"U凸设计","displayorder":"0"},{"id":"234083","goodsid":"20043","title":"尺码","value":"XXXL,XXL,XL,L","displayorder":"0"},{"id":"234084","goodsid":"20043","title":"品牌","value":"南极人","displayorder":"0"}],"marketprice":"220.00","discount":0,"discount_text":"元","discountprice":42.9,"score":0,"comment":[],"collect":false,"buycount":"3","footer_status":1,"tuanid":"12","tuanprice":"199.00"}
+     * list : [{"id":"1","uid":"12","pid":"0","starttime":"1523674816","endtime":"1524974816","tuanid":"12","num":"2","nickname":"1111","headimgurl":"","status":"0","ctime":"0","price":"199.00","diffnum":8},{"id":"4","uid":"12","pid":"0","starttime":"1523677175","endtime":"1524677175","tuanid":"12","num":"5","nickname":"逍遥","headimgurl":"","status":"0","ctime":"0","price":"199.00","diffnum":5},{"id":"6","uid":"12","pid":"0","starttime":"1523677710","endtime":"1524677710","tuanid":"12","num":"2","nickname":"6511","headimgurl":"","status":"0","ctime":"0","price":"199.00","diffnum":8}]
      */
 
     private int status;
@@ -55,7 +56,7 @@ public class PinTuanDetails {
          * comment_score : 0.0
          * productprice : 260.00
          * costprice : 40.9
-         * stock : 796
+         * stock : 787
          * sales : 15
          * weight : 0
          * minbuy : 0
@@ -79,6 +80,7 @@ public class PinTuanDetails {
          * score : 0
          * comment : []
          * collect : false
+         * buycount : 3
          * footer_status : 1
          * tuanid : 12
          * tuanprice : 199.00
@@ -114,6 +116,7 @@ public class PinTuanDetails {
         private double discountprice;
         private int score;
         private boolean collect;
+        private String buycount;
         private int footer_status;
         private String tuanid;
         private String tuanprice;
@@ -361,6 +364,14 @@ public class PinTuanDetails {
 
         public void setCollect(boolean collect) {
             this.collect = collect;
+        }
+
+        public String getBuycount() {
+            return buycount;
+        }
+
+        public void setBuycount(String buycount) {
+            this.buycount = buycount;
         }
 
         public int getFooter_status() {
@@ -715,7 +726,7 @@ public class PinTuanDetails {
     public static class ListBean {
         /**
          * id : 1
-         * uid : 2
+         * uid : 12
          * pid : 0
          * starttime : 1523674816
          * endtime : 1524974816
@@ -724,6 +735,7 @@ public class PinTuanDetails {
          * nickname : 1111
          * headimgurl :
          * status : 0
+         * ctime : 0
          * price : 199.00
          * diffnum : 8
          */
@@ -738,6 +750,7 @@ public class PinTuanDetails {
         private String nickname;
         private String headimgurl;
         private String status;
+        private String ctime;
         private String price;
         private int diffnum;
 
@@ -819,6 +832,14 @@ public class PinTuanDetails {
 
         public void setStatus(String status) {
             this.status = status;
+        }
+
+        public String getCtime() {
+            return ctime;
+        }
+
+        public void setCtime(String ctime) {
+            this.ctime = ctime;
         }
 
         public String getPrice() {

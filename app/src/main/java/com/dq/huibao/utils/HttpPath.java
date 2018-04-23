@@ -641,6 +641,23 @@ public class HttpPath {
     public static final String PINTUAN_DETAILS = HEADER + "Tuan/content";
 
     /**
+     * 拼团团详情页
+     * 参数:pid=
+     *      goodsid
+     *      tuanid
+     *
+     */
+    public static final String PINTUAN_TUAN_DETAILS = HEADER + "Tuan/detail";
+
+    /**
+     * 拼团记录
+     * 参数:uid,page,pagesize
+     *      Status     //状态   0 拼团中 1组团成功  2失败
+     *
+     */
+    public static final String PINTUAN_TUAN_HISTORY = HEADER + "Tuan/mytuan";
+
+    /**
      * 参团验证
      * 方式:get/post
      * 参数：商品id,拼团id
