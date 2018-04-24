@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -108,7 +109,6 @@ public class PTSubmitOrderActivity extends BaseActivity {
     /*接收页面传值*/
     private Intent intent;
     private String cartids = "", goodsid = "", count = "", optionid = "", tag = "", pid = "", tuanid = "";
-    Set<String> optionidSets;
 
     /*接口地址*/
     private String PATH = "", MD5_PATH = "";
@@ -140,8 +140,7 @@ public class PTSubmitOrderActivity extends BaseActivity {
         tag = intent.getStringExtra("tag");
         pid = intent.getStringExtra("pid");
         tuanid = intent.getStringExtra("tuanid");
-        optionid = intent.getStringExtra("optioned");
-        optionidSets = new HashSet<>(Arrays.asList(intent.getStringExtra("optionSpecs").split("\\_")));
+        optionid = intent.getStringExtra("optionid");
 
         isLogin();
 
@@ -267,7 +266,7 @@ public class PTSubmitOrderActivity extends BaseActivity {
         map.put("is_tuan", tag);//单独买0 拼团买1
         map.put("tuanid", tuanid);
         map.put("goodsid", goodsid);
-        map.put("ids", optionidSets.toString());
+        map.put("optionid", optionid);
         System.out.println("确认订单（商品详情） = " + map.toString());
         HttpxUtils.Post(this, HttpPath.PINTUAN_TUAN_CONFIRM, map, new Callback.CommonCallback<String>() {
             @Override

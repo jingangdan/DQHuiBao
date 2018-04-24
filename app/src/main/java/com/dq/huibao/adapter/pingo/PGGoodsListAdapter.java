@@ -15,6 +15,7 @@ import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.index.Index;
 import com.dq.huibao.bean.pingo.PinGoIndex;
+import com.dq.huibao.utils.AppUtil;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.ImageUtils;
@@ -60,8 +61,9 @@ public class PGGoodsListAdapter extends RecyclerView.Adapter<PGGoodsListAdapter.
 
         }
         ViewGroup.LayoutParams layoutParams = holder.img.getLayoutParams();
-        layoutParams.width = 400;
-        layoutParams.height = 360;
+        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        layoutParams.width = AppUtil.getWidth()/3;
+
         holder.img.setLayoutParams(layoutParams);
 
         Glide.with(mContext).load(ImageUtils.getImagePath(goodsList.get(position).getThumb()))

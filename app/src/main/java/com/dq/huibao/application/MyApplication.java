@@ -1,7 +1,12 @@
 package com.dq.huibao.application;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
+import com.dq.huibao.base.BaseActivity;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -54,7 +59,6 @@ public class MyApplication extends Application {
         // 将应用的注册到微信
         wxApi.registerApp(WX_APP_ID);
     }
-
 
 }
 

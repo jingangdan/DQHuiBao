@@ -471,8 +471,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
         intent.putExtra("tag", orderType);
         intent.putExtra("tuanid", tuanId);
         intent.putExtra("count", num + "");
-        intent.putExtra("optioned", optionid);
-        intent.putExtra("optionSpecs", optionSpecs);
+        intent.putExtra("optionid", optionid);
         intent.putExtra("pid", pid);
         startActivity(intent);
     }
@@ -857,7 +856,6 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
     String price = "", stock = "";
     String optionid = "";
     String optionTitle = "";
-    String optionSpecs = "";
 
     public class SpecAdapter extends RecyclerView.Adapter<SpecAdapter.MyViewHolder> {
         private Context mContext;
@@ -930,7 +928,6 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
                         if (string.equals(optionsList.get(k).getSpecs())) {
                             optionid = optionsList.get(k).getId();
                             optionTitle = optionsList.get(k).getTitle();
-                            optionSpecs = optionsList.get(k).getSpecs();
                             string_name = optionsList.get(k).getTitle();
                             price = optionsList.get(k).getMarketprice();
                             stock = optionsList.get(k).getStock();

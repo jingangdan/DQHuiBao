@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.index.Index;
+import com.dq.huibao.utils.AppUtil;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.ImageUtils;
@@ -60,11 +61,11 @@ public class AppimglistAdapter extends RecyclerView.Adapter<AppimglistAdapter.My
         if (layoutId == R.layout.item_hp_picture_horizontal){
             ViewGroup.LayoutParams layoutParams = holder.img.getLayoutParams();
             if (appimgList.get(i).getWidth().equals("33"))
-                layoutParams.height = 550;
-            layoutParams.width = 360;
+                layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                layoutParams.width = AppUtil.getWidth()/3;
             if (appimgList.get(i).getWidth().equals("25")){
-                layoutParams.width = 400;
-                layoutParams.height = 500;
+                layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                layoutParams.width = AppUtil.getWidth()/3;
             }
 
             holder.img.setLayoutParams(layoutParams);

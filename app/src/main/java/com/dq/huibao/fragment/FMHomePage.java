@@ -114,7 +114,7 @@ public class FMHomePage extends BaseFragment implements
     private Boolean cansign = false;
     private String cur_count = "", cur_money = "";
     //
-    private int page = 1,pagesize = 10;
+    private int page = 1,pagesize = 20;
 
     @Nullable
     @Override
@@ -165,13 +165,13 @@ public class FMHomePage extends BaseFragment implements
                 Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
                 phone = login.getData().getPhone();
                 token = login.getData().getToken();
-                getIndex(phone, token);
+                getIndex();
 
                 getSignIndex(phone, token);
             }
 
         } else {
-            getIndex(phone, token);
+            getIndex();
         }
     }
 
@@ -218,8 +218,7 @@ public class FMHomePage extends BaseFragment implements
      * search  搜索
      * url # 不做操作
      */
-    public void getIndex(String phone, String token) {
-        searchLayout.setVisibility(View.GONE);
+    public void getIndex() {
         PATH = HttpPath.INDEXT_INDEX;
         System.out.println("首页 = " + PATH);
         HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
@@ -227,8 +226,6 @@ public class FMHomePage extends BaseFragment implements
             @Override
             public void onSuccess(String result) {
                 System.out.println("首页 = " + result);
-                //刷新完成，显示搜索框
-                searchLayout.setVisibility(View.VISIBLE);
                 // stopProgressDialog();
                 linHpNetwork.setVisibility(View.VISIBLE);
                 linHpNonetwork.setVisibility(View.GONE);
@@ -380,13 +377,15 @@ public class FMHomePage extends BaseFragment implements
         Map<String,String> map = new HashMap<>();
         map.put("page",page + "");
         map.put("pagesize",pagesize + "");
+        map.put("isrecommand","1");
         HttpxUtils.Get(getActivity(),HttpPath.INDEXT_INDEX_MORE_GOODS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
                         System.out.println("获取首页底部更多商品信息 = " + result);
-                        if (page > 1)
+                        if (page > 1){
                             pullToRefreshView.onFooterRefreshComplete();//加载更多数据
+                        }
 
                         IndexMoreGoods indexMoreGoods = GsonUtil.gsonIntance().gsonToBean(result, IndexMoreGoods.class);
                         homeRecycleAdapter.setMoreGoods(indexMoreGoods.getData().getList());
@@ -600,23 +599,24 @@ public class FMHomePage extends BaseFragment implements
 
     @Override
     public void onFooterRefresh(PullToRefreshView view) {
-        page++;
-        getMoreGoods();
+//        page++;
+//        getMoreGoods();
     }
 
     @Override
     public void onHeaderRefresh(PullToRefreshView view) {
+        searchLayout.setVisibility(View.GONE);
         page = 1;
         pullToRefreshView.postDelayed(new Runnable() {
             @Override
             public void run() {
+                //刷新完成，显示搜索框
+                searchLayout.setVisibility(View.VISIBLE);
                 // startProgressDialog();
                 //刷新数据
                 pullToRefreshView.onHeaderRefreshComplete("更新于:"
                         + Calendar.getInstance().getTime().toLocaleString());
                 pullToRefreshView.onHeaderRefreshComplete();
-
-
                 getLogin();
 
             }

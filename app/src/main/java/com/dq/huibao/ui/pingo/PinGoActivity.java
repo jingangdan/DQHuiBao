@@ -486,10 +486,13 @@ public class PinGoActivity extends BaseActivity implements
 
     @Override
     public void onHeaderRefresh(PullToRefreshView view) {
+        searchLayout.setVisibility(View.GONE);
         page = 1;
         pullToRefreshView.postDelayed(new Runnable() {
             @Override
             public void run() {
+                //刷新完成，显示搜索框
+                searchLayout.setVisibility(View.VISIBLE);
                 // startProgressDialog();
                 //刷新数据
                 pullToRefreshView.onHeaderRefreshComplete("更新于:"

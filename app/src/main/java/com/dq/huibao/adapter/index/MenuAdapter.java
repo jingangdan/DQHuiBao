@@ -13,6 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.index.Index;
+import com.dq.huibao.utils.AppUtil;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.ImageUtils;
@@ -58,10 +59,15 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MyViewHolder> 
             });
         }
 
+        ViewGroup.LayoutParams layoutParams = holder.img.getLayoutParams();
+        layoutParams.height = AppUtil.getWidth()/6;
+        layoutParams.width = AppUtil.getWidth()/6;
+        holder.img.setLayoutParams(layoutParams);
+
         Glide.with(mContext)
                 .load(ImageUtils.getImagePath(menuList.get(position).getThumb()))
                 .placeholder(R.mipmap.icon_empty)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(holder.img);
 
         holder.text.setText("" + menuList.get(position).getTitle());

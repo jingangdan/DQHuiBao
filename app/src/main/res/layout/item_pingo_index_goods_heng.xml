@@ -2,13 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_margin="5dp"
     android:gravity="center_horizontal">
     <ImageView
         android:id="@+id/item_pingo_index_goods_heng_image"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
     <TextView
         android:id="@+id/item_pingo_index_goods_heng_name"
         android:layout_width="wrap_content"

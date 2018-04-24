@@ -31,6 +31,8 @@ import com.dq.huibao.rollpagerview.ImageLoopAdapter;
 import com.dq.huibao.rollpagerview.OnItemClickListener;
 import com.dq.huibao.rollpagerview.RollPagerView;
 import com.dq.huibao.ui.GoodsDetailsActivity;
+import com.dq.huibao.ui.GoodsListActivity;
+import com.dq.huibao.ui.KeywordsActivity;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.ImageUtils;
 
@@ -303,19 +305,6 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
                 }
             }else if (widthPraent.equals("1000")){//横向布局
                 layoutId = R.layout.item_hp_picture_horizontal;
-//                mManager = new GridLayoutManager(mContext, 1, GridLayoutManager.HORIZONTAL, false);
-//                mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//                    @Override
-//                    public int getSpanSize(int position) {
-//                        String imgwidth = appimglistBeans.get(position).getWidth();
-//                        if (imgwidth.equals("50")) {
-//                            return 2;
-//                        } else if (imgwidth.equals("100")) {
-//                            return 4;
-//                        }
-//                        return 1;
-//                    }
-//                });
                 recyclerView.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
             }
             final AppimglistAdapter appimglistAdapter = new AppimglistAdapter(mContext, appimglistBeans,layoutId);
@@ -389,15 +378,19 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
 
         private final Context mContext;
         private RecyclerView recyclerView;
+        TextView textView;
         IndexMoreGoodsListAdapter goodsListAdapter;
         List<IndexMoreGoods.DataBean.ListBean> glistBeans = new ArrayList<>();
         public GoodsListMoreViewHolder(Context mContext, View itemView) {
             super(itemView);
             this.mContext = mContext;
             recyclerView = (RecyclerView) itemView.findViewById(R.id.rv_goodslist);
+            textView = itemView.findViewById(R.id.index_more);
         }
 
         public void setData() {
+
+
             recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2, GridLayoutManager.VERTICAL, false));
             goodsListAdapter = new IndexMoreGoodsListAdapter(mContext, glistBeans);
             recyclerView.setAdapter(goodsListAdapter);
@@ -407,6 +400,20 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
                 public void onItemClick(View view, int position) {
                     Intent intent = new Intent(mContext, GoodsDetailsActivity.class);
                     intent.putExtra("gid", glistBeans.get(position).getId());
+                    mContext.startActivity(intent);
+                }
+            });
+
+            //
+            textView.setVisibility(View.VISIBLE);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, GoodsListActivity.class);
+                    intent.putExtra("content", "cate=");
+                    intent.putExtra("catename", "更多商品");
+                    intent.putExtra("keywords", "");
+                    intent.putExtra("searchType", "");
                     mContext.startActivity(intent);
                 }
             });

@@ -25,7 +25,7 @@ public class ImageUtils {
     public static void loadIntoUseFitWidth(final Context context, final String imageUrl, int emptyImageId, int errorImageId, final ImageView imageView) {
         Glide.with(context)
                 .load(getImagePath(imageUrl))
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .skipMemoryCache(true)
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
@@ -62,7 +62,7 @@ public class ImageUtils {
                 .load(getImagePath(imageUrl))
                 .asBitmap()
                 .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .placeholder(emptyImageId)
                 .error(errorImageId)
                 .into(new BitmapImageViewTarget(imageView) {
@@ -89,7 +89,7 @@ public class ImageUtils {
         Glide.with(context)
                 .load(getImagePath(imageUrl))
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .placeholder(emptyImageId)
                 .skipMemoryCache(true)
                 .into(new BitmapImageViewTarget(imageView) {

@@ -40,6 +40,7 @@ import com.dq.huibao.fragment.FMShopcar;
 import com.dq.huibao.fragment.FMStore;
 import com.dq.huibao.update.CustomVersionDialogActivity;
 import com.dq.huibao.update.UVService;
+import com.dq.huibao.utils.AppUtil;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
@@ -145,6 +146,7 @@ public class MainActivity extends FragmentActivity {
         fm = getSupportFragmentManager();
         setTabSelection(0);
 
+        AppUtil.getWindowsDef(this);
     }
 
     @SuppressLint("WrongConstant")
