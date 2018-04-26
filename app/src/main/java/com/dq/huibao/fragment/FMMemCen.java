@@ -27,7 +27,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.allenliu.versionchecklib.core.AllenChecker;
-import com.allenliu.versionchecklib.core.VersionDialogActivity;
 import com.allenliu.versionchecklib.core.VersionParams;
 import com.bumptech.glide.Glide;
 import com.dq.huibao.R;
@@ -44,15 +43,13 @@ import com.dq.huibao.ui.LoginActivity;
 import com.dq.huibao.ui.addr.AddressListActivity;
 import com.dq.huibao.ui.memcen.AboutUsActivity;
 import com.dq.huibao.ui.memcen.CollectActivity;
-import com.dq.huibao.ui.memcen.CouponsActivity;
+import com.dq.huibao.ui.coupons.CouponsActivity;
 import com.dq.huibao.ui.memcen.FootprintActivity;
 import com.dq.huibao.ui.memcen.MemcenActivity;
 import com.dq.huibao.ui.memcen.ShopcarActivity;
 import com.dq.huibao.ui.memcen.SignRuleActivity;
 import com.dq.huibao.ui.order.OrderActivity;
 import com.dq.huibao.ui.pintuan.MyPinTuanActivity;
-import com.dq.huibao.ui.pintuan.PinTuanActivity;
-import com.dq.huibao.update.CustomVersionDialogActivity;
 import com.dq.huibao.update.UVService;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
@@ -69,7 +66,6 @@ import com.dq.huibao.view.GlideCircleTransform;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
-import org.xutils.x;
 
 import java.util.Calendar;
 import java.util.Date;

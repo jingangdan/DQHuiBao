@@ -37,11 +37,13 @@ import com.dq.huibao.ui.GoodsDetailsActivity;
 import com.dq.huibao.ui.GoodsListActivity;
 import com.dq.huibao.ui.KeywordsActivity;
 import com.dq.huibao.ui.LoginActivity;
+import com.dq.huibao.ui.coupons.CouponsActivity;
 import com.dq.huibao.ui.jifen.JiFenActivity;
 import com.dq.huibao.ui.pintuan.PinTuanActivity;
 import com.dq.huibao.ui.pingo.PinGoActivity;
 import com.dq.huibao.ui.homepage.WebActivity;
 import com.dq.huibao.ui.memcen.SignRuleActivity;
+import com.dq.huibao.ui.recharge.RechargeHFActivity;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
@@ -431,7 +433,10 @@ public class FMHomePage extends BaseFragment implements
 
     @Override
     public void doHomePage(int position, String title, String type, String content) {
-        if (content.equals("#")) return;
+        if (content.equals("#")) {
+            toast("敬请期待");
+            return;
+        }
         switch (type) {
             case "url":
                 //链接 web
@@ -545,8 +550,14 @@ public class FMHomePage extends BaseFragment implements
                     //大学生拼购
                     intent = new Intent(getActivity(), PinGoActivity.class);
                     startActivity(intent);
-                }else if ("score".equals(content)){
+                }else if ("score".equals(content)){//拼团
                     intent = new Intent(getActivity(), JiFenActivity.class);
+                    startActivity(intent);
+                }else if ("coupon".equals(content)){//优惠券
+                    intent = new Intent(getActivity(), CouponsActivity.class);
+                    startActivity(intent);
+                }else if ("recharge".equals(content)){//充值
+                    intent = new Intent(getActivity(), RechargeHFActivity.class);
                     startActivity(intent);
                 }
                 break;

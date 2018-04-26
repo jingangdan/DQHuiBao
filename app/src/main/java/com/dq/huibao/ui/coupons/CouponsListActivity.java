@@ -1,4 +1,4 @@
-package com.dq.huibao.ui.memcen;
+package com.dq.huibao.ui.coupons;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -96,9 +96,9 @@ public class CouponsListActivity extends BaseActivity {
      * @param page
      */
     public void getCouponsList(String unionid, int page) {
-        PATH = HttpPath.SHOP_COUPON_INDEX +
+        PATH = HttpPath.COUPONS_GET_LIST +
                 "unionid=" + unionid + "&stamp=" + (System.currentTimeMillis() / 1000) + "&doc=" +
-                MD5Util.getMD5String(HttpPath.SHOP_COUPON_INDEX + "unionid=" + unionid + "&stamp=" + (System.currentTimeMillis() / 1000) + "&dequanhuibaocom") +
+                MD5Util.getMD5String(HttpPath.COUPONS_GET_LIST + "unionid=" + unionid + "&stamp=" + (System.currentTimeMillis() / 1000) + "&dequanhuibaocom") +
                 "&page=" + page;
 
         params = new RequestParams(PATH);

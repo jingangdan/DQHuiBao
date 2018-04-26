@@ -1,6 +1,7 @@
 package com.dq.huibao.ui.jifen;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -16,11 +17,14 @@ import android.widget.TextView;
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.pingo.PinGoQuYuAdapter;
 import com.dq.huibao.base.BaseActivity;
+import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.bean.addr.Addr;
 import com.dq.huibao.bean.addr.AddrReturn;
 import com.dq.huibao.bean.jifen.JiFenGoodDetial;
+import com.dq.huibao.ui.LoginActivity;
 import com.dq.huibao.ui.addr.AddAddressActivity;
 import com.dq.huibao.ui.addr.AddrListActivity;
+import com.dq.huibao.utils.AppUtil;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.CountDownUtil;
 import com.dq.huibao.utils.GsonUtil;
@@ -28,6 +32,7 @@ import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.utils.MD5Util;
+import com.dq.huibao.utils.SPUserInfo;
 
 import org.xutils.common.Callback;
 
@@ -109,6 +114,7 @@ public class JiFenGoodDetailActivity extends BaseActivity {
     public void getData() {
         Map<String, String> map = new HashMap<>();
         map.put("id", goodid);
+        map.put("mid", uid);
         HttpxUtils.Get(this, HttpPath.JIFEN_FULI_GOODDETAILS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
@@ -143,20 +149,16 @@ public class JiFenGoodDetailActivity extends BaseActivity {
      * 提交订单
      */
     public void toSubmit() {
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("gid", goodid);
         map.put("mid", uid);
-        map.put("price", jiFenGoodDetial.getPrice());
-        map.put("expprice", jiFenGoodDetial.getExpprice());
-        map.put("score", jiFenGoodDetial.getScore());
-        map.put("goodsname", jiFenGoodDetial.getGoodsname());
         map.put("epxid", addrid);
-        System.out.println("获取积分商品详情 = " + map.toString());
-        HttpxUtils.Get(this, HttpPath.JIFEN_SAVEORDER, map,
+        System.out.println("积分兑换提交 = " + map.toString());
+        HttpxUtils.Post(this, HttpPath.JIFEN_SAVEORDER, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("获取积分商品详情 = " + result);
+                        System.out.println("积分兑换提交 = " + result);
                         AddrReturn aReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                         toast(aReturn.getData());
                         if (aReturn.getStatus() == 1) {
@@ -167,7 +169,7 @@ public class JiFenGoodDetailActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取积分商品详情 = 失败" + ex.getMessage());
+                        System.out.println("积分兑换提交 = 失败" + ex.getMessage());
                     }
 
                     @Override
@@ -243,7 +245,7 @@ public class JiFenGoodDetailActivity extends BaseActivity {
 //        String start = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
 //        String end = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
 //        jifenDetailTime.setText("0".equals(jiFenGoodDetial.getStarttime())?"":(start + "\n" + end));
-        countDownUtil = new CountDownUtil(Long.parseLong(jiFenGoodDetial.getEndtime()) * 1000 - Long.parseLong(jiFenGoodDetial.getStarttime()) * 1000, jifenDetailTime);
+        countDownUtil = new CountDownUtil(Long.parseLong(jiFenGoodDetial.getEndtime()) * 1000 - System.currentTimeMillis(), jifenDetailTime);
         countDownUtil.countdown();
         jifenDetailName.setText(jiFenGoodDetial.getGoodsname());
         jifenDetailPriceAndScore.setText("￥" + jiFenGoodDetial.getPrice() + "+" + jiFenGoodDetial.getScore() + "积分");
@@ -257,8 +259,16 @@ public class JiFenGoodDetailActivity extends BaseActivity {
         jifenDetailDuihuanYidui.setText("已兑换x" + jiFenGoodDetial.getSalecount());
         jifenDetailDuihuanAll.setText("总数量：" + jiFenGoodDetial.getAllcount());
 
-        if (jiFenGoodDetial.getStatus().equals("0") || jiFenGoodDetial.getOnedaycount().equals(0)){
+        if (jiFenGoodDetial.getStatus().equals("0") || jiFenGoodDetial.getOnedaycount().equals("0")){
             jifenDetailDuihuan.setVisibility(View.GONE);
+            jifenDetailKeduihuanTadayNum.setTextColor(getResources().getColor(R.color.red_normal));
+
+            jifenDetailKeduihuanTadayNum.setText(jiFenGoodDetial.getMsg()
+                    + AppUtil.getDateToString("MM-dd HH:mm:ss",Long.parseLong(jiFenGoodDetial.getStarttime()))
+                    + AppUtil.getDateToString("MM-dd HH:mm:ss",Long.parseLong(jiFenGoodDetial.getEndtime())));
+
+            countDownUtil.stopThread();
+            jifenDetailTime.setText("00:00:00");
         }
     }
 
@@ -293,16 +303,68 @@ public class JiFenGoodDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                toSubmit();
+                if (addrList.size() != 0 && !jiFenGoodDetial.getOnedaycount().equals("0")){
+                    toSubmit();
+                }else {
+                    toast("请添加收货地址");
+                }
             }
         });
     }
 
-    @OnClick(R.id.jifen_detail_duihuan)
-    public void onClick() {
-        alertDialog.show();
+    @OnClick({R.id.jifen_detail_duihuan,R.id.jifen_detail_duihuan_cant})
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.jifen_detail_duihuan:
+                isLogin();
+                break;
+            case R.id.jifen_detail_duihuan_cant:
+                toast(jiFenGoodDetial.getMsg());
+                break;
+        }
     }
+    @SuppressLint("WrongConstant")
+    public void isLogin() {
+        SPUserInfo spUserInfo = new SPUserInfo(getApplication());
 
+        if (!(spUserInfo.getLoginReturn().equals(""))) {
+            Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
+            phone = login.getData().getPhone();
+            token = login.getData().getToken();
+            uid = login.getData().getUid();
+            if (addrList.size() == 0){
+                getAddr();
+            }
+            alertDialog.show();
+        } else {
+            dialog();
+        }
+
+    }
+    /*弹出框*/
+    protected void dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("确定登录？");
+        builder.setTitle("提示：未登录");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                intent = new Intent(JiFenGoodDetailActivity.this, LoginActivity.class);
+                startActivityForResult(intent, CodeUtils.GDTAILD);
+
+
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+            }
+        });
+        builder.create().show();
+    }
     /**
      * 加载商品图文详情（html）
      *

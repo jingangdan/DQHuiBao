@@ -660,8 +660,8 @@ public class MainActivity extends FragmentActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             //双击退出
             if (System.currentTimeMillis() - millis < 1000) {
-                //System.exit(0);
-                finish();
+                System.exit(0);
+//                finish();
                 return super.onKeyDown(keyCode, event);
             } else {
                 Toast.makeText(this, "再次点击退出程序", Toast.LENGTH_SHORT).show();

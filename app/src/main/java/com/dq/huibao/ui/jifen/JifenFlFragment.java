@@ -143,9 +143,7 @@ public class JifenFlFragment extends BaseFragment {
      * 获取积分商品分类
      */
     public void getListData() {
-        Map<String, String> map = new HashMap<>();
-        map.put("id", uid);
-        HttpxUtils.Get(getActivity(), HttpPath.JIFEN_FULI_TYPE, map,
+        HttpxUtils.Get(getActivity(), HttpPath.JIFEN_FULI_TYPE, null,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {

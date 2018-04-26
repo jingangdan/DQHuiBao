@@ -1,4 +1,4 @@
-package com.dq.huibao.ui.memcen;
+package com.dq.huibao.ui.coupons;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -138,9 +138,9 @@ public class CouponsDetailActivity extends BaseActivity {
      * @param unionid
      */
     public void getCouponsDetail(String id, String unionid) {
-        PATH = HttpPath.SHOP_COUPON_DETAIL +
+        PATH = HttpPath.COUPONS_GET_LIST +
                 "unionid=" + unionid + "&stamp=" + (System.currentTimeMillis() / 1000) + "&doc=" +
-                MD5Util.getMD5String(HttpPath.SHOP_COUPON_DETAIL + "unionid=" + unionid + "&stamp=" + (System.currentTimeMillis() / 1000) + "&dequanhuibaocom") +
+                MD5Util.getMD5String(HttpPath.COUPONS_GET_LIST + "unionid=" + unionid + "&stamp=" + (System.currentTimeMillis() / 1000) + "&dequanhuibaocom") +
                 "&id=" + id;
 
         params = new RequestParams(PATH);

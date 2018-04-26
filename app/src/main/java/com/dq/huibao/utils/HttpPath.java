@@ -592,31 +592,31 @@ public class HttpPath {
      */
     public static final String XSHOP_GOODS_SEARCH = HEADER + "Member/SearchGoods";
 
-    /**
-     * 优惠券列表
-     * 参数：
-     * 登录验证
-     * used  默认空  1已使用，
-     * past  默认空 1已过期
-     * page 页码
-     */
-    public static final String SHOP_MEMBER_COUPON = HEADER + "api=shop/Member/coupon&i=1604&";
-
-    /**
-     * 优惠券领取列表
-     * 参数 ：
-     * 登录验证
-     * page：页码
-     */
-    public static final String SHOP_COUPON_INDEX = HEADER + "api=shop/Coupon/index&i=1604&";
-
-    /*
-    * 优惠券详情
-    * 参数：
-    * id=
-    * 登录验证
-    * */
-    public static final String SHOP_COUPON_DETAIL = HEADER + "api=shop/Coupon/detail&i=1604&";
+//    /**
+//     * 优惠券列表
+//     * 参数：
+//     * 登录验证
+//     * used  默认空  1已使用，
+//     * past  默认空 1已过期
+//     * page 页码
+//     */
+//    public static final String SHOP_MEMBER_COUPON = HEADER + "api=shop/Member/coupon&i=1604&";
+//
+//    /**
+//     * 优惠券领取列表
+//     * 参数 ：
+//     * 登录验证
+//     * page：页码
+//     */
+//    public static final String SHOP_COUPON_INDEX = HEADER + "api=shop/Coupon/index&i=1604&";
+//
+//    /*
+//    * 优惠券详情
+//    * 参数：
+//    * id=
+//    * 登录验证
+//    * */
+//    public static final String SHOP_COUPON_DETAIL = HEADER + "api=shop/Coupon/detail&i=1604&";
 
     /*获取推荐商品*/
     public static final String SHOP_GOODS_RECOMMENT = HEADER + "api=shop/Goods/recommand&i=1604";
@@ -699,7 +699,6 @@ public class HttpPath {
     /**
      * 积分可兑换商品类型
      * 方式:get/post
-     * 参数：id=uid
      */
     public static final String JIFEN_FULI_TYPE = HEADER + "Score/typelist";
 
@@ -714,6 +713,7 @@ public class HttpPath {
      * 积分可兑换商品详情
      * 方式:get/post
      * 参数：id=goodslist列表的item-id
+     *       mid=uid
      */
     public static final String JIFEN_FULI_GOODDETAILS = HEADER + "Score/goodsinfo";
 
@@ -859,4 +859,48 @@ public class HttpPath {
      * 参数：mid=uid
      */
     public static final String PINGO_MYORDER = HEADER + "Student/myorder";
+
+    //优惠卷===================================
+    /**
+     * 领卷中心列表
+     * 参数:page,pagesize,status=优惠券状态 0有效 1无效
+     *
+     */
+    public static final String COUPONS_GET_LIST = HEADER + "Coupon/couponlist";
+
+    /**
+     * 领取优惠券
+     * 参数:mid=uid,couponsid=优惠卷id,
+     */
+    public static final String COUPONS_GET_COUPONS = HEADER + "Coupon/getCoupon";
+
+    /**
+     *  我的优惠券
+     *  参数：mid,page,pagesize,type=使用状态0未使用，1已使用 2 已过期
+     */
+    public static final String COUPONS_MY = HEADER + "Coupon/mycoupon";
+
+    /**
+     *  我的优惠券
+     *  参数：mid,ids，allmoney
+     */
+    public static final String COUPONS_USE_GET = HEADER + "Coupon/canUseCoupon";
+
+    //话费充值==========================
+    /**
+     * 话费充值金额
+     */
+    public static final String RECHARGE_BILL = HEADER + "Billrecharge/billNum";
+
+    /**
+     * 生成充值订单
+     * 参数:uid,pay_mobile=手机号,bill=金额(20.30)
+     */
+    public static final String RECHARGE_GET_ORDER = HEADER + "Billrecharge/getOrder";
+
+    /**
+     * 话费充值记录
+     * 参数:uid,page,pagesize
+     */
+    public static final String RECHARGE_ORDER_LOG = HEADER + "Billrecharge/orderList";
 }

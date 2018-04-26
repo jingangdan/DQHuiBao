@@ -56,15 +56,15 @@ public class CouponsAdapter extends RecyclerView.Adapter<CouponsAdapter.MyViewHo
                 }
             });
         }
-        ImageUtils.loadIntoUseFitWidth(mContext,
-                couponsList.get(position).getThumb(),
-                R.mipmap.icon_empty002,
-                R.mipmap.icon_error002,
-                holder.iv_thumb);
-
-        holder.tv_couponname.setText("" + couponsList.get(position).getCouponname());
-        holder.tv_gettime.setText("有效期：" + DateUtils.timesOne(couponsList.get(position).getGettime()));
-        holder.tv_deduct.setText("¥" + couponsList.get(position).getDeduct());
+//        ImageUtils.loadIntoUseFitWidth(mContext,
+//                couponsList.get(position).getThumb(),
+//                R.mipmap.icon_empty002,
+//                R.mipmap.icon_error002,
+//                holder.iv_thumb);
+//
+//        holder.tv_couponname.setText("" + couponsList.get(position).getCouponname());
+//        holder.tv_gettime.setText("有效期：" + DateUtils.timesOne(couponsList.get(position).getGettime()));
+//        holder.tv_deduct.setText("¥" + couponsList.get(position).getDeduct());
 
 
     }
@@ -80,10 +80,10 @@ public class CouponsAdapter extends RecyclerView.Adapter<CouponsAdapter.MyViewHo
 
         public MyViewHolder(View view) {
             super(view);
-            iv_thumb = (ImageView) view.findViewById(R.id.iv_item_coupons_thumb);
-            tv_couponname = (TextView) view.findViewById(R.id.tv_item_coupons_couponname);
-            tv_gettime = (TextView) view.findViewById(R.id.tv_item_coupons_gettime);
-            tv_deduct = (TextView) view.findViewById(R.id.tv_item_coupons_deduct);
+//            iv_thumb = (ImageView) view.findViewById(R.id.iv_item_coupons_thumb);
+//            tv_couponname = (TextView) view.findViewById(R.id.tv_item_coupons_couponname);
+//            tv_gettime = (TextView) view.findViewById(R.id.tv_item_coupons_gettime);
+//            tv_deduct = (TextView) view.findViewById(R.id.tv_item_coupons_deduct);
         }
     }
 }

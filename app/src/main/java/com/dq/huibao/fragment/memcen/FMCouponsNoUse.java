@@ -1,36 +1,39 @@
 package com.dq.huibao.fragment.memcen;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
+import com.dq.huibao.adapter.coupons.MyCouponsAdapter;
 import com.dq.huibao.base.BaseFragment;
 import com.dq.huibao.bean.LoginBean;
-import com.dq.huibao.bean.memcen.Coupons;
-import com.dq.huibao.adapter.memcen.CouponsAdapter;
-import com.dq.huibao.ui.memcen.CouponsDetailActivity;
-import com.dq.huibao.ui.memcen.CouponsListActivity;
+import com.dq.huibao.bean.coupons.MyCouponsB;
+import com.dq.huibao.ui.coupons.CouponsListActivity;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
-import com.dq.huibao.utils.MD5Util;
+import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.SPUserInfo;
+import com.github.jdsjlzx.interfaces.OnItemClickListener;
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
+import com.github.jdsjlzx.recyclerview.LRecyclerView;
+import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,40 +54,57 @@ public class FMCouponsNoUse extends BaseFragment {
 
     private View view;
 
-    /*接口地址*/
-    private String PATH = "";
-    private RequestParams params = null;
-
     /*本地轻量型缓存*/
     private SPUserInfo spUserInfo;
-    private String unionid = "";
+    private String unionid = "",uid = "";
 
     @Bind(R.id.rv_order_all)
-    RecyclerView rvOrderAll;
-    private CouponsAdapter couponsAdapter;
-    private List<Coupons.DataBean.ListBean> couponsList = new ArrayList<>();
+    LRecyclerView rvOrderAll;
+    private MyCouponsAdapter couponsAdapter;
+    LRecyclerViewAdapter lRecyclerViewAdapter;
+    private List<MyCouponsB.DataBean> couponsList = new ArrayList<>();
 
     /*页面跳转*/
     private Intent intent;
 
+    int page = 1,pagesize = 10;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fm_tablayout, null);
+        view = inflater.inflate(R.layout.fragment_my_coupons, null);
         ButterKnife.bind(this, view);
 
-        couponsAdapter = new CouponsAdapter(getActivity(), couponsList);
+        couponsAdapter = new MyCouponsAdapter(getActivity());
         rvOrderAll.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvOrderAll.setAdapter(couponsAdapter);
+        lRecyclerViewAdapter = new LRecyclerViewAdapter(couponsAdapter);
+        rvOrderAll.setAdapter(lRecyclerViewAdapter);
 
-        couponsAdapter.setOnItemClickListener(new OnItemClickListener() {
+        lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                intent = new Intent(getActivity(), CouponsDetailActivity.class);
-                intent.putExtra("couponsid", couponsList.get(position).getCouponid());
-                intent.putExtra("index", "0");//0代表用户的优惠券
-                startActivity(intent);
+//                intent = new Intent(getActivity(), CouponsDetailActivity.class);
+//                intent.putExtra("couponsid", couponsList.get(position).getCouponid());
+//                intent.putExtra("index", "0");//0代表用户的优惠券
+//                startActivity(intent);
+            }
+        });
+
+        //
+        rvOrderAll.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                page = 1;
+                couponsAdapter.clear();
+                rvOrderAll.setNoMore(false);
+                getCoupons();
+            }
+        });
+        rvOrderAll.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                page ++;
+                getCoupons();
             }
         });
 
@@ -107,7 +127,8 @@ public class FMCouponsNoUse extends BaseFragment {
         if (isVisibleToUser) {
             System.out.println("in 1");
             if (!unionid.equals("")) {
-                getCoupons(unionid, "", "", 1);
+                couponsAdapter.clear();
+                getCoupons();
             }
 
         } else {
@@ -123,7 +144,8 @@ public class FMCouponsNoUse extends BaseFragment {
         if (!(spUserInfo.getLoginReturn().equals(""))) {
             LoginBean loginBean = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), LoginBean.class);
             unionid = loginBean.getData().getUnionid() + "";
-            getCoupons(unionid, "", "", 1);
+            uid = loginBean.getData().getUid();
+            getCoupons();
         } else {
             toast("登录状态出错，请重新登录");
         }
@@ -132,58 +154,54 @@ public class FMCouponsNoUse extends BaseFragment {
     /**
      * 优惠券列表
      *
-     * @param unionid
-     * @param used    默认空  1已使用
-     * @param past    默认空  1已过期
-     *                <p>
-     *                used 和past 都为空  未使用
      */
-    public void getCoupons(String unionid, String used, String past, int page) {
-        PATH = HttpPath.SHOP_MEMBER_COUPON +
-                "unionid=" + unionid + "&stamp=" + (System.currentTimeMillis() / 1000) + "&doc=" +
-                MD5Util.getMD5String(HttpPath.SHOP_MEMBER_COUPON + "unionid=" + unionid + "&stamp=" + (System.currentTimeMillis() / 1000) + "&dequanhuibaocom") +
-                "&used=" + used + "&past=" + past + "&page=" + page;
+    public void getCoupons() {
+        Map<String,String> map = new HashMap<>();
+        map.put("mid",uid);
+        map.put("page",page + "");
+        map.put("pagesize",pagesize + "");
+        map.put("type","0");
+        System.out.println("优惠券 未使用 = " + map.toString());
+        HttpxUtils.Get(getActivity(), HttpPath.COUPONS_MY, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                System.out.println("优惠券 未使用= " + result);
+                MyCouponsB coupons = GsonUtil.gsonIntance().gsonToBean(result, MyCouponsB.class);
+                //
+                rvOrderAll.refreshComplete(pagesize);
+                if (coupons.getData().size() < pagesize || coupons.getData().size() == 0){
+                    rvOrderAll.setNoMore(true);
+                }
+                //
+                if (coupons.getData().size() > 0) {
+                    linCouponsNull.setVisibility(View.GONE);
+                    couponsList.clear();
+                    couponsAdapter.addAll(coupons.getData());
+                    couponsAdapter.notifyDataSetChanged();
 
-        params = new RequestParams(PATH);
-        System.out.println("优惠券 未使用 = " + PATH);
+                } else {
+                    linCouponsNull.setVisibility(View.VISIBLE);
 
-        x.http().get(params,
-                new Callback.CommonCallback<String>() {
-                    @SuppressLint("WrongConstant")
-                    @Override
-                    public void onSuccess(String result) {
-                        System.out.println("优惠券 未使用= " + result);
-                        Coupons coupons = GsonUtil.gsonIntance().gsonToBean(result, Coupons.class);
+                }
 
-                        if (coupons.getData().getList().size() > 0) {
-                            linCouponsNull.setVisibility(View.GONE);
-                            couponsList.clear();
-                            couponsList.addAll(coupons.getData().getList());
-                            couponsAdapter.notifyDataSetChanged();
+            }
 
-                        } else {
-                            linCouponsNull.setVisibility(View.VISIBLE);
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                linCouponsNull.setVisibility(View.VISIBLE);
+                System.out.println("优惠券 未使用=失败 " + ex.toString());
+            }
 
-                        }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
+            }
 
-                    }
+            @Override
+            public void onFinished() {
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(CancelledException cex) {
-
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+            }
+        });
 
     }
 

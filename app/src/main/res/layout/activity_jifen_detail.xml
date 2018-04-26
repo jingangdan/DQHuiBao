@@ -77,26 +77,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility="gone"
                 android:layout_marginBottom="10dp">
                 <TextView
                     android:id="@+id/jifen_detail_keduihuan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red_normal"
-                    android:text="可兑换"/>
+                    android:visibility="gone"
+                    android:text=""/>
                 <TextView
                     android:id="@+id/jifen_detail_keduihuan_taday_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:text="今日可兑换x1"/>
                 <TextView
                     android:id="@+id/jifen_detail_keduihuan_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="可兑换x1"/>
+                    android:visibility="gone"
+                    android:text=""/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -147,6 +147,7 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
         <Button
+            android:id="@+id/jifen_detail_duihuan_cant"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

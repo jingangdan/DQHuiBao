@@ -8,7 +8,7 @@ package com.dq.huibao.bean.jifen;
 public class JiFenGoodDetial {
     /**
      * status : 1
-     * data : {"id":"3","goodsname":"小黄人飞机充电耐摔会悬浮遥控飞机直升机感应飞行器儿童玩具男孩","typeid":"1","goodsid":"25126","thumb":"/attachment/images/sz_yi/1604/2017/11/jPZEYDOM50i0DWYILlwFoK5ep5FkO5.jpg","productprice":"38.00","score":"1","price":"2.00","intro":"\r\n<p><img align=\"absmiddle\" size=\"750x801\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/m8K0P8Pkq8m4n0m8nfmbHa8btka4P2.jpg\" style=\"max-width:750.0px;\" /><img align=\"absmiddle\" size=\"750x788\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/haVAQ1dXYDCbaKaKsLsv9GVgrbGmLx.jpg\" style=\"max-width:750.0px;\" /><img align=\"absmiddle\" size=\"750x717\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/bG2cbW32wb5GJ03l0zplhC35PvGEVg.jpg\" style=\"max-width:750.0px;\" /><img align=\"absmiddle\" size=\"750x731\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/xba0CeFXcb7ceVAlQ9H0ghLCegGxff.jpg\" style=\"max-width:750.0px;\" /><img align=\"absmiddle\" size=\"750x499\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/wJjzsA0C0SizqChNK10zvV4K8r6RHJ.jpg\" style=\"max-width:750.0px;\" /><img align=\"absmiddle\" size=\"750x518\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/BpRds2r49nff47nd1U4CDCc244FpUf.jpg\" style=\"max-width:750.0px;\" /><img align=\"absmiddle\" size=\"750x703\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/az8j91iIE9pNjjt1Zm8e5t9NPEnO9k.jpg\" style=\"max-width:750.0px;\" /><img align=\"absmiddle\" size=\"750x592\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/rC0gN1LiS4dM6cmNDmmiipuG7MCdN9.jpg\" style=\"max-width:750.0px;\" /><img align=\"absmiddle\" size=\"750x634\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/BsqL5Kfaq53nQf803Qf9qn88fpz8Q3.jpg\" style=\"max-width:750.0px;\" /><img align=\"absmiddle\" size=\"750x400\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/APfpWmu10Ro1QQroO5bVFvAGZlqoDb.gif\" style=\"max-width:750.0px;\" /><img align=\"absmiddle\" size=\"800x800\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/C9U39l29v9lIFUfr6NK6u9T66FRFrZ.gif\" style=\"max-width:750.0px;\" /><\/p>\r\n","expprice":"50.00","onedaycount":"1","oneallcount":"1","daycount":"1","allcount":"1","starttime":"1523808000","endtime":"1525060800","tips":"\r\n<p>余额不足，需先不足余额再进行兑换<\/p>\r\n","status":"1","addtime":"1523670877","orderby":"0","salecount":"0","lastcount":1}
+     * data : {"id":"2","goodsname":"泰国原装进口虾条 卡乐美虾味条  大罐装 110g 12罐/箱","typeid":"2","goodsid":"25523","thumb":"/attachment/images/sz_yi/1604/2017/12/IhPH666W6G607NnP6XPXph9rPPXhWy.jpg","productprice":"19.90","score":"1","price":"2.00","intro":"\r\n<div class=\"promotion_start_584447\" style=\"font-size:0.0px;height:0.0px;\">&nbsp;<\/div>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img align=\"absMiddle\" size=\"750x750\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/12/iKthGaxHRRhKsVr8Vk3kTgz1i38eyG.jpg\" style=\"color: rgb(51, 51, 51); text-align: center; vertical-align: top;\" /><\/p>\r\n\r\n<p style=\"font:14.0px 21.0px tahoma arial 宋体;margin:1.12em 0.0px;padding:0.0px;text-align:center;color:#333333;text-transform:none;text-indent:0.0px;letter-spacing:normal;word-spacing:0.0px;white-space:normal;orphans:2;widows:2;font-size-adjust:none;font-stretch:normal;background-color:#ffffff;\"><img align=\"absMiddle\" size=\"750x546\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/12/JM6NoOOToz4IE25cKbot2n4qMb55kO.jpg\" style=\"border:0.0pxcurrentcolor;vertical-align:top;\" /><\/p>\r\n\r\n<p style=\"font:14.0px 21.0px tahoma arial 宋体;margin:1.12em 0.0px;padding:0.0px;text-align:center;color:#333333;text-transform:none;text-indent:0.0px;letter-spacing:normal;word-spacing:0.0px;white-space:normal;orphans:2;widows:2;font-size-adjust:none;font-stretch:normal;background-color:#ffffff;\"><img align=\"absMiddle\" size=\"750x588\" src=\"http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/12/tox5D6XrU8IorzLXSoSGy1YRO5L5xg.jpg\" style=\"border:0.0pxcurrentcolor;vertical-align:top;\" /><\/p>\r\n\r\n<p style=\"font:14.0px 21.0px tahoma arial 宋体;margin:1.12em 0.0px;padding:0.0px;text-align:center;color:#333333;text-transform:none;text-indent:0.0px;letter-spacing:normal;word-spacing:0.0px;white-space:normal;orphans:2;widows:2;font-size-adjust:none;font-stretch:normal;background-color:#ffffff;\">&nbsp;<\/p>\r\n\r\n<p><span style=\"font-size:24.0px;\"><span style=\"color:#0000ff;\"><span style=\"font-family:宋体;\"><span style=\"color:#7f6000;\"><span style=\"font-family:楷体_gb2312;\"><span style=\"font-family:microsoft yahei;\">泰国纯虾片&nbsp;超级好吃，满满一大罐、<br />\r\n<span style=\"color:#ff0000;\">是超大的一罐哦！<br />\r\n吃的开心，吃的过瘾！<\/span><br />\r\n<span style=\"color:#0000ff;\">脆中透着鲜美，非常不错的美味，是看电视旅游时的必备良品<\/span><\/span><\/span><\/span><br />\r\n<strong><span style=\"font-family:楷体_gb2312;\">&nbsp;<\/span><\/strong><br />\r\n<span style=\"color:#000000;\"><span style=\"font-family:楷体_gb2312;\"><span style=\"font-family:microsoft yahei;\">来自泰国的一款人气食品，而且知名度非常高，在香港很受大众欢迎。完全不含色素和防腐剂，真材实料，味道鲜美，完全不像超市里卖的味精调出来的那种。精选上等新鲜活虾制作而成@<br />\r\n<span style=\"color:#9900ff;\">包装美观 ，不管是自己吃还是送人都非常的好！<\/span><\/span><\/span><\/span><\/span><\/span><\/span><\/p>\r\n\r\n<p>&nbsp;<\/p>\r\n\r\n<div align=\"left\" style=\"font:14.0px 21.0px tahoma arial 宋体;margin:0.0px;padding:0.0px;color:#4c4c4c;text-transform:none;text-indent:0.0px;letter-spacing:normal;word-spacing:0.0px;white-space:normal;orphans:2;widows:2;font-size-adjust:none;font-stretch:normal;background-color:#ffffff;\"><span style=\"font-family:microsoft yahei;\"><span style=\"color:#0000ff;\"><span style=\"font-size:24.0px;\"><strong>泰国马努拉食品有限公司成立30多年来，一直以生产肉松虾片、鲜肉虾片等特色小吃为主。<\/strong><\/span><\/span><\/span><\/div>\r\n\r\n<div align=\"left\" style=\"font:14.0px 21.0px tahoma arial 宋体;margin:0.0px;padding:0.0px;color:#4c4c4c;text-transform:none;text-indent:0.0px;letter-spacing:normal;word-spacing:0.0px;white-space:normal;orphans:2;widows:2;font-size-adjust:none;font-stretch:normal;background-color:#ffffff;\"><span style=\"font-family:microsoft yahei;\"><span style=\"color:#0000ff;\"><span style=\"font-size:24.0px;\"><strong>其产品ZUI大的特色就是原汁原味，全部用新鲜的虾肉和淀粉做成，虾肉含量不低于35%，吃过就知道与众不同啦！<\/strong><\/span><\/span><\/span><\/div>\r\n\r\n<div align=\"left\" style=\"font:14.0px 21.0px tahoma arial 宋体;margin:0.0px;padding:0.0px;color:#4c4c4c;text-transform:none;text-indent:0.0px;letter-spacing:normal;word-spacing:0.0px;white-space:normal;orphans:2;widows:2;font-size-adjust:none;font-stretch:normal;background-color:#ffffff;\">\r\n<ul class=\"list-paddingleft-2\" style=\"list-style-type: none;\"><br />\r\n\t<li>\r\n\t<p>&nbsp;<\/p>\r\n\t<\/li>\r\n\t<li>\r\n\t<p>&nbsp;<\/p>\r\n\t<\/li>\r\n<\/ul>\r\n<\/div>\r\n\r\n<p>&nbsp;<\/p>\r\n","expprice":"100.00","onedaycount":"1","oneallcount":"1","daycount":"1","allcount":"1","starttime":"0","endtime":"0","tips":"","status":"1","addtime":"1523670446","orderby":"0","msg":"","salecount":"0","lastcount":"1"}
      */
 
     private int status;
@@ -32,30 +32,64 @@ public class JiFenGoodDetial {
 
     public static class DataBean {
         /**
-         * id : 3
-         * goodsname : 小黄人飞机充电耐摔会悬浮遥控飞机直升机感应飞行器儿童玩具男孩
-         * typeid : 1
-         * goodsid : 25126
-         * thumb : /attachment/images/sz_yi/1604/2017/11/jPZEYDOM50i0DWYILlwFoK5ep5FkO5.jpg
-         * productprice : 38.00
+         * id : 2
+         * goodsname : 泰国原装进口虾条 卡乐美虾味条  大罐装 110g 12罐/箱
+         * typeid : 2
+         * goodsid : 25523
+         * thumb : /attachment/images/sz_yi/1604/2017/12/IhPH666W6G607NnP6XPXph9rPPXhWy.jpg
+         * productprice : 19.90
          * score : 1
          * price : 2.00
          * intro :
-         <p><img align="absmiddle" size="750x801" src="http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/m8K0P8Pkq8m4n0m8nfmbHa8btka4P2.jpg" style="max-width:750.0px;" /><img align="absmiddle" size="750x788" src="http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/haVAQ1dXYDCbaKaKsLsv9GVgrbGmLx.jpg" style="max-width:750.0px;" /><img align="absmiddle" size="750x717" src="http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/bG2cbW32wb5GJ03l0zplhC35PvGEVg.jpg" style="max-width:750.0px;" /><img align="absmiddle" size="750x731" src="http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/xba0CeFXcb7ceVAlQ9H0ghLCegGxff.jpg" style="max-width:750.0px;" /><img align="absmiddle" size="750x499" src="http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/wJjzsA0C0SizqChNK10zvV4K8r6RHJ.jpg" style="max-width:750.0px;" /><img align="absmiddle" size="750x518" src="http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/BpRds2r49nff47nd1U4CDCc244FpUf.jpg" style="max-width:750.0px;" /><img align="absmiddle" size="750x703" src="http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/az8j91iIE9pNjjt1Zm8e5t9NPEnO9k.jpg" style="max-width:750.0px;" /><img align="absmiddle" size="750x592" src="http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/rC0gN1LiS4dM6cmNDmmiipuG7MCdN9.jpg" style="max-width:750.0px;" /><img align="absmiddle" size="750x634" src="http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/BsqL5Kfaq53nQf803Qf9qn88fpz8Q3.jpg" style="max-width:750.0px;" /><img align="absmiddle" size="750x400" src="http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/APfpWmu10Ro1QQroO5bVFvAGZlqoDb.gif" style="max-width:750.0px;" /><img align="absmiddle" size="800x800" src="http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/11/C9U39l29v9lIFUfr6NK6u9T66FRFrZ.gif" style="max-width:750.0px;" /></p>
+         <div class="promotion_start_584447" style="font-size:0.0px;height:0.0px;">&nbsp;</div>
 
-         * expprice : 50.00
+         <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img align="absMiddle" size="750x750" src="http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/12/iKthGaxHRRhKsVr8Vk3kTgz1i38eyG.jpg" style="color: rgb(51, 51, 51); text-align: center; vertical-align: top;" /></p>
+
+         <p style="font:14.0px 21.0px tahoma arial 宋体;margin:1.12em 0.0px;padding:0.0px;text-align:center;color:#333333;text-transform:none;text-indent:0.0px;letter-spacing:normal;word-spacing:0.0px;white-space:normal;orphans:2;widows:2;font-size-adjust:none;font-stretch:normal;background-color:#ffffff;"><img align="absMiddle" size="750x546" src="http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/12/JM6NoOOToz4IE25cKbot2n4qMb55kO.jpg" style="border:0.0pxcurrentcolor;vertical-align:top;" /></p>
+
+         <p style="font:14.0px 21.0px tahoma arial 宋体;margin:1.12em 0.0px;padding:0.0px;text-align:center;color:#333333;text-transform:none;text-indent:0.0px;letter-spacing:normal;word-spacing:0.0px;white-space:normal;orphans:2;widows:2;font-size-adjust:none;font-stretch:normal;background-color:#ffffff;"><img align="absMiddle" size="750x588" src="http://www.dequanhuibao.com/attachment/images/sz_yi/1604/2017/12/tox5D6XrU8IorzLXSoSGy1YRO5L5xg.jpg" style="border:0.0pxcurrentcolor;vertical-align:top;" /></p>
+
+         <p style="font:14.0px 21.0px tahoma arial 宋体;margin:1.12em 0.0px;padding:0.0px;text-align:center;color:#333333;text-transform:none;text-indent:0.0px;letter-spacing:normal;word-spacing:0.0px;white-space:normal;orphans:2;widows:2;font-size-adjust:none;font-stretch:normal;background-color:#ffffff;">&nbsp;</p>
+
+         <p><span style="font-size:24.0px;"><span style="color:#0000ff;"><span style="font-family:宋体;"><span style="color:#7f6000;"><span style="font-family:楷体_gb2312;"><span style="font-family:microsoft yahei;">泰国纯虾片&nbsp;超级好吃，满满一大罐、<br />
+         <span style="color:#ff0000;">是超大的一罐哦！<br />
+         吃的开心，吃的过瘾！</span><br />
+         <span style="color:#0000ff;">脆中透着鲜美，非常不错的美味，是看电视旅游时的必备良品</span></span></span></span><br />
+         <strong><span style="font-family:楷体_gb2312;">&nbsp;</span></strong><br />
+         <span style="color:#000000;"><span style="font-family:楷体_gb2312;"><span style="font-family:microsoft yahei;">来自泰国的一款人气食品，而且知名度非常高，在香港很受大众欢迎。完全不含色素和防腐剂，真材实料，味道鲜美，完全不像超市里卖的味精调出来的那种。精选上等新鲜活虾制作而成@<br />
+         <span style="color:#9900ff;">包装美观 ，不管是自己吃还是送人都非常的好！</span></span></span></span></span></span></span></p>
+
+         <p>&nbsp;</p>
+
+         <div align="left" style="font:14.0px 21.0px tahoma arial 宋体;margin:0.0px;padding:0.0px;color:#4c4c4c;text-transform:none;text-indent:0.0px;letter-spacing:normal;word-spacing:0.0px;white-space:normal;orphans:2;widows:2;font-size-adjust:none;font-stretch:normal;background-color:#ffffff;"><span style="font-family:microsoft yahei;"><span style="color:#0000ff;"><span style="font-size:24.0px;"><strong>泰国马努拉食品有限公司成立30多年来，一直以生产肉松虾片、鲜肉虾片等特色小吃为主。</strong></span></span></span></div>
+
+         <div align="left" style="font:14.0px 21.0px tahoma arial 宋体;margin:0.0px;padding:0.0px;color:#4c4c4c;text-transform:none;text-indent:0.0px;letter-spacing:normal;word-spacing:0.0px;white-space:normal;orphans:2;widows:2;font-size-adjust:none;font-stretch:normal;background-color:#ffffff;"><span style="font-family:microsoft yahei;"><span style="color:#0000ff;"><span style="font-size:24.0px;"><strong>其产品ZUI大的特色就是原汁原味，全部用新鲜的虾肉和淀粉做成，虾肉含量不低于35%，吃过就知道与众不同啦！</strong></span></span></span></div>
+
+         <div align="left" style="font:14.0px 21.0px tahoma arial 宋体;margin:0.0px;padding:0.0px;color:#4c4c4c;text-transform:none;text-indent:0.0px;letter-spacing:normal;word-spacing:0.0px;white-space:normal;orphans:2;widows:2;font-size-adjust:none;font-stretch:normal;background-color:#ffffff;">
+         <ul class="list-paddingleft-2" style="list-style-type: none;"><br />
+         <li>
+         <p>&nbsp;</p>
+         </li>
+         <li>
+         <p>&nbsp;</p>
+         </li>
+         </ul>
+         </div>
+
+         <p>&nbsp;</p>
+
+         * expprice : 100.00
          * onedaycount : 1
          * oneallcount : 1
          * daycount : 1
          * allcount : 1
-         * starttime : 1523808000
-         * endtime : 1525060800
+         * starttime : 0
+         * endtime : 0
          * tips :
-         <p>余额不足，需先不足余额再进行兑换</p>
-
          * status : 1
-         * addtime : 1523670877
+         * addtime : 1523670446
          * orderby : 0
+         * msg :
          * salecount : 0
          * lastcount : 1
          */
@@ -80,8 +114,9 @@ public class JiFenGoodDetial {
         private String status;
         private String addtime;
         private String orderby;
+        private String msg;
         private String salecount;
-        private int lastcount;
+        private String lastcount;
 
         public String getId() {
             return id;
@@ -243,6 +278,14 @@ public class JiFenGoodDetial {
             this.orderby = orderby;
         }
 
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+
         public String getSalecount() {
             return salecount;
         }
@@ -251,11 +294,11 @@ public class JiFenGoodDetial {
             this.salecount = salecount;
         }
 
-        public int getLastcount() {
+        public String getLastcount() {
             return lastcount;
         }
 
-        public void setLastcount(int lastcount) {
+        public void setLastcount(String lastcount) {
             this.lastcount = lastcount;
         }
     }

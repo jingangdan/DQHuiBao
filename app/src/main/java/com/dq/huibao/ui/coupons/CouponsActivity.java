@@ -1,9 +1,13 @@
-package com.dq.huibao.ui.memcen;
+package com.dq.huibao.ui.coupons;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
 
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.SimpleFragmentPagerAdapter;
@@ -18,17 +22,20 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Description：优惠券
  * Created by jingang on 2017/11/1.
  */
 
-public class CouponsActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
-    @Bind(R.id.tabLayout)
+public class CouponsActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+    @Bind(R.id.coupons_tabLayout)
     TabLayout tabLayout;
-    @Bind(R.id.tb_noScrollViewPage)
+    @Bind(R.id.coupons_tb_noScrollViewPage)
     NoScrollViewPager noScrollViewPager;
+    @Bind(R.id.coupons_tv_title)
+    TextView couponsTvTitle;
 
     private String[] titles = new String[]{"未使用", "已使用", "已过期"};
     private List<Fragment> fragments = new ArrayList<>();
@@ -38,7 +45,7 @@ public class CouponsActivity extends BaseActivity implements ViewPager.OnPageCha
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tablayout);
+        setContentView(R.layout.activity_coupons);
         ButterKnife.bind(this);
 
         fragments.add(FMCouponsNoUse.newInstance("FMCouponsNoUse"));
@@ -53,15 +60,22 @@ public class CouponsActivity extends BaseActivity implements ViewPager.OnPageCha
 
         noScrollViewPager.setOnPageChangeListener(this);
         tabLayout.setupWithViewPager(noScrollViewPager);
+        couponsTvTitle.setText("我的优惠券");
 
     }
 
-    @Override
-    protected void initWidght() {
-        super.initWidght();
-        setTitleName("我的优惠券");
+    @OnClick({R.id.coupons_iv_back, R.id.coupons_tv_right})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.coupons_iv_back://返回
+                finish();
+                break;
+            case R.id.coupons_tv_right://领券中心
+                Intent intent = new Intent(CouponsActivity.this,CouponsGetActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
-
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 

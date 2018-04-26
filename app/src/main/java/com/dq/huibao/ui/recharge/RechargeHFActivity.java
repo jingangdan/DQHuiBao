@@ -1,4 +1,4 @@
-package com.dq.huibao.ui.jifen;
+package com.dq.huibao.ui.recharge;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -6,14 +6,13 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.SimpleFragmentPagerAdapter;
 import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.account.Login;
-import com.dq.huibao.ui.xstore.XStoreFragment;
-import com.dq.huibao.ui.xstore.XStoreSetFragment;
+import com.dq.huibao.ui.jifen.JifenFlFragment;
+import com.dq.huibao.ui.jifen.MyJfFragment;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.SPUserInfo;
 import com.dq.huibao.view.NoScrollViewPager;
@@ -25,17 +24,17 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * 积分兑换
- * Created by d on 2018/4/14.
+ * 手机话费充值
+ * Created by d on 2018/4/26.
  */
 
-public class JiFenActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class RechargeHFActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     @Bind(R.id.tabLayout)
     TabLayout tabLayout;
     @Bind(R.id.tb_noScrollViewPage)
     NoScrollViewPager noScrollViewPager;
 
-    private String[] titles = new String[]{"积分兑换", "我的积分"};
+    private String[] titles = new String[]{"话费充值", "充值记录"};
     private List<Fragment> fragments = new ArrayList<>();
 
     private SimpleFragmentPagerAdapter sfpAdapter;
@@ -51,8 +50,8 @@ public class JiFenActivity extends BaseActivity implements ViewPager.OnPageChang
         isLogin();
         ButterKnife.bind(this);
 
-        fragments.add(JifenFlFragment.newInstance(uid,phone,token));
-        fragments.add(MyJfFragment.newInstance(uid,phone,token));
+        fragments.add(RechargeHfFragment.newInstance(uid,phone,token));
+        fragments.add(RechargeLogFragment.newInstance(uid,phone,token));
 
 
         sfpAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), this, fragments, titles);
@@ -66,7 +65,7 @@ public class JiFenActivity extends BaseActivity implements ViewPager.OnPageChang
         noScrollViewPager.setOnPageChangeListener(this);
         tabLayout.setupWithViewPager(noScrollViewPager);
 
-        setTitleName("积分兑换");
+        setTitleName("话费充值");
     }
     /*
       * 判断登录状态
@@ -85,6 +84,7 @@ public class JiFenActivity extends BaseActivity implements ViewPager.OnPageChang
             }
         }
     }
+
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 

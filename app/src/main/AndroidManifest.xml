@@ -204,13 +204,13 @@
         <activity android:name="com.dq.huibao.ui.memcen.FootprintActivity" />
 
         <!--优惠券-->
-        <activity android:name="com.dq.huibao.ui.memcen.CouponsActivity" />
+        <activity android:name="com.dq.huibao.ui.coupons.CouponsActivity" />
 
         <!--优惠券领取列表-->
-        <activity android:name="com.dq.huibao.ui.memcen.CouponsListActivity" />
+        <activity android:name="com.dq.huibao.ui.coupons.CouponsListActivity" />
 
         <!--优惠券详情-->
-        <activity android:name="com.dq.huibao.ui.memcen.CouponsDetailActivity" />
+        <activity android:name="com.dq.huibao.ui.coupons.CouponsDetailActivity" />
 
         <!--个人资料-->
         <activity
@@ -265,6 +265,8 @@
         <activity android:name=".ui.jifen.JiFenGoodDetailActivity" />
         <activity android:name=".ui.pintuan.PinTuanTuanDetailsActivity" />
         <activity android:name=".ui.pintuan.MyPinTuanActivity" />
+        <activity android:name=".ui.coupons.CouponsGetActivity" />
+        <activity android:name=".ui.recharge.RechargeHFActivity" />
 
         <!--增加图片清晰度-->
         <meta-data

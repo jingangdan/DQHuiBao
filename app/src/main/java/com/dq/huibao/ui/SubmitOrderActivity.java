@@ -3,24 +3,32 @@ package com.dq.huibao.ui;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.SubmitOrderAdapter;
+import com.dq.huibao.adapter.coupons.CouponSelectAdapter;
+import com.dq.huibao.adapter.pingo.PinGoQuYuAdapter;
 import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.bean.addr.Addr;
 import com.dq.huibao.bean.addr.AddrReturn;
 import com.dq.huibao.bean.cart.CheckOrder;
+import com.dq.huibao.bean.coupons.CouponsB;
+import com.dq.huibao.bean.coupons.CouponsGetListB;
 import com.dq.huibao.ui.addr.AddAddressActivity;
 import com.dq.huibao.ui.addr.AddrListActivity;
+import com.dq.huibao.ui.jifen.JiFenGoodDetailActivity;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
@@ -37,7 +45,9 @@ import org.xutils.x;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -67,7 +77,7 @@ public class SubmitOrderActivity extends BaseActivity {
 
     /*接收页面传值*/
     private Intent intent;
-    private String cartids = "", goodsid = "", count = "", optionid = "", tag = "";
+    private String cartids = "",goodsids = "", goodsid = "", count = "", optionid = "", tag = "";
 
     /*接口地址*/
     private String PATH = "", MD5_PATH = "";
@@ -75,7 +85,7 @@ public class SubmitOrderActivity extends BaseActivity {
 
     /*本地轻量型缓存*/
     private SPUserInfo spUserInfo;
-    private String phone = "", token = "";
+    private String phone = "", token = "",uid = "",couponid = "";
 
     /*收货地址*/
     private List<Addr.DataBean> addrList = new ArrayList<>();
@@ -100,12 +110,18 @@ public class SubmitOrderActivity extends BaseActivity {
 
         mManager = new LinearLayoutManager(this);
         submitOrderAdapter = new SubmitOrderAdapter(this, shopList);
+        //优惠券回调
+        submitOrderAdapter.setCouponListener(new SubmitOrderAdapter.CouponsListener() {
+            @Override
+            public void getThisCoupons() {
+                createDialog();
+            }
+        });
 
         rvSibmitorder.setLayoutManager(mManager);
         rvSibmitorder.setAdapter(submitOrderAdapter);
 
         isLogin();
-
     }
 
     @Override
@@ -147,9 +163,8 @@ public class SubmitOrderActivity extends BaseActivity {
                     String s = URLEncoder.encode(object.toString(), "UTF-8");
                     String ss = Base64.encodeToString(s.getBytes(), Base64.DEFAULT);
                     ss = ss.replaceAll("[\\s*\t\n\r]", "");
-
                     if (tag.equals("1")) {
-                        orderBuynow(phone, token, goodsid, addrid, count, optionid, URLEncoder.encode(shopList.get(0).getCommet(), "UTF-8"), shopList.get(0).getCommet());
+                        orderBuynow(phone, token, goodsid, addrid, count, optionid, ss);
 
                     } else if (tag.equals("0")) {
                         orderAdd(phone, token, cartids, addrid, ss);
@@ -176,6 +191,7 @@ public class SubmitOrderActivity extends BaseActivity {
             Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
             phone = login.getData().getPhone();
             token = login.getData().getToken();
+            uid = login.getData().getUid();
             getAddr(phone, token);
         } else {
             toast("请重新登录");
@@ -265,6 +281,12 @@ public class SubmitOrderActivity extends BaseActivity {
                 shopList.clear();
 
                 shopList.addAll(checkOrder.getData());
+                //优惠券使用商品id串
+                for (int i = 0; i < shopList.size(); i++) {
+                    for (int j = 0; j < shopList.get(i).getGoodslist().size(); j++) {
+                        goodsids += shopList.get(i).getGoodslist().get(j).getGoodsid() + ",";
+                    }
+                }
 
                 submitOrderAdapter.notifyDataSetChanged();
                 pay_all = 0.0;
@@ -274,6 +296,8 @@ public class SubmitOrderActivity extends BaseActivity {
                 }
 
                 tvConfirmPay.setText("需付：¥" + pay_all);
+                //获取优惠券
+                getCoupons();
             }
 
             @Override
@@ -303,7 +327,7 @@ public class SubmitOrderActivity extends BaseActivity {
      * @param count
      * @param optionid
      */
-    public void getCheckorder(String phone, String token, String goodsid, String addrid, String count, String optionid) {
+    public void getCheckorder(String phone, String token, final String goodsid, String addrid, String count, String optionid) {
         MD5_PATH = "addrid=" + addrid + "&count=" + count + "&goodsid=" + goodsid + "&optionid=" + optionid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
         PATH = HttpPath.CONFIRM_BUYNOW + MD5_PATH + "&sign=" +
@@ -319,6 +343,8 @@ public class SubmitOrderActivity extends BaseActivity {
                 shopList.clear();
                 shopList.addAll(checkOrder.getData());
 
+                goodsids = goodsid;
+
                 submitOrderAdapter.notifyDataSetChanged();
 
                 pay_all = 0.00;
@@ -327,6 +353,9 @@ public class SubmitOrderActivity extends BaseActivity {
                 }
 
                 tvConfirmPay.setText("需付：¥" + pay_all);
+
+                //获取优惠券
+                getCoupons();
             }
 
             @Override
@@ -362,7 +391,7 @@ public class SubmitOrderActivity extends BaseActivity {
     public void orderAdd(final String phone, final String token, String cartids, String addrid, final String remark) {
         MD5_PATH = "addrid=" + addrid + "&cartids=" + cartids + "&phone=" + phone + "&remark=" + remark + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
-        PATH = HttpPath.ORDER_ADD + MD5_PATH + "&sign=" +
+        PATH = HttpPath.ORDER_ADD + MD5_PATH + "&goodsids=" + goodsids + "&couponid=" + couponid + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         System.out.println("提交订单 = " + PATH);
@@ -420,11 +449,12 @@ public class SubmitOrderActivity extends BaseActivity {
      * @param addrid
      * @param remark
      */
-    public void orderBuynow(final String phone, final String token, String cartids, String addrid, String count, String optionid, final String remark, String remarks) {
-        MD5_PATH = "addrid=" + addrid + "&count=" + count + "&goodsid=" + cartids + "&optionid=" + optionid + "&phone=" + phone + "&remark=" + remark + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
+    public void orderBuynow(final String phone, final String token, String cartids, String addrid, String count, String optionid, final String remark) {
+        MD5_PATH = "addrid=" + addrid +"&count=" + count + "&goodsid=" + cartids + "&optionid=" + optionid
+                + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
-        PATH = HttpPath.ORDER_BUYNOW + MD5_PATH + "&sign=" +
-                MD5Util.getMD5String("addrid=" + addrid + "&count=" + count + "&goodsid=" + cartids + "&optionid=" + optionid + "&phone=" + phone + "&remark=" + remarks + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + HttpPath.KEY);
+        PATH = HttpPath.ORDER_BUYNOW + MD5_PATH + "&couponid=" + couponid + "&remark=" + remark + "&sign=" +
+                MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         System.out.println("提交订单（立即购买） = " + PATH);
         HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
@@ -465,12 +495,83 @@ public class SubmitOrderActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 获取可使用优惠券
+     */
+    public void getCoupons(){
+        Map<String,String> map = new HashMap<>();
+        map.put("mid",uid);
+        map.put("ids",goodsids);
+//        map.put("allmoney","0");//未使用任何优惠前的商品价格
+        Log.d("获取可使用优惠券 = map = ",""+map.toString());
+        HttpxUtils.Get(this, HttpPath.COUPONS_USE_GET, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("获取可使用优惠券 = result = ",""+ result);
+                couponsB = GsonUtil.gsonIntance().gsonToBean(result, CouponsB.class);
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("获取可使用优惠券 = =失败 ",""+ex.toString());
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+    CouponsB couponsB = new CouponsB();
+    CouponSelectAdapter couponSelectAdapter;
+    AlertDialog alertDialog = null;
+    View popview;
+
+    /**
+     * 优惠券选择
+     */
+    public void createDialog(){
+        popview = View.inflate(this, R.layout.alert_submit_coupons,
+                null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(popview);
+        alertDialog = builder.create();
+        RecyclerView recyclerView = popview.findViewById(R.id.list_alert_coupon);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        couponSelectAdapter = new CouponSelectAdapter(this,couponsB.getData());
+        recyclerView.setAdapter(couponSelectAdapter);
+        couponSelectAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                alertDialog.dismiss();
+                submitOrderAdapter.setCouponPrice(couponsB.getData().get(position).getYouhui());
+                couponid = couponsB.getData().get(position).getId();
+                tvConfirmPay.setText("需付：¥" + (pay_all - Double.parseDouble(couponsB.getData().get(position).getYouhui())));
+            }
+        });
+
+        popview.findViewById(R.id.coupon_no).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                couponid = "";
+                tvConfirmPay.setText("需付：¥" + (pay_all));
+            }
+        });
+        alertDialog.show();
+    }
 
     public void setResult() {
         intent = new Intent();
         setResult(CodeUtils.CONFIRM_ORDER, intent);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

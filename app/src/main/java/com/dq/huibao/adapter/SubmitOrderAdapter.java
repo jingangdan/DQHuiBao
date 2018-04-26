@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dq.huibao.Interface.OnItemClickListener;
@@ -114,9 +115,10 @@ public class SubmitOrderAdapter extends RecyclerView.Adapter<SubmitOrderAdapter.
     }
 
     public class MyViewHolder extends BaseRecyclerViewHolder {
-        private TextView shopname, num, money, dispatch, money_all, discount_all, pay_all;
+        private TextView shopname, num, money, dispatch, money_all, discount_all, pay_all,coupons;
         private EditText comment;
         RecyclerView recyclerView;
+        RelativeLayout couponLayout;
 
         public MyViewHolder(View view) {
             super(view);
@@ -127,11 +129,34 @@ public class SubmitOrderAdapter extends RecyclerView.Adapter<SubmitOrderAdapter.
             money_all = view.findViewById(R.id.tv_checkorder_money_all);
             discount_all = view.findViewById(R.id.tv_item_co_discount_all);
             pay_all = view.findViewById(R.id.tv_item_co_pay_all);
-
+            coupons = view.findViewById(R.id.tv_item_co_discount_coupon);
+            couponLayout = view.findViewById(R.id.rel_item_co_discount_coupon);
+            couponsTv  = coupons;
             comment = view.findViewById(R.id.et_checkorder_comment);
 
             recyclerView = (RecyclerView) view.findViewById(R.id.rv_so_goods);
+
+            //优惠券
+            couponLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    couponsListener.getThisCoupons();
+                }
+            });
         }
     }
-
+    TextView couponsTv;
+    /**
+     * 优惠券
+     */
+    public interface CouponsListener{
+        void getThisCoupons();
+    }
+    CouponsListener couponsListener;
+    public void setCouponListener(CouponsListener listener){
+        couponsListener = listener;
+    }
+    public void setCouponPrice(String price){
+        couponsTv.setText("￥" + price);
+    }
 }

@@ -23,8 +23,6 @@ public class AppUtil {
         manager.getDefaultDisplay().getMetrics(outMetrics);
         width = outMetrics.widthPixels;
         height = outMetrics.heightPixels;
-        Log.e("fffffffffffffffff","sssss-www="+width);
-        Log.e("fffffffffffffffff","sssss-hhh="+height);
     }
 
     /**
@@ -46,5 +44,20 @@ public class AppUtil {
 //        if (width == 0)
 //            getWindowsDef(activity);
         return width;
+    }
+
+    /**
+     * 转化时间戳
+     * @param date
+     * @return
+     */
+    public static String getDateToString(String pattern,long date){
+        String dateStr = "";
+        try {
+            dateStr = new java.text.SimpleDateFormat(pattern).format(new java.util.Date(date));
+        }catch (Exception e){
+            dateStr = "";
+        }
+        return dateStr;
     }
 }
