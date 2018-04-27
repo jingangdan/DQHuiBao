@@ -91,10 +91,10 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
 
         holder.tv_name.setText("" + goodsList.get(position).getGoodsname());
 
-        holder.tv_pricenow.setText("¥" + goodsList.get(position).getProductprice());
+        holder.tv_pricenow.setText("¥" + goodsList.get(position).getMarketprice());
 
         holder.tv_priceold.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        holder.tv_priceold.setText("¥" + goodsList.get(position).getMarketprice());
+        holder.tv_priceold.setText("¥" + goodsList.get(position).getProductprice());
 
 
     }

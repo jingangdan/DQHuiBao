@@ -60,8 +60,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MyViewHolder> 
         }
 
         ViewGroup.LayoutParams layoutParams = holder.img.getLayoutParams();
-        layoutParams.height = AppUtil.getWidth()/6;
-        layoutParams.width = AppUtil.getWidth()/6;
+        layoutParams.height = AppUtil.getWidth()/7;
+        layoutParams.width = AppUtil.getWidth()/7;
         holder.img.setLayoutParams(layoutParams);
 
         Glide.with(mContext)

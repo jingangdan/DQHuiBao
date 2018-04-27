@@ -28,20 +28,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:background="@drawable/radius_pingo_bg_gray"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/pingo_zhekou_left_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/red_pressed"
-                    android:text=""/>
+                    style="@style/pingo_index_notice_text"
+                    android:textColor="@color/red_pressed"/>
                 <TextView
                     android:id="@+id/pingo_zhekou_left_shengyudanshu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:text="还剩 单"/>
+                    style="@style/pingo_index_notice_text"
+                    android:textColor="@color/black"/>
             </LinearLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/pingo_zhekou_left_list"
@@ -110,20 +106,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:background="@drawable/radius_pingo_bg_gray"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/pingo_zhekou_right_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/red_pressed"
-                    android:text=""/>
+                    style="@style/pingo_index_notice_text"
+                    android:textColor="@color/red_pressed"/>
                 <TextView
                     android:id="@+id/pingo_zhekou_right_shengyudanshu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:text="还剩 单"/>
+                    style="@style/pingo_index_notice_text"
+                    android:textColor="@color/black"/>
             </LinearLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/pingo_zhekou_right_list"

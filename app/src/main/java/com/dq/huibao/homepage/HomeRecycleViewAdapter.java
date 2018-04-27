@@ -283,7 +283,7 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
         public void setData(final List<Index.DataBean.ChildBean> appimglistBeans) {
             int layoutId = R.layout.item_hp_picture;
             if (widthPraent.equals("100")) {//正常卡片布局
-                mManager = new GridLayoutManager(mContext, 4, GridLayoutManager.VERTICAL, false);
+                mManager = new GridLayoutManager(mContext, 3, GridLayoutManager.VERTICAL, false);
                 mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                     @Override
                     public int getSpanSize(int position) {
@@ -291,7 +291,7 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
                         if (imgwidth.equals("50")) {
                             return 2;
                         } else if (imgwidth.equals("100")) {
-                            return 4;
+                            return 3;
                         }
                         return 1;
                     }

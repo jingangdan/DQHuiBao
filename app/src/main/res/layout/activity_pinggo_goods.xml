@@ -2,11 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+    <TextView
+        android:id="@+id/pingo_ms_top_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dark"
+        android:textSize="18sp"
+        android:padding="10dp"/>
+    <TextView
+        android:id="@+id/pingo_ms_top_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red_normal"
+        android:padding="10dp"/>
     <com.github.jdsjlzx.recyclerview.LRecyclerView
         android:id="@+id/list_pingo_goods"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/lightGray">
 
     </com.github.jdsjlzx.recyclerview.LRecyclerView>
 </LinearLayout>

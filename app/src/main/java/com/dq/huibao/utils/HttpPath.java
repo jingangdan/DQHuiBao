@@ -881,10 +881,16 @@ public class HttpPath {
     public static final String COUPONS_MY = HEADER + "Coupon/mycoupon";
 
     /**
-     *  我的优惠券
-     *  参数：mid,ids，allmoney
+     *  可使用优惠券---立即购买
+     *  参数：mid,goodsid,count
      */
-    public static final String COUPONS_USE_GET = HEADER + "Coupon/canUseCoupon";
+    public static final String COUPONS_USE_FORBBUYNOW = HEADER + "Coupon/couponforbuynow";
+
+    /**
+     *  可使用优惠券---购物车
+     *  参数：mid,cartidsc
+     */
+    public static final String COUPONS_USE_FORCART = HEADER + "Coupon/couponforcart";
 
     //话费充值==========================
     /**

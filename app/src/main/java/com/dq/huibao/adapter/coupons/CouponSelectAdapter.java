@@ -58,6 +58,7 @@ public class CouponSelectAdapter extends RecyclerView.Adapter<CouponSelectAdapte
 
         }
         holder.name.setText("￥" + listBeans.get(i).getYouhui());
+        holder.title.setText(listBeans.get(i).getTitle());
     }
 
     @Override
@@ -65,10 +66,11 @@ public class CouponSelectAdapter extends RecyclerView.Adapter<CouponSelectAdapte
         return listBeans.size();
     }
     public class MyViewHolder extends BaseRecyclerViewHolder {
-        TextView name;
+        TextView name,title;
         public MyViewHolder(View view) {
             super(view);
             name =  view.findViewById(R.id.item_coupon_select);
+            title =  view.findViewById(R.id.item_coupon_select_title);
         }
     }
 }

@@ -47,7 +47,8 @@ public class AppUtil {
     }
 
     /**
-     * 转化时间戳
+     *  转化时间戳
+     * @param pattern:yyyy-MM-dd HH:mm:ss
      * @param date
      * @return
      */

@@ -4,13 +4,19 @@ import java.util.List;
 
 /**
  * 拼go首页更多商品
+ *
+ *   "status":"2",                  status:0-非周五(非当前天);1-未开始;2-进行中;3-已结束;
+ *   "etstr":"1524816000",          结束时间戳
+ *   "ststr":"",                    开始时间戳
+ *   "timestr":"15:50-16:00",       时间提示
+ *
  * Created by d on 2018/4/17.
  */
 
 public class PinGoIndexMoreGoods {
     /**
      * status : 1
-     * data : {"isload":0,"list":[{"id":"1","goodsid":"25728","goodsname":"久久丫甜辣薄豆干好吃的豆腐干","typeid":"1","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/12/F5iAUklELCEcrH755EA8klHikLI5e8.jpg","marketprice":"1.50","stock":"147"},{"id":"2","goodsid":"25670","goodsname":"奶油瓜子现金补拍","typeid":"1","distype":"jian","salecount":null,"thumb":"images/1604/2017/12/PHHJpQvBFjql1Pu7JJJ7Pb1hFlDJ1c.jpg","marketprice":"1.00","stock":"999399"},{"id":"3","goodsid":"25743","goodsname":"马奇新新马来西亚进口LEXUS力士系列巧克力味涂层夹心饼干200g","typeid":"1","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/12/p4Xt84g4r3S88Z3yx49c0xxy7cxGD8.jpg","marketprice":"12.80","stock":"8054"},{"id":"4","goodsid":"25334","goodsname":"鼠大厨开心果108gX1袋 休闲零食坚果炒货干果","typeid":"1","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/12/j5ipzl926p56pPVLto24Z4PLmmTkP6.jpg","marketprice":"15.80","stock":"9293"},{"id":"5","goodsid":"24371","goodsname":"NPVU打底套头毛衣纯色针织衫喇叭袖修身圆领衣服2017秋装新款3954","typeid":"2","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/10/CLgehGKpqeCjPXmeTh1hCZC1REcmND.jpg","marketprice":"162.00","stock":"444"},{"id":"6","goodsid":"25123","goodsname":"儿童宝宝益智玩具7色雪花片100片积木玩具拼插拼装积木玩具","typeid":"3","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/11/CsqQnXZnJl9Zt968FfsQs7j9EFsFZe.jpg","marketprice":"13.80","stock":"13658"},{"id":"7","goodsid":"20179","goodsname":"大号可爱萌条纹趴趴狗毛绒玩具狗玩偶布娃娃爬爬狗生日礼物送女生","typeid":"3","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/09/FtK9AF92a5Aff4L5Tb4Q2kA99j52Q9.png","marketprice":"105.00","stock":"2400"},{"id":"8","goodsid":"24939","goodsname":"加大版150g 韩国春秋冬季獭兔毛领子毛绒围巾女韩版学生围脖 套口","typeid":"2","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/11/V1e18218M8czZo41Omnff1Z0Gj83n5.jpg","marketprice":"16.80","stock":"75363"},{"id":"9","goodsid":"24544","goodsname":" 厂家直销睡衣女春秋时尚韩版休闲套装家居服女士睡衣长袖新品","typeid":"3","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/10/xKDYtYY3FRzK62z8zfFkID8d8j8Fc8.jpg","marketprice":"108.00","stock":"3991"},{"id":"10","goodsid":"23827","goodsname":"风衣女中长款韩版春秋季2017新款英伦大衣宽松港风过膝chic外套潮","typeid":"2","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/10/N63ZWJO2OH2Z6WzPzwGJO3JK60pPoW.jpg","marketprice":"222.00","stock":"840"}]}
+     * data : {"status":"2","etstr":"1524816000","ststr":"","timestr":"15:50-16:00","isload":0,"list":[{"id":"1","goodsid":"25728","goodsname":"久久丫甜辣薄豆干好吃的豆腐干","typeid":"1","distype":"jian","msmaxcount":"20","msonecount":"2","salecount":"13","thumb":"/attachment/images/sz_yi/1604/2017/12/F5iAUklELCEcrH755EA8klHikLI5e8.jpg","productprice":"3.00","marketprice":"0.01","stock":"147"},{"id":"3","goodsid":"25743","goodsname":"马奇新新马来西亚进口LEXUS力士系列巧克力味涂层夹心饼干200g","typeid":"1","distype":"jian","msmaxcount":"10","msonecount":"1","salecount":"0","thumb":"/attachment/images/sz_yi/1604/2017/12/p4Xt84g4r3S88Z3yx49c0xxy7cxGD8.jpg","productprice":"19.90","marketprice":"12.80","stock":"8054"},{"id":"13","goodsid":"25588","goodsname":"莎布蕾武士曲奇 爆浆曲奇 网红零食小吃 软心蔓越莓饼干128g*3袋","typeid":"0","distype":"jian","msmaxcount":"100","msonecount":"1","salecount":"0","thumb":"/attachment/images/sz_yi/1604/2017/12/w5j455s7F26U82W55lS7U6j5s5jUW8.jpg","productprice":"0.00","marketprice":"64.00","stock":"501"}]}
      */
 
     private int status;
@@ -34,12 +40,52 @@ public class PinGoIndexMoreGoods {
 
     public static class DataBean {
         /**
+         * status : 2
+         * etstr : 1524816000
+         * ststr :
+         * timestr : 15:50-16:00
          * isload : 0
-         * list : [{"id":"1","goodsid":"25728","goodsname":"久久丫甜辣薄豆干好吃的豆腐干","typeid":"1","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/12/F5iAUklELCEcrH755EA8klHikLI5e8.jpg","marketprice":"1.50","stock":"147"},{"id":"2","goodsid":"25670","goodsname":"奶油瓜子现金补拍","typeid":"1","distype":"jian","salecount":null,"thumb":"images/1604/2017/12/PHHJpQvBFjql1Pu7JJJ7Pb1hFlDJ1c.jpg","marketprice":"1.00","stock":"999399"},{"id":"3","goodsid":"25743","goodsname":"马奇新新马来西亚进口LEXUS力士系列巧克力味涂层夹心饼干200g","typeid":"1","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/12/p4Xt84g4r3S88Z3yx49c0xxy7cxGD8.jpg","marketprice":"12.80","stock":"8054"},{"id":"4","goodsid":"25334","goodsname":"鼠大厨开心果108gX1袋 休闲零食坚果炒货干果","typeid":"1","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/12/j5ipzl926p56pPVLto24Z4PLmmTkP6.jpg","marketprice":"15.80","stock":"9293"},{"id":"5","goodsid":"24371","goodsname":"NPVU打底套头毛衣纯色针织衫喇叭袖修身圆领衣服2017秋装新款3954","typeid":"2","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/10/CLgehGKpqeCjPXmeTh1hCZC1REcmND.jpg","marketprice":"162.00","stock":"444"},{"id":"6","goodsid":"25123","goodsname":"儿童宝宝益智玩具7色雪花片100片积木玩具拼插拼装积木玩具","typeid":"3","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/11/CsqQnXZnJl9Zt968FfsQs7j9EFsFZe.jpg","marketprice":"13.80","stock":"13658"},{"id":"7","goodsid":"20179","goodsname":"大号可爱萌条纹趴趴狗毛绒玩具狗玩偶布娃娃爬爬狗生日礼物送女生","typeid":"3","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/09/FtK9AF92a5Aff4L5Tb4Q2kA99j52Q9.png","marketprice":"105.00","stock":"2400"},{"id":"8","goodsid":"24939","goodsname":"加大版150g 韩国春秋冬季獭兔毛领子毛绒围巾女韩版学生围脖 套口","typeid":"2","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/11/V1e18218M8czZo41Omnff1Z0Gj83n5.jpg","marketprice":"16.80","stock":"75363"},{"id":"9","goodsid":"24544","goodsname":" 厂家直销睡衣女春秋时尚韩版休闲套装家居服女士睡衣长袖新品","typeid":"3","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/10/xKDYtYY3FRzK62z8zfFkID8d8j8Fc8.jpg","marketprice":"108.00","stock":"3991"},{"id":"10","goodsid":"23827","goodsname":"风衣女中长款韩版春秋季2017新款英伦大衣宽松港风过膝chic外套潮","typeid":"2","distype":"jian","salecount":null,"thumb":"images/sz_yi/1604/2017/10/N63ZWJO2OH2Z6WzPzwGJO3JK60pPoW.jpg","marketprice":"222.00","stock":"840"}]
+         * list : [{"id":"1","goodsid":"25728","goodsname":"久久丫甜辣薄豆干好吃的豆腐干","typeid":"1","distype":"jian","msmaxcount":"20","msonecount":"2","salecount":"13","thumb":"/attachment/images/sz_yi/1604/2017/12/F5iAUklELCEcrH755EA8klHikLI5e8.jpg","productprice":"3.00","marketprice":"0.01","stock":"147"},{"id":"3","goodsid":"25743","goodsname":"马奇新新马来西亚进口LEXUS力士系列巧克力味涂层夹心饼干200g","typeid":"1","distype":"jian","msmaxcount":"10","msonecount":"1","salecount":"0","thumb":"/attachment/images/sz_yi/1604/2017/12/p4Xt84g4r3S88Z3yx49c0xxy7cxGD8.jpg","productprice":"19.90","marketprice":"12.80","stock":"8054"},{"id":"13","goodsid":"25588","goodsname":"莎布蕾武士曲奇 爆浆曲奇 网红零食小吃 软心蔓越莓饼干128g*3袋","typeid":"0","distype":"jian","msmaxcount":"100","msonecount":"1","salecount":"0","thumb":"/attachment/images/sz_yi/1604/2017/12/w5j455s7F26U82W55lS7U6j5s5jUW8.jpg","productprice":"0.00","marketprice":"64.00","stock":"501"}]
          */
 
+        private String status;
+        private String etstr;
+        private String ststr;
+        private String timestr;
         private int isload;
         private List<ListBean> list;
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public String getEtstr() {
+            return etstr;
+        }
+
+        public void setEtstr(String etstr) {
+            this.etstr = etstr;
+        }
+
+        public String getStstr() {
+            return ststr;
+        }
+
+        public void setStstr(String ststr) {
+            this.ststr = ststr;
+        }
+
+        public String getTimestr() {
+            return timestr;
+        }
+
+        public void setTimestr(String timestr) {
+            this.timestr = timestr;
+        }
 
         public int getIsload() {
             return isload;
@@ -64,9 +110,12 @@ public class PinGoIndexMoreGoods {
              * goodsname : 久久丫甜辣薄豆干好吃的豆腐干
              * typeid : 1
              * distype : jian
-             * salecount : null
-             * thumb : images/sz_yi/1604/2017/12/F5iAUklELCEcrH755EA8klHikLI5e8.jpg
-             * marketprice : 1.50
+             * msmaxcount : 20
+             * msonecount : 2
+             * salecount : 13
+             * thumb : /attachment/images/sz_yi/1604/2017/12/F5iAUklELCEcrH755EA8klHikLI5e8.jpg
+             * productprice : 3.00
+             * marketprice : 0.01
              * stock : 147
              */
 
@@ -75,8 +124,11 @@ public class PinGoIndexMoreGoods {
             private String goodsname;
             private String typeid;
             private String distype;
+            private String msmaxcount;
+            private String msonecount;
             private String salecount;
             private String thumb;
+            private String productprice;
             private String marketprice;
             private String stock;
 
@@ -120,6 +172,22 @@ public class PinGoIndexMoreGoods {
                 this.distype = distype;
             }
 
+            public String getMsmaxcount() {
+                return msmaxcount;
+            }
+
+            public void setMsmaxcount(String msmaxcount) {
+                this.msmaxcount = msmaxcount;
+            }
+
+            public String getMsonecount() {
+                return msonecount;
+            }
+
+            public void setMsonecount(String msonecount) {
+                this.msonecount = msonecount;
+            }
+
             public String getSalecount() {
                 return salecount;
             }
@@ -134,6 +202,14 @@ public class PinGoIndexMoreGoods {
 
             public void setThumb(String thumb) {
                 this.thumb = thumb;
+            }
+
+            public String getProductprice() {
+                return productprice;
+            }
+
+            public void setProductprice(String productprice) {
+                this.productprice = productprice;
             }
 
             public String getMarketprice() {

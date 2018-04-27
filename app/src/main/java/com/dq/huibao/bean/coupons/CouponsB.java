@@ -11,7 +11,7 @@ import java.util.List;
 public class CouponsB {
     /**
      * status : 1
-     * data : [{"id":"1","cid":"1","mid":"21","gettime":"1213333311","dotime":"1213123131","starttime":"1213123131","endtime":"1993123131","status":"0","youhui":"100.00"},{"id":"2","cid":"2","mid":"21","gettime":"1213123131","dotime":"1213123131","starttime":"1213123131","endtime":"1993123131","status":"0","youhui":"66.00"}]
+     * data : [{"id":"1","cid":"1","mid":"21","gettime":"1524790568","dotime":"0","starttime":"1524790568","endtime":"1525881600","status":"0","youhui":10,"title":"满20立减10"}]
      */
 
     private int status;
@@ -38,12 +38,13 @@ public class CouponsB {
          * id : 1
          * cid : 1
          * mid : 21
-         * gettime : 1213333311
-         * dotime : 1213123131
-         * starttime : 1213123131
-         * endtime : 1993123131
+         * gettime : 1524790568
+         * dotime : 0
+         * starttime : 1524790568
+         * endtime : 1525881600
          * status : 0
-         * youhui : 100.00
+         * youhui : 10
+         * title : 满20立减10
          */
 
         private String id;
@@ -54,7 +55,8 @@ public class CouponsB {
         private String starttime;
         private String endtime;
         private String status;
-        private String youhui;
+        private int youhui;
+        private String title;
 
         public String getId() {
             return id;
@@ -120,12 +122,20 @@ public class CouponsB {
             this.status = status;
         }
 
-        public String getYouhui() {
+        public int getYouhui() {
             return youhui;
         }
 
-        public void setYouhui(String youhui) {
+        public void setYouhui(int youhui) {
             this.youhui = youhui;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
         }
     }
 }

@@ -376,6 +376,8 @@ public class PinGoActivity extends BaseActivity implements
                 //商品列表
                 intent = new Intent(this, PinGoGoodsActivity.class);
                 intent.putExtra("goodsType", content);
+                intent.putExtra("isms", "0");
+                intent.putExtra("istm", "0");
                 startActivityForResult(intent, CodeUtils.PINGO_HOMEPAGE);
                 break;
             case "custom":
@@ -412,13 +414,20 @@ public class PinGoActivity extends BaseActivity implements
 
                 break;
             case "other":
+
+                //商品列表
+                intent = new Intent(this, PinGoGoodsActivity.class);
+                intent.putExtra("isms","0");
+                intent.putExtra("istm","0");
                 if ("立减金额".equals(content)){
                     content = "jian";
                 }else if ("立打折扣".equals(content)){
                     content = "zhe";
                 }else if ("当季特卖".equals(content)){
+                    intent.putExtra("istm","1");
                     content = "jian";
                 }else if ("周五秒杀".equals(content)){
+                    intent.putExtra("isms","1");
                     content = "jian";
                 }else if ("论坛".equals(content)){
 //                    content = "jian";
@@ -426,8 +435,6 @@ public class PinGoActivity extends BaseActivity implements
                     return;
                 }
 
-                //商品列表
-                intent = new Intent(this, PinGoGoodsActivity.class);
                 intent.putExtra("goodsType", content);
                 startActivityForResult(intent, CodeUtils.PINGO_HOMEPAGE);
                 break;
@@ -511,6 +518,6 @@ public class PinGoActivity extends BaseActivity implements
     protected void onDestroy() {
         super.onDestroy();
         dataList.clear();
-        collegeGoHomeAdapter = null;
+//        collegeGoHomeAdapter = null;
     }
 }

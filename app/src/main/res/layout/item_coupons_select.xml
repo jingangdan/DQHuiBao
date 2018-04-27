@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_horizontal|center_vertical"
+    android:layout_margin="10dp"
+    android:background="@drawable/pressed_coupon">
     <TextView
         android:id="@+id/item_coupon_select"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:gravity="center_horizontal"
-        android:background="@drawable/pressed_coupon"
-        android:textColor="@color/red_normal"
-        android:textSize="16sp"/>
+        android:textColor="@color/select_white_to_red"
+        android:textSize="18sp"/>
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightGray"/>
-</RelativeLayout>
+        android:id="@+id/item_coupon_select_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/select_white_to_red"/>
+</LinearLayout>
