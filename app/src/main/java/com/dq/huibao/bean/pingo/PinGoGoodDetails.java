@@ -4,6 +4,16 @@ import java.util.List;
 
 /**
  * 拼go商品详情
+ *
+ * "isms":"0",      ---秒杀
+ * "istm":"0",      ---特卖
+ * "buystatus":     "1",--是否可以购买，0-不可以;1-可以购买
+ * "buycount"       可购买数量
+ * "status":"0",    status:0-非周五(非当前天);1-未开始;2-进行中;3-已结束
+ * "ststr":"",      开始时间戳
+ * "etstr":"",      结束时间戳
+ * "timestr":"",    时间提示
+ * "salecount":1,
  * Created by d on 2018/4/17.
  */
 
