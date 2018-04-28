@@ -267,6 +267,8 @@
         <activity android:name=".ui.pintuan.MyPinTuanActivity" />
         <activity android:name=".ui.coupons.CouponsGetActivity" />
         <activity android:name=".ui.recharge.RechargeHFActivity" />
+        <activity android:name=".ui.jifen.MyLogsActivity" />
+        <activity android:name=".ui.tixian.TiXianActivity" />
 
         <!--增加图片清晰度-->
         <meta-data

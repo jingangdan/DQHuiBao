@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -154,7 +155,14 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
     /*进入我的小店*/
     @Bind(R.id.tv_gd_store)
     TextView tvGdStore;
-
+    /*市场价格---秒杀时的原价*/
+    @Bind(R.id.tv_gd_oldprice)
+    TextView tvGdOldPrice;
+    /*秒杀状态*/
+    @Bind(R.id.tv_gd_ms_status)
+    TextView tvGdMsStatus;
+    @Bind(R.id.rel_gd_pingo_ms)
+    RelativeLayout rvGdPingoMs;
     /**/
     @Bind(R.id.wv_goodsdetail)
     WebView webView;
@@ -226,6 +234,10 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
     private String token = "", phone = "", username = "",uid = "";
 
     private PinGoGoodDetails goodsDetail;
+    /*是否属于秒杀中,是否可以购买(数量)*/
+    private boolean isMs = false,isBuyMs = false;
+    private int msCount = 0;
+
     /*选择规格*/
     private List<PinGoGoodDetails.DataBean.SpecBean> specsList = new ArrayList<>();
     /*上传规格*/
@@ -239,6 +251,12 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
 
     /*购物车数据*/
     private Cart cart;
+
+    //是否可以添加购物车---(秒杀进行中 && 可添加购物车数量 > 0  => 可购数量 - 购物车数量 = 可添加购物车数量)
+    private boolean isAddCart = true;
+    //必须秒杀状态下，可以添加的购物车数量
+    private int addcartCount = 0;
+    //立即购买需要判断数量 = 可购买数量
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -351,6 +369,10 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
             case R.id.but_gd_put_in:
                 //添加购物车
                 if (isLogin()) {
+                    if (!isAddCart){//不能添加购物车
+                        Toast.makeText(TAG, "该商品购物车已达上限", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     setPopTest(1);
                     setBackgroundBlack(all_choice_layout, 0);
 
@@ -436,11 +458,11 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
             token = login.getData().getToken();
             uid = login.getData().getUid();
             username = login.getData().getNickname();
-            getGoodsDetail(gid, token, phone);
+            getGoodsDetail();
 
         } else {
             //toast("登录状态出错，请重新登录");
-            getGoodsDetail(gid, token, phone);
+            getGoodsDetail();
         }
 
     }
@@ -458,13 +480,10 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
     /**
      * 获取商品详情
      *
-     * @param id
-     * @param token （不用加密，没登陆就不传）
-     * @param phone （不用加密，没登陆就不传）
      */
-    public void getGoodsDetail(String id, String token, String phone) {
+    public void getGoodsDetail() {
         PATH = HttpPath.PINGO_GOODS_DETAIL +
-                "?id=" + id + "&token=" + token + "&phone=" + phone;
+                "?id=" + gid + "&mid=" + uid + "&token=" + token + "&phone=" + phone;
         System.out.println("拼go商品详情 = " + PATH);
         HttpxUtils.Get(TAG, PATH, null, new Callback.CommonCallback<String>() {
             @Override
@@ -523,6 +542,67 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         });
     }
 
+    /**
+     * 添加购物车
+     *
+     * @param phone
+     * @param token
+     * @param gid
+     * @param optionid
+     * @param count
+     */
+    private String cartadd_string = "";
+
+    public void cartAdd(String phone, String token, final String gid, String optionid, int count) {
+
+        MD5_PATH = "count=" + count + "&goodsid=" + gid + "&optionid=" + optionid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
+        PATH = HttpPath.CART_ADD + MD5_PATH + "&type=" + (isBuyMs?"2":"1") + "&sign=" +
+                MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
+        System.out.println("添加购物车 = " + PATH);
+        HttpxUtils.Post(TAG, PATH, null, new Callback.CommonCallback<String>() {
+            @SuppressLint("WrongConstant")
+            @Override
+            public void onSuccess(String result) {
+                cartadd_string = result;
+                System.out.println("添加购物车 = " + result);
+                cart = GsonUtil.gsonIntance().gsonToBean(result, Cart.class);
+                if (cart.getStatus() == 1){
+                    Toast.makeText(TAG, "添加成功", Toast.LENGTH_SHORT).show();
+
+                    for (int i = 0; i < cart.getData().getCart().size(); i++) {
+                        for (int j = 0; j < cart.getData().getCart().get(i).getGoodslist().size(); j++) {
+                            if (gid.equals(cart.getData().getCart().get(i).getGoodslist().get(j).getGoodsid())) {
+                                tvShopcarNum.setText("" + cart.getData().getCart().get(i).getGoodslist().get(j).getCount());
+                            }
+                        }
+
+                    }
+                    getGoodsDetail();
+                    popWindow.dismiss();
+                }else {
+                    Toast.makeText(TAG, cart.getData().getCart().get(0).getGoodslist().get(0).getCount(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+                Toast.makeText(TAG, "添加失败", Toast.LENGTH_SHORT).show();
+                System.out.println("添加购物车 =失败 " + ex.toString());
+                setLoginAgain(cartadd_string);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
     /**
      * 添加收藏
      *
@@ -648,6 +728,29 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         tvGdName.setText("" + title);
         tvGdMarketprice.setText("¥ " + marketprice);
         tvGdTotal.setText("库存：" + total + " 销量：" + sales);
+
+        //秒杀中
+        if (goodsDetail.getData().getStatus().equals("2")){
+            //status:0-非周五(非当前天);1-未开始;2-进行中;3-已结束
+            isMs = true;
+            //是否可以加入购物车
+            addcartCount = Integer.parseInt(goodsDetail.getData().getBuycount()) - Integer.parseInt(goodsDetail.getData().getCartcount());
+            if (addcartCount <= 0){
+                isAddCart = false;
+            }
+            if (goodsDetail.getData().getBuystatus().equals("1")){
+                //"1",--是否可以购买，0-不可以;1-可以购买
+                rvGdPingoMs.setVisibility(View.VISIBLE);
+                tvGdOldPrice.setText("¥ " + marketprice);
+                tvGdOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                tvGdMarketprice.setText("¥ " + goodsDetail.getData().getMsprice());
+                tvGdMsStatus.setText("秒杀中");
+
+                isBuyMs = true;
+
+                msCount = Integer.parseInt(goodsDetail.getData().getBuycount());
+            }
+        }
 
         if (isCollection) {
             ivGdCollection.setImageResource(R.mipmap.ic_collection002);
@@ -799,7 +902,8 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         linAdd = (LinearLayout) view.findViewById(R.id.lin_pop_gd_add);
         linSub = (LinearLayout) view.findViewById(R.id.lin_pop_gd_sub);
 
-        tv_marketprice.setText("￥" + goodsDetail.getData().getMarketprice());
+
+        tv_marketprice.setText("￥" + (isBuyMs?goodsDetail.getData().getMsprice():goodsDetail.getData().getMarketprice()));
         tv_total.setText("库存：" + goodsDetail.getData().getStock());
 
         /*取消*/
@@ -815,6 +919,13 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
             @Override
             public void onClick(View view) {
                 num = Integer.parseInt(tv_num.getText().toString());
+                if (isMs && tag == 1 && num >= addcartCount){//秒杀---购物车
+                    Toast.makeText(TAG, "还可以选购"+addcartCount+"件", Toast.LENGTH_SHORT).show();
+                    return;
+                }else if (isMs && tag == 2 && num >= msCount){//秒杀---直接购买
+                    Toast.makeText(TAG, "限购"+num+"件", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 num++;
                 tv_num.setText("" + num);
             }
@@ -848,7 +959,6 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
                         } else if (tag == 1) {
                             //添加购物车
                             cartAdd(phone, token, gid, optionid, num);
-
                         } else if (tag == 2) {
                             //立即购买
                             toSubActivity();
@@ -863,9 +973,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
                         tvGdSpecification.setText("已选：" + string_name);
                         popWindow.dismiss();
                     } else if (tag == 1) {
-                        //添加购物车
                         cartAdd(phone, token, gid, optionid, num);
-
                     } else if (tag == 2) {
                         //立即购买
                         toSubActivity();
@@ -886,63 +994,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         intent.putExtra("optioned", optionid);
         startActivity(intent);
     }
-    /**
-     * 添加购物车
-     *
-     * @param phone
-     * @param token
-     * @param gid
-     * @param optionid
-     * @param count
-     */
-    private String cartadd_string = "";
 
-    public void cartAdd(String phone, String token, final String gid, String optionid, int count) {
-        MD5_PATH = "count=" + count + "&goodsid=" + gid + "&optionid=" + optionid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
-        PATH = HttpPath.CART_ADD + MD5_PATH + "&type=1"+ "&sign=" +
-                MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
-        System.out.println("添加购物车 = " + PATH);
-        HttpxUtils.Post(TAG, PATH, null, new Callback.CommonCallback<String>() {
-            @SuppressLint("WrongConstant")
-            @Override
-            public void onSuccess(String result) {
-                cartadd_string = result;
-                System.out.println("添加购物车 = " + result);
-                cart = GsonUtil.gsonIntance().gsonToBean(result, Cart.class);
-                if (cart.getData().getCart().size() > 0) {
-                    Toast.makeText(TAG, "添加成功", Toast.LENGTH_SHORT).show();
-
-                    for (int i = 0; i < cart.getData().getCart().size(); i++) {
-                        for (int j = 0; j < cart.getData().getCart().get(i).getGoodslist().size(); j++) {
-                            if (gid.equals(cart.getData().getCart().get(i).getGoodslist().get(j).getGoodsid())) {
-                                tvShopcarNum.setText("" + cart.getData().getCart().get(i).getGoodslist().get(j).getCount());
-                            }
-                        }
-
-                    }
-                    popWindow.dismiss();
-                }
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-
-                Toast.makeText(TAG, "添加失败", Toast.LENGTH_SHORT).show();
-                System.out.println("添加购物车 =失败 " + ex.toString());
-                setLoginAgain(cartadd_string);
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
-    }
 
     /**
      * 加载商品图文详情（html）

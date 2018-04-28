@@ -7,14 +7,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioGroup;
 
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.jifen.JiFenLogsAdapter;
-import com.dq.huibao.adapter.jifen.JiFenLogsUserAdapter;
 import com.dq.huibao.base.BaseFragment;
 import com.dq.huibao.bean.jifen.JiFenLogs;
-import com.dq.huibao.bean.jifen.JiFenUserLogs;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
@@ -31,28 +28,26 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * 我的积分---使用记录
+ * 我的积分---兑换记录
  * Created by d on 2018/4/2.
  */
 
-public class MyJfChileSyFragment extends BaseFragment {
+public class MyJfLogsFragment extends BaseFragment {
     View view = null;/*本地轻量型缓存*/
     @Bind(R.id.list_myjf_child)
     LRecyclerView lRecyclerView;
     private String uid = "", phone = "", token = "";
     int page = 1,pagesize = 20;
 
-    JiFenLogsUserAdapter jiFenLogsAdapter;
+    JiFenLogsAdapter jiFenLogsAdapter;
     LRecyclerViewAdapter lRecyclerViewAdapter;
-    /*当前选择的是否是兑换*/
-    boolean isDuiHuan = true;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_myjf_child, null);
+        view = inflater.inflate(R.layout.fragment_myjf_logs, null);
         ButterKnife.bind(this, view);
 
-        jiFenLogsAdapter = new JiFenLogsUserAdapter(getActivity());
+        jiFenLogsAdapter = new JiFenLogsAdapter(getActivity());
         lRecyclerViewAdapter = new LRecyclerViewAdapter(jiFenLogsAdapter);
         lRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         lRecyclerView.setAdapter(lRecyclerViewAdapter);
@@ -63,21 +58,21 @@ public class MyJfChileSyFragment extends BaseFragment {
             @Override
             public void onLoadMore() {
                 page ++;
-                getShiYongData();
+                getDuihuanData();
             }
         });
         //
-        getShiYongData();
+        getDuihuanData();
         return view;
     }
 
-    public static MyJfChileSyFragment newInstance(String uid, String phone, String token) {
+    public static MyJfLogsFragment newInstance(String uid, String phone, String token) {
 
         Bundle args = new Bundle();
         args.putString("uid",uid);
         args.putString("phone",phone);
         args.putString("token",token);
-        MyJfChileSyFragment fragment = new MyJfChileSyFragment();
+        MyJfLogsFragment fragment = new MyJfLogsFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -96,33 +91,32 @@ public class MyJfChileSyFragment extends BaseFragment {
     protected void lazyLoad() {
 
     }
+
     /**
-     * 积分使用记录
+     * 积分兑换商品记录
      */
-    public void getShiYongData(){
+    public void getDuihuanData(){
         Map<String, String> map = new HashMap<>();
         map.put("mid",uid);
         map.put("page",page+"");
         map.put("pagesize",pagesize+"");
-        //type:score积分 balance现金
-        //recharge充值 exchange兑换 consump消费
-        System.out.println("积分使用记录 = " + map.toString());
-        HttpxUtils.Get(getActivity(),HttpPath.JIFEN_USERLOGS, map,
+        System.out.println("积分兑换商品记录 = " + map.toString());
+        HttpxUtils.Get(getActivity(),HttpPath.JIFEN_LOGS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("积分使用记录 = " + result);
-                        JiFenUserLogs jiFenUserLogs = GsonUtil.gsonIntance().gsonToBean(result, JiFenUserLogs.class);
-                        jiFenLogsAdapter.addAll(jiFenUserLogs.getData());
-                        //
-                        if (jiFenUserLogs.getData() == null || jiFenUserLogs.getData().size() < pagesize){
+                        System.out.println("积分兑换商品记录 = " + result);
+                        JiFenLogs jiFenLogs = GsonUtil.gsonIntance().gsonToBean(result, JiFenLogs.class);
+                        jiFenLogsAdapter.addAll(jiFenLogs.getData());
+                        if (jiFenLogs.getData() == null || jiFenLogs.getData().size() < pagesize){
                             lRecyclerView.setNoMore(true);
                         }
+                        //更新ui
                     }
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("积分使用记录 = 失败" + ex.toString());
+                        System.out.println("积分兑换商品记录 = 失败" + ex.toString());
                     }
 
                     @Override
@@ -136,7 +130,6 @@ public class MyJfChileSyFragment extends BaseFragment {
                     }
                 });
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

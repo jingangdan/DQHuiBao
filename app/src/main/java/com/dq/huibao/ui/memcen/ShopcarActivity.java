@@ -157,7 +157,7 @@ public class ShopcarActivity extends BaseActivity implements
                 phone = login.getData().getPhone();
                 token = login.getData().getToken();
 
-                getCart(phone, token);
+                getCart();
 
                 tvBaseTitle.setText("购物车");
 
@@ -170,10 +170,8 @@ public class ShopcarActivity extends BaseActivity implements
     /**
      * 获取购物车
      *
-     * @param phone
-     * @param token
      */
-    public void getCart(String phone, String token) {
+    public void getCart() {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
         PATH = HttpPath.CART_GET + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
@@ -259,13 +257,16 @@ public class ShopcarActivity extends BaseActivity implements
                     calculate();
 
                 } else {
-                    toast("购物车操作失败");
+                    toast(cart.getData());
+                    getCart();
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                getCart();
+                System.out.println("添加购物车 = " + ex.toString());
+                toast("购物车操作失败");
             }
 
             @Override
@@ -300,7 +301,7 @@ public class ShopcarActivity extends BaseActivity implements
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     toast("" + addrReturn.getData());
-                    getCart(phone, token);
+                    getCart();
                 }
             }
 

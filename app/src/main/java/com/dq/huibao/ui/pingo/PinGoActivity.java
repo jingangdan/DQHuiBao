@@ -272,12 +272,12 @@ public class PinGoActivity extends BaseActivity implements
      */
     public void getCenterTuan() {
         PATH = HttpPath.PINGO_CENTER_TUAN;
-        System.out.println("拼go信息 = " + PATH);
+        System.out.println("拼go中间拼团信息 = " + PATH);
         HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
-                System.out.println("拼go信息 = " + result);
+                System.out.println("拼go中间拼团信息 = " + result);
                 PinGoCenterTuan centerTuan = GsonUtil.gsonIntance().gsonToBean(result, PinGoCenterTuan.class);
                 //刷新数据
                 collegeGoHomeAdapter.refreshPinGo(centerTuan.getData());
@@ -288,7 +288,7 @@ public class PinGoActivity extends BaseActivity implements
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
 
-                System.out.println("拼go信息 =失败 " + ex.toString());
+                System.out.println("拼go中间拼团信息 =失败 " + ex.toString());
             }
 
             @Override
@@ -378,6 +378,7 @@ public class PinGoActivity extends BaseActivity implements
                 intent.putExtra("goodsType", content);
                 intent.putExtra("isms", "0");
                 intent.putExtra("istm", "0");
+                intent.putExtra("title", "拼go");
                 startActivityForResult(intent, CodeUtils.PINGO_HOMEPAGE);
                 break;
             case "custom":
@@ -419,6 +420,7 @@ public class PinGoActivity extends BaseActivity implements
                 intent = new Intent(this, PinGoGoodsActivity.class);
                 intent.putExtra("isms","0");
                 intent.putExtra("istm","0");
+                intent.putExtra("title",content);
                 if ("立减金额".equals(content)){
                     content = "jian";
                 }else if ("立打折扣".equals(content)){

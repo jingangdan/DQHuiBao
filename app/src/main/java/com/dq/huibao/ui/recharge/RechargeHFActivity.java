@@ -11,8 +11,6 @@ import com.dq.huibao.R;
 import com.dq.huibao.adapter.SimpleFragmentPagerAdapter;
 import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.account.Login;
-import com.dq.huibao.ui.jifen.JifenFlFragment;
-import com.dq.huibao.ui.jifen.MyJfFragment;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.SPUserInfo;
 import com.dq.huibao.view.NoScrollViewPager;

@@ -178,7 +178,7 @@ public class FMShopcar extends BaseFragment implements
                 Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
                 phone = login.getData().getPhone();
                 token = login.getData().getToken();
-                getCart(phone, token);
+                getCart();
 
                 tvBaseTitle.setText("购物车");
 
@@ -196,12 +196,10 @@ public class FMShopcar extends BaseFragment implements
     /**
      * 获取购物车
      *
-     * @param phone
-     * @param token
      */
     private String cart_string = "";
 
-    public void getCart(String phone, String token) {
+    public void getCart() {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
 
         PATH = HttpPath.CART_GET + MD5_PATH + "&sign=" +
@@ -310,13 +308,16 @@ public class FMShopcar extends BaseFragment implements
                     calculate();
 
                 } else {
-                    toast("购物车操作失败");
+                    toast(cart.getData());
+                    getCart();
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                toast("购物车操作失败");
+                getCart();
+                System.out.println("添加购物车 = " + ex.toString());
             }
 
             @Override
@@ -352,7 +353,7 @@ public class FMShopcar extends BaseFragment implements
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     toast("" + addrReturn.getData());
-                    getCart(phone, token);
+                    getCart();
                 }
             }
 

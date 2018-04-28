@@ -233,6 +233,7 @@ public class HttpPath {
      * 添加购物车
      * 方式：post/get
      * 参数：
+     * type:0-普通;1-拼go;2-拼go秒杀;;
      * goodsid 商品id
      * optioned 规格id
      * count	添加数量（正负）
@@ -729,7 +730,6 @@ public class HttpPath {
      * 方式:get/post
      * 参数：mid=uid，page,pagesize
      *      type:score积分 balance现金
-     *      actiontype:recharge充值 exchange兑换 consump消费
      */
     public static final String JIFEN_USERLOGS = HEADER + "Score/userlogs";
 
@@ -768,7 +768,7 @@ public class HttpPath {
 
     /**
      * 同学拼go商品详情
-     * 参数：id=id
+     * 参数：id=id,mid=uid
      */
     public static final String PINGO_GOODS_DETAIL = HEADER + "Student/goodsinfo";
 

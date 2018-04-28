@@ -57,7 +57,7 @@ public class PinGoGoodsActivity extends BaseActivity {
     //
     PinGoGoodsAdapter pinGoListGoodsAdapter;
     LRecyclerViewAdapter lRecyclerViewGoodsAdapter;
-    String goodsType = "";
+    String goodsType = "",title = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,17 +89,25 @@ public class PinGoGoodsActivity extends BaseActivity {
         });
 
         goodsType = getIntent().getStringExtra("goodsType");
+        title = getIntent().getStringExtra("title");
         isms = getIntent().getStringExtra("isms");
         istm = getIntent().getStringExtra("istm");
         isms = (isms == null ? "0" : isms);
         istm = (istm == null ? "0" : istm);
         if (istm.equals("1") || isms.equals("1")) {
-
+            if (istm.equals("1")){
+                pingoMsTopTv.setVisibility(View.GONE);
+                pingoMsTopTimeTv.setVisibility(View.GONE);
+            }
         } else {
+            pingoMsTopTv.setVisibility(View.GONE);
+            pingoMsTopTimeTv.setVisibility(View.GONE);
             addHeadView();
             getTopGoods();
         }
         getListGoods();
+
+        setTitleName(title);
     }
 
     //

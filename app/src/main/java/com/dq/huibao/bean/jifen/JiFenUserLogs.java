@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * 积分的使用记录
+ *
+ *  actiontype:recharge充值 exchange兑换 consump消费
  * Created by d on 2018/4/15.
  */
 

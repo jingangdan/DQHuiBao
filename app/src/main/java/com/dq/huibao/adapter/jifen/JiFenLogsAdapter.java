@@ -43,7 +43,7 @@ public class JiFenLogsAdapter extends ListBaseAdapter<JiFenLogs.DataBean> {
                 .placeholder(R.mipmap.icon_stub)
                 .into(imageView);
         name.setText(listBean.getGoodsname());
-        price.setText("价格: ￥" + listBean.getPrice() + "  +  积分:"+listBean.getScore());
+        price.setText("-￥" + listBean.getPrice() + "     积分-"+listBean.getScore());
 //        youfei.setText("运费: ￥" + listBean.getExpprice());
     }
 }
