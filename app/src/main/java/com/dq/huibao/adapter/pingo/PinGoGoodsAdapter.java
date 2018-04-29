@@ -70,7 +70,7 @@ public class PinGoGoodsAdapter extends ListBaseAdapter<PinGoIndexMoreGoods.DataB
             TextView maxnunTv = holder.getView(R.id.item_pingo_goods_list_ms_maxnum);
             holder.getView(R.id.item_pingo_goods_list_isms).setVisibility(View.VISIBLE);
             oldprice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            oldprice.setText("￥" + listBean.getMarketprice());
+            oldprice.setText("￥" + listBean.getProductprice());
             countTv.setText("限购:" + listBean.getMsonecount());
             maxnunTv.setText("总限购:" + listBean.getMsmaxcount());
         }else {

@@ -2,6 +2,7 @@ package com.dq.huibao.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.dq.huibao.view.MyProgressDialog;
 import com.google.gson.Gson;
@@ -40,6 +41,8 @@ public class HttpxUtils {
 //    }
 
     public static <T> Callback.Cancelable Get(Activity activity, String url, Map<String, String> map, final Callback.CommonCallback<String> callback) {
+        Log.d("Http==Get=","url=" + url);
+        Log.d("Http==Get=","map=" + (map == null?"":map.toString()));
         showDialog(activity);
        // myProgressDialog.show();
         RequestParams params = new RequestParams(url);
@@ -82,6 +85,8 @@ public class HttpxUtils {
      * @param <T>
      */
     public static <T> Callback.Cancelable Post(Activity activity, String url, Map<String, Object> map, final Callback.CommonCallback<String> callback) {
+        Log.d("Http==Post=","url=" + url);
+        Log.d("Http==Post=","map=" + (map == null?"":map.toString()));
         showDialog(activity);
         RequestParams params = new RequestParams(url);
         if (null != map) {

@@ -50,6 +50,7 @@ import com.dq.huibao.ui.memcen.ShopcarActivity;
 import com.dq.huibao.ui.memcen.SignRuleActivity;
 import com.dq.huibao.ui.order.OrderActivity;
 import com.dq.huibao.ui.pintuan.MyPinTuanActivity;
+import com.dq.huibao.ui.tixian.BalanceActivity;
 import com.dq.huibao.update.UVService;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
@@ -361,7 +362,9 @@ public class FMMemCen extends BaseFragment implements
                 break;
             case R.id.lin_mc_credit1:
                 //余额
-                toast("余额");
+                intent = new Intent(getActivity(), BalanceActivity.class);
+                intent.putExtra("balance",credit1);
+                startActivity(intent);
                 break;
             case R.id.lin_mc_credit2:
                 //积分

@@ -384,13 +384,16 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
             case R.id.but_gd_bug_new:
                 //立即购买
                 if (isLogin()) {
+                    if (goodsDetail.getData().getBuystatus().equals("0")){
+                        Toast.makeText(TAG, "购买数量到达上限", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     if (optionid.equals("")) {
                         setPopTest(2);
                         setBackgroundBlack(all_choice_layout, 0);
                     } else {
                         toSubActivity();
                     }
-
                 } else {
                     dialog();
                 }
@@ -465,6 +468,15 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
             getGoodsDetail();
         }
 
+    }
+
+    /**
+     * 刷新数据
+     * */
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        initDate();
     }
 
     /*判断登录状态*/
@@ -992,6 +1004,8 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         intent.putExtra("tag", "1");
         intent.putExtra("count", num + "");
         intent.putExtra("optioned", optionid);
+        //type:1-拼go;2-秒杀
+        intent.putExtra("type", goodsDetail.getData().getIsms().equals("1")?"2":"1");
         startActivity(intent);
     }
 

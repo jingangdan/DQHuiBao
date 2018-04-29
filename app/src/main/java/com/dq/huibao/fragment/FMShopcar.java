@@ -436,15 +436,19 @@ public class FMShopcar extends BaseFragment implements
                 }
                 //判断是不是同一个类型---立减或者折扣
                 String typeYH = null;
+                //区分是不是秒杀
+                String type = "1";
                 for (int i = 0; i < shopList.size() ; i++) {
                     for (int j = 0; j < shopList.get(i).getGoodslist().size() ; j++) {
                         if (ids.indexOf(shopList.get(i).getGoodslist().get(j).getId()) >= 0){
                             //被选中的
                             if (typeYH == null){
                                 typeYH = shopList.get(i).getGoodslist().get(j).getDistype();
+                                type = shopList.get(i).getGoodslist().get(j).getType();
                             }
                             if (!typeYH.equals(shopList.get(i).getGoodslist().get(j).getDistype())){
                                 toast("请选同类型商品");
+                                type = shopList.get(i).getGoodslist().get(j).getType();
                                 return;
                             }
                         }
@@ -460,6 +464,7 @@ public class FMShopcar extends BaseFragment implements
                     intent = new Intent(getActivity(), PinGoSubmitOrderActivity.class);
                     intent.putExtra("cartids", ids);
                     intent.putExtra("tag", "0");
+                    intent.putExtra("type", type);
                     startActivityForResult(intent, CodeUtils.CART_FM);
                 }
 

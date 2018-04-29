@@ -91,7 +91,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
 
     /*本地轻量型缓存*/
     private SPUserInfo spUserInfo;
-    private String phone = "", token = "",uid = "",regid = "";
+    private String phone = "", token = "",uid = "",regid = "",type = "1";
 
     /*收货地址*/
     private List<Addr.DataBean> addrList = new ArrayList<>();
@@ -117,6 +117,8 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
         count = intent.getStringExtra("count");
         optionid = intent.getStringExtra("optioned");
         tag = intent.getStringExtra("tag");
+        type = intent.getStringExtra("type");
+        type = (type == null?"1":type);
 
         mManager = new LinearLayoutManager(this);
         submitOrderAdapter = new PinGoSubmitOrderAdapter(this, shopList);
@@ -246,7 +248,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
      * @param addrid  配送地址的市级id
      */
     public void getCheckorderCart(String cartids, String addrid) {
-        MD5_PATH = "?mid=" + uid + "&cartids=" + cartids;
+        MD5_PATH = "?mid=" + uid + "&cartids=" + cartids + "&type=" + type;
 
         PATH = HttpPath.PINGO_CART_ISORDER + MD5_PATH;
         System.out.println("确认订单-购物车 = " + PATH);
@@ -295,6 +297,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
         map.put("goodsid",goodsid);
         map.put("optionid",optionid);
         map.put("count",count);
+        map.put("type",type);
         System.out.println("确认订单（商品详情） = " + map.toString());
         HttpxUtils.Post(this, HttpPath.PINGO_GOOD_ISORDER, map, new Callback.CommonCallback<String>() {
             @Override
@@ -353,6 +356,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
         map.put("tips",remark);
         map.put("distype",shopList.get(0).getList().get(0).getDistype());
         map.put("cartids",cartids);
+        map.put("type",type);
         System.out.println("提交订单-购物车 = " + map.toString());
         HttpxUtils.Post(this, HttpPath.PINGO_CART_SUBMITORDER, map, new Callback.CommonCallback<String>() {
             @Override
@@ -420,6 +424,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
         map.put("optionid",optionid);
         map.put("count",count);
         map.put("allprice",pay_all);
+        map.put("type",type);
         System.out.println("提交订单（立即购买） = " + map.toString());
         HttpxUtils.Post(this, HttpPath.PINGO_GOOD_SUBMITORDER, map, new Callback.CommonCallback<String>() {
             @Override

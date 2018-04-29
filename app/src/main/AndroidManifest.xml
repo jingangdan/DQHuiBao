@@ -268,7 +268,7 @@
         <activity android:name=".ui.coupons.CouponsGetActivity" />
         <activity android:name=".ui.recharge.RechargeHFActivity" />
         <activity android:name=".ui.jifen.MyLogsActivity" />
-        <activity android:name=".ui.tixian.TiXianActivity" />
+        <activity android:name=".ui.tixian.BalanceActivity" />
 
         <!--增加图片清晰度-->
         <meta-data

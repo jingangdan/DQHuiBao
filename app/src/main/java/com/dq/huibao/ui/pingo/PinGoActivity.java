@@ -142,7 +142,6 @@ public class PinGoActivity extends BaseActivity implements
                 }
             }
         });
-        //
     }
 
     /*获取登录返回的数据*/

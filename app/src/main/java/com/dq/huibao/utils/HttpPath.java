@@ -815,6 +815,7 @@ public class HttpPath {
      * 参数：mid=uid
      *      regid=区域id---临沂大学，医专
      *      cartids=购物车id
+     *      type:0-普通;1-拼go;2-拼go秒杀;;
      */
     public static final String PINGO_CART_ISORDER = HEADER + "Student/isorder";
 
@@ -823,6 +824,8 @@ public class HttpPath {
      * 参数：mid=uid
      *      goodsid=区域id---临沂大学，医专
      *      optionid=购物车id
+     *      isms = 详情页getIsms
+     *      type:0-普通;1-拼go;2-拼go秒杀;;
      */
     public static final String PINGO_GOOD_ISORDER = HEADER + "Student/buynow";
 
@@ -836,6 +839,7 @@ public class HttpPath {
      *      regid=地区id
      *      distype=zhe
      *      cartids=1,2
+     *      type:0-普通;1-拼go;2-拼go秒杀;;
      */
     public static final String PINGO_CART_SUBMITORDER = HEADER + "Student/submitorder";
 
@@ -851,6 +855,7 @@ public class HttpPath {
      *      optionid
      *      count
      *      allprice
+     *      type:0-普通;1-拼go;2-拼go秒杀;;
      */
     public static final String PINGO_GOOD_SUBMITORDER = HEADER + "Student/buynoworder";
 
@@ -909,4 +914,8 @@ public class HttpPath {
      * 参数:uid,page,pagesize
      */
     public static final String RECHARGE_ORDER_LOG = HEADER + "Billrecharge/orderList";
+
+    //余额提现===============================================
+
+    public static final String TIXIAN_INDEX = HEADER + "Cash/cash";
 }

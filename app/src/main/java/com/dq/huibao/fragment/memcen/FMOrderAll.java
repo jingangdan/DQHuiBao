@@ -152,7 +152,7 @@ public class FMOrderAll extends BaseFragment implements OrderInterface {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                System.out.println("全部订单列表 = " + ex.toString());
             }
 
             @Override
