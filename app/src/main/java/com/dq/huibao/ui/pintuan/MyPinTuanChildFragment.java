@@ -37,7 +37,7 @@ public class MyPinTuanChildFragment extends BaseFragment {
     public static final String TYPE_2 = "1";//组团成功
     public static final String TYPE_3 = "2";//失败
     View view = null;/*本地轻量型缓存*/
-    @Bind(R.id.list_myjf_child)
+    @Bind(R.id.lrecyclerView)
     LRecyclerView lRecyclerView;
     private String uid = "", phone = "", token = "",type = "";
     int page = 1,pagesize = 20;
@@ -49,7 +49,7 @@ public class MyPinTuanChildFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_myjf_logs, null);
+        view = inflater.inflate(R.layout.lrlist_layout, null);
         ButterKnife.bind(this, view);
 
         pinTuanLogsAdapter = new MyPinTuanLogsAdapter(getActivity());

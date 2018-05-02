@@ -58,7 +58,7 @@ public class PinGoGoodsAdapter extends ListBaseAdapter<PinGoIndexMoreGoods.DataB
 //                .placeholder(R.mipmap.icon_stub)
 //                .into(imageView);
 
-        ImageUtils.loadIntoUseFitWidth2(mContext, listBean.getThumb(), R.mipmap.icon_empty003, imageView);
+        ImageUtils.loadIntoUseFitWidth2(mContext, listBean.getThumb(), R.mipmap.icon_empty, imageView);
 
         name.setText(listBean.getGoodsname());
         price.setText("￥" + listBean.getMarketprice());

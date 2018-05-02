@@ -809,7 +809,6 @@ public class HttpPath {
      * 拼go所属区域选择
      * */
     public static final String PINGO_REGION = HEADER + "Student/region";
-
     /**
      *确认订单--购物车
      * 参数：mid=uid
@@ -860,10 +859,18 @@ public class HttpPath {
     public static final String PINGO_GOOD_SUBMITORDER = HEADER + "Student/buynoworder";
 
     /**
-     * 拼go--订单记录
-     * 参数：mid=uid
+     * 拼go--记录
+     * 参数：mid = uid,page,pagesize
      */
-    public static final String PINGO_MYORDER = HEADER + "Student/myorder";
+    public static final String PINGO_LOGS = HEADER + "Student/mytuanlogs";
+
+    /**
+     * 拼go--团详情
+     * 参数：mid = uid,logid
+     */
+    public static final String PINGO_LOG_INFO = HEADER + "Student/logsintro";
+
+
 
     //优惠卷===================================
     /**

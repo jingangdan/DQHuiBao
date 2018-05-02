@@ -321,10 +321,11 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
 
             case R.id.tv_gd_allgoods:
                 //查看全部商品
-                intent = new Intent(TAG, GoodsListActivity.class);
-                intent.putExtra("content", "cate=");
-                intent.putExtra("catename", "所有商品");
-                intent.putExtra("keywords", "");
+                intent = new Intent(this, PinGoGoodsActivity.class);
+                intent.putExtra("goodsType", "");
+                intent.putExtra("isms", "0");
+                intent.putExtra("istm", "0");
+                intent.putExtra("title", "拼go");
                 startActivity(intent);
 
                 break;
@@ -1005,7 +1006,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         intent.putExtra("count", num + "");
         intent.putExtra("optioned", optionid);
         //type:1-拼go;2-秒杀
-        intent.putExtra("type", goodsDetail.getData().getIsms().equals("1")?"2":"1");
+        intent.putExtra("type", goodsDetail.getData().getIsms().equals("1") && goodsDetail.getData().getStatus().equals("2")?"2":"1");
         startActivity(intent);
     }
 

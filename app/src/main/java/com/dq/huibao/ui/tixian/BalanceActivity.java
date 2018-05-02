@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.memcen.RechargeActivity;
-import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
@@ -27,8 +27,10 @@ import butterknife.OnClick;
 public class BalanceActivity extends AppCompatActivity {
     @Bind(R.id.balance_number)
     TextView tixianBalanceNumber;
-    @Bind(R.id.balance_tv_title)
-    TextView balanceTvTitle;
+    @Bind(R.id.title_tv_title)
+    TextView titleTvTitle;
+    @Bind(R.id.title_tv_right)
+    TextView titleTvRight;
 
     private String phone = "", token = "", uid = "";
     private Intent intent;
@@ -41,17 +43,20 @@ public class BalanceActivity extends AppCompatActivity {
 
         String balance = getIntent().getStringExtra("balance");
 
-        tixianBalanceNumber.setText(balance == null?"0.00":balance);
+        tixianBalanceNumber.setText(balance == null ? "0.00" : balance);
 
         isLogin();
-        balanceTvTitle.setText("余额");
-
+        titleTvTitle.setText("余额");
+        titleTvRight.setText("领券");
     }
 
-    @OnClick({R.id.balance_chonghzi, R.id.balance_tixian,
-            R.id.balance_account, R.id.balance_tv_right})
+    @OnClick({R.id.title_iv_back, R.id.balance_chonghzi, R.id.balance_tixian,
+            R.id.balance_account, R.id.title_tv_right})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.title_iv_back:
+                finish();
+                break;
             case R.id.balance_chonghzi://充值
                 intent = new Intent(this, RechargeActivity.class);
                 intent.putExtra("phone", phone);
@@ -64,7 +69,7 @@ public class BalanceActivity extends AppCompatActivity {
             case R.id.balance_account://管理
 
                 break;
-            case R.id.balance_tv_right://记录
+            case R.id.title_tv_right://记录
 
                 break;
         }

@@ -10,10 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.index.Index;
 import com.dq.huibao.bean.pingo.PinGoIndex;
+import com.dq.huibao.utils.AppUtil;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.ImageUtils;
@@ -62,7 +64,13 @@ public class PinGoimglistAdapter extends RecyclerView.Adapter<PinGoimglistAdapte
         }
         if (appimgList.get(i).getType().equals("other") && !"#".equals(appimgList.get(i).getContent())){
             holder.name.setText(appimgList.get(i).getContent());
+
+            ViewGroup.LayoutParams layoutParams = holder.img.getLayoutParams();
+            layoutParams.height = AppUtil.getWidth()/7;
+            layoutParams.width = AppUtil.getWidth()/7;
+            holder.img.setLayoutParams(layoutParams);
         }
+
         ImageUtils.loadIntoUseFitWidths(mContext,
                 appimgList.get(i).getThumb(),
                 R.mipmap.icon_empty002,

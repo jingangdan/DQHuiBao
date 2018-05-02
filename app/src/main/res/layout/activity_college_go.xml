@@ -1,108 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
+    android:layout_width="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_nonetwork" />
-
-    <LinearLayout
-        android:id="@+id/college_go_network"
+    <include layout="@layout/title_layout"/>
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
-        <com.dq.huibao.refresh.PullToRefreshView
-            android:id="@+id/college_go_hp"
+        <include layout="@layout/layout_nonetwork" />
+
+        <LinearLayout
+            android:id="@+id/college_go_network"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <com.dq.huibao.view.TopicScrollView
-                android:id="@+id/college_go_topicScrollView"
+            <com.dq.huibao.refresh.PullToRefreshView
+                android:id="@+id/college_go_hp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:descendantFocusability="blocksDescendants">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/college_go_listview"
+                <com.dq.huibao.view.TopicScrollView
+                    android:id="@+id/college_go_topicScrollView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true" />
+                    android:layout_height="wrap_content">
 
-                </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:descendantFocusability="blocksDescendants">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/college_go_listview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true" />
+
+                    </RelativeLayout>
 
 
-            </com.dq.huibao.view.TopicScrollView>
+                </com.dq.huibao.view.TopicScrollView>
 
-        </com.dq.huibao.refresh.PullToRefreshView>
+            </com.dq.huibao.refresh.PullToRefreshView>
 
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/search_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:padding="5dp">
-
-        <ImageView
-            android:id="@+id/homepage_location"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="10dp"/>
-        <!--android:src="@mipmap/icon_location"  />-->
-        <LinearLayout
-            android:id="@+id/et_hp_search"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:background="@drawable/bg_top_search">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_margin="10dp"
-                android:src="@mipmap/ic_sreach"/>
-            <TextView
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:background="@color/lightGray"/>
-            <TextView
-                style="@style/text_main"
-                android:layout_weight="1"
-                android:cursorVisible="true"
-                android:gravity="center_vertical"
-                android:hint="输入搜索关键字"
-                android:padding="3dp" />
-            <ImageView
-                android:id="@+id/homepage_scan"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_margin="10dp"
-                android:src="@mipmap/icon_scanning"/>
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/search_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="5dp">
 
-        <ImageView
-            android:id="@+id/homepage_message"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="10dp"/>
-    </LinearLayout>
-</FrameLayout>
+            <ImageView
+                android:id="@+id/homepage_location"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="10dp"/>
+            <!--android:src="@mipmap/icon_location"  />-->
+            <LinearLayout
+                android:id="@+id/et_hp_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:background="@drawable/bg_top_search">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_margin="10dp"
+                    android:src="@mipmap/ic_sreach"/>
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:background="@color/lightGray"/>
+                <TextView
+                    style="@style/text_main"
+                    android:layout_weight="1"
+                    android:cursorVisible="true"
+                    android:gravity="center_vertical"
+                    android:hint="输入搜索关键字"
+                    android:padding="3dp" />
+                <ImageView
+                    android:id="@+id/homepage_scan"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_margin="10dp"
+                    android:src="@mipmap/icon_scanning"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/homepage_message"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>
+

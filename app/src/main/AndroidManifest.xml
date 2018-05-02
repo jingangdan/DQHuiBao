@@ -269,6 +269,8 @@
         <activity android:name=".ui.recharge.RechargeHFActivity" />
         <activity android:name=".ui.jifen.MyLogsActivity" />
         <activity android:name=".ui.tixian.BalanceActivity" />
+        <activity android:name=".ui.pingo.PinGoLogsActivity" />
+        <activity android:name=".ui.pingo.PinGoLogInfoActivity" />
 
         <!--增加图片清晰度-->
         <meta-data

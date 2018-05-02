@@ -237,7 +237,7 @@ public class PinGoGoodsActivity extends BaseActivity {
         String status = goods.getData().getStatus();
         if (status.equals("0")) {//非当前天
             pingoMsTopTv.setText("未开始");
-            pingoMsTopTimeTv.setText("开始时间:" + AppUtil.getDateToString("yyyy-MM-dd HH:mm", Long.parseLong(goods.getData().getStstr()) * 1000));
+            pingoMsTopTimeTv.setText("开始时间:" + goods.getData().getTimestr());
         } else if (status.equals("1")) {//未开始
             pingoMsTopTv.setText("未开始");
             pingoMsTopTimeTv.setText("开始时间:" + AppUtil.getDateToString("yyyy-MM-dd HH:mm", Long.parseLong(goods.getData().getStstr()) * 1000));

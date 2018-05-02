@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="10dp"
+    android:layout_marginBottom="2dp">
+    <TextView
+        android:id="@+id/item_pingo_quyu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="临沂大学"/>
+    <TextView
+        android:id="@+id/item_pingo_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/green_normal"
+        android:layout_below="@+id/item_pingo_quyu"
+        android:text="减"/>
+
+    <TextView
+        android:id="@+id/item_pingo_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_pingo_quyu"
+        android:layout_alignParentRight="true"
+        android:text="完成"/>
+
+    <TextView
+        android:id="@+id/item_pingo_pay_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_pingo_type"
+        android:textColor="@color/red_normal"
+        android:text="0.00"/>
+    <TextView
+        android:id="@+id/item_pingo_pay_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/red_normal"
+        android:layout_below="@+id/item_pingo_type"
+        android:text="未支付"/>
+
+    <TextView
+        android:id="@+id/item_pingo_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_pingo_pay_price"
+        android:text="2018.04.04"/>
+</RelativeLayout>

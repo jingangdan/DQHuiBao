@@ -356,7 +356,17 @@ public class PinGoHomeAdapter extends RecyclerView.Adapter {
             if (listBeans.get(0).getType().equals("other") && !"#".equals(listBeans.get(0).getContent())){
                 layoutid = R.layout.item_pingo_image_text;
             }
-            recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+            GridLayoutManager manager = new GridLayoutManager(mContext,5, GridLayoutManager.VERTICAL, false);
+            manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    if (listBeans.size() == 1) {
+                        return 5;
+                    }
+                    return 1;
+                }
+            });
+            recyclerView.setLayoutManager(manager);
             final PinGoimglistAdapter appimglistAdapter = new PinGoimglistAdapter(mContext, listBeans,layoutid);
             recyclerView.setAdapter(appimglistAdapter);
 

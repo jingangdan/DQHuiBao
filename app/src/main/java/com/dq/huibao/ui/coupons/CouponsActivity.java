@@ -34,7 +34,7 @@ public class CouponsActivity extends AppCompatActivity implements ViewPager.OnPa
     TabLayout tabLayout;
     @Bind(R.id.coupons_tb_noScrollViewPage)
     NoScrollViewPager noScrollViewPager;
-    @Bind(R.id.coupons_tv_title)
+    @Bind(R.id.title_tv_title)
     TextView couponsTvTitle;
 
     private String[] titles = new String[]{"未使用", "已使用", "已过期"};
@@ -64,13 +64,13 @@ public class CouponsActivity extends AppCompatActivity implements ViewPager.OnPa
 
     }
 
-    @OnClick({R.id.coupons_iv_back, R.id.coupons_tv_right})
+    @OnClick({R.id.title_iv_back, R.id.title_tv_right})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.coupons_iv_back://返回
+            case R.id.title_iv_back://返回
                 finish();
                 break;
-            case R.id.coupons_tv_right://领券中心
+            case R.id.title_tv_right://领券中心
                 Intent intent = new Intent(CouponsActivity.this,CouponsGetActivity.class);
                 startActivity(intent);
                 break;

@@ -6,32 +6,31 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dq.huibao.Interface.HomePageInterface;
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.pingo.PinGoHomeAdapter;
 import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.account.Login;
-import com.dq.huibao.bean.homepage.IndexMoreGoods;
-import com.dq.huibao.bean.index.Index;
 import com.dq.huibao.bean.pingo.PinGoCenterTuan;
 import com.dq.huibao.bean.pingo.PinGoIndex;
 import com.dq.huibao.bean.pingo.PinGoIndexMoreGoods;
 import com.dq.huibao.refresh.PullToRefreshView;
-import com.dq.huibao.ui.GoodsDetailsActivity;
 import com.dq.huibao.ui.GoodsListActivity;
 import com.dq.huibao.ui.KeywordsActivity;
 import com.dq.huibao.ui.LoginActivity;
-import com.dq.huibao.ui.pintuan.PinTuanActivity;
 import com.dq.huibao.ui.homepage.WebActivity;
+import com.dq.huibao.ui.pintuan.PinTuanActivity;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
@@ -59,7 +58,7 @@ import butterknife.OnClick;
  * Created by jingang on 2018/1/29.
  */
 
-public class PinGoActivity extends BaseActivity implements
+public class PinGoActivity extends AppCompatActivity implements
         HomePageInterface,
         PullToRefreshView.OnFooterRefreshListener,
         PullToRefreshView.OnHeaderRefreshListener {
@@ -81,6 +80,10 @@ public class PinGoActivity extends BaseActivity implements
     TopicScrollView topicScrollView;
     @Bind(R.id.search_layout)
     LinearLayout searchLayout;
+    @Bind(R.id.title_tv_title)
+    TextView titleTvTitle;
+    @Bind(R.id.title_tv_right)
+    TextView titleTvRight;
     private View view;
     private CustomProgress progressDialog = null;
 
@@ -102,7 +105,7 @@ public class PinGoActivity extends BaseActivity implements
     private Boolean cansign = false;
     private String cur_count = "", cur_money = "";
     //
-    private int page = 1,pagesize = 10;
+    private int page = 1, pagesize = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +114,8 @@ public class PinGoActivity extends BaseActivity implements
         ButterKnife.bind(this, this);
 
         // startProgressDialog();
-        setTitleName("同学拼go");
+        titleTvTitle.setText("同学拼go");
+        titleTvRight.setText("记录");
         getLogin();
 
         pullToRefreshView.setOnHeaderRefreshListener(this);
@@ -121,7 +125,7 @@ public class PinGoActivity extends BaseActivity implements
         pullToRefreshView.setOnScrollChanged(new PullToRefreshView.OnScrollChanged() {
             @Override
             public void onScroll(MotionEvent event) {
-                switch (event.getAction()){
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
                         searchLayout.setVisibility(View.GONE);
                         break;
@@ -135,9 +139,9 @@ public class PinGoActivity extends BaseActivity implements
         topicScrollView.setOnScrollChanged(new TopicScrollView.OnScrollChanged() {
             @Override
             public void onScroll(int t) {
-                if (t < 30){
-                    searchLayout.setBackgroundColor(Color.argb(0,0,0,0));
-                }else {
+                if (t < 30) {
+                    searchLayout.setBackgroundColor(Color.argb(0, 0, 0, 0));
+                } else {
                     searchLayout.setBackgroundColor(getResources().getColor(R.color.bg_white));
                 }
             }
@@ -171,22 +175,41 @@ public class PinGoActivity extends BaseActivity implements
 
     /**
      * 搜索栏的所有点击事件
+     *
      * @param v
      */
-    @OnClick({R.id.homepage_location,R.id.et_hp_search,R.id.homepage_scan,R.id.homepage_message})
-    public void onSearchClick(View v){
-        switch (v.getId()){
+    @OnClick({R.id.homepage_location, R.id.et_hp_search, R.id.homepage_scan, R.id.homepage_message})
+    public void onSearchClick(View v) {
+        switch (v.getId()) {
             case R.id.homepage_location://定位
                 break;
             case R.id.et_hp_search://搜索
                 //搜索
                 intent = new Intent(PinGoActivity.this, KeywordsActivity.class);
-                intent.putExtra("searchType",1);
+                intent.putExtra("searchType", 1);
                 startActivity(intent);
                 break;
             case R.id.homepage_scan://扫描二维码
                 break;
             case R.id.homepage_message://消息
+                break;
+        }
+    }
+
+    @OnClick({R.id.but_refresh,R.id.title_iv_back,R.id.title_tv_right})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.title_iv_back:
+                finish();
+                break;
+            case R.id.but_refresh:
+                getLogin();
+                break;
+            case R.id.title_tv_right:
+                Intent intent = new Intent(this,PinGoLogsActivity.class);
+                startActivity(intent);
+                break;
+            default:
                 break;
         }
     }
@@ -238,6 +261,7 @@ public class PinGoActivity extends BaseActivity implements
             @SuppressLint("WrongConstant")
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
+                System.out.println("拼go首页 = 失败" + ex.toString());
                 //stopProgressDialog();
                 linHpNetwork.setVisibility(View.GONE);
                 linHpNonetwork.setVisibility(View.VISIBLE);
@@ -248,10 +272,10 @@ public class PinGoActivity extends BaseActivity implements
                     int responseCode = httpEx.getCode();
                     String responseMsg = httpEx.getMessage();
                     String errorResult = httpEx.getResult();
-                    toast("" + responseMsg);
+                    Toast.makeText(PinGoActivity.this, "" + responseMsg, Toast.LENGTH_SHORT).show();
                 } else {
                     //其他错误
-                    toast("网络不佳，请重试");
+                    Toast.makeText(PinGoActivity.this, "网络不佳，请重试", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -266,6 +290,7 @@ public class PinGoActivity extends BaseActivity implements
             }
         });
     }
+
     /**
      * 获取拼go中间拼团信息
      */
@@ -301,15 +326,16 @@ public class PinGoActivity extends BaseActivity implements
             }
         });
     }
+
     /**
      * 获取底部更多商品
      */
-    public void getMoreGoods(){
-        Map<String,String> map = new HashMap<>();
-        map.put("page",page + "");
-        map.put("pagesize",pagesize + "");
+    public void getMoreGoods() {
+        Map<String, String> map = new HashMap<>();
+        map.put("page", page + "");
+        map.put("pagesize", pagesize + "");
         map.put("isindex", "1");
-        HttpxUtils.Get(this,HttpPath.PINGO_MORE_GOODS, map,
+        HttpxUtils.Get(this, HttpPath.PINGO_MORE_GOODS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -344,7 +370,7 @@ public class PinGoActivity extends BaseActivity implements
         switch (type) {
             case "url":
                 //拼团
-                if ("pintuan".equals(content)){
+                if ("pintuan".equals(content)) {
                     intent = new Intent(this, PinTuanActivity.class);
                     startActivity(intent);
                     return;
@@ -403,7 +429,7 @@ public class PinGoActivity extends BaseActivity implements
                     if (isLogin()) {
                         if (!(spUserInfo.getLoginReturn().equals(""))) {
 
-                           } else {
+                        } else {
                             dialog();
                         }
                     } else {
@@ -417,22 +443,22 @@ public class PinGoActivity extends BaseActivity implements
 
                 //商品列表
                 intent = new Intent(this, PinGoGoodsActivity.class);
-                intent.putExtra("isms","0");
-                intent.putExtra("istm","0");
-                intent.putExtra("title",content);
-                if ("立减金额".equals(content)){
+                intent.putExtra("isms", "0");
+                intent.putExtra("istm", "0");
+                intent.putExtra("title", content);
+                if ("立减金额".equals(content)) {
                     content = "jian";
-                }else if ("立打折扣".equals(content)){
+                } else if ("立打折扣".equals(content)) {
                     content = "zhe";
-                }else if ("当季特卖".equals(content)){
-                    intent.putExtra("istm","1");
+                } else if ("当季特卖".equals(content)) {
+                    intent.putExtra("istm", "1");
                     content = "jian";
-                }else if ("周五秒杀".equals(content)){
-                    intent.putExtra("isms","1");
+                } else if ("周五秒杀".equals(content)) {
+                    intent.putExtra("isms", "1");
                     content = "jian";
-                }else if ("论坛".equals(content)){
+                } else if ("论坛".equals(content)) {
 //                    content = "jian";
-                    toast("开发中");
+                    Toast.makeText(this, "开发中", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
