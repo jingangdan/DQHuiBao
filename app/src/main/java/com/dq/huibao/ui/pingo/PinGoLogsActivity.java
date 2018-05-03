@@ -54,15 +54,15 @@ public class PinGoLogsActivity extends BaseActivity{
         //
         logsAdapter = new PinGoLogsAdapter(this);
         lRecyclerViewGoodsAdapter = new LRecyclerViewAdapter(logsAdapter);
-        lRecyclerViewGoodsAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                intent = new Intent(PinGoLogsActivity.this,PinGoLogInfoActivity.class);
-                intent.putExtra("uid",uid);
-                intent.putExtra("logid",logsAdapter.getDataList().get(position).getId());
-                startActivity(intent);
-            }
-        });
+//        lRecyclerViewGoodsAdapter.setOnItemClickListener(new OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                intent = new Intent(PinGoLogsActivity.this,PinGoLogInfoActivity.class);
+//                intent.putExtra("uid",uid);
+//                intent.putExtra("logid",logsAdapter.getDataList().get(position).getId());
+//                startActivity(intent);
+//            }
+//        });
         lrecyclerView.setLayoutManager(new LinearLayoutManager(this));
         lrecyclerView.setAdapter(lRecyclerViewGoodsAdapter);
 

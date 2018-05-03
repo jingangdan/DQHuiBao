@@ -43,7 +43,9 @@ public class PinGoGoodsAdapter extends ListBaseAdapter<PinGoIndexMoreGoods.DataB
         TextView name = holder.getView(R.id.item_pingo_goods_list_name);
         TextView price = holder.getView(R.id.item_pingo_goods_list_price);
         TextView oldprice = holder.getView(R.id.item_pingo_goods_list_old_price);
-        RelativeLayout jindu = holder.getView(R.id.item_pingo_goods_list_pro_layout);
+//        RelativeLayout jindu = holder.getView(R.id.item_pingo_goods_list_pro_layout);
+        TextView baifenbi = holder.getView(R.id.item_pingo_goods_list_progress_text);//百分比
+        ProgressBar progressBar = holder.getView(R.id.item_pingo_goods_list_progress);
 
         //马上抢
         TextView qianggou = holder.getView(R.id.item_pingo_goods_list_msq);
@@ -61,33 +63,30 @@ public class PinGoGoodsAdapter extends ListBaseAdapter<PinGoIndexMoreGoods.DataB
         ImageUtils.loadIntoUseFitWidth2(mContext, listBean.getThumb(), R.mipmap.icon_empty, imageView);
 
         name.setText(listBean.getGoodsname());
-        price.setText("￥" + listBean.getMarketprice());
-
+        price.setText(listBean.getMarketprice());
+        oldprice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        oldprice.setText("￥" + listBean.getProductprice());
+        progressBar.setMax(Integer.parseInt(listBean.getStock()));
+        progressBar.setProgress(Integer.parseInt(listBean.getSalecount()));
+        baifenbi.setText("已售" + Integer.parseInt(listBean.getSalecount()) * 100 / Integer.parseInt(listBean.getStock()) + "%");
         if (type == 1){
             //周五秒杀
-            jindu.setVisibility(View.GONE);
-            TextView countTv = holder.getView(R.id.item_pingo_goods_list_ms_count);
-            TextView maxnunTv = holder.getView(R.id.item_pingo_goods_list_ms_maxnum);
-            holder.getView(R.id.item_pingo_goods_list_isms).setVisibility(View.VISIBLE);
-            oldprice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            oldprice.setText("￥" + listBean.getProductprice());
-            countTv.setText("限购:" + listBean.getMsonecount());
-            maxnunTv.setText("总限购:" + listBean.getMsmaxcount());
+//            TextView countTv = holder.getView(R.id.item_pingo_goods_list_ms_count);
+//            TextView maxnunTv = holder.getView(R.id.item_pingo_goods_list_ms_maxnum);
+//            holder.getView(R.id.item_pingo_goods_list_isms).setVisibility(View.VISIBLE);
+//            countTv.setText("限购   " + listBean.getMsonecount() + "/" +listBean.getMsmaxcount());
+//            maxnunTv.setText("总限购:");
         }else {
             //正常下
             TextView youhui = holder.getView(R.id.item_pingo_goods_list_youhui);
             TextView number = holder.getView(R.id.item_pingo_goods_list_number);
-            TextView baifenbi = holder.getView(R.id.item_pingo_goods_list_progress_text);//百分比
-            ProgressBar progressBar = holder.getView(R.id.item_pingo_goods_list_progress);
             //进度条
 //        oldprice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 //        oldprice.setText("￥" + listBean.getMarketprice());
 
             youhui.setVisibility(View.GONE);
             number.setText(listBean.getSalecount() + "已抢");
-            progressBar.setMax(Integer.parseInt(listBean.getStock()));
-            progressBar.setProgress(Integer.parseInt(listBean.getSalecount()));
-            baifenbi.setText(Integer.parseInt(listBean.getSalecount()) * 100 / Integer.parseInt(listBean.getStock())+"%");
+
         }
 
 

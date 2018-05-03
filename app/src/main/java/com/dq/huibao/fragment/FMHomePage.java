@@ -1,6 +1,7 @@
 package com.dq.huibao.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -66,6 +68,8 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.content.Context.ACTIVITY_SERVICE;
 
 /**
  * 首页
@@ -391,6 +395,7 @@ public class FMHomePage extends BaseFragment implements
 
                         IndexMoreGoods indexMoreGoods = GsonUtil.gsonIntance().gsonToBean(result, IndexMoreGoods.class);
                         homeRecycleAdapter.setMoreGoods(indexMoreGoods.getData().getList());
+
                     }
 
                     @Override
@@ -409,6 +414,7 @@ public class FMHomePage extends BaseFragment implements
                     }
                 });
     }
+
     @OnClick({R.id.but_refresh})
     public void onClick(View view) {
         switch (view.getId()) {

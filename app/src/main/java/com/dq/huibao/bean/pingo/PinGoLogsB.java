@@ -11,7 +11,7 @@ import java.util.List;
 public class PinGoLogsB {
     /**
      * status : 1
-     * data : [{"id":"1","tuanid":"1","regid":"2","price":"0.01","paystatus":"1","remoney":null,"restatus":"0","addtime":"1524361631","paytype":"2","distype":"jian","tips":"","regname":"山东医专","tuan":{"maxcount":"5","nowcount":"1","status":"2"}},{"id":"2","tuanid":"2","regid":"2","price":"1.00","paystatus":"1","remoney":null,"restatus":"0","addtime":"1524361684","paytype":"2","distype":"jian","tips":"","regname":"山东医专","tuan":{"maxcount":"5","nowcount":"1","status":"2"}},{"id":"3","tuanid":"3","regid":"1","price":"0.01","paystatus":"1","remoney":null,"restatus":"0","addtime":"1524362388","paytype":"2","distype":"jian","tips":"","regname":"临沂大学城","tuan":{"maxcount":"5","nowcount":"1","status":"2"}},{"id":"8","tuanid":"0","regid":"1","price":"0.01","paystatus":"0","remoney":null,"restatus":"0","addtime":"1524473806","paytype":"2","distype":"jian","tips":"","regname":"临沂大学城","tuan":{"maxcount":0,"nowcount":0,"status":0}},{"id":"9","tuanid":"6","regid":"2","price":"7.00","paystatus":"0","remoney":null,"restatus":"0","addtime":"1524473821","paytype":"1","distype":"jian","tips":"","regname":"山东医专","tuan":{"maxcount":"5","nowcount":"2","status":"1"}},{"id":"10","tuanid":"4","regid":"1","price":"45.00","paystatus":"1","remoney":null,"restatus":"0","addtime":"1524474193","paytype":"2","distype":"jian","tips":"","regname":"临沂大学城","tuan":{"maxcount":"5","nowcount":"2","status":"2"}},{"id":"13","tuanid":"0","regid":"1","price":"0.01","paystatus":"0","remoney":null,"restatus":"0","addtime":"1524622042","paytype":"2","distype":"jian","tips":"","regname":"临沂大学城","tuan":{"maxcount":0,"nowcount":0,"status":0}},{"id":"14","tuanid":"0","regid":"1","price":"52.04","paystatus":"0","remoney":null,"restatus":"0","addtime":"1524622457","paytype":"2","distype":"jian","tips":"","regname":"临沂大学城","tuan":{"maxcount":0,"nowcount":0,"status":0}},{"id":"16","tuanid":"10","regid":"1","price":"0.01","paystatus":"1","remoney":null,"restatus":"0","addtime":"1524791692","paytype":"2","distype":"jian","tips":"","regname":"临沂大学城","tuan":{"maxcount":"5","nowcount":"1","status":"2"}},{"id":"17","tuanid":"11","regid":"1","price":"7.00","paystatus":"1","remoney":null,"restatus":"0","addtime":"1524880338","paytype":"2","distype":"jian","tips":"","regname":"临沂大学城","tuan":{"maxcount":"5","nowcount":"1","status":"2"}}]
+     * data : [{"id":"25","tuanid":"18","regid":"1","price":"0.01","paystatus":"1","remoney":"0","restatus":"0","addtime":"1525336600","paytype":"2","distype":"jian","tips":"","userlist":[{"mid":"38","headimgurl":"/attachement/user/shop/head.jpg"},{"mid":"21","headimgurl":"/attachment/user//20180404/1522808772_326938360.jpg"}],"regname":"临沂大学城","tuan":{"maxcount":"5","nowcount":"2","status":"0"},"goodsname":"久久丫甜辣薄豆干好吃的豆腐干","thumb":"/attachment/images/sz_yi/1604/2017/12/F5iAUklELCEcrH755EA8klHikLI5e8.jpg"},{"id":"9","tuanid":"6","regid":"2","price":"7.00","paystatus":"0","remoney":"0","restatus":"0","addtime":"1524473821","paytype":"1","distype":"jian","tips":"","userlist":[{"mid":"25","headimgurl":"/attachement/user/shop/head.jpg"},{"mid":"21","headimgurl":"/attachment/user//20180404/1522808772_326938360.jpg"}],"regname":"山东医专","tuan":{"maxcount":"5","nowcount":"2","status":"1"},"goodsname":"奶油葵花籽 美味奶油瓜子坚果炒货休闲零食","thumb":""},{"id":"22","tuanid":"14","regid":"1","price":"162.00","paystatus":"1","remoney":"0","restatus":"0","addtime":"1525226489","paytype":"2","distype":"jian","tips":"","userlist":[{"mid":"21","headimgurl":"/attachment/user//20180404/1522808772_326938360.jpg"}],"regname":"临沂大学城","tuan":{"maxcount":"5","nowcount":"1","status":"2"},"goodsname":"NPVU打底套头毛衣纯色针织衫喇叭袖修身圆领衣服2017秋装新款3954","thumb":""},{"id":"21","tuanid":"13","regid":"1","price":"0.01","paystatus":"1","remoney":"0","restatus":"0","addtime":"1525226431","paytype":"2","distype":"jian","tips":"","userlist":[{"mid":"21","headimgurl":"/attachment/user//20180404/1522808772_326938360.jpg"}],"regname":"临沂大学城","tuan":{"maxcount":"5","nowcount":"1","status":"2"},"goodsname":"久久丫甜辣薄豆干好吃的豆腐干","thumb":""},{"id":"20","tuanid":"15","regid":"1","price":"13.80","paystatus":"1","remoney":"0","restatus":"0","addtime":"1525221927","paytype":"2","distype":"zhe","tips":"","userlist":[{"mid":"21","headimgurl":"/attachment/user//20180404/1522808772_326938360.jpg"}],"regname":"临沂大学城","tuan":{"maxcount":"5","nowcount":"1","status":"2"},"goodsname":"儿童宝宝益智玩具7色雪花片100片积木玩具拼插拼装积木玩具","thumb":""},{"id":"19","tuanid":"16","regid":"1","price":"13.80","paystatus":"1","remoney":"0","restatus":"0","addtime":"1525221899","paytype":"2","distype":"zhe","tips":"","userlist":[{"mid":"21","headimgurl":"/attachment/user//20180404/1522808772_326938360.jpg"}],"regname":"临沂大学城","tuan":{"maxcount":"5","nowcount":"1","status":"2"},"goodsname":"儿童宝宝益智玩具7色雪花片100片积木玩具拼插拼装积木玩具","thumb":""},{"id":"17","tuanid":"11","regid":"1","price":"7.00","paystatus":"1","remoney":"0","restatus":"0","addtime":"1524880338","paytype":"2","distype":"jian","tips":"","userlist":[{"mid":"21","headimgurl":"/attachment/user//20180404/1522808772_326938360.jpg"}],"regname":"临沂大学城","tuan":{"maxcount":"5","nowcount":"1","status":"2"},"goodsname":"奶油葵花籽 美味奶油瓜子坚果炒货休闲零食","thumb":""},{"id":"16","tuanid":"10","regid":"1","price":"0.01","paystatus":"1","remoney":"0","restatus":"0","addtime":"1524791692","paytype":"2","distype":"jian","tips":"","userlist":[{"mid":"21","headimgurl":"/attachment/user//20180404/1522808772_326938360.jpg"}],"regname":"临沂大学城","tuan":{"maxcount":"5","nowcount":"1","status":"2"},"goodsname":"久久丫甜辣薄豆干好吃的豆腐干","thumb":""},{"id":"10","tuanid":"4","regid":"1","price":"45.00","paystatus":"1","remoney":"0","restatus":"0","addtime":"1524474193","paytype":"2","distype":"jian","tips":"","userlist":[{"mid":"25","headimgurl":"/attachement/user/shop/head.jpg"},{"mid":"21","headimgurl":"/attachment/user//20180404/1522808772_326938360.jpg"}],"regname":"临沂大学城","tuan":{"maxcount":"5","nowcount":"2","status":"2"},"goodsname":"大号可爱萌条纹趴趴狗毛绒玩具狗玩偶布娃娃爬爬狗生日礼物送女生","thumb":""},{"id":"3","tuanid":"3","regid":"1","price":"0.01","paystatus":"1","remoney":"0","restatus":"0","addtime":"1524362388","paytype":"2","distype":"jian","tips":"","userlist":[{"mid":"21","headimgurl":"/attachment/user//20180404/1522808772_326938360.jpg"}],"regname":"临沂大学城","tuan":{"maxcount":"5","nowcount":"1","status":"2"},"goodsname":"久久丫甜辣薄豆干好吃的豆腐干","thumb":""}]
      */
 
     private int status;
@@ -35,19 +35,22 @@ public class PinGoLogsB {
 
     public static class DataBean {
         /**
-         * id : 1
-         * tuanid : 1
-         * regid : 2
+         * id : 25
+         * tuanid : 18
+         * regid : 1
          * price : 0.01
          * paystatus : 1
-         * remoney : null
+         * remoney : 0
          * restatus : 0
-         * addtime : 1524361631
+         * addtime : 1525336600
          * paytype : 2
          * distype : jian
          * tips :
-         * regname : 山东医专
-         * tuan : {"maxcount":"5","nowcount":"1","status":"2"}
+         * userlist : [{"mid":"38","headimgurl":"/attachement/user/shop/head.jpg"},{"mid":"21","headimgurl":"/attachment/user//20180404/1522808772_326938360.jpg"}]
+         * regname : 临沂大学城
+         * tuan : {"maxcount":"5","nowcount":"2","status":"0"}
+         * goodsname : 久久丫甜辣薄豆干好吃的豆腐干
+         * thumb : /attachment/images/sz_yi/1604/2017/12/F5iAUklELCEcrH755EA8klHikLI5e8.jpg
          */
 
         private String id;
@@ -63,6 +66,9 @@ public class PinGoLogsB {
         private String tips;
         private String regname;
         private TuanBean tuan;
+        private String goodsname;
+        private String thumb;
+        private List<UserlistBean> userlist;
 
         public String getId() {
             return id;
@@ -168,11 +174,35 @@ public class PinGoLogsB {
             this.tuan = tuan;
         }
 
+        public String getGoodsname() {
+            return goodsname;
+        }
+
+        public void setGoodsname(String goodsname) {
+            this.goodsname = goodsname;
+        }
+
+        public String getThumb() {
+            return thumb;
+        }
+
+        public void setThumb(String thumb) {
+            this.thumb = thumb;
+        }
+
+        public List<UserlistBean> getUserlist() {
+            return userlist;
+        }
+
+        public void setUserlist(List<UserlistBean> userlist) {
+            this.userlist = userlist;
+        }
+
         public static class TuanBean {
             /**
              * maxcount : 5
-             * nowcount : 1
-             * status : 2
+             * nowcount : 2
+             * status : 0
              */
 
             private String maxcount;
@@ -201,6 +231,32 @@ public class PinGoLogsB {
 
             public void setStatus(String status) {
                 this.status = status;
+            }
+        }
+
+        public static class UserlistBean {
+            /**
+             * mid : 38
+             * headimgurl : /attachement/user/shop/head.jpg
+             */
+
+            private String mid;
+            private String headimgurl;
+
+            public String getMid() {
+                return mid;
+            }
+
+            public void setMid(String mid) {
+                this.mid = mid;
+            }
+
+            public String getHeadimgurl() {
+                return headimgurl;
+            }
+
+            public void setHeadimgurl(String headimgurl) {
+                this.headimgurl = headimgurl;
             }
         }
     }

@@ -35,31 +35,69 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:gravity="bottom"
             android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red_normal"
+                android:textSize="16sp"
+                android:text="￥"/>
             <TextView
                 android:id="@+id/item_pingo_goods_list_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/red_normal"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:id="@+id/item_pingo_goods_list_old_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="16sp"/>
+                android:textColor="@color/red_normal"
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/item_pingo_goods_list_msq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:visibility="gone"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:textColor="@color/white"
-                android:text="抢购"
+                android:text="去抢购"
                 android:background="@drawable/yuanjiao_red"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/item_pingo_goods_list_pro_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
+            <TextView
+                android:id="@+id/item_pingo_goods_list_old_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/item_pingo_goods_list_progress_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:textSize="11sp"/>
+            <ProgressBar
+                android:id="@+id/item_pingo_goods_list_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="8dp"
+                android:layout_weight="2"
+                style="?android:progressBarStyleHorizontal"
+                android:progressDrawable="@drawable/progressbar_pingo_goods"/>
+            <TextView
+                android:id="@+id/item_pingo_goods_list_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textColor="@color/red_normal"
+                android:text="sddsdf"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/item_pingo_goods_list_isms"
@@ -80,35 +118,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
+                android:visibility="gone"
                 android:textColor="@color/black"/>
         </LinearLayout>
-        <RelativeLayout
-            android:id="@+id/item_pingo_goods_list_pro_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp">
-            <ProgressBar
-                android:id="@+id/item_pingo_goods_list_progress"
-                android:layout_width="130dp"
-                android:layout_height="20dp"
-                style="?android:progressBarStyleHorizontal"
-                android:progressDrawable="@drawable/progressbar_pingo_goods"/>
-            <TextView
-                android:id="@+id/item_pingo_goods_list_progress_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
-                android:layout_centerVertical="true"
-                android:textColor="@color/white"
-                android:textSize="9sp"/>
-            <TextView
-                android:id="@+id/item_pingo_goods_list_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/red_normal"
-                android:text="sddsdf"/>
-        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>
