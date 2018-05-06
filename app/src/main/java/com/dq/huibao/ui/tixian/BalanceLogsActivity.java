@@ -46,8 +46,18 @@ public class BalanceLogsActivity extends BaseActivity {
         ButterKnife.bind(this);
         logsAdapter = new TiXianLogsAdapter(this) {
             @Override
-            public void cancle(String id) {
-                quxiao(id);
+            public void cancle(final String id) {
+                ShowUtils.showDialog(BalanceLogsActivity.this, "提示", "是否取消", new ShowUtils.OnDialogListener() {
+                    @Override
+                    public void confirm() {
+                        quxiao(id);
+                    }
+
+                    @Override
+                    public void cancel() {
+
+                    }
+                });
             }
         };
         lRecyclerViewGoodsAdapter = new LRecyclerViewAdapter(logsAdapter);

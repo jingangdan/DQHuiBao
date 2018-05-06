@@ -51,9 +51,9 @@ public abstract class TiXianLogsAdapter extends ListBaseAdapter<TiXianLogsB.Data
         time.setText(AppUtil.getDateToString("yyyy.MM.dd",Long.parseLong(listBean.getCtime()) * 1000));
 
         //Status 0 处理中 1 提现成功 2提现失败 -1 提现申请已取消
-        if (listBean.getStatus().equals(0)){
+        if (listBean.getStatus().equals("0")){
             holder.getView(R.id.item_tixian_quxiao).setVisibility(View.VISIBLE);
-            holder.getView(R.id.item_tixian_desc).setOnClickListener(new View.OnClickListener() {
+            holder.getView(R.id.item_tixian_quxiao).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     cancle(listBean.getId());
