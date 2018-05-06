@@ -522,7 +522,9 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
                 total = "" + goodsDetail.getData().getStock();
                 sales = "" + goodsDetail.getData().getSalecount();
                 content = goodsDetail.getData().getContent();
+
 //                isCollection = goodsDetail.getData().getCollect();
+
 
                 tvGdTitle.setText("" + goodsDetail.getData().getGoodsname());
 

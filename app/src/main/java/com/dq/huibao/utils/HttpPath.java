@@ -772,38 +772,6 @@ public class HttpPath {
      */
     public static final String PINGO_GOODS_DETAIL = HEADER + "Student/goodsinfo";
 
-    /**
-     * 同学拼go购物车列表
-     * 参数：mid=id
-     */
-
-    public static final String PINGO_CARTLIST = HEADER + "Student/cartlist";
-
-    /**
-     * 同学拼go购物车添加商品
-     * 参数：mid=id
-     *      goodsid
-     *      count
-     *      optionid
-     */
-    public static final String PINGO_CART_ADD = HEADER + "Student/addcart";
-
-    /**
-     * 同学拼go购物车删除商品
-     * 参数：mid=id
-     *      id=购物车id
-     */
-    public static final String PINGO_CART_DELETE = HEADER + "Student/delcart";
-
-    /**
-     * 同学拼go购物车更新
-     * 参数：id=id--购物车id
-     *      mid=uid
-     *      goodsid
-     *      count=1默认
-     *      dotype 选项：inc/dec  inc增加；dec减少
-     */
-    public static final String PINGO_CART_UPDATA = HEADER + "Student/upcartcount";
 
     /**
      * 拼go所属区域选择
@@ -866,7 +834,7 @@ public class HttpPath {
 
     /**
      * 拼go--团详情
-     * 参数：mid = uid,logid
+     * 参数：mid = uid,logid,type:0-进行中;1-已完成;2-已失败;
      */
     public static final String PINGO_LOG_INFO = HEADER + "Student/logsintro";
 
@@ -923,6 +891,46 @@ public class HttpPath {
     public static final String RECHARGE_ORDER_LOG = HEADER + "Billrecharge/orderList";
 
     //余额提现===============================================
-
+    /**
+     * 提现首页--提现账号列表
+     */
     public static final String TIXIAN_INDEX = HEADER + "Cash/cash";
+
+    /**
+     * 提现记录
+     * 参数:uid
+     */
+    public static final String TIXIAN_LOGS = HEADER + "Cash/cashlist";
+
+    /**
+     * 获取一条账号信息
+     * 参数:accountid
+     */
+    public static final String TIXIAN_GET_ACCOUNTINFO = HEADER + "Cash/getInfoOne";
+
+    /**
+     * 修改提现信息
+     * 参数:action     //类型 add添加 edit编辑 del 删除
+     *      uid
+     *      type//账号类型 1 银行卡 2 支付宝
+     *      desc       对支付账号的鸟叔
+     *      account  //支付账号
+     *      accountid  账号信息表id
+     */
+    public static final String TIXIAN_EDIT = HEADER + "Cash/completeInfo";
+
+    /**
+     * 发起提现申请
+     * 参数:Uid;
+     *      Accounid//支付账号记录id;
+     *      Money//提现金额
+     */
+    public static final String TIXIAN_APPLYCASH = HEADER + "Cash/applyCash";
+
+    /**
+     * 取消提现申请
+     * 参数:accounid
+     */
+    public static final String TIXIAN_CANCEL = HEADER + "Cash/withdraw";
+
 }

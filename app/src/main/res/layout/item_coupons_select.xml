@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:gravity="center_horizontal|center_vertical"
     android:layout_margin="10dp"
-    android:background="@drawable/pressed_coupon">
+    android:background="@drawable/pressed_red_to_white">
     <TextView
         android:id="@+id/item_coupon_select"
         android:layout_width="wrap_content"

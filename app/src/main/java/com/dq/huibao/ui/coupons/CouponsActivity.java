@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.SimpleFragmentPagerAdapter;
-import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.fragment.memcen.FMCouponsNoUse;
 import com.dq.huibao.fragment.memcen.FMCouponsPast;
 import com.dq.huibao.fragment.memcen.FMCouponsUsed;
@@ -36,6 +35,8 @@ public class CouponsActivity extends AppCompatActivity implements ViewPager.OnPa
     NoScrollViewPager noScrollViewPager;
     @Bind(R.id.title_tv_title)
     TextView couponsTvTitle;
+    @Bind(R.id.title_tv_right)
+    TextView titleTvRight;
 
     private String[] titles = new String[]{"未使用", "已使用", "已过期"};
     private List<Fragment> fragments = new ArrayList<>();
@@ -61,6 +62,7 @@ public class CouponsActivity extends AppCompatActivity implements ViewPager.OnPa
         noScrollViewPager.setOnPageChangeListener(this);
         tabLayout.setupWithViewPager(noScrollViewPager);
         couponsTvTitle.setText("我的优惠券");
+        titleTvRight.setText("领券");
 
     }
 
@@ -71,11 +73,12 @@ public class CouponsActivity extends AppCompatActivity implements ViewPager.OnPa
                 finish();
                 break;
             case R.id.title_tv_right://领券中心
-                Intent intent = new Intent(CouponsActivity.this,CouponsGetActivity.class);
+                Intent intent = new Intent(CouponsActivity.this, CouponsGetActivity.class);
                 startActivity(intent);
                 break;
         }
     }
+
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 

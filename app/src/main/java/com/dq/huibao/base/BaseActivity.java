@@ -16,16 +16,20 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dq.huibao.R;
+import com.dq.huibao.bean.account.Login;
+import com.dq.huibao.utils.GsonUtil;
+import com.dq.huibao.utils.SPUserInfo;
 
 /**/
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
     private LinearLayout parentLinearLayout;//把父类activity和子类activity的view都add到这里
-
+    private RelativeLayout baseTitleLayout;
     private TextView titleName;
 
     /*返回*/
@@ -40,6 +44,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         initContentView(R.layout.activity_base);
 
         setActivityState(this);
+        getLoginInfo();
 
         initWidght();
     }
@@ -60,6 +65,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         LayoutInflater.from(this).inflate(layoutResID, parentLinearLayout, true);
 
         titleName = (TextView) findViewById(R.id.tv_base_title);
+
         titleBack = (ImageView) findViewById(R.id.iv_base_back);
         titleBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +74,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        baseTitleLayout = findViewById(R.id.base_title_layout);
+        baseTitleLayout.setVisibility(View.GONE);
     }
 
 
@@ -105,6 +113,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
      * @param title ：title
      */
     protected void setTitleName(String title) {
+        baseTitleLayout.setVisibility(View.VISIBLE);
         titleName.setText(title);
     }
 
@@ -190,6 +199,21 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         if (token != null) {
             InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             manager.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    protected String phoneBase = "",tokenBase = "",uidBase = "";
+    public void getLoginInfo() {
+        SPUserInfo spUserInfo = new SPUserInfo(this.getApplication());
+
+        if (spUserInfo.getLogin().equals("1")) {
+
+            if (!(spUserInfo.getLoginReturn().equals(""))) {
+                Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
+                phoneBase = login.getData().getPhone();
+                tokenBase = login.getData().getToken();
+                uidBase = login.getData().getUid();
+            }
         }
     }
 

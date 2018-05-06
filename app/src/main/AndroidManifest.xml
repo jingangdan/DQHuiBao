@@ -271,6 +271,10 @@
         <activity android:name=".ui.tixian.BalanceActivity" />
         <activity android:name=".ui.pingo.PinGoLogsActivity" />
         <activity android:name=".ui.pingo.PinGoLogInfoActivity" />
+        <activity android:name=".ui.tixian.BalanceLogsActivity" />
+        <activity android:name=".ui.tixian.TiXianActivity" />
+        <activity android:name=".ui.tixian.TixianAccountActivity" />
+        <activity android:name=".ui.tixian.TiXianAccountInfoActivity" />
 
         <!--增加图片清晰度-->
         <meta-data

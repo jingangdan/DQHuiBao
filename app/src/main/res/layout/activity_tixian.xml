@@ -2,54 +2,56 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/lightGray"
-    android:layout_height="match_parent">
-    <include layout="@layout/title_layout"/>
+    android:paddingTop="20dp">
+
+    <include layout="@layout/item_tixian_select_account"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:text="账号余额:(元)"
-        android:background="@color/red_pressed"
-        android:textColor="@color/white"/>
-    <TextView
-        android:id="@+id/balance_number"
+        android:padding="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:text="提现金额"/>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="36sp"
-        android:padding="20dp"
-        android:gravity="center_horizontal"
-        android:background="@color/red_pressed"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="1dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24dp"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            android:text="￥"/>
+        <EditText
+            android:id="@+id/tixian_money"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:cursorVisible="true"
+            android:inputType="numberDecimal"
+            android:textSize="24sp"
+            android:maxLength="12"
+            android:textCursorDrawable="@null"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tixian_balance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/white"
+        android:text="可用余额 0.00元"/>
+    <Button
+        android:id="@+id/tixian_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:textColor="@color/white"
-        android:text="0.00"/>
-    <TextView
-        android:id="@+id/balance_chonghzi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        android:background="@color/white"
-        android:layout_marginBottom="1dp"
-        android:text="充值"/>
-    <TextView
-        android:id="@+id/balance_tixian"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textSize="18sp"
-        android:background="@color/white"
-        android:textColor="@color/black"
-        android:layout_marginBottom="1dp"
-        android:text="提现"/>
-    <TextView
-        android:id="@+id/balance_account"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textSize="18sp"
-        android:background="@color/white"
-        android:textColor="@color/black"
-        android:layout_marginBottom="1dp"
-        android:text="管理"/>
+        android:background="@drawable/pressed_red_to_white"
+        android:text="确认提现"/>
 </LinearLayout>

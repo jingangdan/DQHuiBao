@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_tixian_select_account_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/item_tixian_select_account_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="54653158846"/>
+    <TextView
+        android:id="@+id/item_tixian_select_account_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="支付宝"/>
+    <TextView
+        android:id="@+id/item_tixian_select_account_des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="里的开发工具送i个"/>
+</LinearLayout>

@@ -58,11 +58,13 @@ public class PinGoLogUsersAdapter extends RecyclerView.Adapter<PinGoLogUsersAdap
             });
 
         }
-        Glide.with(mContext)
-                .load(ImageUtils.getImagePath(listBean.get(i).getHeadimgurl()))
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .placeholder(R.mipmap.ic_header)
-                .into(holder.img);
+        if (listBean.get(i).getHeadimgurl() != null){
+            Glide.with(mContext)
+                    .load(ImageUtils.getImagePath(listBean.get(i).getHeadimgurl()))
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .placeholder(R.mipmap.ic_header)
+                    .into(holder.img);
+        }
     }
 
     @Override

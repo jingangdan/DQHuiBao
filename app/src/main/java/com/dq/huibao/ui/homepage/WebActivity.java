@@ -1,5 +1,6 @@
 package com.dq.huibao.ui.homepage;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class WebActivity extends Activity {
     private Intent intent;
     private String url = "";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +56,17 @@ public class WebActivity extends Activity {
         });
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
+        webView.addJavascriptInterface(this,"mobile");
     }
 
+    /**
+     * 网页图片放大
+     * @param url
+     */
+    @android.webkit.JavascriptInterface
+    public void loadImage(String url){
+
+    }
 //    @Override
 //    protected void initWidght() {
 //        super.initWidght();

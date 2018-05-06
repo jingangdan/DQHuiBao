@@ -3,56 +3,84 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:layout_marginBottom="3dp">
-    <RelativeLayout
+    android:layout_marginBottom="5dp">
+    <LinearLayout
         android:id="@+id/item_pingo_ing_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical"
         android:background="@color/white"
         android:gravity="center_horizontal">
-        <TextView
-            android:id="@+id/item_pingo_ing_type"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="临沂大学立减金额 "/>
-        <TextView
-            android:id="@+id/item_pingo_ing_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/item_pingo_ing_type"
-            android:text="距离返现还剩 "/>
-        <TextView
-            android:id="@+id/item_pingo_ing_timer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/item_pingo_ing_time"
-            android:text="00:00:00"/>
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/item_pingo_ing_diqu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textSize="18sp"
+                android:text="临沂大学"/>
+            <TextView
+                android:id="@+id/item_pingo_ing_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:layout_marginLeft="5dp"
+                android:textSize="18sp"
+                android:textColor="@color/red_normal"
+                android:text="立减金额"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="距返现:"/>
+            <TextView
+                android:id="@+id/item_pingo_ing_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red_pressed"
+                android:text="00:00:00"/>
+        </LinearLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/item_pingo_ing_childlist"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/item_pingo_ing_time">
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp">
         </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lightGray"/>
         <TextView
             android:id="@+id/item_pingo_ing_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/red_normal"
-            android:textSize="18sp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/item_pingo_ing_childlist"
+            android:textColor="@color/white"
+            android:padding="3dp"
+            android:textSize="16sp"
+            android:background="@color/red_normal"
+            android:layout_marginTop="20dp"
             android:text="因一人退出,现可返现4元"/>
-    </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red_normal"
+            android:layout_margin="10dp"
+            android:text="(详情请参照活动说明)"/>
+    </LinearLayout>
     <RelativeLayout
         android:id="@+id/item_pingo_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:padding="10dp"
+        android:visibility="gone"
         android:layout_marginBottom="2dp">
         <TextView
             android:id="@+id/item_pingo_time"
@@ -71,6 +99,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/lightGray"
             android:layout_below="@+id/item_pingo_time"
             android:orientation="horizontal">

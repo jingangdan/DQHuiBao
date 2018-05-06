@@ -3,20 +3,27 @@ package com.dq.huibao.ui.pingo;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 
 import com.dq.huibao.R;
+import com.dq.huibao.adapter.SimpleFragmentPagerAdapter;
 import com.dq.huibao.adapter.pingo.PinGoGoodsAdapter;
 import com.dq.huibao.adapter.pingo.PinGoLogsAdapter;
 import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.bean.pingo.PinGoLogsB;
+import com.dq.huibao.ui.jifen.MyLogsFragment;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.SPUserInfo;
+import com.dq.huibao.view.NoScrollViewPager;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
@@ -25,7 +32,9 @@ import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 
 import org.xutils.common.Callback;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -37,53 +46,42 @@ import butterknife.ButterKnife;
  * Created by d on 2018/5/2.
  */
 
-public class PinGoLogsActivity extends BaseActivity{
-    @Bind(R.id.lrecyclerView)
-    LRecyclerView lrecyclerView;
+public class PinGoLogsActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+    @Bind(R.id.tabLayout)
+    TabLayout tabLayout;
+    @Bind(R.id.tb_noScrollViewPage)
+    NoScrollViewPager noScrollViewPager;
     //
-    PinGoLogsAdapter logsAdapter;
-    LRecyclerViewAdapter lRecyclerViewGoodsAdapter;
-    private int page = 1, pagesize = 10;
     private String phone = "", token = "", uid = "";
-    Intent intent ;
+
+    private String[] titles = new String[]{"进行中", "已完成","已失败"};
+    //score积分 balance现金
+    private String[] type = new String[]{"0", "1","2"};
+    private List<Fragment> fragments = new ArrayList<>();
+    private SimpleFragmentPagerAdapter sfpAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lrlist_layout);
+        setContentView(R.layout.tablayout);
         ButterKnife.bind(this);
-        //
-        logsAdapter = new PinGoLogsAdapter(this);
-        lRecyclerViewGoodsAdapter = new LRecyclerViewAdapter(logsAdapter);
-//        lRecyclerViewGoodsAdapter.setOnItemClickListener(new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//                intent = new Intent(PinGoLogsActivity.this,PinGoLogInfoActivity.class);
-//                intent.putExtra("uid",uid);
-//                intent.putExtra("logid",logsAdapter.getDataList().get(position).getId());
-//                startActivity(intent);
-//            }
-//        });
-        lrecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        lrecyclerView.setAdapter(lRecyclerViewGoodsAdapter);
 
-        lrecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                page++;
-                getLogs();
-            }
-        });
-        lrecyclerView.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                logsAdapter.clear();
-                lrecyclerView.setNoMore(false);
-                page = 1;
-                getLogs();
-            }
-        });
-        setTitleName("拼go记录");
         isLogin();
+        //
+        for (String str:type) {
+            fragments.add(PinGoLogsFragment.newInstance(uid,phone,token, str));
+        }
+
+        sfpAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), this, fragments, titles);
+        noScrollViewPager.setAdapter(sfpAdapter);
+
+        noScrollViewPager.setCurrentItem(0);
+
+
+        noScrollViewPager.setOffscreenPageLimit(titles.length);
+
+        noScrollViewPager.setOnPageChangeListener(this);
+        tabLayout.setupWithViewPager(noScrollViewPager);
+        setTitleName("拼go记录");
     }
     /*
           * 判断登录状态
@@ -99,46 +97,22 @@ public class PinGoLogsActivity extends BaseActivity{
                 phone = login.getData().getPhone();
                 token = login.getData().getToken();
                 uid = login.getData().getUid();
-                getLogs();
             }
         }
     }
-    /**
-     * 获取拼go记录列表
-     */
-    public void getLogs(){
-        Map<String,String> map = new HashMap<>();
-        map.put("mid",uid);
-        map.put("page",page + "");
-        map.put("pagesize",pagesize + "");
-        HttpxUtils.Get(this, HttpPath.PINGO_LOGS, map, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Log.e("获取拼go记录列表","获取拼go记录列表 = " + result);
 
-                PinGoLogsB logsB = GsonUtil.gsonIntance().gsonToBean(result, PinGoLogsB.class);
-                logsAdapter.addAll(logsB.getData());
-                lrecyclerView.refreshComplete(pagesize);
-                if (logsB.getData().size() < pagesize){
-                    lrecyclerView.setNoMore(true);
-                }
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
+    }
 
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Log.e("获取拼go记录列表","获取拼go记录列表 失败= " + ex.toString());
-            }
+    @Override
+    public void onPageSelected(int position) {
 
-            @Override
-            public void onCancelled(CancelledException cex) {
+    }
 
-            }
+    @Override
+    public void onPageScrollStateChanged(int state) {
 
-            @Override
-            public void onFinished() {
-
-            }
-        });
     }
 }

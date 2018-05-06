@@ -42,7 +42,6 @@ public class CollectActivity extends BaseActivity implements CollectAdapter.Coll
 
     /*接收页面传值*/
     private Intent intent;
-    private String phone = "", token = "";
 
     /*借口地址*/
     private String MD5_PATH = "", PATH = "";
@@ -74,10 +73,7 @@ public class CollectActivity extends BaseActivity implements CollectAdapter.Coll
         collectAdapter.setCollectInterface(this);
 
         intent = getIntent();
-        phone = intent.getStringExtra("phone");
-        token = intent.getStringExtra("token");
-
-        getRecordList("collect", page, phone, token);
+        getRecordList("collect", page);
 
     }
 
@@ -92,11 +88,9 @@ public class CollectActivity extends BaseActivity implements CollectAdapter.Coll
      *
      * @param type  类型--- browse  浏览历史  collect收藏商品   collect_shop收藏店铺（暂无）
      * @param page
-     * @param phone
-     * @param token
      */
-    public void getRecordList(String type, int page, String phone, String token) {
-        MD5_PATH = "page=" + page + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + "&type=" + type;
+    public void getRecordList(String type, int page) {
+        MD5_PATH = "page=" + page + "&phone=" + phoneBase + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + tokenBase + "&type=" + type;
         PATH = HttpPath.MEM_RECORDLIST + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
@@ -143,7 +137,7 @@ public class CollectActivity extends BaseActivity implements CollectAdapter.Coll
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                setDelRecord(type, id, phone, token, position);
+                setDelRecord(type, id, position);
 
             }
         });
@@ -162,11 +156,9 @@ public class CollectActivity extends BaseActivity implements CollectAdapter.Coll
      *
      * @param type  收藏类型--- collect收藏商品   collect_shop收藏店铺（暂无）
      * @param id    收藏的商品id 或者店铺id
-     * @param phone
-     * @param token
      */
-    public void setDelRecord(String type, String id, String phone, String token, final int position) {
-        MD5_PATH = "id=" + id + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + "&type=" + type;
+    public void setDelRecord(String type, String id, final int position) {
+        MD5_PATH = "id=" + id + "&phone=" + phoneBase + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + tokenBase + "&type=" + type;
         PATH = HttpPath.MEM_DELRECORD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("取消收藏 = " + PATH);

@@ -451,6 +451,9 @@ public class FMHomePage extends BaseFragment implements
                 startActivityForResult(intent, CodeUtils.HOMEPAGE);
                 break;
             case "article":
+//                intent = new Intent(getActivity(), WebActivity.class);
+//                intent.putExtra("url", content);
+//                startActivityForResult(intent, CodeUtils.HOMEPAGE);
                 //文章
                 break;
             case "cate":

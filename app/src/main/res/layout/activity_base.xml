@@ -6,6 +6,7 @@
     android:background="@color/bg_white">
 
     <RelativeLayout
+        android:id="@+id/base_title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -36,7 +37,6 @@
             android:padding="10dp"
             android:src="@mipmap/ic_sreach"
             android:visibility="invisible"/>
-
     </RelativeLayout>
 
     <View

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:background="@drawable/pressed_coupon"
+        android:background="@drawable/pressed_red_to_white"
         android:textColor="@color/select_white_to_red"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
