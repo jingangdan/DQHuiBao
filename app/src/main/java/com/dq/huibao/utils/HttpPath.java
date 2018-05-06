@@ -922,14 +922,14 @@ public class HttpPath {
     /**
      * 发起提现申请
      * 参数:Uid;
-     *      Accounid//支付账号记录id;
+     *      Accountid//支付账号记录id;
      *      Money//提现金额
      */
     public static final String TIXIAN_APPLYCASH = HEADER + "Cash/applyCash";
 
     /**
      * 取消提现申请
-     * 参数:accounid
+     * 参数:accountid
      */
     public static final String TIXIAN_CANCEL = HEADER + "Cash/withdraw";
 

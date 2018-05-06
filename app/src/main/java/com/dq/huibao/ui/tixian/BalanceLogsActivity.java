@@ -131,7 +131,7 @@ public class BalanceLogsActivity extends BaseActivity {
      */
     public void quxiao(String id){
         Map<String,String> map = new HashMap<>();
-        map.put("accounid",id);
+        map.put("accountid",id);
         HttpxUtils.Get(this, HttpPath.TIXIAN_CANCEL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

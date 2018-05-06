@@ -174,7 +174,7 @@ public class TiXianActivity extends BaseActivity {
     public void toTiXian() {
         Map<String, String> map = new HashMap<>();
         map.put("uid", uidBase);
-        map.put("accounid", account.getId());
+        map.put("accountid", account.getId());
         map.put("money", tixianMoney.getText().toString());
         HttpxUtils.Get(this, HttpPath.TIXIAN_APPLYCASH, map, new Callback.CommonCallback<String>() {
             @Override
