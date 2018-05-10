@@ -2,13 +2,23 @@ package com.dq.huibao.ui.tixian;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.memcen.RechargeActivity;
 import com.dq.huibao.base.BaseActivity;
+import com.dq.huibao.bean.tixian.TiXianIndexB;
 import com.dq.huibao.utils.CodeUtils;
+import com.dq.huibao.utils.GsonUtil;
+import com.dq.huibao.utils.HttpPath;
+import com.dq.huibao.utils.HttpxUtils;
+
+import org.xutils.common.Callback;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,12 +45,15 @@ public class BalanceActivity extends BaseActivity {
         setContentView(R.layout.activity_balance);
         ButterKnife.bind(this);
 
-        String balance = getIntent().getStringExtra("balance");
-
-        tixianBalanceNumber.setText(balance == null ? "0.00" : balance);
-
         titleTvTitle.setText("余额");
         titleTvRight.setText("记录");
+        getData();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getData();
     }
 
     @OnClick({R.id.title_iv_back, R.id.balance_chonghzi, R.id.balance_tixian,
@@ -70,5 +83,36 @@ public class BalanceActivity extends BaseActivity {
                 break;
         }
     }
+    /**
+     * 获取提现页面数据
+     */
+    public void getData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", uidBase);
+        HttpxUtils.Get(this, HttpPath.TIXIAN_INDEX, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.e("获取提现页面数据", "获取提现页面数据 = " + result);
 
+                TiXianIndexB tiXianIndexB = GsonUtil.gsonIntance().gsonToBean(result, TiXianIndexB.class);
+
+                tixianBalanceNumber.setText(tiXianIndexB.getData().getUinfo().getBalance());
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.e("获取提现页面数据", "获取提现页面数据 失败= " + ex.toString());
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
 }

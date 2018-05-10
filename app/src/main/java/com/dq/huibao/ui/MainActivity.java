@@ -158,53 +158,6 @@ public class MainActivity extends FragmentActivity {
         setTabSelection(0);
 
         AppUtil.getWindowsDef(this);
-
-
-//        Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
-//        Platform.ShareParams params = new Platform.ShareParams();
-//        params.setTitle("标题");
-//        params.setText("eeeee");
-//        params.setUrl("https://www.baidu.com");
-//        Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-////        params.setShareType(Platform.SHARE_IMAGE);//分享图片必须
-////        params.setImageData(logo);
-//        params.setImagePath("http://img3.imgtn.bdimg.com/it/u=399671977,769149362&fm=27&gp=0.jpg");
-//
-//        Log.e("fffffffffff",Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), logo, null,null)).getPath());
-//        Log.e("fffffffffff",Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), logo, null,null)).getPath());
-////        FileProvider.getUriForFile(this, "com.hb.fileprovider", new File(Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), logo, null,null)).getPath()));
-////        MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-//        params.setShareType(Platform.SHARE_WEBPAGE);
-//        //FileProvider.getUriForFile(this, "com.hb.fileprovider", new File(newUri.getPath()));
-//        wechat.setPlatformActionListener();
-//        wechat.share(params);
-
-
-        Platform platform = ShareSDK.getPlatform(Wechat.NAME);
-        Platform.ShareParams shareParams = new  Platform.ShareParams();
-        shareParams.setText("textssssss");
-        shareParams.setTitle("title");
-        shareParams.setUrl("http://new.dequanhuibao.com/mobile/Student/sharetuan?id=432");
-//        shareParams.setImageData(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher));
-//        shareParams.setImagePath("http://img3.imgtn.bdimg.com/it/u=399671977,769149362&fm=27&gp=0.jpg");
-        shareParams.setShareType(Platform.SHARE_WEBPAGE);
-        platform.setPlatformActionListener(new PlatformActionListener() {
-            @Override
-            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-                Log.e("fffffffffffffffffffff","成功==");
-            }
-
-            @Override
-            public void onError(Platform platform, int i, Throwable throwable) {
-                Log.e("fffffffffffffffffffff","onerror==" +platform.getName() + "  code="+ i + "  errr=" +throwable.toString());
-            }
-
-            @Override
-            public void onCancel(Platform platform, int i) {
-                Log.e("fffffffffffffffffffff","取消==");
-            }
-        });
-        platform.share(shareParams);
     }
 
     @SuppressLint("WrongConstant")

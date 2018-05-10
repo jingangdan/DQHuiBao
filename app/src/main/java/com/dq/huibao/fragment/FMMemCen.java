@@ -363,7 +363,6 @@ public class FMMemCen extends BaseFragment implements
             case R.id.lin_mc_credit1:
                 //余额
                 intent = new Intent(getActivity(), BalanceActivity.class);
-                intent.putExtra("balance",credit1);
                 startActivity(intent);
                 break;
             case R.id.lin_mc_credit2:

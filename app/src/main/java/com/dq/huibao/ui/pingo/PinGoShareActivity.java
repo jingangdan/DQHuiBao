@@ -1,6 +1,9 @@
 package com.dq.huibao.ui.pingo;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,8 +21,10 @@ import com.dq.huibao.utils.ImageUtils;
 
 import org.xutils.common.Callback;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,6 +57,7 @@ public class PinGoShareActivity extends BaseActivity {
     @Bind(R.id.pingo_share_option)
     TextView pingoShareOption;
     private String orderid = "";
+    private String goodName = "",imagePath = "",sharePath = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +112,8 @@ public class PinGoShareActivity extends BaseActivity {
     }
     CountDownUtil countDownUtil;
     public void updateUI(PinGoShareB goShareB){
+        sharePath = goShareB.getData().getShareurl();
+
         countDownUtil = new CountDownUtil(Long.parseLong(goShareB.getData().getEndtime()+"") * 1000,pingoShareTime);
         countDownUtil.countdown();
         pingoShareDiqu.setText(goShareB.getData().getRegname() + "还差");
@@ -118,12 +126,14 @@ public class PinGoShareActivity extends BaseActivity {
             pingoShareNextYouhui.setText(goShareB.getData().getNremoney() + "元");
         }
         if (goShareB.getData().getGoodslist().size() > 0){
+            imagePath = ImageUtils.getImagePath(goShareB.getData().getGoodslist().get(0).getThumb());
+            goodName = goShareB.getData().getGoodslist().get(0).getGoodsname();
             Glide.with(this)
-                    .load(ImageUtils.getImagePath(goShareB.getData().getGoodslist().get(0).getThumb()))
+                    .load(imagePath)
                     .placeholder(R.mipmap.icon_empty002)
                     .into(pingoShareGoodimage);
-            pingoShareGoodname.setText(goShareB.getData().getGoodslist().get(0).getGoodsname());
-            pingoShareOption.setText("规格" + goShareB.getData().getGoodslist().get(0).getOptionname());
+            pingoShareGoodname.setText(goodName);
+            pingoShareOption.setText("规格:" + goShareB.getData().getGoodslist().get(0).getOptionname());
         }
     }
 
@@ -139,13 +149,21 @@ public class PinGoShareActivity extends BaseActivity {
     private void showShare() {
         Platform.ShareParams params = new Platform.ShareParams();
 //        Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        Bitmap logo;
+        try {
+            logo = Glide.with(this).load(imagePath).asBitmap().centerCrop().into(300,300).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        }
         params.setShareType(Platform.SHARE_WEBPAGE);
 //        params.setShareType(Platform.SHARE_IMAGE);//分享图片必须
-//        params.setImageData(logo);
-//        FileProvider.getUriForFile(this, "com.hb.fileprovider", new File());
-        params.setTitle("ssss");
-        params.setText("eeeee");
-        params.setUrl("https://www.baidu.com");
+        params.setImageData(logo);
+//        FileProvider.getUriForFile(this, "com.hb.fileprovider", new File(iamgePath));
+        params.setTitle(goodName);
+        params.setText(goodName);
+//        params.setImagePath(iamgePath);
+        params.setUrl(sharePath);
         //FileProvider.getUriForFile(this, "com.hb.fileprovider", new File(newUri.getPath()));
         Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
         wechat.setPlatformActionListener(new PlatformActionListener() {

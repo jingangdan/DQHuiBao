@@ -10,7 +10,7 @@ import java.util.List;
 public class PinGoShareB {
     /**
      * status : 1
-     * data : {"distype":"zhe","endtime":76679,"zhe":0,"nzhe":"9.50","price":"13.80","remoney":0,"nremoney":0.69,"nowcount":"1","lastcount":4,"regname":"临沂大学城","goodslist":[{"goodsid":"6","goodsname":"儿童宝宝益智玩具7色雪花片100片积木玩具拼插拼装积木玩具","thumb":"/attachment/images/sz_yi/1604/2017/11/CsqQnXZnJl9Zt968FfsQs7j9EFsFZe.jpg","optionname":""}]}
+     * data : {"distype":"jian","endtime":50747,"zhe":0,"nzhe":0,"price":"83.00","remoney":0,"nremoney":2.5,"nowcount":"1","lastcount":4,"shareurl":"http://new.dequanhuibao.com/Mobile/Student/share/id/437/code/21.html","regname":"临沂大学城","goodslist":[{"goodsid":"7","goodsname":"大号可爱萌条纹趴趴狗毛绒玩具狗玩偶布娃娃爬爬狗生日礼物送女生","thumb":"/attachment/images/sz_yi/1604/2017/09/FtK9AF92a5Aff4L5Tb4Q2kA99j52Q9.png","optionname":"红白条纹+130厘米"}]}
      */
 
     private int status;
@@ -34,28 +34,30 @@ public class PinGoShareB {
 
     public static class DataBean {
         /**
-         * distype : zhe
-         * endtime : 76679
+         * distype : jian
+         * endtime : 50747
          * zhe : 0
-         * nzhe : 9.50
-         * price : 13.80
+         * nzhe : 0
+         * price : 83.00
          * remoney : 0
-         * nremoney : 0.69
+         * nremoney : 2.5
          * nowcount : 1
          * lastcount : 4
+         * shareurl : http://new.dequanhuibao.com/Mobile/Student/share/id/437/code/21.html
          * regname : 临沂大学城
-         * goodslist : [{"goodsid":"6","goodsname":"儿童宝宝益智玩具7色雪花片100片积木玩具拼插拼装积木玩具","thumb":"/attachment/images/sz_yi/1604/2017/11/CsqQnXZnJl9Zt968FfsQs7j9EFsFZe.jpg","optionname":""}]
+         * goodslist : [{"goodsid":"7","goodsname":"大号可爱萌条纹趴趴狗毛绒玩具狗玩偶布娃娃爬爬狗生日礼物送女生","thumb":"/attachment/images/sz_yi/1604/2017/09/FtK9AF92a5Aff4L5Tb4Q2kA99j52Q9.png","optionname":"红白条纹+130厘米"}]
          */
 
         private String distype;
         private int endtime;
         private int zhe;
-        private String nzhe;
+        private int nzhe;
         private String price;
         private int remoney;
         private double nremoney;
         private String nowcount;
         private int lastcount;
+        private String shareurl;
         private String regname;
         private List<GoodslistBean> goodslist;
 
@@ -83,11 +85,11 @@ public class PinGoShareB {
             this.zhe = zhe;
         }
 
-        public String getNzhe() {
+        public int getNzhe() {
             return nzhe;
         }
 
-        public void setNzhe(String nzhe) {
+        public void setNzhe(int nzhe) {
             this.nzhe = nzhe;
         }
 
@@ -131,6 +133,14 @@ public class PinGoShareB {
             this.lastcount = lastcount;
         }
 
+        public String getShareurl() {
+            return shareurl;
+        }
+
+        public void setShareurl(String shareurl) {
+            this.shareurl = shareurl;
+        }
+
         public String getRegname() {
             return regname;
         }
@@ -149,10 +159,10 @@ public class PinGoShareB {
 
         public static class GoodslistBean {
             /**
-             * goodsid : 6
-             * goodsname : 儿童宝宝益智玩具7色雪花片100片积木玩具拼插拼装积木玩具
-             * thumb : /attachment/images/sz_yi/1604/2017/11/CsqQnXZnJl9Zt968FfsQs7j9EFsFZe.jpg
-             * optionname :
+             * goodsid : 7
+             * goodsname : 大号可爱萌条纹趴趴狗毛绒玩具狗玩偶布娃娃爬爬狗生日礼物送女生
+             * thumb : /attachment/images/sz_yi/1604/2017/09/FtK9AF92a5Aff4L5Tb4Q2kA99j52Q9.png
+             * optionname : 红白条纹+130厘米
              */
 
             private String goodsid;
