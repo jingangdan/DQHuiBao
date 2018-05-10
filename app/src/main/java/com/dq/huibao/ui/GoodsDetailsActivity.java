@@ -285,8 +285,6 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
                     intent = new Intent(TAG, InjoyActivity.class);
                     intent.putExtra("gid", gid);
                     intent.putExtra("username", "" + username);
-                    intent.putExtra("phone", phone);
-                    intent.putExtra("token", token);
                     intent.putExtra("sales", "" + goodsDetail.getData().getSales());
                     intent.putExtra("thumb", "" + picsList.get(0).toString());
                     intent.putExtra("goodsname", goodsDetail.getData().getGoodsname());

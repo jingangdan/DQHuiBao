@@ -24,6 +24,7 @@ import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.addr.AddrReturn;
 import com.dq.huibao.bean.pay.PayType;
 import com.dq.huibao.ui.order.OrderActivity;
+import com.dq.huibao.ui.pingo.PinGoShareActivity;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
@@ -78,13 +79,14 @@ public class PayActivity extends BaseActivity {
 
     /*接收页面传值*/
     private Intent intent;
-    private String ordersn = "", phone = "", token = "";
+    private String ordersn = "",orderid = "", phone = "", token = "";
 
     /*接口地址*/
     private String MD5_PATH = "", PATH = "";
     private RequestParams params = null;
 
     private String balance = "", wxpay = "", alipay = "", price = "";
+    private boolean isPinGo = false;
 
     private static final int SDK_PAY_FLAG = 1;
     private static final int SDK_AUTH_FLAG = 2;
@@ -133,6 +135,9 @@ public class PayActivity extends BaseActivity {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(PayActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        if (isPinGo){
+                            toSuccessActivity();
+                        }
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         Toast.makeText(PayActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
@@ -207,8 +212,10 @@ public class PayActivity extends BaseActivity {
         //setPayType();
         intent = getIntent();
         ordersn = intent.getStringExtra("ordersn");
+        orderid = intent.getStringExtra("orderid");
         phone = intent.getStringExtra("phone");
         token = intent.getStringExtra("token");
+        isPinGo = intent.getBooleanExtra("isPinGo",false);
 
         getPayType(ordersn, phone, token);
 
@@ -320,8 +327,13 @@ public class PayActivity extends BaseActivity {
 
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
+
                     if (paytype.equals("balance")) {
                         toast("下单成功");
+                        if (isPinGo){
+                            toSuccessActivity();
+                            return;
+                        }
                         intent = new Intent(PayActivity.this, OrderActivity.class);
                         intent.putExtra("page", 2);
                         intent.putExtra("phone", phone);
@@ -383,6 +395,17 @@ public class PayActivity extends BaseActivity {
             }
         });
     }
+
+    /**
+     * 下单成功-->去分享
+     */
+    public void toSuccessActivity(){
+        finish();
+        intent = new Intent(this,PinGoShareActivity.class);
+        intent.putExtra("orderid",orderid);
+        startActivity(intent);
+    }
+
 
 //    @SuppressLint("WrongConstant")
 //    public void setPayType() {

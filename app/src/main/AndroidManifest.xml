@@ -275,6 +275,7 @@
         <activity android:name=".ui.tixian.TiXianActivity" />
         <activity android:name=".ui.tixian.TixianAccountActivity" />
         <activity android:name=".ui.tixian.TiXianAccountInfoActivity" />
+        <activity android:name=".ui.pingo.PinGoShareActivity" />
 
         <!--增加图片清晰度-->
         <meta-data

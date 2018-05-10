@@ -1,7 +1,10 @@
 package com.dq.huibao.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -16,11 +19,19 @@ import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.utils.MD5Util;
 
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
+import org.xutils.x;
+
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.wechat.friends.Wechat;
 
 /**
  * 分享页面
@@ -51,7 +62,7 @@ public class InjoyActivity extends BaseActivity {
 
     /*接收页面传值*/
     private Intent intent;
-    private String gid = "", sales = "", img = "", goodsname = "", price = "", username = "", phone = "", token = "";
+    private String gid = "", sales = "", img = "", goodsname = "", price = "", username = "";
 
     /*接口地址*/
     private String MD5_PATH = "", PATH = "";
@@ -64,6 +75,10 @@ public class InjoyActivity extends BaseActivity {
         // setContentView(R.layout.activity_web);
         ButterKnife.bind(this);
 
+        if (uidBase.equals("")){
+
+        }
+
         intent = getIntent();
         gid = intent.getStringExtra("gid");
         sales = intent.getStringExtra("sales");
@@ -72,13 +87,11 @@ public class InjoyActivity extends BaseActivity {
         price = intent.getStringExtra("price");
 
         username = intent.getStringExtra("username");
-        phone = intent.getStringExtra("phone");
-        token = intent.getStringExtra("token");
 
         if (!username.equals("")) {
             tvInjoyUsername.setText("" + username);
         } else {
-            tvInjoyUsername.setText("" + phone);
+            tvInjoyUsername.setText("" + phoneBase);
         }
 
         tvInjoyStock.setText("" + sales);
@@ -91,7 +104,7 @@ public class InjoyActivity extends BaseActivity {
         tvInjoyGoodsname.setText("" + goodsname);
         tvInjoyPrice.setText("¥" + price);
 
-        getPosterIndex(gid, phone, token);
+        getPosterIndex();
 
     }
 
@@ -115,13 +128,9 @@ public class InjoyActivity extends BaseActivity {
 
     /**
      * 分享
-     *
-     * @param goodsid
-     * @param phone
-     * @param token
      */
-    public void getPosterIndex(String goodsid, String phone, String token) {
-        MD5_PATH = "goodsid=" + goodsid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
+    public void getPosterIndex() {
+        MD5_PATH = "goodsid=" + gid + "&phone=" + phoneBase + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + tokenBase;
         PATH = HttpPath.POSTER_INDEX + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
@@ -139,7 +148,7 @@ public class InjoyActivity extends BaseActivity {
 //                    public void onSuccess(String result) {
 //                        System.out.println("分享 = " + result);
 //
-//                        wvInjoy.loadUrl(url);
+//                        wvInjoy.loadUrl(PATH);
 //
 //                        wvInjoy.setHorizontalScrollBarEnabled(false);//水平不显示
 //                        wvInjoy.setVerticalScrollBarEnabled(false); //垂直不显示
@@ -164,8 +173,6 @@ public class InjoyActivity extends BaseActivity {
 //
 //                    }
 //                });
-//
-//    }
 
     }
 }

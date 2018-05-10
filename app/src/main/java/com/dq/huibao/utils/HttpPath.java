@@ -838,6 +838,12 @@ public class HttpPath {
      */
     public static final String PINGO_LOG_INFO = HEADER + "Student/logsintro";
 
+    /**
+     * 分享
+     * 参数:orderid  mid
+     */
+    public static final String PINGO_SHARE = HEADER + "Student/sharetuan";
+
 
 
     //优惠卷===================================

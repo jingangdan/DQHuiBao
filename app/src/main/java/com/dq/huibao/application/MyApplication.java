@@ -11,6 +11,8 @@ import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import cn.sharesdk.framework.ShareSDK;
+
 /**
  * Description：
  * Created by jingang on 2017/11/18.
@@ -42,6 +44,7 @@ public class MyApplication extends Application {
 //        setIns();
 //        regToWx();
         setWxApp();
+        ShareSDK.initSDK(this);
         LeakCanary.install(this);
     }
 

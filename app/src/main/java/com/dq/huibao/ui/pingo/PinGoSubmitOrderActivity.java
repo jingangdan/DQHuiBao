@@ -31,6 +31,7 @@ import com.dq.huibao.bean.addr.AddrReturn;
 import com.dq.huibao.bean.cart.CheckOrder;
 import com.dq.huibao.bean.pingo.PinGoCartList;
 import com.dq.huibao.bean.pingo.PinGoOrderConfirm;
+import com.dq.huibao.bean.pingo.PinGoSubmitB;
 import com.dq.huibao.bean.pingo.PinGoiQuSelect;
 import com.dq.huibao.ui.LoginActivity;
 import com.dq.huibao.ui.PayActivity;
@@ -363,17 +364,20 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
             public void onSuccess(String result) {
                 System.out.println("提交订单-购物车 = " + result);
                 string_result = result;
-                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                PinGoSubmitB addrReturn = GsonUtil.gsonIntance().gsonToBean(result, PinGoSubmitB.class);
                 if (addrReturn.getStatus() == 1) {
                     if (paytype.equals("1")){
                         //货到付款
                         toast("下单成功");
+                        toSuccessActivity(addrReturn.getData().getOrderid());
                     }else {
                         intent = new Intent(PinGoSubmitOrderActivity.this, PayActivity.class);
-                        intent.putExtra("ordersn", addrReturn.getData().toString());
+                        intent.putExtra("ordersn", addrReturn.getData().getOrdersn());
+                        intent.putExtra("orderid", addrReturn.getData().getOrderid());
                         intent.putExtra("price", "" + pay_all);
                         intent.putExtra("phone", phone);
                         intent.putExtra("token", token);
+                        intent.putExtra("isPinGo", true);
                         startActivityForResult(intent, CodeUtils.CONFIRM_ORDER);
                     }
                     setResult();
@@ -431,17 +435,20 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
             public void onSuccess(String result) {
                 System.out.println("提交订单（立即购买） = " + result);
                 try {
-                    AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                    PinGoSubmitB addrReturn = GsonUtil.gsonIntance().gsonToBean(result, PinGoSubmitB.class);
                     if (addrReturn.getStatus() == 1) {
                         if (paytype.equals("1")){
                             //货到付款
                             toast("下单成功");
+                            toSuccessActivity(addrReturn.getData().getOrderid());
                         }else {
                             intent = new Intent(PinGoSubmitOrderActivity.this, PayActivity.class);
-                            intent.putExtra("ordersn", addrReturn.getData().toString());
+                            intent.putExtra("ordersn", addrReturn.getData().getOrdersn());
+                            intent.putExtra("orderid", addrReturn.getData().getOrderid());
                             intent.putExtra("price", "" + pay_all);
                             intent.putExtra("phone", phone);
                             intent.putExtra("token", token);
+                            intent.putExtra("isPinGo", true);
                             startActivityForResult(intent, CodeUtils.CONFIRM_ORDER);
                         }
                         setResult();
@@ -470,6 +477,16 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
 
             }
         });
+    }
+
+    /**
+     * 下单成功-->去分享
+     */
+    public void toSuccessActivity(String id){
+        finish();
+        intent = new Intent(this,PinGoShareActivity.class);
+        intent.putExtra("orderid",id);
+        startActivity(intent);
     }
 
     /**
