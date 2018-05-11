@@ -374,6 +374,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
                         intent = new Intent(PinGoSubmitOrderActivity.this, PayActivity.class);
                         intent.putExtra("ordersn", addrReturn.getData().getOrdersn());
                         intent.putExtra("orderid", addrReturn.getData().getOrderid());
+                        intent.putExtra("pintoType", type);
                         intent.putExtra("price", "" + pay_all);
                         intent.putExtra("phone", phone);
                         intent.putExtra("token", token);
@@ -445,6 +446,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
                             intent = new Intent(PinGoSubmitOrderActivity.this, PayActivity.class);
                             intent.putExtra("ordersn", addrReturn.getData().getOrdersn());
                             intent.putExtra("orderid", addrReturn.getData().getOrderid());
+                            intent.putExtra("pintoType", type);
                             intent.putExtra("price", "" + pay_all);
                             intent.putExtra("phone", phone);
                             intent.putExtra("token", token);
@@ -484,6 +486,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
      */
     public void toSuccessActivity(String id){
         finish();
+        if (!type.equals("1")) return;//非普通拼go商品不需要分享
         intent = new Intent(this,PinGoShareActivity.class);
         intent.putExtra("orderid",id);
         startActivity(intent);

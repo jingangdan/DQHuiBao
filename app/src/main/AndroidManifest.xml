@@ -29,6 +29,7 @@
     应用签名：f45f579977bd4e73f819e9567a0d9139
 
     修改：db16e577b06b034fc5cd1608aae109ea
+    修改now：4b2adc98449a0f7cc8a810d0ce65ed20
     -->
 
     <!--微信公众号
@@ -281,7 +282,6 @@
         <meta-data
             android:name="com.dq.huibao.utils.GlideConfiguration"
             android:value="GlideModule" />
-
     </application>
 
 </manifest>

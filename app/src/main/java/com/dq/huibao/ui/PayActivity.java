@@ -80,6 +80,8 @@ public class PayActivity extends BaseActivity {
     /*接收页面传值*/
     private Intent intent;
     private String ordersn = "",orderid = "", phone = "", token = "";
+    //type:1为普通拼go
+    private String pintoType = "";
 
     /*接口地址*/
     private String MD5_PATH = "", PATH = "";
@@ -213,9 +215,11 @@ public class PayActivity extends BaseActivity {
         intent = getIntent();
         ordersn = intent.getStringExtra("ordersn");
         orderid = intent.getStringExtra("orderid");
+        pintoType = intent.getStringExtra("pintoType");
         phone = intent.getStringExtra("phone");
         token = intent.getStringExtra("token");
         isPinGo = intent.getBooleanExtra("isPinGo",false);
+
 
         getPayType(ordersn, phone, token);
 
@@ -401,6 +405,7 @@ public class PayActivity extends BaseActivity {
      */
     public void toSuccessActivity(){
         finish();
+        if (!pintoType.equals("1")) return;
         intent = new Intent(this,PinGoShareActivity.class);
         intent.putExtra("orderid",orderid);
         startActivity(intent);

@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
 
 /**
  * 拼go分享
@@ -57,14 +59,14 @@ public class PinGoShareActivity extends BaseActivity {
     @Bind(R.id.pingo_share_option)
     TextView pingoShareOption;
     private String orderid = "";
-    private String goodName = "",imagePath = "",sharePath = "";
+    private String shareTitle = "",shareContent = "",imagePath = "",sharePath = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pingo_share);
         ButterKnife.bind(this);
-        setTitleName("下单成功");
+        setTitleName("分享");
 
         orderid = getIntent().getStringExtra("orderid");
         getData();
@@ -73,9 +75,16 @@ public class PinGoShareActivity extends BaseActivity {
 
     }
 
-    @OnClick(R.id.pingo_share_share)
-    public void onclick(){
-        showShare();
+    @OnClick({R.id.pingo_share_share,R.id.pingo_share_share_quan})
+    public void onclick(View view){
+        switch (view.getId()){
+            case R.id.pingo_share_share://微信好友分享
+                showShare(Wechat.NAME);
+                break;
+            case R.id.pingo_share_share_quan://微信朋友圈
+                showShare(WechatMoments.NAME);
+                break;
+        }
     }
 
     /**
@@ -127,59 +136,69 @@ public class PinGoShareActivity extends BaseActivity {
         }
         if (goShareB.getData().getGoodslist().size() > 0){
             imagePath = ImageUtils.getImagePath(goShareB.getData().getGoodslist().get(0).getThumb());
-            goodName = goShareB.getData().getGoodslist().get(0).getGoodsname();
             Glide.with(this)
                     .load(imagePath)
                     .placeholder(R.mipmap.icon_empty002)
                     .into(pingoShareGoodimage);
-            pingoShareGoodname.setText(goodName);
+            pingoShareGoodname.setText(goShareB.getData().getGoodslist().get(0).getGoodsname());
             pingoShareOption.setText("规格:" + goShareB.getData().getGoodslist().get(0).getOptionname());
         }
+
+        shareTitle = pingoShareDiqu.getText().toString() + pingoSharePeople.getText().toString();
+        shareContent = "再来一人每人享受" + pingoShareNextYouhui.getText().toString();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        countDownUtil.stopThread();
+        if (countDownUtil != null){
+            countDownUtil.stopThread();
+        }
     }
 
     /**
      * 分享
      */
-    private void showShare() {
+    private void showShare(String ss) {
+
+        Platform wechat = ShareSDK.getPlatform(ss);
         Platform.ShareParams params = new Platform.ShareParams();
 //        Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
         Bitmap logo;
         try {
             logo = Glide.with(this).load(imagePath).asBitmap().centerCrop().into(300,300).get();
+            params.setImageData(logo);
         } catch (Exception e) {
             e.printStackTrace();
-            logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+//            logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
         }
-        params.setShareType(Platform.SHARE_WEBPAGE);
 //        params.setShareType(Platform.SHARE_IMAGE);//分享图片必须
-        params.setImageData(logo);
 //        FileProvider.getUriForFile(this, "com.hb.fileprovider", new File(iamgePath));
-        params.setTitle(goodName);
-        params.setText(goodName);
-//        params.setImagePath(iamgePath);
+        params.setTitle(shareTitle);
+        params.setText(shareContent);
+        if (ss.equals(WechatMoments.NAME)){
+            params.setFilePath(imagePath);
+            params.setTitle(shareTitle + shareContent);
+        }
+        params.setImagePath(imagePath);
         params.setUrl(sharePath);
+        params.setShareType(Platform.SHARE_WEBPAGE);
         //FileProvider.getUriForFile(this, "com.hb.fileprovider", new File(newUri.getPath()));
-        Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
         wechat.setPlatformActionListener(new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
                 toast("分享成功");
-                finish();
             }
 
             @Override
             public void onError(Platform platform, int i, Throwable throwable) {
+                toast(throwable.toString());
                 Log.e("fffffffffffffffffffff", "onerror==" + platform.getName() + "  code=" + i + "  errr=" + throwable.toString());
             }
 
             @Override
             public void onCancel(Platform platform, int i) {
+                toast("分享取消");
                 Log.e("fffffffffffffffffffff", "取消==");
             }
         });

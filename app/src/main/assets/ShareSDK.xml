@@ -100,9 +100,9 @@
     <WechatMoments
         Id="5"
         SortId="5"
-        AppId="wx4868b35061f87885"
-        AppSecret="64020361b8ec4c99936c0e3999a9f249"
-        BypassApproval="true"
+        AppId="wxf00c62b2cd722747"
+        AppSecret="4a2a9c4af1f023558413c7da331ddc74"
+        BypassApproval="false"
         Enable="true" />
         
 	<WechatFavorite

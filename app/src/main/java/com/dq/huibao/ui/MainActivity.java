@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.allenliu.versionchecklib.core.AllenChecker;
 import com.allenliu.versionchecklib.core.VersionDialogActivity;
 import com.allenliu.versionchecklib.core.VersionParams;
+import com.bumptech.glide.Glide;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.CheckVersion;
 import com.dq.huibao.bean.addr.AddrReturn;
@@ -159,7 +160,6 @@ public class MainActivity extends FragmentActivity {
 
         AppUtil.getWindowsDef(this);
     }
-
     @SuppressLint("WrongConstant")
     @OnClick({R.id.lin_home_page, R.id.lin_classify, R.id.lin_shopcar, R.id.lin_members_center,
             R.id.lin_hp_store, R.id.lin_store, R.id.lin_distribution})

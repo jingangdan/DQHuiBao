@@ -53,6 +53,7 @@ import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
 import com.dq.huibao.view.CustomProgress;
+import com.dq.huibao.view.MyProgressDialog;
 import com.dq.huibao.view.TopicScrollView;
 
 import org.xutils.common.Callback;

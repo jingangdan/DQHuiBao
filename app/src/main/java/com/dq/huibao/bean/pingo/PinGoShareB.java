@@ -10,7 +10,7 @@ import java.util.List;
 public class PinGoShareB {
     /**
      * status : 1
-     * data : {"distype":"jian","endtime":50747,"zhe":0,"nzhe":0,"price":"83.00","remoney":0,"nremoney":2.5,"nowcount":"1","lastcount":4,"shareurl":"http://new.dequanhuibao.com/Mobile/Student/share/id/437/code/21.html","regname":"临沂大学城","goodslist":[{"goodsid":"7","goodsname":"大号可爱萌条纹趴趴狗毛绒玩具狗玩偶布娃娃爬爬狗生日礼物送女生","thumb":"/attachment/images/sz_yi/1604/2017/09/FtK9AF92a5Aff4L5Tb4Q2kA99j52Q9.png","optionname":"红白条纹+130厘米"}]}
+     * data : {"distype":"zhe","endtime":17527,"zhe":"0","nzhe":"9.50","price":"13.80","remoney":"0","nremoney":"0.69","nowcount":"1","lastcount":4,"shareurl":"http://new.dequanhuibao.com/Mobile/Student/share/id/446/code/21.html","regname":"临沂大学城","goodslist":[{"goodsid":"6","goodsname":"儿童宝宝益智玩具7色雪花片100片积木玩具拼插拼装积木玩具","thumb":"/attachment/images/sz_yi/1604/2017/11/CsqQnXZnJl9Zt968FfsQs7j9EFsFZe.jpg","optionname":""}]}
      */
 
     private int status;
@@ -34,27 +34,27 @@ public class PinGoShareB {
 
     public static class DataBean {
         /**
-         * distype : jian
-         * endtime : 50747
+         * distype : zhe
+         * endtime : 17527
          * zhe : 0
-         * nzhe : 0
-         * price : 83.00
+         * nzhe : 9.50
+         * price : 13.80
          * remoney : 0
-         * nremoney : 2.5
+         * nremoney : 0.69
          * nowcount : 1
          * lastcount : 4
-         * shareurl : http://new.dequanhuibao.com/Mobile/Student/share/id/437/code/21.html
+         * shareurl : http://new.dequanhuibao.com/Mobile/Student/share/id/446/code/21.html
          * regname : 临沂大学城
-         * goodslist : [{"goodsid":"7","goodsname":"大号可爱萌条纹趴趴狗毛绒玩具狗玩偶布娃娃爬爬狗生日礼物送女生","thumb":"/attachment/images/sz_yi/1604/2017/09/FtK9AF92a5Aff4L5Tb4Q2kA99j52Q9.png","optionname":"红白条纹+130厘米"}]
+         * goodslist : [{"goodsid":"6","goodsname":"儿童宝宝益智玩具7色雪花片100片积木玩具拼插拼装积木玩具","thumb":"/attachment/images/sz_yi/1604/2017/11/CsqQnXZnJl9Zt968FfsQs7j9EFsFZe.jpg","optionname":""}]
          */
 
         private String distype;
         private int endtime;
-        private int zhe;
-        private int nzhe;
+        private String zhe;
+        private String nzhe;
         private String price;
-        private int remoney;
-        private double nremoney;
+        private String remoney;
+        private String nremoney;
         private String nowcount;
         private int lastcount;
         private String shareurl;
@@ -77,19 +77,19 @@ public class PinGoShareB {
             this.endtime = endtime;
         }
 
-        public int getZhe() {
+        public String getZhe() {
             return zhe;
         }
 
-        public void setZhe(int zhe) {
+        public void setZhe(String zhe) {
             this.zhe = zhe;
         }
 
-        public int getNzhe() {
+        public String getNzhe() {
             return nzhe;
         }
 
-        public void setNzhe(int nzhe) {
+        public void setNzhe(String nzhe) {
             this.nzhe = nzhe;
         }
 
@@ -101,19 +101,19 @@ public class PinGoShareB {
             this.price = price;
         }
 
-        public int getRemoney() {
+        public String getRemoney() {
             return remoney;
         }
 
-        public void setRemoney(int remoney) {
+        public void setRemoney(String remoney) {
             this.remoney = remoney;
         }
 
-        public double getNremoney() {
+        public String getNremoney() {
             return nremoney;
         }
 
-        public void setNremoney(double nremoney) {
+        public void setNremoney(String nremoney) {
             this.nremoney = nremoney;
         }
 
@@ -159,10 +159,10 @@ public class PinGoShareB {
 
         public static class GoodslistBean {
             /**
-             * goodsid : 7
-             * goodsname : 大号可爱萌条纹趴趴狗毛绒玩具狗玩偶布娃娃爬爬狗生日礼物送女生
-             * thumb : /attachment/images/sz_yi/1604/2017/09/FtK9AF92a5Aff4L5Tb4Q2kA99j52Q9.png
-             * optionname : 红白条纹+130厘米
+             * goodsid : 6
+             * goodsname : 儿童宝宝益智玩具7色雪花片100片积木玩具拼插拼装积木玩具
+             * thumb : /attachment/images/sz_yi/1604/2017/11/CsqQnXZnJl9Zt968FfsQs7j9EFsFZe.jpg
+             * optionname :
              */
 
             private String goodsid;

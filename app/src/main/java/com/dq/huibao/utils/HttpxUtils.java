@@ -14,6 +14,9 @@ import org.xutils.http.request.UriRequest;
 import org.xutils.x;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,8 +25,10 @@ import java.util.Map;
  * @Time 2016年7月27日 下午3:25:21
  */
 public class HttpxUtils {
-    private static MyProgressDialog myProgressDialog;
-
+    //所有dialog的集合
+    private static Map<Integer,MyProgressDialog> dialogMap = new HashMap<>();
+    //记录dialog的key
+    private static int dialogInt = 0;
     /**
      * 发送get请求
      *
@@ -44,7 +49,7 @@ public class HttpxUtils {
         Log.d("Http==Get=","url=" + url);
         Log.d("Http==Get=","map=" + (map == null?"":map.toString()));
         showDialog(activity);
-       // myProgressDialog.show();
+        final int nowDialog = dialogInt;
         RequestParams params = new RequestParams(url);
         if (null != map) {
             for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -54,25 +59,25 @@ public class HttpxUtils {
         Callback.Cancelable cancelable = x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                dismissDialog();
+                dismissDialog(nowDialog);
                 callback.onSuccess(result);
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                dismissDialog();
+                dismissDialog(nowDialog);
                 callback.onError(ex, isOnCallback);
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                dismissDialog();
+                dismissDialog(nowDialog);
                 callback.onCancelled(cex);
             }
 
             @Override
             public void onFinished() {
-                dismissDialog();
+                dismissDialog(nowDialog);
                 callback.onFinished();
             }
         });
@@ -88,6 +93,7 @@ public class HttpxUtils {
         Log.d("Http==Post=","url=" + url);
         Log.d("Http==Post=","map=" + (map == null?"":map.toString()));
         showDialog(activity);
+        final int nowDialog = dialogInt;
         RequestParams params = new RequestParams(url);
         if (null != map) {
             for (Map.Entry<String, Object> entry : map.entrySet()) {
@@ -97,25 +103,25 @@ public class HttpxUtils {
         Callback.Cancelable cancelable = x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                dismissDialog();
+                dismissDialog(nowDialog);
                 callback.onSuccess(result);
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                dismissDialog();
+                dismissDialog(nowDialog);
                 callback.onError(ex, isOnCallback);
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                dismissDialog();
+                dismissDialog(nowDialog);
                 callback.onCancelled(cex);
             }
 
             @Override
             public void onFinished() {
-                dismissDialog();
+                dismissDialog(nowDialog);
                 callback.onFinished();
             }
         });
@@ -129,6 +135,7 @@ public class HttpxUtils {
      */
     public static <T> Callback.Cancelable UpLoadFile(Activity activity, String url, Map<String, Object> map, final Callback.CommonCallback<String> callback) {
         showDialog(activity);
+        final int nowDialog = dialogInt;
         RequestParams params = new RequestParams(url);
         if (null != map) {
             for (Map.Entry<String, Object> entry : map.entrySet()) {
@@ -139,25 +146,25 @@ public class HttpxUtils {
         Callback.Cancelable cancelable = x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                dismissDialog();
+                dismissDialog(nowDialog);
                 callback.onSuccess(result);
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                dismissDialog();
+                dismissDialog(nowDialog);
                 callback.onError(ex, isOnCallback);
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                dismissDialog();
+                dismissDialog(nowDialog);
                 callback.onCancelled(cex);
             }
 
             @Override
             public void onFinished() {
-                dismissDialog();
+                dismissDialog(nowDialog);
                 callback.onFinished();
             }
         });
@@ -171,6 +178,7 @@ public class HttpxUtils {
      */
     public static <T> Callback.Cancelable DownLoadFile(Activity activity, String url, String filepath, final Callback.CommonCallback<String> callback) {
         showDialog(activity);
+        final int nowDialog = dialogInt;
         RequestParams params = new RequestParams(url);
 // 设置断点续传
         params.setAutoResume(true);
@@ -178,25 +186,25 @@ public class HttpxUtils {
         Callback.Cancelable cancelable = x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                dismissDialog();
+                dismissDialog(nowDialog);
                 callback.onSuccess(result);
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                dismissDialog();
+                dismissDialog(nowDialog);
                 callback.onError(ex, isOnCallback);
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                dismissDialog();
+                dismissDialog(nowDialog);
                 callback.onCancelled(cex);
             }
 
             @Override
             public void onFinished() {
-                dismissDialog();
+                dismissDialog(nowDialog);
                 callback.onFinished();
             }
         });
@@ -227,18 +235,21 @@ public class HttpxUtils {
 
     /*开始dialog*/
     public static void showDialog(Activity activity) {
-        if (myProgressDialog != null) {
+        ++dialogInt;
+        try {
+            MyProgressDialog myProgressDialog = new MyProgressDialog(activity);
             myProgressDialog.show();
-        } else {
-            myProgressDialog = new MyProgressDialog(activity);
-            myProgressDialog.show();
+            dialogMap.put(dialogInt,myProgressDialog);
+        }catch (Exception e){
         }
     }
 
     /*结束dialog*/
-    public static void dismissDialog() {
-        if (myProgressDialog != null) {
-            myProgressDialog.dismiss();
+    public static void dismissDialog(int a) {
+        try {
+            dialogMap.get(a).dismiss();
+            dialogMap.remove(dialogMap.get(a));
+        }catch (Exception e){
         }
     }
 }

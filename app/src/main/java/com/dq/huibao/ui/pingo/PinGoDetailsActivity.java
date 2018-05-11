@@ -753,12 +753,13 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
             if (addcartCount <= 0){
                 isAddCart = false;
             }
+            tvGdMarketprice.setText("¥ " + goodsDetail.getData().getMsprice());
             if (goodsDetail.getData().getBuystatus().equals("1")){
                 //"1",--是否可以购买，0-不可以;1-可以购买
                 rvGdPingoMs.setVisibility(View.VISIBLE);
+//                tvGdMarketprice.setText("¥ " + goodsDetail.getData().getMsprice());
                 tvGdOldPrice.setText("¥ " + marketprice);
                 tvGdOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                tvGdMarketprice.setText("¥ " + goodsDetail.getData().getMsprice());
                 tvGdMsStatus.setText("秒杀中");
 
                 isBuyMs = true;
