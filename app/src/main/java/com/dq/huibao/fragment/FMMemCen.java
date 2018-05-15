@@ -49,6 +49,7 @@ import com.dq.huibao.ui.memcen.MemcenActivity;
 import com.dq.huibao.ui.memcen.ShopcarActivity;
 import com.dq.huibao.ui.memcen.SignRuleActivity;
 import com.dq.huibao.ui.order.OrderActivity;
+import com.dq.huibao.ui.pingo.PinGoLogsActivity;
 import com.dq.huibao.ui.pintuan.MyPinTuanActivity;
 import com.dq.huibao.ui.tixian.BalanceActivity;
 import com.dq.huibao.update.UVService;
@@ -420,7 +421,9 @@ public class FMMemCen extends BaseFragment implements
                 break;
             case R.id.but_mc_menu4:
                 //我的足迹
-                intent = new Intent(getActivity(), FootprintActivity.class);
+
+//                intent = new Intent(getActivity(), FootprintActivity.class);
+                intent = new Intent(getActivity(), PinGoLogsActivity.class);
                 startActivity(intent);
                 break;
 
@@ -545,7 +548,7 @@ public class FMMemCen extends BaseFragment implements
 
         params = new RequestParams(PATH);
         System.out.println("个人信息 = " + PATH);
-        HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 member_string = result;
@@ -666,7 +669,7 @@ public class FMMemCen extends BaseFragment implements
                 "phone=" + phone + "&token=" + token + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&sign=" +
                 MD5Util.getMD5String("phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
         System.out.println("退出登录 = " + PATH);
-        HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("退出登录 = " + result);
@@ -724,7 +727,7 @@ public class FMMemCen extends BaseFragment implements
 
         params = new RequestParams(PATH);
         System.out.println("签到 = " + PATH);
-        HttpxUtils.Post(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("签到 = " + result);
@@ -765,7 +768,7 @@ public class FMMemCen extends BaseFragment implements
         PATH = HttpPath.ACTIVITYSIGN_INDEX + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("签到信息 = " + PATH);
-        HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("签到信息 = " + result);

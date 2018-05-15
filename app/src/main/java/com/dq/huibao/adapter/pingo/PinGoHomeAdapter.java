@@ -2,6 +2,8 @@ package com.dq.huibao.adapter.pingo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.dq.huibao.Interface.HomePageInterface;
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.index.AppimglistAdapter;
@@ -32,6 +36,7 @@ import com.dq.huibao.rollpagerview.OnItemClickListener;
 import com.dq.huibao.rollpagerview.RollPagerView;
 import com.dq.huibao.ui.GoodsDetailsActivity;
 import com.dq.huibao.ui.pingo.PinGoGoodsActivity;
+import com.dq.huibao.utils.AppUtil;
 import com.dq.huibao.utils.CountDownUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.ImageUtils;
@@ -179,15 +184,17 @@ public class PinGoHomeAdapter extends RecyclerView.Adapter {
             super(itemView);
             this.mContext = mContext;
             rollPagerView = itemView.findViewById(R.id.rollPagerView);
+        }
 
+        public void setData(final List<PinGoIndex.DataBean.ChildBean> bannerBeans) {
             DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
             int width = dm.widthPixels;
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rollPagerView.getLayoutParams();
             params.height = width / 2;//宽高比 1:2
             rollPagerView.setLayoutParams(params);
-        }
+            //计算图片高度并设置高度
+            ImageUtils.setImageParamsHeight(mContext,bannerBeans.get(0).getThumb(),rollPagerView,params);
 
-        public void setData(final List<PinGoIndex.DataBean.ChildBean> bannerBeans) {
             rollPagerView.setAdapter(new PGImageLoopAdapter(rollPagerView, mContext, bannerBeans));
             rollPagerView.setOnItemClickListener(new OnItemClickListener() {
                 @Override
@@ -202,7 +209,6 @@ public class PinGoHomeAdapter extends RecyclerView.Adapter {
                 }
             });
         }
-
     }
 
     /**

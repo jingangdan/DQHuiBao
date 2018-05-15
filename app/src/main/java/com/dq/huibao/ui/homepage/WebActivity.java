@@ -72,4 +72,11 @@ public class WebActivity extends Activity {
 //        super.initWidght();
 //        setTitleName("web网页");
 //    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        webView.destroy();
+    }
 }

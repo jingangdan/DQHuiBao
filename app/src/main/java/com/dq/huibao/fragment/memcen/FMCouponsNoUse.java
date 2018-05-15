@@ -162,7 +162,7 @@ public class FMCouponsNoUse extends BaseFragment {
         map.put("pagesize",pagesize + "");
         map.put("type","0");
         System.out.println("优惠券 未使用 = " + map.toString());
-        HttpxUtils.Get(getActivity(), HttpPath.COUPONS_MY, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(),HttpPath.COUPONS_MY, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("优惠券 未使用= " + result);

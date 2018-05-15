@@ -95,7 +95,7 @@ public class CollectActivity extends BaseActivity implements CollectAdapter.Coll
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         System.out.println("收藏列表 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("收藏列表 = " + result);
@@ -162,7 +162,7 @@ public class CollectActivity extends BaseActivity implements CollectAdapter.Coll
         PATH = HttpPath.MEM_DELRECORD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("取消收藏 = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("取消收藏 = " + result);

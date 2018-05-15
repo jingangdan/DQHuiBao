@@ -18,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -228,7 +229,16 @@ public class MemcenActivity extends BaseActivity {
             case R.id.but_member_ok:
                 //修改个人信息
                 try {
-                    dialog(URLEncoder.encode(realname, "UTF-8"), sex, regionid);
+                    String s = "";
+                    try {
+                        s = URLEncoder.encode(realname, "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    String ss = Base64.encodeToString(s.getBytes(), Base64.DEFAULT);
+                    ss = ss.replaceAll("[\\s*\t\n\r]", "");
+
+                    dialog(URLEncoder.encode(ss, "UTF-8"), sex, regionid);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -265,7 +275,7 @@ public class MemcenActivity extends BaseActivity {
         PATH = HttpPath.MEM_MEMBER + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
         System.out.println("个人信息 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("个人信息 = " + result);
@@ -360,7 +370,7 @@ public class MemcenActivity extends BaseActivity {
         PATH = HttpPath.MEM_EDITINFO + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("修改个人信息 = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("修改个人信息 = " + result);
@@ -604,7 +614,7 @@ public class MemcenActivity extends BaseActivity {
         PATH = HttpPath.COMMON_REGION;
         params = new RequestParams(PATH);
         System.out.println("省市列表 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("省市列表 = " + result);

@@ -334,7 +334,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
         map.put("goodsid", gid);
         map.put("tuanid", tuanId);
         System.out.println("拼团商品详情 = " + map.toString());
-        HttpxUtils.Get(this, HttpPath.PINTUAN_DETAILS, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,HttpPath.PINTUAN_DETAILS, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("拼团商品详情 = " + result);
@@ -428,7 +428,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
         map.put("pid", pid);
         map.put("uid", uid);
         System.out.println("参团验证 = " + map.toString());
-        HttpxUtils.Get(this, HttpPath.PINTUAN_VERIFY, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,HttpPath.PINTUAN_VERIFY, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("参团验证 = " + result);

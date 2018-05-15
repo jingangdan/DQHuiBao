@@ -53,10 +53,14 @@ public class MyLogsActivity extends BaseActivity implements ViewPager.OnPageChan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tablayout);
         ButterKnife.bind(this, this);
-        isLogin();
+
+        if (uid.equals("")){
+            toLoginActivity();
+            finish();
+        }
 
         for (String str:type) {
-            fragments.add(MyLogsFragment.newInstance(uid, phone, token, str));
+            fragments.add(MyLogsFragment.newInstance(uidBase, phoneBase, tokenBase, str));
         }
 
         sfpAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), this, fragments, titles);
@@ -71,24 +75,6 @@ public class MyLogsActivity extends BaseActivity implements ViewPager.OnPageChan
         tabLayout.setupWithViewPager(noScrollViewPager);
 
         setTitleName("我的记录");
-    }
-
-    /**
-     * 判断登录状态
-     */
-    @SuppressLint("WrongConstant")
-    public void isLogin() {
-        SPUserInfo spUserInfo = new SPUserInfo(this.getApplication());
-
-        if (spUserInfo.getLogin().equals("1")) {
-
-            if (!(spUserInfo.getLoginReturn().equals(""))) {
-                Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
-                phone = login.getData().getPhone();
-                token = login.getData().getToken();
-                uid = login.getData().getUid();
-            }
-        }
     }
 
     @Override

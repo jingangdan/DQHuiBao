@@ -151,7 +151,7 @@ public class PinGoLogsFragment extends BaseFragment {
         map.put("page",page + "");
         map.put("pagesize",pagesize + "");
         map.put("type", typeTitle);
-        HttpxUtils.Get(getActivity(), HttpPath.PINGO_LOGS, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(),HttpPath.PINGO_LOGS, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.e("获取拼go记录列表","获取拼go记录列表 = " + result);
@@ -193,7 +193,7 @@ public class PinGoLogsFragment extends BaseFragment {
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         Log.e("删除拼go记录列表","删除拼go记录列表 = " + PATH);
-        HttpxUtils.Post(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.e("删除拼go记录列表","删除拼go记录列表 = " + result);

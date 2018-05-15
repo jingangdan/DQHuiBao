@@ -85,7 +85,7 @@ public class TixianAccountActivity extends BaseActivity {
     public void getData() {
         Map<String, String> map = new HashMap<>();
         map.put("uid", uidBase);
-        HttpxUtils.Get(this, HttpPath.TIXIAN_INDEX, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,HttpPath.TIXIAN_INDEX, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.e("获取提现页面数据", "获取提现页面数据 = " + result);

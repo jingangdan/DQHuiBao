@@ -65,6 +65,7 @@ public class PinGoGoodsTopAdapter extends RecyclerView.Adapter<PinGoGoodsTopAdap
         holder.oldPrice.setText(listBean.get(i).getProductprice());
         Glide.with(mContext).load(ImageUtils.getImagePath(listBean.get(i)
                 .getThumb()))
+                .placeholder(R.mipmap.icon_empty002)
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(holder.img);
 //        ImageUtils.loadIntoUseFitWidth2(mContext, HttpPath.NEW_HEADER + listBean.get(i).getThumb(), R.mipmap.icon_stub, holder.img);

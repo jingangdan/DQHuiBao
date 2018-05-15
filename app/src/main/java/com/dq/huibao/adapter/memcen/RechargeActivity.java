@@ -100,7 +100,7 @@ public class RechargeActivity extends BaseActivity {
         PATH = HttpPath.RECHARGE_ORDER + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("充值 = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("充值 = " + result);

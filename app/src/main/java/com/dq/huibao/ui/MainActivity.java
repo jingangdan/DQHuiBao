@@ -35,6 +35,7 @@ import com.allenliu.versionchecklib.core.VersionDialogActivity;
 import com.allenliu.versionchecklib.core.VersionParams;
 import com.bumptech.glide.Glide;
 import com.dq.huibao.R;
+import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.CheckVersion;
 import com.dq.huibao.bean.addr.AddrReturn;
 import com.dq.huibao.fragment.FMClassify;
@@ -72,7 +73,7 @@ import cn.sharesdk.wechat.friends.Wechat;
  * 惠宝商城主界面
  */
 @SuppressLint("Registered")
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends BaseActivity {
 
     @Bind(R.id.content)
     FrameLayout content;
@@ -386,7 +387,7 @@ public class MainActivity extends FragmentActivity {
     public void getVersion(final String version) {
         PATH = HttpPath.CHECK_VERSION + "version=" + version;
         System.out.println("版本更新 = " + PATH);
-        HttpxUtils.Get(this, PATH,
+        HttpxUtils.Get(this,PATH,
                 null,
                 new Callback.CommonCallback<String>() {
                     @SuppressLint("WrongConstant")

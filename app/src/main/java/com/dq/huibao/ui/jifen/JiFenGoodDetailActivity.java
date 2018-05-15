@@ -115,7 +115,7 @@ public class JiFenGoodDetailActivity extends BaseActivity {
         Map<String, String> map = new HashMap<>();
         map.put("id", goodid);
         map.put("mid", uid);
-        HttpxUtils.Get(this, HttpPath.JIFEN_FULI_GOODDETAILS, map,
+        HttpxUtils.Get(this,HttpPath.JIFEN_FULI_GOODDETAILS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -149,12 +149,12 @@ public class JiFenGoodDetailActivity extends BaseActivity {
      * 提交订单
      */
     public void toSubmit() {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("gid", goodid);
         map.put("mid", uid);
         map.put("epxid", addrid);
         System.out.println("积分兑换提交 = " + map.toString());
-        HttpxUtils.Post(this, HttpPath.JIFEN_SAVEORDER, map,
+        HttpxUtils.Post(this,HttpPath.JIFEN_SAVEORDER, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -199,7 +199,7 @@ public class JiFenGoodDetailActivity extends BaseActivity {
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
 
         System.out.println("获取收货地址 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("获取收货地址 = " + result);

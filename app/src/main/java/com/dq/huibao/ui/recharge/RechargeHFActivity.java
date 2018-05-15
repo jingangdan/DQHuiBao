@@ -45,11 +45,13 @@ public class RechargeHFActivity extends BaseActivity implements ViewPager.OnPage
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tablayout);
 
-        isLogin();
+        if (uidBase.equals("")){
+            toLoginActivity();
+        }
         ButterKnife.bind(this);
 
-        fragments.add(RechargeHfFragment.newInstance(uid,phone,token));
-        fragments.add(RechargeLogFragment.newInstance(uid,phone,token));
+        fragments.add(RechargeHfFragment.newInstance(uidBase,phoneBase,tokenBase));
+        fragments.add(RechargeLogFragment.newInstance(uidBase,phoneBase,tokenBase));
 
 
         sfpAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), this, fragments, titles);
@@ -64,23 +66,6 @@ public class RechargeHFActivity extends BaseActivity implements ViewPager.OnPage
         tabLayout.setupWithViewPager(noScrollViewPager);
 
         setTitleName("话费充值");
-    }
-    /*
-      * 判断登录状态
-      *  */
-    @SuppressLint("WrongConstant")
-    public void isLogin() {
-        SPUserInfo spUserInfo = new SPUserInfo(this.getApplication());
-
-        if (spUserInfo.getLogin().equals("1")) {
-
-            if (!(spUserInfo.getLoginReturn().equals(""))) {
-                Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
-                phone = login.getData().getPhone();
-                token = login.getData().getToken();
-                uid = login.getData().getUid();
-            }
-        }
     }
 
     @Override

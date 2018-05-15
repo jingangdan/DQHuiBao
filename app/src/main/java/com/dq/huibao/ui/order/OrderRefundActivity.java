@@ -234,7 +234,7 @@ public class OrderRefundActivity extends BaseActivity {
         params = new RequestParams(PATH);
         System.out.println("加密 = " + MD5_PATH);
         System.out.println("退款 = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("退款 = " + result);

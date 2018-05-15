@@ -73,7 +73,7 @@ public class PinGoLogInfoActivity extends BaseActivity {
         Map<String, String> map = new HashMap<>();
         map.put("mid", uid);
         map.put("logid", logid);
-        HttpxUtils.Get(this, HttpPath.PINGO_LOG_INFO, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,HttpPath.PINGO_LOG_INFO, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.e("获取拼go记录详情", "获取拼go记录详情 = " + result);

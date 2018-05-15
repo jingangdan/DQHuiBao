@@ -244,7 +244,7 @@ public class PinTuanTuanDetailsActivity extends BaseActivity implements Gradatio
         map.put("tuanid", tuanId);
         map.put("pid", pid);
         System.out.println("团详情 = " + map.toString());
-        HttpxUtils.Get(this, HttpPath.PINTUAN_TUAN_DETAILS, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,HttpPath.PINTUAN_TUAN_DETAILS, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("团详情 = " + result);

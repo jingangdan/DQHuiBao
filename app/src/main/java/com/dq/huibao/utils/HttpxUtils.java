@@ -2,8 +2,14 @@ package com.dq.huibao.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.dq.huibao.application.MyApplication;
+import com.dq.huibao.bean.addr.AddrReturn;
+import com.dq.huibao.bean.pingo.PinGoIndexMoreGoods;
+import com.dq.huibao.ui.LoginActivity;
 import com.dq.huibao.view.MyProgressDialog;
 import com.google.gson.Gson;
 
@@ -45,10 +51,11 @@ public class HttpxUtils {
 //        return cancelable;
 //    }
 
-    public static <T> Callback.Cancelable Get(Activity activity, String url, Map<String, String> map, final Callback.CommonCallback<String> callback) {
+    public static <T> Callback.Cancelable Get(Activity activity,String url, Map<String, String> map, final Callback.CommonCallback<String> callback) {
         Log.d("Http==Get=","url=" + url);
         Log.d("Http==Get=","map=" + (map == null?"":map.toString()));
         showDialog(activity);
+        errorLoginMap(map);
         final int nowDialog = dialogInt;
         RequestParams params = new RequestParams(url);
         if (null != map) {
@@ -89,14 +96,15 @@ public class HttpxUtils {
      *
      * @param <T>
      */
-    public static <T> Callback.Cancelable Post(Activity activity, String url, Map<String, Object> map, final Callback.CommonCallback<String> callback) {
+    public static <T> Callback.Cancelable Post(Activity activity,String url, Map<String, String> map, final Callback.CommonCallback<String> callback) {
         Log.d("Http==Post=","url=" + url);
         Log.d("Http==Post=","map=" + (map == null?"":map.toString()));
         showDialog(activity);
+        errorLoginMap(map);
         final int nowDialog = dialogInt;
         RequestParams params = new RequestParams(url);
         if (null != map) {
-            for (Map.Entry<String, Object> entry : map.entrySet()) {
+            for (Map.Entry<String, String> entry : map.entrySet()) {
                 params.addParameter(entry.getKey(), entry.getValue());
             }
         }
@@ -133,7 +141,7 @@ public class HttpxUtils {
      *
      * @param <T>
      */
-    public static <T> Callback.Cancelable UpLoadFile(Activity activity, String url, Map<String, Object> map, final Callback.CommonCallback<String> callback) {
+    public static <T> Callback.Cancelable UpLoadFile(Activity activity,String url, Map<String, Object> map, final Callback.CommonCallback<String> callback) {
         showDialog(activity);
         final int nowDialog = dialogInt;
         RequestParams params = new RequestParams(url);
@@ -176,7 +184,7 @@ public class HttpxUtils {
      *
      * @param <T>
      */
-    public static <T> Callback.Cancelable DownLoadFile(Activity activity, String url, String filepath, final Callback.CommonCallback<String> callback) {
+    public static <T> Callback.Cancelable DownLoadFile(Activity activity,String url, String filepath, final Callback.CommonCallback<String> callback) {
         showDialog(activity);
         final int nowDialog = dialogInt;
         RequestParams params = new RequestParams(url);
@@ -233,6 +241,43 @@ public class HttpxUtils {
         }
     }
 
+    /**
+     * 判断登陆失效
+     */
+//    public static void errorLogin(String a){
+//        try {
+//            AddrReturn bean = GsonUtil.gsonIntance().gsonToBean(a, AddrReturn.class);
+//            if (bean.getStatus() == 0 && bean.getData().equals("用户验证错误")){
+//
+//            }
+//        }catch (Exception e){
+//
+//        }
+//    }
+
+    /**
+     * 判断登陆失效或者未登录
+     * @param map
+     */
+    public static void errorLoginMap(Map<String,String> map){
+//        if (map != null){
+//            Toast.makeText(MyApplication.getIns(), "map="+map.toString(), Toast.LENGTH_SHORT).show();
+//            try {
+//                if (map.get("mid").equals("")){
+//                    Toast.makeText(MyApplication.getIns(), "登陆失效,请登陆", Toast.LENGTH_SHORT).show();
+//                }
+//            }catch (Exception e){
+//                Log.d("'ffffffffffff",e.toString());
+//            }
+//            try {
+//                if (map.get("uid").equals("")){
+//                    Toast.makeText(MyApplication.getIns(), "登陆失效,请登陆", Toast.LENGTH_SHORT).show();
+//                }
+//            }catch (Exception e){
+//                Log.d("'ffffffffffff",e.toString());
+//            }
+//        }
+    }
     /*开始dialog*/
     public static void showDialog(Activity activity) {
         ++dialogInt;
@@ -241,6 +286,7 @@ public class HttpxUtils {
             myProgressDialog.show();
             dialogMap.put(dialogInt,myProgressDialog);
         }catch (Exception e){
+            Log.e("ffffffffffff",e.toString());
         }
     }
 
@@ -248,6 +294,7 @@ public class HttpxUtils {
     public static void dismissDialog(int a) {
         try {
             dialogMap.get(a).dismiss();
+            dialogMap.get(a).cancel();
             dialogMap.remove(dialogMap.get(a));
         }catch (Exception e){
         }

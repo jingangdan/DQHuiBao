@@ -266,7 +266,7 @@ public class PayActivity extends BaseActivity {
         PATH = HttpPath.PAY_PAYTYPE + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("选择支付方式 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("选择支付方式 = " + result);
@@ -324,7 +324,7 @@ public class PayActivity extends BaseActivity {
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         System.out.println("选择支付方式 = = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("第三方下单 = " + result);

@@ -58,7 +58,7 @@ public class SignRuleActivity extends BaseActivity {
         PATH = HttpPath.ACTIVITYSIGN_INDEX + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("签到信息 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("签到信息 = " + result);

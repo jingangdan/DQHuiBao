@@ -353,7 +353,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
         PATH = HttpPath.ACCOUNT_LOGIN +
                 "phone=" + phone + "&pwd=" + pwd;
         System.out.println("登录" + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 login_result = result;

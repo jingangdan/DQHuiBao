@@ -181,14 +181,18 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
             this.mContext = mContext;
             rollPagerView = itemView.findViewById(R.id.rollPagerView);
 
+
+        }
+
+        public void setData(final List<Index.DataBean.ChildBean> bannerBeans) {
             DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
             int width = dm.widthPixels;
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rollPagerView.getLayoutParams();
             params.height = width / 7 * 4;//宽高比 1:2
             rollPagerView.setLayoutParams(params);
-        }
+            //计算图片高度并设置高度
+            ImageUtils.setImageParamsHeight(mContext,bannerBeans.get(0).getThumb(),rollPagerView,params);
 
-        public void setData(final List<Index.DataBean.ChildBean> bannerBeans) {
             rollPagerView.setAdapter(new ImageLoopAdapter(rollPagerView, mContext, bannerBeans));
             rollPagerView.setOnItemClickListener(new OnItemClickListener() {
                 @Override
@@ -302,6 +306,18 @@ public class HomeRecycleViewAdapter extends RecyclerView.Adapter {
                 for (int i = 0; i < appimglistBeans.size(); i++) {
                     ImageUtils.loadIntoUseFitWidths(mContext,appimglistBeans.get(i).getThumb(),
                             R.mipmap.icon_empty003,imageViews.get(i));
+                    final int postion = i;
+                    imageViews.get(postion).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            hpInterface.doHomePage(
+                                    postion,
+                                    appimglistBeans.get(postion).getTitle(),
+                                    appimglistBeans.get(postion).getType(),
+                                    appimglistBeans.get(postion).getContent()
+                            );
+                        }
+                    });
                 }
             }else if (widthPraent.equals("1000")){//横向布局
                 layoutId = R.layout.item_hp_picture_horizontal;

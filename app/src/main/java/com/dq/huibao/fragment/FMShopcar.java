@@ -205,7 +205,7 @@ public class FMShopcar extends BaseFragment implements
         PATH = HttpPath.CART_GET + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
         System.out.println("获取购物车 = " + PATH);
-        HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 cart_string = result;
@@ -277,7 +277,7 @@ public class FMShopcar extends BaseFragment implements
         PATH = HttpPath.CART_ADD + MD5_PATH +"&type=" + type + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
         System.out.println("添加购物车 = " + PATH);
-        HttpxUtils.Post(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("添加购物车 = " + result);
@@ -345,7 +345,7 @@ public class FMShopcar extends BaseFragment implements
                 MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("删除购物车 = " + PATH);
-        HttpxUtils.Post(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("删除购物车 = " + result);

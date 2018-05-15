@@ -128,7 +128,7 @@ public class RechargeLogFragment extends BaseFragment {
         map.put("pagesize",pagesize + "");
 
         System.out.println("话费充值记录列表= " + map.toString());
-        HttpxUtils.Get(getActivity(), HttpPath.RECHARGE_ORDER_LOG, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(),HttpPath.RECHARGE_ORDER_LOG, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("话费充值记录列表= " + result);

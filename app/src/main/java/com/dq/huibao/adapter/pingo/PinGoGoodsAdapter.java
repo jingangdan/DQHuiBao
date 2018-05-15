@@ -1,6 +1,7 @@
 package com.dq.huibao.adapter.pingo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.pingo.PinGoIndexMoreGoods;
+import com.dq.huibao.ui.pingo.PinGoDetailsActivity;
+import com.dq.huibao.ui.pingo.PinGoGoodsActivity;
 import com.dq.huibao.utils.AppUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.ImageUtils;
@@ -37,8 +40,8 @@ public class PinGoGoodsAdapter extends ListBaseAdapter<PinGoIndexMoreGoods.DataB
     }
 
     @Override
-    public void onBindItemHolder(SuperViewHolder holder, int position) {
-        PinGoIndexMoreGoods.DataBean.ListBean listBean = mDataList.get(position);
+    public void onBindItemHolder(SuperViewHolder holder, final int position) {
+        final PinGoIndexMoreGoods.DataBean.ListBean listBean = mDataList.get(position);
         ImageView imageView = holder.getView(R.id.item_pingo_goods_list_image);
         TextView name = holder.getView(R.id.item_pingo_goods_list_name);
         TextView price = holder.getView(R.id.item_pingo_goods_list_price);
@@ -68,7 +71,10 @@ public class PinGoGoodsAdapter extends ListBaseAdapter<PinGoIndexMoreGoods.DataB
         oldprice.setText("￥" + listBean.getProductprice());
         progressBar.setMax(Integer.parseInt(listBean.getStock()));
         progressBar.setProgress(Integer.parseInt(listBean.getSalecount()));
-        baifenbi.setText("已售" + Integer.parseInt(listBean.getSalecount()) * 100 / Integer.parseInt(listBean.getStock()) + "%");
+        baifenbi.setText("已售" + listBean.getSalecount());
+        if (!listBean.getStock().equals("0")){
+            baifenbi.setText("已售" + Integer.parseInt(listBean.getSalecount()) * 100 / Integer.parseInt(listBean.getStock()) + "%");
+        }
         if (type == 1){
             //周五秒杀
 //            TextView countTv = holder.getView(R.id.item_pingo_goods_list_ms_count);
@@ -93,7 +99,9 @@ public class PinGoGoodsAdapter extends ListBaseAdapter<PinGoIndexMoreGoods.DataB
         qianggou.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(mContext, PinGoDetailsActivity.class);
+                intent.putExtra("gid", listBean.getId());
+                mContext.startActivity(intent);
             }
         });
     }

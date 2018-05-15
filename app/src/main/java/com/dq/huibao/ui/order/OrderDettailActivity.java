@@ -129,7 +129,7 @@ public class OrderDettailActivity extends BaseActivity {
         PATH = HttpPath.ORDER_DETAIL + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("订单详情 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("订单详情 = " + result);

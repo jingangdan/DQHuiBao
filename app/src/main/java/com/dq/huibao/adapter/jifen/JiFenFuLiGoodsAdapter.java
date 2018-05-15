@@ -48,6 +48,7 @@ public class JiFenFuLiGoodsAdapter extends ListBaseAdapter<JiFenFuLiGoods.DataBe
         Glide.with(mContext)
                 .load(ImageUtils.getImagePath(listBean.getThumb()))
                 .placeholder( R.mipmap.icon_stub)
+                .placeholder(R.mipmap.icon_empty002)
                 .into(imageView);
         name.setText(listBean.getGoodsname());
         price.setText("￥" + listBean.getPrice() +"  +  " + listBean.getScore() + "积分");

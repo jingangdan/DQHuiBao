@@ -100,7 +100,7 @@ public class CouponsGetActivity extends BaseActivity {
         map.put("pagesize",pagesize + "");
         map.put("status","0");//status=优惠券状态 0有效 1无效 ----领卷中心使用
         Log.d("领券中心 = map = ",""+map.toString());
-        HttpxUtils.Get(this, HttpPath.COUPONS_GET_LIST, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,HttpPath.COUPONS_GET_LIST, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.d("领券中心 = result = ",""+ result);
@@ -134,7 +134,7 @@ public class CouponsGetActivity extends BaseActivity {
         map.put("mid",uid);
         map.put("couponid",couponid);
         Log.d("领券 = map = ",""+map.toString());
-        HttpxUtils.Get(this, HttpPath.COUPONS_GET_COUPONS, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,HttpPath.COUPONS_GET_COUPONS, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.d("领券 = result = ",""+ result);

@@ -64,6 +64,7 @@ import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
+import com.dq.huibao.utils.ShareUtil;
 import com.dq.huibao.utils.ShowUtils;
 import com.dq.huibao.view.goodsdetails_foot.GradationScrollView;
 
@@ -280,6 +281,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
 
     }
 
+
     @SuppressLint({"WrongConstant", "ResourceAsColor"})
     @OnClick({R.id.rel_gd_choose,
             R.id.tv_gd_allgoods, R.id.tv_gd_store,
@@ -298,13 +300,12 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
                 if (isLogin()) {
                     //Toast.makeText(TAG, "我要推广", Toast.LENGTH_SHORT).show();
                     intent = new Intent(TAG, InjoyActivity.class);
-                    intent.putExtra("gid", gid);
+                    intent.putExtra("gid", goodsDetail.getData().getGoodsid());
                     intent.putExtra("username", "" + username);
-                    intent.putExtra("phone", phone);
-                    intent.putExtra("token", token);
                     intent.putExtra("sales", "" + goodsDetail.getData().getSalecount());
                     intent.putExtra("thumb", "" + picsList.get(0).toString());
                     intent.putExtra("goodsname", goodsDetail.getData().getGoodsname());
+                    intent.putExtra("sharePath", goodsDetail.getData().getShareurl());
                     intent.putExtra("price", "" + goodsDetail.getData().getMarketprice());
                     startActivityForResult(intent, CodeUtils.GDTAILD);
                 } else {
@@ -498,7 +499,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         PATH = HttpPath.PINGO_GOODS_DETAIL +
                 "?id=" + gid + "&mid=" + uid + "&token=" + token + "&phone=" + phone;
         System.out.println("拼go商品详情 = " + PATH);
-        HttpxUtils.Get(TAG, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("拼go商品详情 = " + result);
@@ -574,7 +575,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         PATH = HttpPath.CART_ADD + MD5_PATH + "&type=" + (isBuyMs?"2":"1") + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
         System.out.println("添加购物车 = " + PATH);
-        HttpxUtils.Post(TAG, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
@@ -631,7 +632,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         PATH = HttpPath.MEM_ADDRECORD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("添加收藏 = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
@@ -690,7 +691,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         PATH = HttpPath.MEM_DELRECORD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("取消收藏 = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
@@ -1133,6 +1134,13 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         webView.setWebViewClient(null);
         webView.getSettings().setJavaScriptEnabled(false);
         webView.clearCache(true);
+        webView.destroy();
+        //
+        cycleViewPager.isRemoving();
+        infos.clear();
+        views.clear();
+        gdParmasAdapter = null;
+        cycleViewPager = null;
 
     }
 

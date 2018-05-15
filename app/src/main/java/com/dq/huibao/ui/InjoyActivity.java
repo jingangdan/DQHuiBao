@@ -18,6 +18,7 @@ import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.ImageUtils;
 import com.dq.huibao.utils.MD5Util;
+import com.dq.huibao.utils.ShareUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -62,7 +63,7 @@ public class InjoyActivity extends BaseActivity {
 
     /*接收页面传值*/
     private Intent intent;
-    private String gid = "", sales = "", img = "", goodsname = "", price = "", username = "";
+    private String gid = "", sales = "", img = "", goodsname = "", price = "", username = "",sharePath = "";
 
     /*接口地址*/
     private String MD5_PATH = "", PATH = "";
@@ -75,16 +76,13 @@ public class InjoyActivity extends BaseActivity {
         // setContentView(R.layout.activity_web);
         ButterKnife.bind(this);
 
-        if (uidBase.equals("")){
-
-        }
-
         intent = getIntent();
         gid = intent.getStringExtra("gid");
         sales = intent.getStringExtra("sales");
         img = intent.getStringExtra("thumb");
         goodsname = intent.getStringExtra("goodsname");
         price = intent.getStringExtra("price");
+        sharePath = intent.getStringExtra("sharePath");
 
         username = intent.getStringExtra("username");
 
@@ -118,7 +116,8 @@ public class InjoyActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_injoy1:
-                toast("" + PATH);
+                ShareUtil.shareDialog(this,goodsname, goodsname,
+                        ImageUtils.getImagePath(img), sharePath);
                 break;
             case R.id.but_injoy2:
                 toast("暂未开通");
@@ -133,7 +132,7 @@ public class InjoyActivity extends BaseActivity {
         MD5_PATH = "goodsid=" + gid + "&phone=" + phoneBase + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + tokenBase;
         PATH = HttpPath.POSTER_INDEX + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-
+        Log.e("ffffffffffffffff",PATH);
         wvInjoy.loadUrl(PATH);
         wvInjoy.setHorizontalScrollBarEnabled(false);//水平不显示
         wvInjoy.setVerticalScrollBarEnabled(false); //垂直不显示
@@ -174,5 +173,11 @@ public class InjoyActivity extends BaseActivity {
 //                    }
 //                });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        wvInjoy.destroy();
     }
 }

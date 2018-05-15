@@ -369,7 +369,7 @@ public class ForgetPwdActivity extends BaseActivity {
         PATH = HttpPath.ACCOUNT_VERIFY +
                 "phone=" + phone + "&type=" + type;
         System.out.println("验证码 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("验证码 = " + result);
@@ -411,7 +411,7 @@ public class ForgetPwdActivity extends BaseActivity {
 
         params = new RequestParams(PATH);
         System.out.println("找回密码 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("找回密码 = " + result);

@@ -96,7 +96,7 @@ public class BalanceLogsActivity extends BaseActivity {
         map.put("uid",uidBase);
         map.put("page","" + page);
         map.put("pagesize","" + pagesize);
-        HttpxUtils.Get(this, HttpPath.TIXIAN_LOGS, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,HttpPath.TIXIAN_LOGS, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.e("获取余额使用记录","获取余额使用记录 = " + result);
@@ -132,7 +132,7 @@ public class BalanceLogsActivity extends BaseActivity {
     public void quxiao(String id){
         Map<String,String> map = new HashMap<>();
         map.put("accountid",id);
-        HttpxUtils.Get(this, HttpPath.TIXIAN_CANCEL, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,HttpPath.TIXIAN_CANCEL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.e("取消提现申请","取消提现申请 = " + result);

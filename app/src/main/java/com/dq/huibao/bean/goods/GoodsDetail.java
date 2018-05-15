@@ -71,6 +71,7 @@ public class GoodsDetail {
 
         private int id;
         private String goodsname;
+        private String shareurl;
         private int shopid;
         private String thumb;
         private String unit;
@@ -104,6 +105,14 @@ public class GoodsDetail {
 
         private List<CommentBean> comment;
         private Boolean collect;
+
+        public String getShareurl() {
+            return shareurl;
+        }
+
+        public void setShareurl(String shareurl) {
+            this.shareurl = shareurl;
+        }
 
         public void setProductprice(double productprice) {
             this.productprice = productprice;

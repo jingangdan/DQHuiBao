@@ -4,7 +4,10 @@ package com.dq.huibao.base;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,8 +26,13 @@ import android.widget.Toast;
 
 import com.dq.huibao.R;
 import com.dq.huibao.bean.account.Login;
+import com.dq.huibao.ui.LoginActivity;
+import com.dq.huibao.ui.pingo.PinGoActivity;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.SPUserInfo;
+import com.dq.huibao.utils.ShowUtils;
+
+import java.lang.reflect.Field;
 
 /**/
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
@@ -41,12 +50,32 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            try {
+                //处理部分手机状态栏灰色
+                Class decorViewClazz = Class.forName("com.android.internal.policy.DecorView");
+                Field field = decorViewClazz.getDeclaredField("mSemiTransparentStatusBarColor");
+                field.setAccessible(true);
+                field.setInt(getWindow().getDecorView(), Color.TRANSPARENT);  //改为透明
+            } catch (Exception e) {}
+            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
+            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+        }
+
         initContentView(R.layout.activity_base);
 
         setActivityState(this);
         getLoginInfo();
 
         initWidght();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getLoginInfo();
     }
 
     protected void initWidght() {
@@ -203,11 +232,14 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     protected String phoneBase = "",tokenBase = "",uidBase = "";
+
+    /**
+     * 获取登陆信息
+     */
     public void getLoginInfo() {
         SPUserInfo spUserInfo = new SPUserInfo(this.getApplication());
 
         if (spUserInfo.getLogin().equals("1")) {
-
             if (!(spUserInfo.getLoginReturn().equals(""))) {
                 Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
                 phoneBase = login.getData().getPhone();
@@ -217,4 +249,22 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     *  跳转登陆
+     */
+    protected void toLoginActivity(){
+        Intent intent = new Intent(BaseActivity.this,LoginActivity.class);
+        startActivity(intent);
+//        ShowUtils.showDialog(this, "提示", "未登陆，是否登陆", new ShowUtils.OnDialogListener() {
+//            @Override
+//            public void confirm() {
+//
+//            }
+//
+//            @Override
+//            public void cancel() {
+//
+//            }
+//        });
+    }
 }

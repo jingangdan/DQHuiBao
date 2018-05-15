@@ -327,7 +327,7 @@ public class KeywordsActivity extends Activity {
     public void getSearch(String keywords) {
         PATH = HttpPath.SHOP_SEARCH + "keywords=" + keywords;
         System.out.println("搜索 = " + PATH);
-        HttpxUtils.Get(TAG, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("搜索 = " + result);

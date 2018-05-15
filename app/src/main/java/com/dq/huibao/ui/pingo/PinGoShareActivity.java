@@ -19,6 +19,7 @@ import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.ImageUtils;
+import com.dq.huibao.utils.ShareUtil;
 
 import org.xutils.common.Callback;
 
@@ -75,7 +76,7 @@ public class PinGoShareActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.pingo_share_share,R.id.pingo_share_share_quan})
+    @OnClick({R.id.pingo_share_share,R.id.pingo_share_share_quan,R.id.pingo_share_btn})
     public void onclick(View view){
         switch (view.getId()){
             case R.id.pingo_share_share://微信好友分享
@@ -83,6 +84,9 @@ public class PinGoShareActivity extends BaseActivity {
                 break;
             case R.id.pingo_share_share_quan://微信朋友圈
                 showShare(WechatMoments.NAME);
+                break;
+            case R.id.pingo_share_btn://分享
+                ShareUtil.shareDialog(this,shareTitle, shareContent, imagePath, sharePath);
                 break;
         }
     }
@@ -94,7 +98,7 @@ public class PinGoShareActivity extends BaseActivity {
         Map<String, String> map = new HashMap<>();
         map.put("mid", uidBase);
         map.put("id", orderid);
-        HttpxUtils.Get(this, HttpPath.PINGO_SHARE, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,HttpPath.PINGO_SHARE, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.e("拼go下单成功", "拼go下单成功 = " + result);

@@ -137,7 +137,7 @@ public class AddressListActivity extends BaseActivity
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
 
         System.out.println("获取收货地址 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("获取收货地址 = " + result);
@@ -181,7 +181,7 @@ public class AddressListActivity extends BaseActivity
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         System.out.println("删除收货地址 = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("删除收货地址 = " + result);
@@ -222,7 +222,7 @@ public class AddressListActivity extends BaseActivity
         PATH = HttpPath.MEMBER_DEGAULTADDR + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("设置默认地址 = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("设置默认地址 = " + result);

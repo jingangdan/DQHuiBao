@@ -196,7 +196,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
 
         System.out.println("获取收货地址 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("获取收货地址 = " + result);
@@ -253,7 +253,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
 
         PATH = HttpPath.PINGO_CART_ISORDER + MD5_PATH;
         System.out.println("确认订单-购物车 = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("确认订单-购物车 = " + result);
@@ -293,14 +293,14 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
      * @param count
      */
     public void getCheckorder(String addrid, String count) {
-        Map<String,Object> map = new HashMap<>();
+        Map<String,String> map = new HashMap<>();
         map.put("mid",uid);
         map.put("goodsid",goodsid);
         map.put("optionid",optionid);
         map.put("count",count);
         map.put("type",type);
         System.out.println("确认订单（商品详情） = " + map.toString());
-        HttpxUtils.Post(this, HttpPath.PINGO_GOOD_ISORDER, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,HttpPath.PINGO_GOOD_ISORDER, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("确认订单（商品详情） = " + result);
@@ -349,7 +349,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
     private String string_result = "";
 
     public void orderAdd(String cartids, String addrid, final String remark) {
-        Map<String,Object> map = new HashMap<>();
+        Map<String,String> map = new HashMap<>();
         map.put("mid",uid);
         map.put("epxid",addrid);
         map.put("paytype",paytype);//1:货到付款，2：在线支付
@@ -359,7 +359,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
         map.put("cartids",cartids);
         map.put("type",type);
         System.out.println("提交订单-购物车 = " + map.toString());
-        HttpxUtils.Post(this, HttpPath.PINGO_CART_SUBMITORDER, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,HttpPath.PINGO_CART_SUBMITORDER, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("提交订单-购物车 = " + result);
@@ -418,7 +418,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
      * @param remark
      */
     public void orderBuynow(String cartids, String addrid, String count, String optionid, final String remark, String remarks) {
-        Map<String,Object> map = new HashMap<>();
+        Map<String,String> map = new HashMap<>();
         map.put("mid",uid);
         map.put("epxid",addrid);
         map.put("paytype",paytype);//1:货到付款，2：在线支付
@@ -428,10 +428,10 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
         map.put("goodsid",cartids);
         map.put("optionid",optionid);
         map.put("count",count);
-        map.put("allprice",pay_all);
+        map.put("allprice",pay_all + "");
         map.put("type",type);
         System.out.println("提交订单（立即购买） = " + map.toString());
-        HttpxUtils.Post(this, HttpPath.PINGO_GOOD_SUBMITORDER, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,HttpPath.PINGO_GOOD_SUBMITORDER, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("提交订单（立即购买） = " + result);

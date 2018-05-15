@@ -175,7 +175,7 @@ public class TiXianAccountInfoActivity extends BaseActivity implements RadioGrou
     public void getAccount() {
         Map<String, String> map = new HashMap<>();
         map.put("accountid", accountid);
-        HttpxUtils.Get(this, HttpPath.TIXIAN_GET_ACCOUNTINFO, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,HttpPath.TIXIAN_GET_ACCOUNTINFO, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.e("获取提现账号信息", "获取提现账号信息 = " + result);
@@ -236,7 +236,7 @@ public class TiXianAccountInfoActivity extends BaseActivity implements RadioGrou
 
             map.put("account", tixianAcountinfoAcount.getText().toString());
         }
-        HttpxUtils.Get(this, HttpPath.TIXIAN_EDIT, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,HttpPath.TIXIAN_EDIT, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.e("修改提现账号信息", "修改提现账号信息 = " + result);

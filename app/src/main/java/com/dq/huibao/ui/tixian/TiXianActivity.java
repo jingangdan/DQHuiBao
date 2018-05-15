@@ -134,7 +134,7 @@ public class TiXianActivity extends BaseActivity {
     public void getData() {
         Map<String, String> map = new HashMap<>();
         map.put("uid", uidBase);
-        HttpxUtils.Get(this, HttpPath.TIXIAN_INDEX, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,HttpPath.TIXIAN_INDEX, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.e("获取提现页面数据", "获取提现页面数据 = " + result);
@@ -176,7 +176,7 @@ public class TiXianActivity extends BaseActivity {
         map.put("uid", uidBase);
         map.put("accountid", account.getId());
         map.put("money", tixianMoney.getText().toString());
-        HttpxUtils.Get(this, HttpPath.TIXIAN_APPLYCASH, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,HttpPath.TIXIAN_APPLYCASH, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.e("获取提现页面数据", "获取提现页面数据 = " + result);

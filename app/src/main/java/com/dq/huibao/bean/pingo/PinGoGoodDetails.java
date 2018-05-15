@@ -80,6 +80,7 @@ public class PinGoGoodDetails {
         private String id;
         private String goodsid;
         private String goodsname;
+        private String shareurl;
         private String typeid;
         private String distype;
         private String isshow;
@@ -108,6 +109,13 @@ public class PinGoGoodDetails {
         private List<SpecBean> spec;
         private List<OptionBean> option;
 
+        public String getShareurl() {
+            return shareurl;
+        }
+
+        public void setShareurl(String shareurl) {
+            this.shareurl = shareurl;
+        }
         public String getId() {
             return id;
         }

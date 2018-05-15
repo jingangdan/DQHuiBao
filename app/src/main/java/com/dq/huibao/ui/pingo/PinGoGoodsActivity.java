@@ -128,6 +128,8 @@ public class PinGoGoodsActivity extends BaseActivity {
         ButterKnife.unbind(this);
 
         pinGoListGoodsAdapter.clear();
+        pinGoListGoodsAdapter = null;
+        lRecyclerViewGoodsAdapter = null;
     }
 
     /**
@@ -139,7 +141,7 @@ public class PinGoGoodsActivity extends BaseActivity {
         map.put("pagesize", pagesize + "");
         map.put("isindex", "1");
         map.put("distype", goodsType);
-        HttpxUtils.Get(this, HttpPath.PINGO_MORE_GOODS, map,
+        HttpxUtils.Get(this,HttpPath.PINGO_MORE_GOODS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -185,7 +187,7 @@ public class PinGoGoodsActivity extends BaseActivity {
         map.put("istm", istm);
         map.put("isms", isms);
         Log.d("拼go获取底部更多商品", "" + map.toString());
-        HttpxUtils.Get(this, HttpPath.PINGO_MORE_GOODS, map,
+        HttpxUtils.Get(this,HttpPath.PINGO_MORE_GOODS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -251,4 +253,5 @@ public class PinGoGoodsActivity extends BaseActivity {
             pingoMsTopTimeTv.setText("结束时间:" + AppUtil.getDateToString("yyyy-MM-dd HH:mm", Long.parseLong(goods.getData().getEtstr()) * 1000));
         }
     }
+
 }

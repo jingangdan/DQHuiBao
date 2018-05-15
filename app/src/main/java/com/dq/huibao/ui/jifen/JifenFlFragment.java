@@ -143,7 +143,7 @@ public class JifenFlFragment extends BaseFragment {
      * 获取积分商品分类
      */
     public void getListData() {
-        HttpxUtils.Get(getActivity(), HttpPath.JIFEN_FULI_TYPE, null,
+        HttpxUtils.Get(getActivity(),HttpPath.JIFEN_FULI_TYPE, null,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -186,7 +186,7 @@ public class JifenFlFragment extends BaseFragment {
     public void getGoods(String id){
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
-        HttpxUtils.Get(getActivity(), HttpPath.JIFEN_FULI_GOODS, map,
+        HttpxUtils.Get(getActivity(),HttpPath.JIFEN_FULI_GOODS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {

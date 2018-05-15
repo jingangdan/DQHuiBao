@@ -212,7 +212,7 @@ public class SubmitOrderActivity extends BaseActivity {
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
 
         System.out.println("获取收货地址 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("获取收货地址 = " + result);
@@ -272,7 +272,7 @@ public class SubmitOrderActivity extends BaseActivity {
         PATH = HttpPath.CONFIRM_CHECKORDER + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("确认订单 = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("确认订单 = " + result);
@@ -328,7 +328,7 @@ public class SubmitOrderActivity extends BaseActivity {
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         System.out.println("确认订单（商品详情） = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("确认订单（商品详情） = " + result);
@@ -387,7 +387,7 @@ public class SubmitOrderActivity extends BaseActivity {
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         System.out.println("提交订单 = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("提交订单 = " + result);
@@ -448,7 +448,7 @@ public class SubmitOrderActivity extends BaseActivity {
         PATH = HttpPath.ORDER_BUYNOW + MD5_PATH + "&couponid=" + couponid + "&remark=" + remark + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("提交订单（立即购买） = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("提交订单（立即购买） = " + result);
@@ -496,7 +496,7 @@ public class SubmitOrderActivity extends BaseActivity {
         map.put("count",count);
 //        map.put("allmoney","0");//未使用任何优惠前的商品价格
         Log.d("获取可使用优惠券 = map = ","for-bynow="+map.toString());
-        HttpxUtils.Get(this, HttpPath.COUPONS_USE_FORBBUYNOW, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,HttpPath.COUPONS_USE_FORBBUYNOW, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.d("获取可使用优惠券 = result = ","for-bynow="+ result);
@@ -529,7 +529,7 @@ public class SubmitOrderActivity extends BaseActivity {
         map.put("cartids",cartids);
 //        map.put("allmoney","0");//未使用任何优惠前的商品价格
         Log.d("获取可使用优惠券 = map = ","for-cart=="+map.toString());
-        HttpxUtils.Get(this, HttpPath.COUPONS_USE_FORCART, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,HttpPath.COUPONS_USE_FORCART, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.d("获取可使用优惠券 = result = ","for-cart=="+ result);

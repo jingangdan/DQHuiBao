@@ -4,14 +4,18 @@ package com.dq.huibao.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 
 /**
@@ -158,5 +162,29 @@ public class ImageUtils {
         }
 //        Log.e("图片地址","图片地址="+path);
         return path;
+    }
+
+    /**
+     * 自动计算图片高度
+     * @param context
+     * @param path：图片地址
+     * @param view：要设置高度的view
+     * @param params：ViewGroup.LayoutParams params
+     */
+    public static void setImageParamsHeight(Context context, String path, final View view, final ViewGroup.LayoutParams params){
+        Glide.with(context)
+                .load(getImagePath(path))
+                .asBitmap()//强制Glide返回一个Bitmap对象
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                        int width = bitmap.getWidth();
+                        int height = bitmap.getHeight();
+//                        Log.e("ffffffffffff", "width " + width); //200px
+//                        Log.e("fffffffffff", "height " + height); //200px
+                        params.height = AppUtil.getWidth() * height / width;
+                        view.setLayoutParams(params);
+                    }
+                });
     }
 }

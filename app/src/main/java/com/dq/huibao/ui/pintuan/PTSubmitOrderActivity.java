@@ -211,7 +211,7 @@ public class PTSubmitOrderActivity extends BaseActivity {
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
 
         System.out.println("获取收货地址 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("获取收货地址 = " + result);
@@ -259,7 +259,7 @@ public class PTSubmitOrderActivity extends BaseActivity {
 
 //        PATH = HttpPath.PINTUAN_TUAN_ADDORDER + MD5_PATH + "&sign=" +
 //                MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        Map<String, Object> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("uid", uid);
         map.put("pid", pid);
         map.put("count", count);
@@ -268,7 +268,7 @@ public class PTSubmitOrderActivity extends BaseActivity {
         map.put("goodsid", goodsid);
         map.put("optionid", optionid);
         System.out.println("确认订单（商品详情） = " + map.toString());
-        HttpxUtils.Post(this, HttpPath.PINTUAN_TUAN_CONFIRM, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,HttpPath.PINTUAN_TUAN_CONFIRM, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("确认订单（商品详情） = " + result);
@@ -350,7 +350,7 @@ public class PTSubmitOrderActivity extends BaseActivity {
 //
 //        PATH = HttpPath.PINTUAN_TUAN_ADDORDER + MD5_PATH + "&sign=" +
 //                MD5Util.getMD5String("addrid=" + addrid + "&count=" + count + "&goodsid=" + cartids + "&optionid=" + optionid + "&phone=" + phone + "&remark=" + remarks + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + HttpPath.KEY);
-        Map<String, Object> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("uid", uid);
         map.put("pid", pid);
         map.put("count", count);
@@ -360,7 +360,7 @@ public class PTSubmitOrderActivity extends BaseActivity {
         map.put("addrid", addrid);
         map.put("remark", ss);
         System.out.println("提交订单（立即购买） = " + map.toString());
-        HttpxUtils.Post(this, HttpPath.PINTUAN_TUAN_ADDORDER, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,HttpPath.PINTUAN_TUAN_ADDORDER, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("提交订单（立即购买） = " + result);

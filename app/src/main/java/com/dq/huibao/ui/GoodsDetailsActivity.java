@@ -289,6 +289,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
                     intent.putExtra("thumb", "" + picsList.get(0).toString());
                     intent.putExtra("goodsname", goodsDetail.getData().getGoodsname());
                     intent.putExtra("price", "" + goodsDetail.getData().getMarketprice());
+                    intent.putExtra("sharePath", goodsDetail.getData().getShareurl());
                     startActivityForResult(intent, CodeUtils.GDTAILD);
                 } else {
                     dialog();
@@ -471,7 +472,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
         PATH = HttpPath.GOODS_DETAIL +
                 "id=" + id + "&token=" + token + "&phone=" + phone;
         System.out.println("商品详情 = " + PATH);
-        HttpxUtils.Get(TAG, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("商品详情 = " + result);
@@ -540,7 +541,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
         PATH = HttpPath.MEM_ADDRECORD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("添加收藏 = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
@@ -599,7 +600,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
         PATH = HttpPath.MEM_DELRECORD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         System.out.println("取消收藏 = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
@@ -916,7 +917,7 @@ public class GoodsDetailsActivity extends Activity implements GradationScrollVie
         PATH = HttpPath.CART_ADD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
         System.out.println("添加购物车 = " + PATH);
-        HttpxUtils.Post(TAG, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {

@@ -160,7 +160,7 @@ public class XStoreFragment extends BaseFragment {
         Map<String, String> map = new HashMap<>();
         map.put("mid", uid);
         map.put("set", "1");
-        HttpxUtils.Get(getActivity(), HttpPath.XSHOP_INFO, map,
+        HttpxUtils.Get(getActivity(),HttpPath.XSHOP_INFO, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
@@ -216,7 +216,7 @@ public class XStoreFragment extends BaseFragment {
     public void submit() {
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
         PATH = HttpPath.XSHOP_SAVA_SHOP_INFO;
-        Map<String, Object> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("sign", MD5Util.getMD5String("phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + HttpPath.KEY));
         map.put("mid", uid);
         map.put("shopname", xstoreInfoName.getText().toString());
@@ -227,7 +227,7 @@ public class XStoreFragment extends BaseFragment {
         map.put("timestamp", String.valueOf((System.currentTimeMillis() / 1000)));
         map.put("token", token);
         System.out.println("提交小店信息 = " + map.toString());
-        HttpxUtils.Post(getActivity(), PATH, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(getActivity(),PATH, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("mmmmm小店信息提交返回 = " + result);

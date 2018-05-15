@@ -31,11 +31,13 @@ import com.dq.huibao.ui.KeywordsActivity;
 import com.dq.huibao.ui.LoginActivity;
 import com.dq.huibao.ui.homepage.WebActivity;
 import com.dq.huibao.ui.pintuan.PinTuanActivity;
+import com.dq.huibao.utils.AppUtil;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.SPUserInfo;
+import com.dq.huibao.utils.ShowUtils;
 import com.dq.huibao.view.CustomProgress;
 import com.dq.huibao.view.TopicScrollView;
 
@@ -58,7 +60,7 @@ import butterknife.OnClick;
  * Created by jingang on 2018/1/29.
  */
 
-public class PinGoActivity extends AppCompatActivity implements
+public class PinGoActivity extends BaseActivity implements
         HomePageInterface,
         PullToRefreshView.OnFooterRefreshListener,
         PullToRefreshView.OnHeaderRefreshListener {
@@ -206,8 +208,13 @@ public class PinGoActivity extends AppCompatActivity implements
                 getLogin();
                 break;
             case R.id.title_tv_right:
-                Intent intent = new Intent(this,PinGoLogsActivity.class);
-                startActivity(intent);
+                if (isLogin()){
+                    Intent intent = new Intent(this,PinGoLogsActivity.class);
+                    startActivity(intent);
+                }else {
+                    toLoginActivity();
+                }
+
                 break;
             default:
                 break;
@@ -230,7 +237,7 @@ public class PinGoActivity extends AppCompatActivity implements
         searchLayout.setVisibility(View.GONE);
         PATH = HttpPath.PINGO_INFEX;
         System.out.println("拼go首页 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
@@ -297,7 +304,7 @@ public class PinGoActivity extends AppCompatActivity implements
     public void getCenterTuan() {
         PATH = HttpPath.PINGO_CENTER_TUAN;
         System.out.println("拼go中间拼团信息 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
@@ -335,7 +342,7 @@ public class PinGoActivity extends AppCompatActivity implements
         map.put("page", page + "");
         map.put("pagesize", pagesize + "");
         map.put("isindex", "1");
-        HttpxUtils.Get(this, HttpPath.PINGO_MORE_GOODS, map,
+        HttpxUtils.Get(this,HttpPath.PINGO_MORE_GOODS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.SimpleFragmentPagerAdapter;
+import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.fragment.memcen.FMCouponsNoUse;
 import com.dq.huibao.fragment.memcen.FMCouponsPast;
 import com.dq.huibao.fragment.memcen.FMCouponsUsed;
@@ -28,7 +29,7 @@ import butterknife.OnClick;
  * Created by jingang on 2017/11/1.
  */
 
-public class CouponsActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+public class CouponsActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     @Bind(R.id.coupons_tabLayout)
     TabLayout tabLayout;
     @Bind(R.id.coupons_tb_noScrollViewPage)
@@ -48,6 +49,11 @@ public class CouponsActivity extends AppCompatActivity implements ViewPager.OnPa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coupons);
         ButterKnife.bind(this);
+
+        if (uidBase.equals("")){
+            toLoginActivity();
+            finish();
+        }
 
         fragments.add(FMCouponsNoUse.newInstance("FMCouponsNoUse"));
         fragments.add(FMCouponsUsed.newInstance("FMCouponsUsed"));

@@ -228,7 +228,7 @@ public class FMHomePage extends BaseFragment implements
     public void getIndex() {
         PATH = HttpPath.INDEXT_INDEX;
         System.out.println("首页 = " + PATH);
-        HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
@@ -296,7 +296,7 @@ public class FMHomePage extends BaseFragment implements
 
         System.out.println("签到信息 = " + PATH);
 
-        HttpxUtils.Get(getActivity(), PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("签到信息 = " + result);
@@ -346,7 +346,7 @@ public class FMHomePage extends BaseFragment implements
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         System.out.println("签到 = " + PATH);
-        HttpxUtils.Post(getActivity(), PATH, null,
+        HttpxUtils.Post(getActivity(),PATH, null,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {

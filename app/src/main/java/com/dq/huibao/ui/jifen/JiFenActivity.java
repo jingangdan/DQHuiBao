@@ -33,7 +33,7 @@ import butterknife.OnClick;
  * Created by d on 2018/4/14.
  */
 
-public class JiFenActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+public class JiFenActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     @Bind(R.id.jifen_tabLayout)
     TabLayout tabLayout;
     @Bind(R.id.jifen_tb_noScrollViewPage)
@@ -47,7 +47,6 @@ public class JiFenActivity extends AppCompatActivity implements ViewPager.OnPage
     private SimpleFragmentPagerAdapter sfpAdapter;
 
     Intent intent;
-    private String uid = "", phone = "", token = "";
     private int page = 0;
 
     @Override
@@ -55,11 +54,10 @@ public class JiFenActivity extends AppCompatActivity implements ViewPager.OnPage
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jifen);
 
-        isLogin();
         ButterKnife.bind(this);
 
-        fragments.add(JifenFlFragment.newInstance(uid, phone, token));
-        fragments.add(MyJfLogsFragment.newInstance(uid, phone, token));
+        fragments.add(JifenFlFragment.newInstance(uidBase, phoneBase, tokenBase));
+        fragments.add(MyJfLogsFragment.newInstance(uidBase, phoneBase, tokenBase));
 
 
         sfpAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), this, fragments, titles);
@@ -85,23 +83,6 @@ public class JiFenActivity extends AppCompatActivity implements ViewPager.OnPage
                 Intent intent = new Intent(JiFenActivity.this,MyLogsActivity.class);
                 startActivity(intent);
                 break;
-        }
-    }
-    /*
-      * 判断登录状态
-      *  */
-    @SuppressLint("WrongConstant")
-    public void isLogin() {
-        SPUserInfo spUserInfo = new SPUserInfo(this.getApplication());
-
-        if (spUserInfo.getLogin().equals("1")) {
-
-            if (!(spUserInfo.getLoginReturn().equals(""))) {
-                Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
-                phone = login.getData().getPhone();
-                token = login.getData().getToken();
-                uid = login.getData().getUid();
-            }
         }
     }
 

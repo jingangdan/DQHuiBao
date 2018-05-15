@@ -366,7 +366,7 @@ public class RegistActivity extends BaseActivity {
         PATH = HttpPath.ACCOUNT_VERIFY +
                 "phone=" + phone + "&type=" + type;
         System.out.println("验证码 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("验证码 = " + result);
@@ -406,7 +406,7 @@ public class RegistActivity extends BaseActivity {
         PATH = HttpPath.ACCOUNT_REG +
                 "phone=" + phone + "&verify=" + verify + "&pwd=" + pwd;
         System.out.println("注册 = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("注册 = " + result);

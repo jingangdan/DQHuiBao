@@ -193,7 +193,7 @@ public class AddrEditActivity extends BaseActivity {
     public void getRegion() {
         PATH = HttpPath.COMMON_REGION;
         System.out.println("获取省市列表 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("获取省市列表 = " + result);
@@ -286,7 +286,7 @@ public class AddrEditActivity extends BaseActivity {
         System.out.println("加密 = " + MD5_PATH);
 
         System.out.println("添加收货地址 = " + PATH);
-        HttpxUtils.Post(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("添加收货地址 = " + result);

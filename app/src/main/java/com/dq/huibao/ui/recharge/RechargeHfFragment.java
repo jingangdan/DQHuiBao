@@ -105,7 +105,7 @@ public class RechargeHfFragment extends BaseFragment {
         map.put("pay_mobile",rechargeHfPhone.getText().toString());
         map.put("bill", num + "");
         System.out.println("话费充值 = map = " + map.toString());
-        HttpxUtils.Get(getActivity(), HttpPath.RECHARGE_GET_ORDER, map, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(),HttpPath.RECHARGE_GET_ORDER, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("话费充值 = " + result);
@@ -143,7 +143,7 @@ public class RechargeHfFragment extends BaseFragment {
      * 获取充值金额
      */
     public void getBill() {
-        HttpxUtils.Get(getActivity(), HttpPath.RECHARGE_BILL, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(getActivity(),HttpPath.RECHARGE_BILL, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("获取充值金额= " + result);

@@ -283,7 +283,7 @@ public class GoodsListActivity extends Activity implements
         PATH = HttpPath.GOODS_SEARCH +
                 content + "&keywords=" + keywords + "&page=" + page + "&type="+searchType;
         System.out.println("商品列表 = " + PATH);
-        HttpxUtils.Get(this, PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 System.out.println("商品列表 = " + result);
