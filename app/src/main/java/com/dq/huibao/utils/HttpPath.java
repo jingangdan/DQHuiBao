@@ -91,6 +91,13 @@ public class HttpPath {
      * pwd密码
      */
     public static final String ACCOUNT_LOGIN = HEADER + "Account/login?";
+    /**
+     * 4.
+     * 登录
+     * 方式：post/get
+     * 参数：info
+     */
+    public static final String ACCOUNT_LOGIN_WX = HEADER + "Account/wxlogin?";
 
     /**
      * 5.

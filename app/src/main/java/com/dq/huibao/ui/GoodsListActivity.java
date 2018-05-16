@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
 import com.dq.huibao.adapter.GoodsAdapter;
+import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.goods.GoodsList;
 import com.dq.huibao.refresh.PullToRefreshView;
 import com.dq.huibao.ui.pingo.PinGoDetailsActivity;
@@ -45,7 +46,7 @@ import butterknife.OnClick;
  * Description：商品列表
  * Created by jingang on 2017/10/25.
  */
-public class GoodsListActivity extends Activity implements
+public class GoodsListActivity extends BaseActivity implements
         PullToRefreshView.OnFooterRefreshListener,
         PullToRefreshView.OnHeaderRefreshListener {
 

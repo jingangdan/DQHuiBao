@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.dq.huibao.ui.pingo.PinGoActivity;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.SPUserInfo;
 import com.dq.huibao.utils.ShowUtils;
+import com.dq.huibao.utils.StatusBarUtils;
 
 import java.lang.reflect.Field;
 
@@ -38,7 +40,7 @@ import java.lang.reflect.Field;
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
     private LinearLayout parentLinearLayout;//把父类activity和子类activity的view都add到这里
-    private RelativeLayout baseTitleLayout;
+    private Toolbar baseTitleLayout;
     private TextView titleName;
 
     /*返回*/
@@ -50,19 +52,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            try {
-                //处理部分手机状态栏灰色
-                Class decorViewClazz = Class.forName("com.android.internal.policy.DecorView");
-                Field field = decorViewClazz.getDeclaredField("mSemiTransparentStatusBarColor");
-                field.setAccessible(true);
-                field.setInt(getWindow().getDecorView(), Color.TRANSPARENT);  //改为透明
-            } catch (Exception e) {}
-            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
-            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
-        }
+        //状态栏图标，文字改为深色
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         initContentView(R.layout.activity_base);
 

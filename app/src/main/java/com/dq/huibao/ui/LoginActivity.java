@@ -237,7 +237,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
     private void authorize(Platform plat, int type) {
         switch (type) {
             case 1:
-                showProgressDialog("开启微信");
+                plat.authorize();
                 break;
             case 2:
                 showProgressDialog("开启QQ");
@@ -304,7 +304,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                 Toast.makeText(LoginActivity.this, "用户信息为--用户名：" + userName + "  性别：" + userGender, Toast.LENGTH_SHORT).show();
 
                 WeChat weChat = GsonUtil.gsonIntance().gsonToBean(platform.getDb().exportData(), WeChat.class);
-
+                postLoginWx(platform.getDb().exportData());
                 System.out.println("用户头像 = " + userIcon);
 
                 System.out.println("用户头像 = " + weChat.getIcon());
@@ -341,7 +341,59 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
         if (progressDialog != null)
             progressDialog.dismiss();
     }
+    /**
+     * 微信登录
+     *
+     */
+    public void postLoginWx(String json) {
+        PATH = HttpPath.ACCOUNT_LOGIN_WX +
+                "info=" + json;
+        System.out.println("微信登录" + PATH);
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                login_result = result;
+                System.out.println("微信登录" + result);
+                Login login = GsonUtil.gsonIntance().gsonToBean(result, Login.class);
+                if (login.getStatus() == 1) {
+                    //if (loginBean.getResult().equals("1")) {
+                    toast("微信登录成功");
+                    spUserInfo.saveLogin("1");//微信登录成功记录 1
+                    spUserInfo.saveLoginReturn(result);//登录成功记录返回信息
 
+                    intent = new Intent();
+                    intent.putExtra("uid", login.getData().getUid());
+                    setResult(CodeUtils.LOGIN, intent);
+
+                    LoginActivity.this.finish();
+
+                } else {
+                    toast("" + login.getData());
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(login_result, AddrReturn.class);
+                if (addrReturn.getStatus() == 0) {
+                    toast("" + addrReturn.getData());
+                } else {
+                    toast("微信登录失败，请检查账号或密码");
+                }
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
     /**
      * 登录
      *
@@ -353,7 +405,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
         PATH = HttpPath.ACCOUNT_LOGIN +
                 "phone=" + phone + "&pwd=" + pwd;
         System.out.println("登录" + PATH);
-        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 login_result = result;
