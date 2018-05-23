@@ -35,6 +35,8 @@ import com.dq.huibao.rollpagerview.ImageLoopAdapter;
 import com.dq.huibao.rollpagerview.OnItemClickListener;
 import com.dq.huibao.rollpagerview.RollPagerView;
 import com.dq.huibao.ui.GoodsDetailsActivity;
+import com.dq.huibao.ui.GoodsListActivity;
+import com.dq.huibao.ui.pingo.PinGoActivity;
 import com.dq.huibao.ui.pingo.PinGoGoodsActivity;
 import com.dq.huibao.utils.AppUtil;
 import com.dq.huibao.utils.CountDownUtil;
@@ -156,7 +158,7 @@ public class PinGoHomeAdapter extends RecyclerView.Adapter {
             pinGoeViewHolder.setData();
         } else if (TYPE_GOODSLIST.equals(type)) {
             GoodsListViewHolder goodsListViewHolder = (GoodsListViewHolder) holder;
-            goodsListViewHolder.setData(dataList.get(position).getChild());
+            goodsListViewHolder.setData(dataList.get(position));
         }
     }
 
@@ -309,7 +311,7 @@ public class PinGoHomeAdapter extends RecyclerView.Adapter {
                 try {
                     //最新加入的人员
                     if (dataList.get(i).getList().size() != 0){
-                        newPeople.get(i).setText(dataList.get(i).getList().get(dataList.get(i).getList().size()-1).getRname() + "刚刚加入团");
+                        newPeople.get(i).setText(dataList.get(i).getList().get(dataList.get(i).getList().size()-1).getRname() + " 刚刚加入团");
                     }
                     //优惠
                     youhui.get(i).setText("加入立"+ (i < 2 ? "减"+dataList.get(i).getJian()+"元" : "打"+dataList.get(i).getZhe()+"折"));
@@ -318,7 +320,7 @@ public class PinGoHomeAdapter extends RecyclerView.Adapter {
 
                 }
                 //最后一个默认添加
-                dataList.get(i).getList().add(new PinGoCenterTuan.DataBean.ListBeanX.ListBean());
+                dataList.get(i).getList().add(0,new PinGoCenterTuan.DataBean.ListBeanX.ListBean());
                 adapters.add(new PinGoIndexChildAdapter(mContext,dataList.get(i).getList(),dataList.get(i).getDistype()));
                 adapters.get(i).setOnItemClickListener(new PinGoIndexChildAdapter.OnItemClickListener() {
                     @Override
@@ -393,16 +395,41 @@ public class PinGoHomeAdapter extends RecyclerView.Adapter {
 
         private final Context mContext;
         private RecyclerView recyclerView;
-
+        private LinearLayout titleLayout;
+        private ImageView titleImagetm,titleImagems;
+        private TextView title,more;
+        String type = "";
         public GoodsListViewHolder(Context mContext, View itemView) {
             super(itemView);
             this.mContext = mContext;
             recyclerView = (RecyclerView) itemView.findViewById(R.id.rv_goodslist);
+            titleLayout = itemView.findViewById(R.id.goods_title_layout);
+            titleImagetm = itemView.findViewById(R.id.goods_title_image_tm);
+            titleImagems = itemView.findViewById(R.id.goods_title_image_ms);
+            title = itemView.findViewById(R.id.goods_title_title);
+            more = itemView.findViewById(R.id.goods_title_more);
         }
 
-        public void setData(final List<PinGoIndex.DataBean.ChildBean> glistBeans) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
-            final PGGoodsListAdapter goodsListAdapter = new PGGoodsListAdapter(mContext, glistBeans);
+        public void setData(final PinGoIndex.DataBean glistBeans) {
+            if (glistBeans.getTitle().indexOf(PinGoActivity.TYPE_MIAOSHA) !=-1 ){
+                type = PinGoActivity.TYPE_MIAOSHA;
+                titleLayout.setVisibility(View.VISIBLE);
+                titleImagems.setVisibility(View.VISIBLE);
+            }else if (glistBeans.getTitle().indexOf(PinGoActivity.TYPE_TEMAI) !=-1 ){
+                type = PinGoActivity.TYPE_TEMAI;
+                titleLayout.setVisibility(View.VISIBLE);
+                titleImagems.setVisibility(View.VISIBLE);
+            }
+            title.setText(type);
+            more.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    hpInterface.doHomePage(0, "", "other",type);
+                }
+            });
+
+            recyclerView.setLayoutManager(new GridLayoutManager(mContext,3,GridLayoutManager.VERTICAL,false));
+            final PGGoodsListAdapter goodsListAdapter = new PGGoodsListAdapter(mContext, glistBeans.getChild());
             recyclerView.setAdapter(goodsListAdapter);
 
             goodsListAdapter.setOnItemClickListener(new com.dq.huibao.Interface.OnItemClickListener() {
@@ -410,9 +437,9 @@ public class PinGoHomeAdapter extends RecyclerView.Adapter {
                 public void onItemClick(View view, int position) {
                     hpInterface.doHomePage(
                             position,
-                            glistBeans.get(position).getTitle(),
+                            glistBeans.getChild().get(position).getTitle(),
                             "goods",
-                            glistBeans.get(position).getId()
+                            glistBeans.getChild().get(position).getId()
                     );
                 }
             });
@@ -448,12 +475,14 @@ public class PinGoHomeAdapter extends RecyclerView.Adapter {
         private final Context mContext;
         private RecyclerView recyclerView;
         PinGoMoreGoodsAdapter goodsListAdapter;
+        private TextView textView;
         List<PinGoIndexMoreGoods.DataBean.ListBean> glistBeans = new ArrayList<>();
 
         public GoodsListMoreViewHolder(Context mContext, View itemView) {
             super(itemView);
             this.mContext = mContext;
             recyclerView = (RecyclerView) itemView.findViewById(R.id.rv_goodslist);
+            textView = itemView.findViewById(R.id.index_more);
         }
 
         public void setData() {
@@ -472,7 +501,18 @@ public class PinGoHomeAdapter extends RecyclerView.Adapter {
                     );
                 }
             });
-
+            textView.setVisibility(View.VISIBLE);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, PinGoGoodsActivity.class);
+                    intent.putExtra("isms", "0");
+                    intent.putExtra("istm", "0");
+                    intent.putExtra("title", "拼go商品");
+                    intent.putExtra("goodsType", "");
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
         /**

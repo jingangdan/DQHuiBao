@@ -107,7 +107,7 @@ public class PinGoActivity extends BaseActivity implements
     private Boolean cansign = false;
     private String cur_count = "", cur_money = "";
     //
-    private int page = 1, pagesize = 10;
+    private int page = 1, pagesize = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -362,7 +362,10 @@ public class PinGoActivity extends BaseActivity implements
                     }
                 });
     }
-
+    public static final String TYPE_LIJIAN = "立减金额";
+    public static final String TYPE_ZHEKOU = "立打折扣";
+    public static final String TYPE_MIAOSHA = "周五秒杀";
+    public static final String TYPE_TEMAI = "当季特卖";
     @Override
     public void doHomePage(int position, String title, String type, String content) {
         if (content.equals("#")) return;
@@ -445,14 +448,14 @@ public class PinGoActivity extends BaseActivity implements
                 intent.putExtra("isms", "0");
                 intent.putExtra("istm", "0");
                 intent.putExtra("title", content);
-                if ("立减金额".equals(content)) {
+                if (TYPE_LIJIAN.equals(content)) {
                     content = "jian";
-                } else if ("立打折扣".equals(content)) {
+                } else if (TYPE_ZHEKOU.equals(content)) {
                     content = "zhe";
-                } else if ("当季特卖".equals(content)) {
+                } else if (TYPE_TEMAI.equals(content)) {
                     intent.putExtra("istm", "1");
                     content = "jian";
-                } else if ("周五秒杀".equals(content)) {
+                } else if (TYPE_MIAOSHA.equals(content)) {
                     intent.putExtra("isms", "1");
                     content = "jian";
                 } else if ("论坛".equals(content)) {
@@ -519,8 +522,8 @@ public class PinGoActivity extends BaseActivity implements
 
     @Override
     public void onFooterRefresh(PullToRefreshView view) {
-        page++;
-        getMoreGoods();
+//        page++;
+//        getMoreGoods();
     }
 
     @Override

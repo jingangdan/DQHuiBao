@@ -4,17 +4,19 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:layout_margin="3dp"
+    android:background="@color/white"
     android:orientation="vertical">
     <ImageView
         android:id="@+id/item_pingo_goods_top_image"
         android:layout_width="180dp"
-        android:layout_height="180dp"/>
+        android:layout_height="180dp"
+        android:layout_gravity="center_horizontal"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#88cccccc"
+        android:background="#33000000"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 

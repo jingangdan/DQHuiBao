@@ -60,16 +60,10 @@ public class PGGoodsListAdapter extends RecyclerView.Adapter<PGGoodsListAdapter.
             });
 
         }
-        ViewGroup.LayoutParams layoutParams = holder.img.getLayoutParams();
-        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        layoutParams.width = AppUtil.getWidth()/3;
-
-        holder.img.setLayoutParams(layoutParams);
-
-        Glide.with(mContext).load(ImageUtils.getImagePath(goodsList.get(position).getThumb()))
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .placeholder(R.mipmap.icon_empty002)
-                .into(holder.img);
+        ImageUtils.loadIntoUseFitWidths(mContext,
+                goodsList.get(position).getThumb(),
+                R.mipmap.icon_empty002,
+                holder.img);
 
         holder.tv_name.setText("" + goodsList.get(position).getGoodsname());
 
