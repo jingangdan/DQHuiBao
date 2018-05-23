@@ -89,11 +89,9 @@ public class OrderCommentActivity extends BaseActivity {
         MD5_PATH = "id=" + orderid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
         PATH = HttpPath.ORDER_DETAIL + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        System.out.println("订单详情 = " + PATH);
         HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("订单详情 = " + result);
                 OrderDetail orderDetail = GsonUtil.gsonIntance().gsonToBean(result, OrderDetail.class);
 
                 if (orderDetail.getStatus() == 1) {
@@ -132,11 +130,9 @@ public class OrderCommentActivity extends BaseActivity {
         MD5_PATH = "orderid=" + orderid + "&phone=" + phone + "&remark=" + remark + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
         PATH = HttpPath.ORDER_COMMENT + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        System.out.println("评价订单 = " + PATH);
         HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("评价订单 = " + result);
             }
 
             @Override
@@ -173,7 +169,6 @@ public class OrderCommentActivity extends BaseActivity {
                 } catch (Exception e) {
 
                 }
-                System.out.println("111 = " + object.toString());
 
                 try {
                     String s = URLEncoder.encode(object.toString(), "UTF-8");

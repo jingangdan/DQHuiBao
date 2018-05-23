@@ -154,7 +154,7 @@ public class TiXianAccountInfoActivity extends BaseActivity implements RadioGrou
                 if (isAdd){
                     editAccount(ACTION_ADD);
                 }else {
-                    ShowUtils.showDialog(this, "提示", "是否删除", new ShowUtils.OnDialogListener() {
+                    ShowUtils.showDialog(this, "提示", "是否删除","删除", new ShowUtils.OnDialogListener() {
                         @Override
                         public void confirm() {
                             editAccount(ACTION_DEL);
@@ -178,8 +178,6 @@ public class TiXianAccountInfoActivity extends BaseActivity implements RadioGrou
         HttpxUtils.Get(this,HttpPath.TIXIAN_GET_ACCOUNTINFO, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.e("获取提现账号信息", "获取提现账号信息 = " + result);
-
                 TiXianAccountInfoB accountInfoB = GsonUtil.gsonIntance().gsonToBean(result, TiXianAccountInfoB.class);
 
                 tixianAcountinfoAcount.setText(accountInfoB.getData().getAccount());
@@ -228,18 +226,11 @@ public class TiXianAccountInfoActivity extends BaseActivity implements RadioGrou
         }if (action.equals(ACTION_ADD)){
             map.put("type", type);
             map.put("desc", getUTFDesc());
-
-//            Log.e("ffffffffffffffffff",""+tixianAcountinfoAcount.getText().toString());
-//            String sss = tixianAcountinfoAcount.getText().toString().replaceAll(" ","");
-
-//            Log.e("ffffffffffffffffff",""+sss);
-
             map.put("account", tixianAcountinfoAcount.getText().toString());
         }
         HttpxUtils.Get(this,HttpPath.TIXIAN_EDIT, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.e("修改提现账号信息", "修改提现账号信息 = " + result);
 
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1){

@@ -99,11 +99,9 @@ public class RechargeActivity extends BaseActivity {
         MD5_PATH = "money=" + money + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
         PATH = HttpPath.RECHARGE_ORDER + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        System.out.println("充值 = " + PATH);
         HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("充值 = " + result);
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     //toast("" + addrReturn.getData());

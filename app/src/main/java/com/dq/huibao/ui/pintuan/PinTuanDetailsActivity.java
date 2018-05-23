@@ -333,11 +333,9 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
         Map<String, String> map = new HashMap<>();
         map.put("goodsid", gid);
         map.put("tuanid", tuanId);
-        System.out.println("拼团商品详情 = " + map.toString());
         HttpxUtils.Get(this,HttpPath.PINTUAN_DETAILS, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("拼团商品详情 = " + result);
                 goodsDetail = GsonUtil.gsonIntance().gsonToBean(result, PinTuanDetails.class);
                 isSpecs = (goodsDetail.getData().getHasoption() == 1);
                 if (goodsDetail.getData().getFooter_status() == 0) {
@@ -403,7 +401,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                System.out.println("拼团商品详情失败 = " + ex.toString());
+
             }
 
             @Override
@@ -427,11 +425,9 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
         map.put("tuanid", tuanId);
         map.put("pid", pid);
         map.put("uid", uid);
-        System.out.println("参团验证 = " + map.toString());
         HttpxUtils.Get(this,HttpPath.PINTUAN_VERIFY, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("参团验证 = " + result);
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.getInt("status") == 1) {
@@ -446,7 +442,6 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                System.out.println("参团验证失败 = " + ex.toString());
                 toast("无法参团");
             }
 
@@ -744,7 +739,7 @@ public class PinTuanDetailsActivity extends BaseActivity implements GradationScr
         if (!TextUtils.isEmpty(result)) {
             Account account = GsonUtil.gsonIntance().gsonToBean(result, Account.class);
             if (account.getData().equals("用户验证错误")) {
-                ShowUtils.showDialog(TAG, "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？", new ShowUtils.OnDialogListener() {
+                ShowUtils.showDialog(TAG, "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？","登陆", new ShowUtils.OnDialogListener() {
                     @Override
                     public void confirm() {
                         intent = new Intent(TAG, LoginActivity.class);

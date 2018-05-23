@@ -303,7 +303,7 @@ public class PinGoHomeAdapter extends RecyclerView.Adapter {
                 //地区名称
                 pingodiquName.get(i).setText(dataList.get(i).getRegname());
                 //还剩几单
-                pingosyds.get(i).setText("还剩" + (Integer.parseInt(dataList.get(i).getMaxcount()) - Integer.parseInt(dataList.get(i).getNowcount())) + "单");
+                pingosyds.get(i).setText("余" + (Integer.parseInt(dataList.get(i).getMaxcount()) - Integer.parseInt(dataList.get(i).getNowcount())) + "单");
 
                 //数据有问题，暂时先这样
                 try {
@@ -315,13 +315,10 @@ public class PinGoHomeAdapter extends RecyclerView.Adapter {
                     youhui.get(i).setText("加入立"+ (i < 2 ? "减"+dataList.get(i).getJian()+"元" : "打"+dataList.get(i).getZhe()+"折"));
                     //设置参团人员
                 }catch (Exception e){
-                    Log.e("fffffffffffff = ","拼go信息 = "+e.toString());
+
                 }
-                //固定显示四个，不够的补上
-                int num = dataList.get(i).getList().size();
-                for (int j = 0;j < (4 - num);j++){
-                    dataList.get(i).getList().add(new PinGoCenterTuan.DataBean.ListBeanX.ListBean());
-                }
+                //最后一个默认添加
+                dataList.get(i).getList().add(new PinGoCenterTuan.DataBean.ListBeanX.ListBean());
                 adapters.add(new PinGoIndexChildAdapter(mContext,dataList.get(i).getList(),dataList.get(i).getDistype()));
                 adapters.get(i).setOnItemClickListener(new PinGoIndexChildAdapter.OnItemClickListener() {
                     @Override

@@ -78,7 +78,7 @@ public class HttpPath {
      * 参数：
      * phone手机号
      * verify验证码
-     * pwd密码
+     * code密码
      */
     public static final String ACCOUNT_REG = HEADER + "Account/reg?";
 
@@ -88,16 +88,16 @@ public class HttpPath {
      * 方式：post/get
      * 参数：
      * phone手机号
-     * pwd密码
+     * code密码:md5加密
      */
     public static final String ACCOUNT_LOGIN = HEADER + "Account/login?";
     /**
      * 4.
-     * 登录
+     * 登录--微信
      * 方式：post/get
      * 参数：info
      */
-    public static final String ACCOUNT_LOGIN_WX = HEADER + "Account/wxlogin?";
+    public static final String ACCOUNT_LOGIN_WX = HEADER + "Account/wxlogin";
 
     /**
      * 5.
@@ -118,9 +118,31 @@ public class HttpPath {
      * 参数：
      * phone手机号
      * verify验证码
-     * pwd密码
+     * code密码
      */
     public static final String ACCOUNT_BACKPWD = HEADER + "Account/backpwd?";
+
+    /**
+     * 绑定手机号
+     * 忘记密码找回
+     * 方式：post/get
+     * 参数：
+     * phone手机号
+     * uid
+     * code密码
+     */
+    public static final String ACCOUNT_SET_PHONE = HEADER + "Account/bindphone?";
+
+    /**
+     * 绑定手机号
+     * 忘记密码找回
+     * 方式：post/get
+     * 参数：
+     * punionid微信用户唯一标识
+     * uid
+     * nickname微信昵称
+     */
+    public static final String ACCOUNT_WECHAT_BD = HEADER + "Account/bindwx";
 
     /**
      * 7.

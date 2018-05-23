@@ -101,7 +101,6 @@ public class PinGoShareActivity extends BaseActivity {
         HttpxUtils.Get(this,HttpPath.PINGO_SHARE, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.e("拼go下单成功", "拼go下单成功 = " + result);
 
                 PinGoShareB goShareB = GsonUtil.gsonIntance().gsonToBean(result, PinGoShareB.class);
                 updateUI(goShareB);
@@ -109,7 +108,7 @@ public class PinGoShareActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.e("拼go下单成功", "拼go下单成功 失败= " + ex.toString());
+
             }
 
             @Override

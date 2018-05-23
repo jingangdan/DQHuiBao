@@ -145,7 +145,6 @@ public class PayActivity extends BaseActivity {
                         Toast.makeText(PayActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
                     }
 
-                    System.out.println("111 = " + msg.obj.toString());
                     break;
                 }
                 case SDK_AUTH_FLAG: {
@@ -265,11 +264,9 @@ public class PayActivity extends BaseActivity {
         MD5_PATH = "ordersn=" + ordersn + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
         PATH = HttpPath.PAY_PAYTYPE + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        System.out.println("选择支付方式 = " + PATH);
         HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("选择支付方式 = " + result);
                 PayType payType = GsonUtil.gsonIntance().gsonToBean(result, PayType.class);
                 if (payType.getStatus() == 1) {
                     price = payType.getData().getOrder().getPay_money();
@@ -323,12 +320,9 @@ public class PayActivity extends BaseActivity {
         PATH = HttpPath.PAY_ORDER + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
-        System.out.println("选择支付方式 = = " + PATH);
         HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("第三方下单 = " + result);
-
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
 
@@ -532,8 +526,6 @@ public class PayActivity extends BaseActivity {
         String sign = OrderInfoUtil2_0.getSign(params, privateKey, rsa2);
 
         final String orderInfo = orderParam + "&" + sign;
-
-        System.out.println("111 = " + orderInfo);
 
         Runnable payRunnable = new Runnable() {
 

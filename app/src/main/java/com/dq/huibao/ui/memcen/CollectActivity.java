@@ -94,11 +94,9 @@ public class CollectActivity extends BaseActivity implements CollectAdapter.Coll
         PATH = HttpPath.MEM_RECORDLIST + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
-        System.out.println("收藏列表 = " + PATH);
         HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("收藏列表 = " + result);
                 Collect collect = GsonUtil.gsonIntance().gsonToBean(result, Collect.class);
 
                 collectList.clear();
@@ -161,11 +159,10 @@ public class CollectActivity extends BaseActivity implements CollectAdapter.Coll
         MD5_PATH = "id=" + id + "&phone=" + phoneBase + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + tokenBase + "&type=" + type;
         PATH = HttpPath.MEM_DELRECORD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        System.out.println("取消收藏 = " + PATH);
+
         HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("取消收藏 = " + result);
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     toast("" + addrReturn.getData());

@@ -102,12 +102,10 @@ public class CouponsListActivity extends BaseActivity {
                 "&page=" + page;
 
         params = new RequestParams(PATH);
-        System.out.println("优惠券领取列表 = " + PATH);
         x.http().get(params,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("优惠券领取列表 = " + result);
                         CouponsList couponsList = GsonUtil.gsonIntance().gsonToBean(result, CouponsList.class);
                         couponsDataList.clear();
                         couponsDataList.addAll(couponsList.getData());

@@ -166,11 +166,9 @@ public class FMCouponsPast extends BaseFragment {
         map.put("page",page + "");
         map.put("pagesize",pagesize + "");
         map.put("type","2");
-        System.out.println("优惠券 未使用 = " + map.toString());
         HttpxUtils.Get(getActivity(),HttpPath.COUPONS_MY, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("优惠券 未使用= " + result);
                 MyCouponsB coupons = GsonUtil.gsonIntance().gsonToBean(result, MyCouponsB.class);
                 rvOrderAll.refreshComplete(pagesize);
                 if (coupons.getData().size() < pagesize || coupons.getData().size() == 0){
@@ -192,7 +190,6 @@ public class FMCouponsPast extends BaseFragment {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 linCouponsNull.setVisibility(View.VISIBLE);
-                System.out.println("优惠券 未使用=失败 " + ex.toString());
             }
 
             @Override

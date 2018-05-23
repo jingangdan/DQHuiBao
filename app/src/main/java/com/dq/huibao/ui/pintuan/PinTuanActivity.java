@@ -93,7 +93,6 @@ public class PinTuanActivity extends BaseActivity {
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("获取拼团信息 = " + result);
                         pinTuanIndex = GsonUtil.gsonIntance().gsonToBean(result, PinTuanIndex.class);
                         listAdapter.addAll(pinTuanIndex.getData().getList());
                         lRecyclerView.refreshComplete(pageSize);
@@ -104,7 +103,7 @@ public class PinTuanActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取拼团信息 = 失败" + ex.getMessage());
+
                     }
 
                     @Override

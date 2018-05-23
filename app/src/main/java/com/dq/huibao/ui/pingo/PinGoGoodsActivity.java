@@ -145,7 +145,6 @@ public class PinGoGoodsActivity extends BaseActivity {
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("获取顶部goods = " + result);
                         final GoodsListTop topGoods = GsonUtil.gsonIntance().gsonToBean(result, GoodsListTop.class);
                         topAdapter = new PinGoGoodsTopAdapter(PinGoGoodsActivity.this, topGoods.getData().getList());
                         topAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -161,7 +160,7 @@ public class PinGoGoodsActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取顶部goods = 失败" + ex.getMessage());
+
                     }
 
                     @Override
@@ -186,12 +185,10 @@ public class PinGoGoodsActivity extends BaseActivity {
         map.put("distype", goodsType);
         map.put("istm", istm);
         map.put("isms", isms);
-        Log.d("拼go获取底部更多商品", "" + map.toString());
         HttpxUtils.Get(this,HttpPath.PINGO_MORE_GOODS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("拼go获取底部更多商品 = " + result);
 
                         PinGoIndexMoreGoods indexMoreGoods = GsonUtil.gsonIntance().gsonToBean(result, PinGoIndexMoreGoods.class);
                         //周五秒杀
@@ -216,7 +213,7 @@ public class PinGoGoodsActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("拼go获取底部更多商品 = 失败" + ex.getMessage());
+
                     }
 
                     @Override

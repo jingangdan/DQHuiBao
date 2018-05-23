@@ -137,7 +137,6 @@ public class TiXianActivity extends BaseActivity {
         HttpxUtils.Get(this,HttpPath.TIXIAN_INDEX, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.e("获取提现页面数据", "获取提现页面数据 = " + result);
 
                 tiXianIndexB = GsonUtil.gsonIntance().gsonToBean(result, TiXianIndexB.class);
 
@@ -154,7 +153,7 @@ public class TiXianActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.e("获取提现页面数据", "获取提现页面数据 失败= " + ex.toString());
+
             }
 
             @Override
@@ -179,7 +178,6 @@ public class TiXianActivity extends BaseActivity {
         HttpxUtils.Get(this,HttpPath.TIXIAN_APPLYCASH, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.e("获取提现页面数据", "获取提现页面数据 = " + result);
 
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1){
@@ -192,7 +190,7 @@ public class TiXianActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.e("获取提现页面数据", "获取提现页面数据 失败= " + ex.toString());
+
             }
 
             @Override

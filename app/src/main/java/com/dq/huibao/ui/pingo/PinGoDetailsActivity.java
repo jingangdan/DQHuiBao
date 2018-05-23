@@ -40,6 +40,7 @@ import com.dq.huibao.R;
 import com.dq.huibao.adapter.pingo.PGChooseAdapter;
 import com.dq.huibao.adapter.pingo.PinGoParmasAdapter;
 import com.dq.huibao.adapter.pingo.PinGoQuYuAdapter;
+import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.account.Account;
 import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.bean.addr.AddrReturn;
@@ -82,7 +83,7 @@ import butterknife.OnClick;
  * Description：商品详情
  * Created by jingang on 2017/10/24.
  */
-public class PinGoDetailsActivity extends Activity implements GradationScrollView.ScrollViewListener {
+public class PinGoDetailsActivity extends BaseActivity implements GradationScrollView.ScrollViewListener {
     private PinGoDetailsActivity TAG = PinGoDetailsActivity.this;
 
     /*返回上层*/
@@ -498,11 +499,9 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
     public void getGoodsDetail() {
         PATH = HttpPath.PINGO_GOODS_DETAIL +
                 "?id=" + gid + "&mid=" + uid + "&token=" + token + "&phone=" + phone;
-        System.out.println("拼go商品详情 = " + PATH);
         HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("拼go商品详情 = " + result);
                 goodsDetail = GsonUtil.gsonIntance().gsonToBean(result, PinGoGoodDetails.class);
                 picsList.clear();
                 specsList.clear();
@@ -532,7 +531,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
                 try {
                     setLunbotu();
                 }catch (Exception ex){
-                    System.out.println("拼go商品详情 =失败 " + ex.toString());
+
                 }
                 initData();
                 getWebHTML(content);
@@ -541,7 +540,6 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                System.out.println("拼go商品详情 =失败 " + ex.toString());
 
                 Toast.makeText(PinGoDetailsActivity.this,"商品加载失败",Toast.LENGTH_SHORT);
             }
@@ -574,13 +572,11 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         MD5_PATH = "count=" + count + "&goodsid=" + gid + "&optionid=" + optionid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
         PATH = HttpPath.CART_ADD + MD5_PATH + "&type=" + (isBuyMs?"2":"1") + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
-        System.out.println("添加购物车 = " + PATH);
         HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
                 cartadd_string = result;
-                System.out.println("添加购物车 = " + result);
                 cart = GsonUtil.gsonIntance().gsonToBean(result, Cart.class);
                 if (cart.getStatus() == 1){
                     Toast.makeText(TAG, "添加成功", Toast.LENGTH_SHORT).show();
@@ -604,7 +600,6 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
             public void onError(Throwable ex, boolean isOnCallback) {
 
                 Toast.makeText(TAG, "添加失败", Toast.LENGTH_SHORT).show();
-                System.out.println("添加购物车 =失败 " + ex.toString());
                 setLoginAgain(cartadd_string);
             }
 
@@ -631,12 +626,10 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         MD5_PATH = "id=" + id + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + "&type=" + type;
         PATH = HttpPath.MEM_ADDRECORD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        System.out.println("添加收藏 = " + PATH);
         HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
-                System.out.println("添加收藏 = " + result);
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     Toast.makeText(TAG, "" + addrReturn.getData(), Toast.LENGTH_SHORT).show();
@@ -645,7 +638,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
                     tvGdCollection.setText("已收藏");
                 }else {
                     if (addrReturn.getData().equals("用户验证错误")) {
-                        ShowUtils.showDialog(TAG, "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？", new ShowUtils.OnDialogListener() {
+                        ShowUtils.showDialog(TAG, "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？","登陆", new ShowUtils.OnDialogListener() {
                             @Override
                             public void confirm() {
                                 intent = new Intent(TAG, LoginActivity.class);
@@ -690,12 +683,10 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         MD5_PATH = "id=" + id + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + "&type=" + type;
         PATH = HttpPath.MEM_DELRECORD + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        System.out.println("取消收藏 = " + PATH);
         HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
-                System.out.println("取消收藏 = " + result);
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     Toast.makeText(TAG, "" + addrReturn.getData(), Toast.LENGTH_SHORT).show();
@@ -704,7 +695,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
                     tvGdCollection.setText("收藏");
                 } else {
                     if (addrReturn.getData().equals("用户验证错误")) {
-                        ShowUtils.showDialog(TAG, "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？", new ShowUtils.OnDialogListener() {
+                        ShowUtils.showDialog(TAG, "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？","登陆", new ShowUtils.OnDialogListener() {
                             @Override
                             public void confirm() {
                                 intent = new Intent(TAG, LoginActivity.class);
@@ -1047,7 +1038,7 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
         if (!TextUtils.isEmpty(result)) {
             Account account = GsonUtil.gsonIntance().gsonToBean(result, Account.class);
             if (account.getData().equals("用户验证错误")) {
-                ShowUtils.showDialog(TAG, "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？", new ShowUtils.OnDialogListener() {
+                ShowUtils.showDialog(TAG, "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？","登陆", new ShowUtils.OnDialogListener() {
                     @Override
                     public void confirm() {
                         intent = new Intent(TAG, LoginActivity.class);
@@ -1263,7 +1254,6 @@ public class PinGoDetailsActivity extends Activity implements GradationScrollVie
                             tv_total.setText("库存：" + stock);
                         }
                     }
-                    System.out.println("string = " + string);
 
                 }
             });

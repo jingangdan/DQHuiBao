@@ -210,11 +210,9 @@ public class PTSubmitOrderActivity extends BaseActivity {
         PATH = HttpPath.MEMBER_GETADDR + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
 
-        System.out.println("获取收货地址 = " + PATH);
         HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("获取收货地址 = " + result);
                 Addr addr = GsonUtil.gsonIntance().gsonToBean(result, Addr.class);
                 addrList.clear();
                 addrList = addr.getData();
@@ -267,11 +265,9 @@ public class PTSubmitOrderActivity extends BaseActivity {
         map.put("tuanid", tuanid);
         map.put("goodsid", goodsid);
         map.put("optionid", optionid);
-        System.out.println("确认订单（商品详情） = " + map.toString());
         HttpxUtils.Post(this,HttpPath.PINTUAN_TUAN_CONFIRM, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("确认订单（商品详情） = " + result);
                 PinTuanCheckOrder checkOrder = GsonUtil.gsonIntance().gsonToBean(result, PinTuanCheckOrder.class);
 
                 updateUI(checkOrder);
@@ -285,7 +281,7 @@ public class PTSubmitOrderActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                System.out.println("确认订单（商品详情） = 失败" + ex.toString());
+
             }
 
             @Override
@@ -359,11 +355,9 @@ public class PTSubmitOrderActivity extends BaseActivity {
         map.put("goodsid", goodsid);
         map.put("addrid", addrid);
         map.put("remark", ss);
-        System.out.println("提交订单（立即购买） = " + map.toString());
         HttpxUtils.Post(this,HttpPath.PINTUAN_TUAN_ADDORDER, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("提交订单（立即购买） = " + result);
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     intent = new Intent(PTSubmitOrderActivity.this, PayActivity.class);
@@ -383,7 +377,7 @@ public class PTSubmitOrderActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                System.out.println("提交订单（立即购买） 失败= " + ex.toString());
+
             }
 
             @Override

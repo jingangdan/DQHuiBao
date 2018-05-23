@@ -99,11 +99,9 @@ public class CouponsGetActivity extends BaseActivity {
         map.put("page",page + "");
         map.put("pagesize",pagesize + "");
         map.put("status","0");//status=优惠券状态 0有效 1无效 ----领卷中心使用
-        Log.d("领券中心 = map = ",""+map.toString());
         HttpxUtils.Get(this,HttpPath.COUPONS_GET_LIST, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("领券中心 = result = ",""+ result);
                 CouponsGetListB getList = GsonUtil.gsonIntance().gsonToBean(result, CouponsGetListB.class);
                 couponsGetAdapter.addAll(getList.getData());
                 lRecyclerView.refreshComplete(pagesize);
@@ -114,7 +112,7 @@ public class CouponsGetActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("领券中心 = =失败 ",""+ex.toString());
+
             }
 
             @Override
@@ -133,11 +131,9 @@ public class CouponsGetActivity extends BaseActivity {
         Map<String,String> map = new HashMap<>();
         map.put("mid",uid);
         map.put("couponid",couponid);
-        Log.d("领券 = map = ",""+map.toString());
         HttpxUtils.Get(this,HttpPath.COUPONS_GET_COUPONS, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("领券 = result = ",""+ result);
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1){
                     getDataList();
@@ -147,7 +143,7 @@ public class CouponsGetActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("领券 = =失败 ",""+ex.toString());
+
             }
 
             @Override

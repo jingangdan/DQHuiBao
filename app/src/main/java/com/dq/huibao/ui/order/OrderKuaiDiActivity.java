@@ -83,12 +83,10 @@ public class OrderKuaiDiActivity extends BaseActivity {
     public void getKuaidi(String type, String postid) {
         PATH = "https://www.kuaidi100.com/query?type=" + type + "&postid=" + postid;
         params = new RequestParams(PATH);
-        System.out.println("获取物流 = " + PATH);
         x.http().get(params,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("获取物流 = " + result);
                         KuaiDi kuaiDi = GsonUtil.gsonIntance().gsonToBean(result, KuaiDi.class);
                         com = kuaiDi.getCom();
                         nu = kuaiDi.getNu();

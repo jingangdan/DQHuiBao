@@ -3,13 +3,16 @@ package com.dq.huibao.ui;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -26,19 +29,26 @@ import com.dq.huibao.bean.LoginBean;
 import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.bean.addr.AddrReturn;
 import com.dq.huibao.bean.wechat.WeChat;
+import com.dq.huibao.ui.addr.AddAddressActivity;
+import com.dq.huibao.ui.addr.AddrListActivity;
+import com.dq.huibao.ui.jifen.JiFenGoodDetailActivity;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
 import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.SPUserInfo;
+import com.dq.huibao.utils.ShowUtils;
 import com.mob.tools.utils.UIHandler;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -125,6 +135,8 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                 return true;
             }
         });
+
+        createDialog();
     }
 
     @OnClick({R.id.iv_phone_clear, R.id.iv_pwd_clear, R.id.iv_pwd_eye,
@@ -237,7 +249,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
     private void authorize(Platform plat, int type) {
         switch (type) {
             case 1:
-                plat.authorize();
+                plat.showUser(null);
                 break;
             case 2:
                 showProgressDialog("开启QQ");
@@ -249,7 +261,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
         if (plat.isValid()) { //如果授权就删除授权资料
             plat.removeAccount();
         }
-        plat.showUser(null);//授权并获取用户信息
+//        plat.showUser(null);//授权并获取用户信息
     }
 
     //登陆授权成功的回调
@@ -301,19 +313,16 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                 String userName = platform.getDb().getUserName();//获取用户名字
                 String userIcon = platform.getDb().getUserIcon();//获取用户头像
                 String userGender = platform.getDb().getUserGender(); //获取用户性别，m = 男, f = 女，如果微信没有设置性别,默认返回null
-                Toast.makeText(LoginActivity.this, "用户信息为--用户名：" + userName + "  性别：" + userGender, Toast.LENGTH_SHORT).show();
 
                 WeChat weChat = GsonUtil.gsonIntance().gsonToBean(platform.getDb().exportData(), WeChat.class);
-                postLoginWx(platform.getDb().exportData());
-                System.out.println("用户头像 = " + userIcon);
-
-                System.out.println("用户头像 = " + weChat.getIcon());
 
                 //postLoginTest(weChat.getUnionid());
 
+                Toast.makeText(LoginActivity.this, weChat.toString(), Toast.LENGTH_SHORT).show();
                 //下面就可以利用获取的用户信息登录自己的服务器或者做自己想做的事啦!
                 //。。。
-
+                wechatUnid = platform.getDb().exportData();
+                postLoginWx("1","","");
             }
             break;
             case 2: { // 失败
@@ -341,35 +350,59 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
         if (progressDialog != null)
             progressDialog.dismiss();
     }
+    String wechatUnid = "";
     /**
      * 微信登录
      *
      */
-    public void postLoginWx(String json) {
-        PATH = HttpPath.ACCOUNT_LOGIN_WX +
-                "info=" + json;
-        System.out.println("微信登录" + PATH);
-        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
+    public void postLoginWx(String status,String phone,String pass) {
+        Map<String ,String> map = new HashMap<>();
+        map.put("status",status);//0-直接注册新的，1-绑定
+        map.put("info",wechatUnid);
+        map.put("phone",phone);
+        map.put("code",MD5Util.getMD5String(pass));
+        HttpxUtils.Get(this,HttpPath.ACCOUNT_LOGIN_WX, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 login_result = result;
-                System.out.println("微信登录" + result);
-                Login login = GsonUtil.gsonIntance().gsonToBean(result, Login.class);
-                if (login.getStatus() == 1) {
-                    //if (loginBean.getResult().equals("1")) {
-                    toast("微信登录成功");
-                    spUserInfo.saveLogin("1");//微信登录成功记录 1
-                    spUserInfo.saveLoginReturn(result);//登录成功记录返回信息
+                try {
+                    if(new JSONObject(result).getInt("status") == 1){
+                        Login login = GsonUtil.gsonIntance().gsonToBean(result, Login.class);
+                        //if (loginBean.getResult().equals("1")) {
+                        toast("微信登录成功");
+                        spUserInfo.saveLogin("1");//微信登录成功记录 1
+                        spUserInfo.saveLoginReturn(result);//登录成功记录返回信息
 
-                    intent = new Intent();
-                    intent.putExtra("uid", login.getData().getUid());
-                    setResult(CodeUtils.LOGIN, intent);
+                        intent = new Intent();
+                        intent.putExtra("uid", login.getData().getUid());
+                        setResult(CodeUtils.LOGIN, intent);
 
-                    LoginActivity.this.finish();
+                        LoginActivity.this.finish();
+                    }else {
+                        AddrReturn aReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                        ShowUtils.showDialogThree(LoginActivity.this, "提示", "当前微信未绑定商城账号,是否绑定", "绑定", "注册", new ShowUtils.OnDialogThreeListener() {
+                            @Override
+                            public void confirm() {
+                                toast("绑定");
+                                //
+                            }
 
-                } else {
-                    toast("" + login.getData());
+                            @Override
+                            public void center() {
+                                postLoginWx("0","","");
+//                                alertDialog.show();
+                            }
+
+                            @Override
+                            public void cancel() {
+
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
 
             }
 
@@ -403,30 +436,31 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
     private String login_result = "";
     public void postLogin(String phone, String pwd) {
         PATH = HttpPath.ACCOUNT_LOGIN +
-                "phone=" + phone + "&pwd=" + pwd;
-        System.out.println("登录" + PATH);
+                "phone=" + phone + "&code=" + MD5Util.getMD5String(pwd);
         HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 login_result = result;
-                System.out.println("登录" + result);
-                Login login = GsonUtil.gsonIntance().gsonToBean(result, Login.class);
-                if (login.getStatus() == 1) {
-                    //if (loginBean.getResult().equals("1")) {
-                    toast("登录成功");
-                    spUserInfo.saveLogin("1");//微信登录成功记录 1
-                    spUserInfo.saveLoginReturn(result);//登录成功记录返回信息
+                try {
+                    if(new JSONObject(result).getInt("status") == 1){
+                        Login login = GsonUtil.gsonIntance().gsonToBean(result, Login.class);
+                        //if (loginBean.getResult().equals("1")) {
+                        toast("登录成功");
+                        spUserInfo.saveLogin("1");//微信登录成功记录 1
+                        spUserInfo.saveLoginReturn(result);//登录成功记录返回信息
 
-                    intent = new Intent();
-                    intent.putExtra("uid", login.getData().getUid());
-                    setResult(CodeUtils.LOGIN, intent);
+                        intent = new Intent();
+                        intent.putExtra("uid", login.getData().getUid());
+                        setResult(CodeUtils.LOGIN, intent);
 
-                    LoginActivity.this.finish();
-
-                } else {
-                    toast("" + login.getData());
+                        LoginActivity.this.finish();
+                    }else {
+                        AddrReturn aReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                        toast("" + aReturn.getData());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -449,6 +483,32 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
 
             }
         });
+    }
+
+    AlertDialog alertDialog = null;
+    EditText phoneEdit;
+    /**
+     * 绑定手机号
+     */
+    public void createDialog() {
+        View popview = View.inflate(this, R.layout.alert_login_addphone,
+                null);
+        phoneEdit = popview.findViewById(R.id.alert_login_addphone);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(popview);
+        builder.setPositiveButton("注册", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                postLoginWx("0",phoneEdit.getText().toString(),"");
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog = builder.create();
+
     }
 
     /*强制关闭软键盘*/

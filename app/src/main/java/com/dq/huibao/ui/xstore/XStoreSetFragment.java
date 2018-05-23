@@ -164,13 +164,11 @@ public class XStoreSetFragment extends BaseFragment {
                             idsSetOld.add(bean.getId());
                             idsSet.add(bean.getId());
                         }
-                        Log.d("mmmmmmmm","开启自选页网络获取idsList="+idsSet);
-                        System.out.println("获取小店已选商品 = " + yzGoodsOld.getData().getList().toString());
                     }
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取小店已选商品 = 失败" + ex.toString());
+
                     }
 
                     @Override
@@ -198,7 +196,6 @@ public class XStoreSetFragment extends BaseFragment {
         map.put("timestamp", String.valueOf((System.currentTimeMillis() / 1000)));
         map.put("token", token);
 
-        Log.d("mmmmmm","提交已选商品map="+map.toString());
         HttpxUtils.Get(getActivity(),PATH, map,
                 new Callback.CommonCallback<String>() {
                     @Override
@@ -215,7 +212,7 @@ public class XStoreSetFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("保存小店已选商品 = 失败" + ex.toString());
+
                     }
 
                     @Override
@@ -244,12 +241,10 @@ public class XStoreSetFragment extends BaseFragment {
         map.put("timestamp", String.valueOf((System.currentTimeMillis() / 1000)));
         map.put("token", token);
 
-        Log.d("mmmmmm","移除删除已选商品map="+map.toString());
         HttpxUtils.Get(getActivity(),PATH, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("关闭小店自选 = 成功" + result);
                         //将之前的数据清掉，换成最新的数据
                         idsSetOld.clear();
                         yzGoodsOld.getData().getList().clear();
@@ -260,7 +255,7 @@ public class XStoreSetFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("关闭小店自选 = 失败" + ex.toString());
+
                     }
 
                     @Override
@@ -319,7 +314,7 @@ public class XStoreSetFragment extends BaseFragment {
      * 提示是否移除全部
      */
     public void dialogRemoveAll(){
-        ShowUtils.showDialog(getActivity(), "提示", "是否移除全部商品", new ShowUtils.OnDialogListener() {
+        ShowUtils.showDialog(getActivity(), "提示", "是否移除全部商品","删除全部", new ShowUtils.OnDialogListener() {
             @Override
             public void confirm() {
                 removeAll();

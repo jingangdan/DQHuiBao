@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import com.dq.huibao.R;
+import com.dq.huibao.base.BaseActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,7 +21,7 @@ import butterknife.ButterKnife;
  * Created by jingang on 2017/11/1.
  */
 
-public class WebActivity extends Activity {
+public class WebActivity extends BaseActivity {
     @Bind(R.id.webView)
     WebView webView;
     @Bind(R.id.progressBar1)

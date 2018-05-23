@@ -166,12 +166,11 @@ public class XStoreFragment extends BaseFragment {
                     public void onSuccess(String result) {
                         xStoreInfo = GsonUtil.gsonIntance().gsonToBean(result, XStoreInfo.class);
                         updateUI(xStoreInfo);
-                        System.out.println("获取小店信息 = " + xStoreInfo.getData().getShopname());
                     }
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取小店信息 = 失败" + ex.getMessage());
+
                     }
 
                     @Override
@@ -226,25 +225,20 @@ public class XStoreFragment extends BaseFragment {
         map.put("phone", phone);
         map.put("timestamp", String.valueOf((System.currentTimeMillis() / 1000)));
         map.put("token", token);
-        System.out.println("提交小店信息 = " + map.toString());
         HttpxUtils.Post(getActivity(),PATH, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("mmmmm小店信息提交返回 = " + result);
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     toast("修改成功");
-                    Log.d("mmmmmmmm", "修改成功" + addrReturn.getData());
                 } else {
                     toast("修改失败");
-                    Log.d("mmmmmmmm", "修改失败" + addrReturn.getData());
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
 
-                System.out.println("mmmmmmmm小店信息提交失败 = " + ex.toString());
             }
 
             @Override
@@ -276,9 +270,6 @@ public class XStoreFragment extends BaseFragment {
 
         PATH = HttpPath.MEM_UPIMG + "sign=" +
                 MD5Util.getMD5String("phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + HttpPath.KEY);
-
-        System.out.println("上传图片 = " + PATH);
-
         params = new RequestParams(PATH);
         params.addBodyParameter("file", new File(file));  //filePath是手机获取的图片地址
         params.addBodyParameter("phone", phone);
@@ -288,7 +279,6 @@ public class XStoreFragment extends BaseFragment {
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("上传图片 = " + result);
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     toast("图片上传成功");
@@ -297,7 +287,6 @@ public class XStoreFragment extends BaseFragment {
                     } else {
                         imageHeadURl = addrReturn.getData().toString();
                     }
-                    Log.d("mmmmmmmm", "图片服务器地址" + addrReturn.getData().toString());
                 } else {
                     toast("图片上传失败");
                 }

@@ -125,7 +125,6 @@ public class XStoreGoodsActivity extends BaseActivity implements AdapterView.OnI
         for (String s:sets) {
             goodsIdSets.put(s,s);
         }
-        Log.d("mmmmmmmm","商品页初始idsList="+goodsIdSets.toString());
         //获取分类
         getTypeData();
     }
@@ -154,12 +153,11 @@ public class XStoreGoodsActivity extends BaseActivity implements AdapterView.OnI
                         //获取默认第一个分类商品
                         typeIdNow = typeList.get(0).getId();
                         getGoodsInit();
-                        System.out.println("获取小店自选商品分类 = " + xstoreGoodsType.getData().toString());
                     }
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取小店分类 = 失败" + ex.getMessage());
+
                     }
 
                     @Override
@@ -210,7 +208,6 @@ public class XStoreGoodsActivity extends BaseActivity implements AdapterView.OnI
                                 if (storeZXGoods.getData() == null || storeZXGoods.getData().getIsload() == 0 || storeZXGoods.getData().getList().size() < pagesize){
                                     xstoreGoodsListRight.setNoMore(true);
                                 }
-                                System.out.println("获取小店自选商品 = " + storeZXGoods.getData().getList().toString());
                             }else {
 //                                toast(jsonObject.getString("data"));
                                 if (goodsAdapter.getDataList().size() == 0){
@@ -218,7 +215,6 @@ public class XStoreGoodsActivity extends BaseActivity implements AdapterView.OnI
                                 }
                             }
                         } catch (Exception e) {
-                            System.out.println("获取小店自选商品 = 失败" + e.toString());
                             e.printStackTrace();
                         }
 
@@ -226,7 +222,7 @@ public class XStoreGoodsActivity extends BaseActivity implements AdapterView.OnI
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取小店自选商品 = 失败" + ex.toString());
+
                     }
 
                     @Override

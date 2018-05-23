@@ -547,12 +547,10 @@ public class FMMemCen extends BaseFragment implements
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         params = new RequestParams(PATH);
-        System.out.println("个人信息 = " + PATH);
         HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 member_string = result;
-                System.out.println("个人信息 = " + result);
                 Login login = GsonUtil.gsonIntance().gsonToBean(result, Login.class);
                 if (login.getStatus() == 1) {
                     level = login.getData().getRole_id();
@@ -571,7 +569,7 @@ public class FMMemCen extends BaseFragment implements
                 if (!TextUtils.isEmpty(member_string)) {
                     Account account = GsonUtil.gsonIntance().gsonToBean(member_string, Account.class);
                     if (account.getData().equals("用户验证错误")) {
-                        ShowUtils.showDialog(getActivity(), "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？", new ShowUtils.OnDialogListener() {
+                        ShowUtils.showDialog(getActivity(), "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？","登陆", new ShowUtils.OnDialogListener() {
                             @Override
                             public void confirm() {
                                 intent = new Intent(getActivity(), LoginActivity.class);
@@ -668,11 +666,10 @@ public class FMMemCen extends BaseFragment implements
         PATH = HttpPath.ACCOUNT_LOGINOUT +
                 "phone=" + phone + "&token=" + token + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&sign=" +
                 MD5Util.getMD5String("phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
-        System.out.println("退出登录 = " + PATH);
-        HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
+
+        HttpxUtils.Post(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("退出登录 = " + result);
                 Account account = GsonUtil.gsonIntance().gsonToBean(result, Account.class);
                 if (account.getStatus() == 1) {
                     toast("" + account.getData());
@@ -681,7 +678,7 @@ public class FMMemCen extends BaseFragment implements
                     isLogin();
                 } else {
                     if (account.getData().equals("用户验证错误")) {
-                        ShowUtils.showDialog(getActivity(), "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？", new ShowUtils.OnDialogListener() {
+                        ShowUtils.showDialog(getActivity(), "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？","登陆", new ShowUtils.OnDialogListener() {
                             @Override
                             public void confirm() {
                                 intent = new Intent(getActivity(), LoginActivity.class);
@@ -726,11 +723,9 @@ public class FMMemCen extends BaseFragment implements
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
         params = new RequestParams(PATH);
-        System.out.println("签到 = " + PATH);
         HttpxUtils.Post(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("签到 = " + result);
                 Sign sign = GsonUtil.gsonIntance().gsonToBean(result, Sign.class);
                 if (sign.getStatus() == 1) {
                     toast("" + sign.getData().getMsg());
@@ -767,11 +762,9 @@ public class FMMemCen extends BaseFragment implements
         MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
         PATH = HttpPath.ACTIVITYSIGN_INDEX + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        System.out.println("签到信息 = " + PATH);
-        HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("签到信息 = " + result);
                 SignIndex signIndex = GsonUtil.gsonIntance().gsonToBean(result, SignIndex.class);
                 if (signIndex.getStatus() == 1) {
                     cansign = signIndex.getData().isCansign();
@@ -809,14 +802,12 @@ public class FMMemCen extends BaseFragment implements
 
     public void getVersion(final String version) {
         PATH = HttpPath.CHECK_VERSION + "version=" + version;
-        System.out.println("版本更新 = " + PATH);
         HttpxUtils.Get(getActivity(), PATH,
                 null,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
                         version_result = result;
-                        System.out.println("版本更新 = " + result);
                         final CheckVersion checkVersion = GsonUtil.gsonIntance().gsonToBean(result, CheckVersion.class);
                         final String address = checkVersion.getData().getUpdateurl();
                         if (checkVersion.getStatus() == 1) {

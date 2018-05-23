@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -21,6 +22,7 @@ import com.dq.huibao.bean.account.Account;
 import com.dq.huibao.utils.GsonUtil;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.HttpxUtils;
+import com.dq.huibao.utils.MD5Util;
 import com.dq.huibao.utils.VerifyType;
 
 import org.xutils.common.Callback;
@@ -69,8 +71,6 @@ public class ForgetPwdActivity extends BaseActivity {
     EditText etRgInvitationClear;
     @Bind(R.id.lin_rg_main)
     LinearLayout linRgMain;
-    @Bind(R.id.cb_register)
-    CheckBox cbRegister;
 
     private TextWatcher tw_phone, tw_code, tw_pwd, tw_pwd2, tw_invitation;
 
@@ -85,6 +85,7 @@ public class ForgetPwdActivity extends BaseActivity {
     private String PATH = "";
     private RequestParams params = null;
 
+    LinearLayout xieyiLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +93,8 @@ public class ForgetPwdActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         butRegist.setText("确定找回");
+        setTitleName("找回密码");
+
 
         initWatcher();
 
@@ -111,12 +114,12 @@ public class ForgetPwdActivity extends BaseActivity {
             }
         });
 
+        findViewById(R.id.xieyi).setVisibility(View.GONE);
     }
 
     @Override
     protected void initWidght() {
         super.initWidght();
-        setTitleName("找回密码");
         // toast("");
     }
 
@@ -180,27 +183,23 @@ public class ForgetPwdActivity extends BaseActivity {
                 break;
             case R.id.but_regist:
                 //输入手机号
-                if (cbRegister.isChecked()) {
-                    if (!phone.equals("")) {
-                        if (!code.equals("")) {
-                            if (!pwd.equals("")) {
-                                if (pwd2.equals(pwd)) {
-                                    //postReg(phone, code, pwd);
-                                    backPwd(phone, code, pwd);
-                                } else {
-                                    toast("两次密码输入不一致");
-                                }
+                if (!phone.equals("")) {
+                    if (!code.equals("") && code.equals(verifyCode)) {
+                        if (!pwd.equals("")) {
+                            if (pwd2.equals(pwd)) {
+                                //postReg(phone, code, pwd);
+                                backPwd(phone, code, pwd);
                             } else {
-                                toast("密码不可为空");
+                                toast("两次密码输入不一致");
                             }
                         } else {
-                            toast("验证码不可为空");
+                            toast("密码不可为空");
                         }
                     } else {
-                        toast("手机号不可为空");
+                        toast("验证码错误");
                     }
                 } else {
-                    toast("需同意协议");
+                    toast("手机号不可为空");
                 }
                 break;
 
@@ -327,12 +326,10 @@ public class ForgetPwdActivity extends BaseActivity {
         PATH = HttpPath.ACCOUNT_CHECKPHONE +
                 "phone=" + phone;
         params = new RequestParams(PATH);
-        System.out.println("验证手机号 = " + PATH);
         x.http().get(params,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("验证手机号 = " + result);
                         Account account = GsonUtil.gsonIntance().gsonToBean(result, Account.class);
                         if (account.getStatus() == 0) {
                             getVerify(phone, VerifyType.REPWD);
@@ -358,7 +355,7 @@ public class ForgetPwdActivity extends BaseActivity {
                     }
                 });
     }
-
+    String verifyCode = "";
     /**
      * 发送验证码
      *
@@ -368,14 +365,12 @@ public class ForgetPwdActivity extends BaseActivity {
     public void getVerify(String phone, String type) {
         PATH = HttpPath.ACCOUNT_VERIFY +
                 "phone=" + phone + "&type=" + type;
-        System.out.println("验证码 = " + PATH);
-        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("验证码 = " + result);
                 Account account = GsonUtil.gsonIntance().gsonToBean(result, Account.class);
                 if (account.getStatus() == 1) {
-                    etRegistCode.setText("" + account.getData());
+                    verifyCode = account.getData();
                 } else {
                     toast("" + account.getData());
                 }
@@ -407,14 +402,12 @@ public class ForgetPwdActivity extends BaseActivity {
      */
     public void backPwd(String phone, String verify, String pwd) {
         PATH = HttpPath.ACCOUNT_BACKPWD +
-                "phone=" + phone + "&verify=" + verify + "&pwd=" + pwd;
+                "phone=" + phone + "&verify=" + verify + "&code=" + MD5Util.getMD5String(pwd);
 
         params = new RequestParams(PATH);
-        System.out.println("找回密码 = " + PATH);
-        HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
+        HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("找回密码 = " + result);
                 Account account = GsonUtil.gsonIntance().gsonToBean(result, Account.class);
                 if (account.getStatus() == 1) {
                     toast("" + account.getData());
@@ -450,16 +443,13 @@ public class ForgetPwdActivity extends BaseActivity {
      */
     public void postReg(String phone, String verify, String pwd) {
         PATH = HttpPath.ACCOUNT_REG +
-                "phone=" + phone + "&verify=" + verify + "&pwd=" + pwd;
+                "phone=" + phone + "&verify=" + verify + "&code=" + MD5Util.getMD5String(pwd);
 
         params = new RequestParams(PATH);
-        System.out.println("注册 = " + PATH);
-
         x.http().get(params,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("注册 = " + result);
                         Account account = GsonUtil.gsonIntance().gsonToBean(result, Account.class);
                         if (account.getStatus() == 1) {
                             toast("" + account.getData());

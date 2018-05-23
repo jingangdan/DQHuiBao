@@ -243,7 +243,6 @@ public class VersionDialogActivity extends Activity implements DownloadListener,
     }
 
     public void dealAPK() {
-        System.out.println("8888 = " + versionParams.getDownloadAPKPath());
         if (versionParams.isSilentDownload()) {
             String downloadPath = versionParams.getDownloadAPKPath();
             AppUtils.installApk(VersionDialogActivity.this, new File(downloadPath));

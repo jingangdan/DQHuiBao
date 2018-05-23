@@ -243,11 +243,9 @@ public class PinTuanTuanDetailsActivity extends BaseActivity implements Gradatio
         map.put("goodsid", gid);
         map.put("tuanid", tuanId);
         map.put("pid", pid);
-        System.out.println("团详情 = " + map.toString());
         HttpxUtils.Get(this,HttpPath.PINTUAN_TUAN_DETAILS, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("团详情 = " + result);
                 tuanDetail = GsonUtil.gsonIntance().gsonToBean(result, PinTuanTuanDetail.class);
                 if (!tuanDetail.getData().getTuan().getStatus().equals("0")) {
                     pintuanPintuan.setBackgroundColor(getResources().getColor(R.color.dark));
@@ -274,7 +272,7 @@ public class PinTuanTuanDetailsActivity extends BaseActivity implements Gradatio
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                System.out.println("团详情 = " + ex.toString());
+
             }
 
             @Override

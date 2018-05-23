@@ -192,11 +192,9 @@ public class AddrEditActivity extends BaseActivity {
      */
     public void getRegion() {
         PATH = HttpPath.COMMON_REGION;
-        System.out.println("获取省市列表 = " + PATH);
         HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("获取省市列表 = " + result);
                 Region region = GsonUtil.gsonIntance().gsonToBean(result, Region.class);
 
                 /**
@@ -283,13 +281,9 @@ public class AddrEditActivity extends BaseActivity {
                 MD5Util.getMD5String("addr=" + addr + "&contact=" + contact + "&isdefault=" + isdefault + "&mobile=" + mobile +
                         "&phone=" + phone + "&regionid=" + regionid + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + HttpPath.KEY);
 
-        System.out.println("加密 = " + MD5_PATH);
-
-        System.out.println("添加收货地址 = " + PATH);
         HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("添加收货地址 = " + result);
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     toast("" + addrReturn.getData());

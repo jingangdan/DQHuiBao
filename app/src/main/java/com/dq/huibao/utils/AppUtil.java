@@ -1,11 +1,15 @@
 package com.dq.huibao.utils;
 
 import android.app.Activity;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 
 import com.dq.huibao.base.BaseActivity;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * Created by d on 2018/4/24.
@@ -60,5 +64,22 @@ public class AppUtil {
             dateStr = "";
         }
         return dateStr;
+    }
+
+    /**
+     * 文字转utf-8--转base64
+     * @param str
+     * @return
+     */
+    public static String textToUTF_8(String str){
+        String s = "";
+        try {
+            s = URLEncoder.encode(str, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String ss = Base64.encodeToString(s.getBytes(), Base64.DEFAULT);
+        ss = ss.replaceAll("[\\s*\t\n\r]", "");
+        return ss;
     }
 }

@@ -115,11 +115,9 @@ public class FMorderOK extends BaseFragment implements OrderInterface {
 
         PATH = HttpPath.ORDER_GETIST + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        System.out.println("全部订单列表 = " + PATH);
         HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("全部订单列表 = " + result);
                 Order order = GsonUtil.gsonIntance().gsonToBean(result, Order.class);
 
                 orderList.clear();
@@ -156,11 +154,9 @@ public class FMorderOK extends BaseFragment implements OrderInterface {
         PATH = HttpPath.ORDER_EDIT + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
-        System.out.println("订单状态修改 = " + PATH);
         HttpxUtils.Post(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("订单状态修改 = " + result);
 
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {

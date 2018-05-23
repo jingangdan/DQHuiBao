@@ -144,13 +144,11 @@ public class CouponsDetailActivity extends BaseActivity {
                 "&id=" + id;
 
         params = new RequestParams(PATH);
-        System.out.println("优惠券详情 =" + PATH);
 
         x.http().get(params,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("优惠券详情 =" + result);
                         CouponsDetail couponsDetail = GsonUtil.gsonIntance().gsonToBean(result, CouponsDetail.class);
 
                         respthumb = couponsDetail.getData().getRespthumb();
@@ -190,12 +188,10 @@ public class CouponsDetailActivity extends BaseActivity {
     public void getRecomment() {
         PATH = HttpPath.SHOP_GOODS_RECOMMENT;
         params = new RequestParams(PATH);
-        System.out.println("推荐商品 = " + PATH);
         x.http().get(params,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("推荐商品 = " + result);
 
                         Recomment recomment = GsonUtil.gsonIntance().gsonToBean(result, Recomment.class);
                         recommentList.clear();

@@ -76,15 +76,13 @@ public class PinGoLogInfoActivity extends BaseActivity {
         HttpxUtils.Get(this,HttpPath.PINGO_LOG_INFO, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.e("获取拼go记录详情", "获取拼go记录详情 = " + result);
-
                 PinGoLogInfoB logInfoB = GsonUtil.gsonIntance().gsonToBean(result, PinGoLogInfoB.class);
                 updateUI(logInfoB);
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.e("获取拼go记录详情", "获取拼go记录详情 失败= " + ex.toString());
+
             }
 
             @Override

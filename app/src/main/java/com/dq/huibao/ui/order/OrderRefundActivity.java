@@ -232,12 +232,9 @@ public class OrderRefundActivity extends BaseActivity {
                         HttpPath.KEY);
 
         params = new RequestParams(PATH);
-        System.out.println("加密 = " + MD5_PATH);
-        System.out.println("退款 = " + PATH);
         HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("退款 = " + result);
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     toast("" + addrReturn.getData());

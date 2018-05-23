@@ -61,7 +61,7 @@ public class PinGoLogsFragment extends BaseFragment {
         logsAdapter = new PinGoLogsAdapter(getActivity(), typeTitle) {
             @Override
             public void del(final String orderid) {
-                ShowUtils.showDialog(getActivity(), "提示", "是否删除该订单", new ShowUtils.OnDialogListener() {
+                ShowUtils.showDialog(getActivity(), "提示", "是否删除该订单","删除", new ShowUtils.OnDialogListener() {
                     @Override
                     public void confirm() {
                         delLogs(orderid);
@@ -154,7 +154,6 @@ public class PinGoLogsFragment extends BaseFragment {
         HttpxUtils.Get(getActivity(),HttpPath.PINGO_LOGS, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.e("获取拼go记录列表","获取拼go记录列表 = " + result);
 
                 PinGoLogsB logsB = GsonUtil.gsonIntance().gsonToBean(result, PinGoLogsB.class);
                 logsAdapter.addAll(logsB.getData());
@@ -167,7 +166,7 @@ public class PinGoLogsFragment extends BaseFragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.e("获取拼go记录列表","获取拼go记录列表 失败= " + ex.toString());
+
             }
 
             @Override
@@ -192,11 +191,9 @@ public class PinGoLogsFragment extends BaseFragment {
         String PATH = HttpPath.ORDER_EDIT + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
-        Log.e("删除拼go记录列表","删除拼go记录列表 = " + PATH);
         HttpxUtils.Post(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.e("删除拼go记录列表","删除拼go记录列表 = " + result);
 
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {

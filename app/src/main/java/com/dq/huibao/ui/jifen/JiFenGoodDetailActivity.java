@@ -119,18 +119,17 @@ public class JiFenGoodDetailActivity extends BaseActivity {
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("获取积分商品详情 = " + result);
                         jiFenGoodDetial = GsonUtil.gsonIntance().gsonToBean(result, JiFenGoodDetial.class).getData();
                         try {
                             updateUI();
                         } catch (Exception ex) {
-                            System.out.println("获取积分商品详情 = 失败" + ex.getMessage());
+
                         }
                     }
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取积分商品详情 = 失败" + ex.getMessage());
+
                     }
 
                     @Override
@@ -153,12 +152,10 @@ public class JiFenGoodDetailActivity extends BaseActivity {
         map.put("gid", goodid);
         map.put("mid", uid);
         map.put("epxid", addrid);
-        System.out.println("积分兑换提交 = " + map.toString());
         HttpxUtils.Post(this,HttpPath.JIFEN_SAVEORDER, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("积分兑换提交 = " + result);
                         AddrReturn aReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                         toast(aReturn.getData());
                         if (aReturn.getStatus() == 1) {
@@ -169,7 +166,7 @@ public class JiFenGoodDetailActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("积分兑换提交 = 失败" + ex.getMessage());
+
                     }
 
                     @Override
@@ -198,11 +195,9 @@ public class JiFenGoodDetailActivity extends BaseActivity {
         String PATH = HttpPath.MEMBER_GETADDR + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
 
-        System.out.println("获取收货地址 = " + PATH);
         HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("获取收货地址 = " + result);
                 Addr addr = GsonUtil.gsonIntance().gsonToBean(result, Addr.class);
                 addrList.clear();
                 addrList = addr.getData();

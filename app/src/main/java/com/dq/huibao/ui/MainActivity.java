@@ -386,7 +386,6 @@ public class MainActivity extends BaseActivity {
 
     public void getVersion(final String version) {
         PATH = HttpPath.CHECK_VERSION + "version=" + version;
-        System.out.println("版本更新 = " + PATH);
         HttpxUtils.Get(this,PATH,
                 null,
                 new Callback.CommonCallback<String>() {
@@ -394,7 +393,6 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String result) {
                         version_result = result;
-                        System.out.println("版本更新 = " + result);
                         final CheckVersion checkVersion = GsonUtil.gsonIntance().gsonToBean(result, CheckVersion.class);
                         final String address = checkVersion.getData().getUpdateurl();
 
@@ -488,11 +486,9 @@ public class MainActivity extends BaseActivity {
                     @SuppressLint("WrongConstant")
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("版本更新1 = " + version_result);
                         if (!"".equals(version_result)) {
                             AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(version_result, AddrReturn.class);
                             if (addrReturn.getStatus() == 0) {
-                                System.out.println("" + addrReturn.getData());
                                 //Toast.makeText(mainActivity, "" + addrReturn.getData(), Toast.LENGTH_SHORT).show();
                             }
                         }

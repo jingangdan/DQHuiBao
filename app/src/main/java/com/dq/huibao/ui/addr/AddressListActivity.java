@@ -136,11 +136,9 @@ public class AddressListActivity extends BaseActivity
         PATH = HttpPath.MEMBER_GETADDR + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
 
-        System.out.println("获取收货地址 = " + PATH);
         HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("获取收货地址 = " + result);
                 Addr addr = GsonUtil.gsonIntance().gsonToBean(result, Addr.class);
                 if (addr.getStatus() == 1) {
                     addrList.clear();
@@ -179,12 +177,9 @@ public class AddressListActivity extends BaseActivity
 
         PATH = HttpPath.MEMBER_DELADDR + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-
-        System.out.println("删除收货地址 = " + PATH);
         HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("删除收货地址 = " + result);
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     addrList.remove(position);
@@ -221,11 +216,9 @@ public class AddressListActivity extends BaseActivity
         MD5_PATH = "id=" + id + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
         PATH = HttpPath.MEMBER_DEGAULTADDR + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        System.out.println("设置默认地址 = " + PATH);
         HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("设置默认地址 = " + result);
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     toast("" + addrReturn.getData().toString());

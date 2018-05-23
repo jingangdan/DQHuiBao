@@ -128,7 +128,6 @@ public class ScrollViewContainer extends RelativeLayout {
 				else
 					vt.clear();
 				mLastY = ev.getY();
-				System.out.println("---ACTION_DOWN-mLastY------"+ev.getY());
 				vt.addMovement(ev);
 				mEvents = 0;
 				break;
@@ -229,8 +228,6 @@ public class ScrollViewContainer extends RelativeLayout {
 			isMeasured = true;
 			mViewHeight = getMeasuredHeight();
 			mViewWidth = getMeasuredWidth();
-			System.out.println("======onMeasure====mViewHeight======"+mViewHeight);
-			System.out.println("======onMeasure====mViewWidth======"+mViewWidth);
 			topView = getChildAt(0);
 			bottomView = getChildAt(1);
 			bottomView.setOnTouchListener(bottomViewTouchListener);

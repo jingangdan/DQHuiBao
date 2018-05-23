@@ -70,6 +70,15 @@ public class Login {
         private String headimgurl;
         private String realname;
         private String role_name;
+        private String wxname;
+
+        public String getWxname() {
+            return wxname;
+        }
+
+        public void setWxname(String wxname) {
+            this.wxname = wxname;
+        }
 
         public String getUid() {
             return uid;

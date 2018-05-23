@@ -140,7 +140,6 @@ public class InjoyActivity extends BaseActivity {
         settings.setJavaScriptEnabled(true);
 
 //        params = new RequestParams(PATH);
-//        System.out.println("分享 = " + PATH);
 //        x.http().post(params,
 //                new Callback.CommonCallback<String>() {
 //                    @Override

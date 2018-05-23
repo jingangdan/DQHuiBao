@@ -236,12 +236,10 @@ public class PinGoActivity extends BaseActivity implements
     public void getIndex(String phone, String token) {
         searchLayout.setVisibility(View.GONE);
         PATH = HttpPath.PINGO_INFEX;
-        System.out.println("拼go首页 = " + PATH);
         HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
-                System.out.println("拼go首页 = " + result);
                 //刷新完成，显示搜索框
                 searchLayout.setVisibility(View.VISIBLE);
                 // stopProgressDialog();
@@ -268,7 +266,6 @@ public class PinGoActivity extends BaseActivity implements
             @SuppressLint("WrongConstant")
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                System.out.println("拼go首页 = 失败" + ex.toString());
                 //stopProgressDialog();
                 linHpNetwork.setVisibility(View.GONE);
                 linHpNonetwork.setVisibility(View.VISIBLE);
@@ -303,12 +300,10 @@ public class PinGoActivity extends BaseActivity implements
      */
     public void getCenterTuan() {
         PATH = HttpPath.PINGO_CENTER_TUAN;
-        System.out.println("拼go中间拼团信息 = " + PATH);
         HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
-                System.out.println("拼go中间拼团信息 = " + result);
                 PinGoCenterTuan centerTuan = GsonUtil.gsonIntance().gsonToBean(result, PinGoCenterTuan.class);
                 //刷新数据
                 collegeGoHomeAdapter.refreshPinGo(centerTuan.getData());
@@ -319,7 +314,6 @@ public class PinGoActivity extends BaseActivity implements
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
 
-                System.out.println("拼go中间拼团信息 =失败 " + ex.toString());
             }
 
             @Override
@@ -346,7 +340,6 @@ public class PinGoActivity extends BaseActivity implements
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("获取首页底部更多商品信息 = " + result);
                         if (page > 1)
                             pullToRefreshView.onFooterRefreshComplete();//加载更多数据
 
@@ -356,7 +349,6 @@ public class PinGoActivity extends BaseActivity implements
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取首页底部更多商品信息 = 失败" + ex.getMessage());
                     }
 
                     @Override
@@ -466,6 +458,12 @@ public class PinGoActivity extends BaseActivity implements
                 } else if ("论坛".equals(content)) {
 //                    content = "jian";
                     Toast.makeText(this, "开发中", Toast.LENGTH_SHORT).show();
+                    return;
+                }else if ("大学士".equals(content)){
+                    toast("敬请期待");
+                    return;
+                }else {
+                    toast("敬请期待");
                     return;
                 }
 

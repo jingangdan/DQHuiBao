@@ -283,11 +283,9 @@ public class GoodsListActivity extends BaseActivity implements
     public void getGoodsList(String content, String keywords, int page) {
         PATH = HttpPath.GOODS_SEARCH +
                 content + "&keywords=" + keywords + "&page=" + page + "&type="+searchType;
-        System.out.println("商品列表 = " + PATH);
         HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("商品列表 = " + result);
                 gvGoodslist.scrollTo(0, 0);
                 GoodsList goodsList = GsonUtil.gsonIntance().gsonToBean(result, GoodsList.class);
                 goodsLists.clear();

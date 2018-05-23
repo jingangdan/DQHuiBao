@@ -148,7 +148,6 @@ public class JifenFlFragment extends BaseFragment {
                     @Override
                     public void onSuccess(String result) {
                         jiFenFuLiType = GsonUtil.gsonIntance().gsonToBean(result, JiFenFuLiType.class);
-                        System.out.println("获取积分兑换商品分类 = " + jiFenFuLiType.getData().toString());
                         typeAdapter = new JiFenFuLiTypeAdapter(getActivity(),jiFenFuLiType.getData());
                         typeAdapter.setOnItemClickListener(new OnItemClickListener() {
                             @Override
@@ -165,7 +164,7 @@ public class JifenFlFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取积分兑换商品分类 = 失败" + ex.getMessage());
+
                     }
 
                     @Override
@@ -191,7 +190,6 @@ public class JifenFlFragment extends BaseFragment {
                     @Override
                     public void onSuccess(String result) {
                         JiFenFuLiGoods goods = GsonUtil.gsonIntance().gsonToBean(result, JiFenFuLiGoods.class);
-                        System.out.println("获取积分兑换商品 = " + goods.getData().toString());
                         jiFenFuLiGoodsAdapter.addAll(goods.getData());
                         jifenFuliListView.refreshComplete(pagesieze);
                         if (goods.getData() == null || goods.getData().size() < pagesieze){
@@ -201,7 +199,7 @@ public class JifenFlFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取积分兑换商品 = 失败" + ex.getMessage());
+
                     }
 
                     @Override

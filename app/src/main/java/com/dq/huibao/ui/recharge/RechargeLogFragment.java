@@ -127,11 +127,9 @@ public class RechargeLogFragment extends BaseFragment {
         map.put("page",page + "");
         map.put("pagesize",pagesize + "");
 
-        System.out.println("话费充值记录列表= " + map.toString());
         HttpxUtils.Get(getActivity(),HttpPath.RECHARGE_ORDER_LOG, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("话费充值记录列表= " + result);
                 RechargeLogsB rechargeLogsB = GsonUtil.gsonIntance().gsonToBean(result, RechargeLogsB.class);
                 lRecyclerView.refreshComplete(pagesize);
 
@@ -144,7 +142,7 @@ public class RechargeLogFragment extends BaseFragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                System.out.println("话费充值记录列表=失败 " + ex.toString());
+
             }
 
             @Override

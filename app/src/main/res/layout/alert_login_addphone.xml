@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="绑定手机号"/>
+    <EditText
+        android:id="@+id/alert_login_addphone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cursorVisible="true"
+        android:padding="10dp"
+        android:background="@color/lightGray"
+        android:textCursorDrawable="@null"
+        android:inputType="number"
+        android:ems="11"
+        android:maxLength="11"
+        android:layout_marginTop="10dp"
+        android:hint="手机号"/>
+</LinearLayout>

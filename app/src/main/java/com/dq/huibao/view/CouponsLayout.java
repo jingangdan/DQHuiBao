@@ -177,8 +177,6 @@ public class CouponsLayout extends LinearLayout{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawBitmap(mBitmap, 0, 0, null);//绘制图层
-
-        Log.e("fffffffffffffffff","领卷中心======================="+mOrientation);
         switch (mOrientation){
 
             /**

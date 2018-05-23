@@ -10,12 +10,14 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.dq.huibao.Interface.OnItemClickListener;
 import com.dq.huibao.R;
 import com.dq.huibao.bean.pingo.PinGoCenterTuan;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.HttpPath;
 import com.dq.huibao.utils.ImageUtils;
+import com.dq.huibao.view.GlideCircleTransform;
 
 import java.util.List;
 
@@ -65,6 +67,7 @@ public class PinGoIndexChildAdapter extends RecyclerView.Adapter<PinGoIndexChild
                     .load(ImageUtils.getImagePath(dataList.get(i).getHeadimgurl()))
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .placeholder(R.mipmap.ic_header)
+                    .transform(new CenterCrop(mContext),new GlideCircleTransform(mContext))
                     .into(holder.img);
 
 //            ImageUtils.loadIntoUseFitWidths(mContext,

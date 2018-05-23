@@ -248,7 +248,7 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取小店信息 = 失败" + ex.getMessage());
+
                     }
 
                     @Override
@@ -277,7 +277,6 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
                     @Override
                     public void onSuccess(String result) {
                         XStoreGoods storeGoods = GsonUtil.gsonIntance().gsonToBean(result, XStoreGoods.class);
-                        Log.d("mmmmmmmmm","小店首页列表:"+storeGoods.getData().getList().toString());
                         if (isRefresh){
                             xstoreAllcount.setText(storeGoods.getData().getAllcount());
                             listAdapter.clear();
@@ -292,7 +291,7 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取小店信息 = 失败" + ex.getMessage());
+
                     }
 
                     @Override
@@ -315,13 +314,11 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
         map.put("page", "" + page);
         map.put("pagesize", "" + pageSize);
         map.put("keyword", "" + searchView.getText().toString());
-        Log.d("mmmmmmmmm","小店首页搜索列表:"+map.toString());
         HttpxUtils.Get(getActivity(),HttpPath.XSHOP_GOODS_SEARCH, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
 //                        if (result)
-                        Log.d("mmmmmmmmm","小店首页搜索列表:"+result);
                         try {
                             JSONObject jsonObject = new JSONObject(result);
                             if (jsonObject.getInt("status") == 1){
@@ -342,7 +339,6 @@ public class FMStore extends BaseFragment implements OnRefreshListener, OnLoadMo
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取小店搜索信息 = 失败" + ex.getMessage());
 
                     }
 

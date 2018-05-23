@@ -88,7 +88,6 @@ public class TixianAccountActivity extends BaseActivity {
         HttpxUtils.Get(this,HttpPath.TIXIAN_INDEX, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.e("获取提现页面数据", "获取提现页面数据 = " + result);
 
                 tiXianIndexB = GsonUtil.gsonIntance().gsonToBean(result, TiXianIndexB.class);
                 acountAdapter = new TiXianAcountAdapter(TixianAccountActivity.this,tiXianIndexB.getData().getList());

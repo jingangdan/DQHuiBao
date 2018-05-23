@@ -101,6 +101,7 @@
         android:background="@color/view_main" />
 
     <LinearLayout
+        android:id="@+id/regist_pwd_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -150,6 +151,7 @@
         android:background="@color/view_main" />
 
     <LinearLayout
+        android:id="@+id/regist_pwd2_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -250,6 +252,7 @@
         android:text="注册" />
 
     <LinearLayout
+        android:id="@+id/xieyi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

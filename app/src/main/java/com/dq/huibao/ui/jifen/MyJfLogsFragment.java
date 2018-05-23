@@ -100,12 +100,10 @@ public class MyJfLogsFragment extends BaseFragment {
         map.put("mid",uid);
         map.put("page",page+"");
         map.put("pagesize",pagesize+"");
-        System.out.println("积分兑换商品记录 = " + map.toString());
         HttpxUtils.Get(getActivity(),HttpPath.JIFEN_LOGS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("积分兑换商品记录 = " + result);
                         JiFenLogs jiFenLogs = GsonUtil.gsonIntance().gsonToBean(result, JiFenLogs.class);
                         jiFenLogsAdapter.addAll(jiFenLogs.getData());
                         if (jiFenLogs.getData() == null || jiFenLogs.getData().size() < pagesize){
@@ -116,7 +114,7 @@ public class MyJfLogsFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("积分兑换商品记录 = 失败" + ex.toString());
+
                     }
 
                     @Override

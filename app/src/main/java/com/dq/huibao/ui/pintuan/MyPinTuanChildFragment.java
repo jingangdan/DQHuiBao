@@ -109,12 +109,10 @@ public class MyPinTuanChildFragment extends BaseFragment {
         map.put("pagesize",pagesize+"");
         //type:score积分 balance现金
         //recharge充值 exchange兑换 consump消费
-        System.out.println(type + "拼团记录 = " + map.toString());
         HttpxUtils.Get(getActivity(),HttpPath.PINTUAN_TUAN_HISTORY, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println(type + "拼团记录 = " + result);
                         MyPinTuanLogs myPinTuanLogs = GsonUtil.gsonIntance().gsonToBean(result, MyPinTuanLogs.class);
                         pinTuanLogsAdapter.addAll(myPinTuanLogs.getData().getList());
 
@@ -125,7 +123,7 @@ public class MyPinTuanChildFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println(type + "拼团记录 = =失败 " + ex.toString());
+
                     }
 
                     @Override

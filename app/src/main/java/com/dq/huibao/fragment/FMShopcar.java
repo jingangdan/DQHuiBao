@@ -204,12 +204,10 @@ public class FMShopcar extends BaseFragment implements
 
         PATH = HttpPath.CART_GET + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
-        System.out.println("获取购物车 = " + PATH);
         HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 cart_string = result;
-                System.out.println("获取购物车 = " + result);
                 Cart cart = GsonUtil.gsonIntance().gsonToBean(result, Cart.class);
 
                 if (cart.getStatus() == 1) {
@@ -234,7 +232,7 @@ public class FMShopcar extends BaseFragment implements
                 if (!TextUtils.isEmpty(cart_string)) {
                     Account account = GsonUtil.gsonIntance().gsonToBean(cart_string, Account.class);
                     if (account.getData().equals("用户信息错误")) {
-                        ShowUtils.showDialog(getActivity(), "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？", new ShowUtils.OnDialogListener() {
+                        ShowUtils.showDialog(getActivity(), "提示：用户验证错误", "此账号长时间未登录或在别处已登录，是否重新登录？","登陆", new ShowUtils.OnDialogListener() {
                             @Override
                             public void confirm() {
                                 intent = new Intent(getActivity(), LoginActivity.class);
@@ -276,11 +274,9 @@ public class FMShopcar extends BaseFragment implements
         MD5_PATH = "count=" + count + "&goodsid=" + gid + "&optionid=" + optionid + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
         PATH = HttpPath.CART_ADD + MD5_PATH +"&type=" + type + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
-        System.out.println("添加购物车 = " + PATH);
         HttpxUtils.Post(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("添加购物车 = " + result);
                 Cart cart = GsonUtil.gsonIntance().gsonToBean(result, Cart.class);
                 if (cart.getStatus() == 1) {
                     if (tag == 1) {
@@ -317,7 +313,6 @@ public class FMShopcar extends BaseFragment implements
             public void onError(Throwable ex, boolean isOnCallback) {
                 toast("购物车操作失败");
                 getCart();
-                System.out.println("添加购物车 = " + ex.toString());
             }
 
             @Override
@@ -344,11 +339,9 @@ public class FMShopcar extends BaseFragment implements
         PATH = HttpPath.CART_DEL +
                 MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        System.out.println("删除购物车 = " + PATH);
         HttpxUtils.Post(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("删除购物车 = " + result);
 
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {

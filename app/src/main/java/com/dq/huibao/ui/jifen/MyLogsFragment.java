@@ -107,12 +107,10 @@ public class MyLogsFragment extends BaseFragment {
         map.put("type",type);
         //type:score积分 balance现金
         //返回值activitiontype:recharge充值 exchange兑换 consump消费
-        System.out.println("积分使用记录 = " + map.toString());
         HttpxUtils.Get(getActivity(),HttpPath.JIFEN_USERLOGS, map,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("积分使用记录 = " + result);
                         JiFenUserLogs jiFenUserLogs = GsonUtil.gsonIntance().gsonToBean(result, JiFenUserLogs.class);
                         jiFenLogsAdapter.addAll(jiFenUserLogs.getData());
                         //
@@ -123,7 +121,7 @@ public class MyLogsFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("积分使用记录 = 失败" + ex.toString());
+
                     }
 
                     @Override

@@ -195,11 +195,9 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
         PATH = HttpPath.MEMBER_GETADDR + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
 
-        System.out.println("获取收货地址 = " + PATH);
         HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("获取收货地址 = " + result);
                 Addr addr = GsonUtil.gsonIntance().gsonToBean(result, Addr.class);
                 addrList.clear();
                 addrList = addr.getData();
@@ -213,7 +211,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
                                     addrList.get(i).getProvince() + "." + addrList.get(i).getCity() + "." + addrList.get(i).getAddr());
 
                             if (tag.equals("1")) {
-                                getCheckorder(addrid, count);
+                                getCheckorder(count);
 
                             } else if (tag.equals("0")) {
                                 getCheckorderCart(cartids, addrid);
@@ -252,11 +250,9 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
         MD5_PATH = "?mid=" + uid + "&cartids=" + cartids + "&type=" + type;
 
         PATH = HttpPath.PINGO_CART_ISORDER + MD5_PATH;
-        System.out.println("确认订单-购物车 = " + PATH);
         HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("确认订单-购物车 = " + result);
                 PinGoOrderConfirm checkOrder = GsonUtil.gsonIntance().gsonToBean(result, PinGoOrderConfirm.class);
 
                 shopList.clear();
@@ -271,7 +267,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                System.out.println("确认订单-购物车 = " + ex.toString());
+
             }
 
             @Override
@@ -289,21 +285,18 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
     /**
      * 确认订单（商品详情）
      *
-     * @param addrid
      * @param count
      */
-    public void getCheckorder(String addrid, String count) {
+    public void getCheckorder(String count) {
         Map<String,String> map = new HashMap<>();
         map.put("mid",uid);
         map.put("goodsid",goodsid);
         map.put("optionid",optionid);
         map.put("count",count);
         map.put("type",type);
-        System.out.println("确认订单（商品详情） = " + map.toString());
         HttpxUtils.Post(this,HttpPath.PINGO_GOOD_ISORDER, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("确认订单（商品详情） = " + result);
                 try {
                     PinGoOrderConfirm checkOrder = GsonUtil.gsonIntance().gsonToBean(result, PinGoOrderConfirm.class);
 
@@ -316,13 +309,13 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
 
                     tvConfirmPay.setText("需付：¥" + pay_all);
                 }catch (Exception e){
-                    System.out.println("确认订单（商品详情） =失败 " + e.toString());
+
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                System.out.println("确认订单（商品详情） =失败 " + ex.toString());
+
             }
 
             @Override
@@ -358,11 +351,9 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
         map.put("distype",shopList.get(0).getList().get(0).getDistype());
         map.put("cartids",cartids);
         map.put("type",type);
-        System.out.println("提交订单-购物车 = " + map.toString());
         HttpxUtils.Post(this,HttpPath.PINGO_CART_SUBMITORDER, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("提交订单-购物车 = " + result);
                 string_result = result;
                 PinGoSubmitB addrReturn = GsonUtil.gsonIntance().gsonToBean(result, PinGoSubmitB.class);
                 if (addrReturn.getStatus() == 1) {
@@ -388,7 +379,6 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                System.out.println("提交订单-购物车 =失败 " + ex.toString());
                 if (!TextUtils.isEmpty(string_result)) {
                     AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(string_result, AddrReturn.class);
                     if (addrReturn.getStatus() == 1) {
@@ -430,11 +420,9 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
         map.put("count",count);
         map.put("allprice",pay_all + "");
         map.put("type",type);
-        System.out.println("提交订单（立即购买） = " + map.toString());
         HttpxUtils.Post(this,HttpPath.PINGO_GOOD_SUBMITORDER, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("提交订单（立即购买） = " + result);
                 try {
                     PinGoSubmitB addrReturn = GsonUtil.gsonIntance().gsonToBean(result, PinGoSubmitB.class);
                     if (addrReturn.getStatus() == 1) {
@@ -460,13 +448,13 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
                         toast("" + addrReturn.getData());
                     }
                 }catch (Exception ex){
-                    System.out.println("提交订单（立即购买） =失败 " + ex.toString());
+
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                System.out.println("提交订单（立即购买） =失败 " + ex.toString());
+
             }
 
             @Override
@@ -525,7 +513,6 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("地区地区 = " + result);
                         pinGoiQuSelect = GsonUtil.gsonIntance().gsonToBean(result, PinGoiQuSelect.class);
                         if (diQuAdapter != null){
                             diQuAdapter.notifyDataSetChanged();
@@ -536,7 +523,7 @@ public class PinGoSubmitOrderActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("地区地区= 失败" + ex.getMessage());
+
                     }
 
                     @Override

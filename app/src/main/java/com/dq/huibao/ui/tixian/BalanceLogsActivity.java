@@ -47,7 +47,7 @@ public class BalanceLogsActivity extends BaseActivity {
         logsAdapter = new TiXianLogsAdapter(this) {
             @Override
             public void cancle(final String id) {
-                ShowUtils.showDialog(BalanceLogsActivity.this, "提示", "是否取消", new ShowUtils.OnDialogListener() {
+                ShowUtils.showDialog(BalanceLogsActivity.this, "提示", "是否取消","确定", new ShowUtils.OnDialogListener() {
                     @Override
                     public void confirm() {
                         quxiao(id);
@@ -99,7 +99,6 @@ public class BalanceLogsActivity extends BaseActivity {
         HttpxUtils.Get(this,HttpPath.TIXIAN_LOGS, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.e("获取余额使用记录","获取余额使用记录 = " + result);
 
                 TiXianLogsB logsB = GsonUtil.gsonIntance().gsonToBean(result, TiXianLogsB.class);
                 logsAdapter.addAll(logsB.getData());
@@ -112,7 +111,7 @@ public class BalanceLogsActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.e("获取余额使用记录","获取余额使用记录 失败= " + ex.toString());
+
             }
 
             @Override
@@ -135,7 +134,6 @@ public class BalanceLogsActivity extends BaseActivity {
         HttpxUtils.Get(this,HttpPath.TIXIAN_CANCEL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.e("取消提现申请","取消提现申请 = " + result);
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1){
                     toast("取消成功");
@@ -147,7 +145,7 @@ public class BalanceLogsActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.e("取消提现申请","取消提现申请 失败= " + ex.toString());
+
             }
 
             @Override

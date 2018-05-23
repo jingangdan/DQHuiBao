@@ -104,11 +104,9 @@ public class RechargeHfFragment extends BaseFragment {
         map.put("uid",uid);
         map.put("pay_mobile",rechargeHfPhone.getText().toString());
         map.put("bill", num + "");
-        System.out.println("话费充值 = map = " + map.toString());
         HttpxUtils.Get(getActivity(),HttpPath.RECHARGE_GET_ORDER, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("话费充值 = " + result);
                 RechargeOrderB billB = GsonUtil.gsonIntance().gsonToBean(result, RechargeOrderB.class);
                 if (billB.getStatus() == 1){
                     Intent intent = new Intent(getActivity(), PayActivity.class);
@@ -124,7 +122,7 @@ public class RechargeHfFragment extends BaseFragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                System.out.println("话费充值 =  " + ex.toString());
+
             }
 
             @Override
@@ -146,7 +144,6 @@ public class RechargeHfFragment extends BaseFragment {
         HttpxUtils.Get(getActivity(),HttpPath.RECHARGE_BILL, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("获取充值金额= " + result);
                 BillB billB = GsonUtil.gsonIntance().gsonToBean(result, BillB.class);
                 if (billB.getStatus() == 1) {
                     list.addAll(billB.getData());
@@ -159,7 +156,7 @@ public class RechargeHfFragment extends BaseFragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                System.out.println("获取充值金额 " + ex.toString());
+
             }
 
             @Override

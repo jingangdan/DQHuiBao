@@ -227,12 +227,10 @@ public class FMHomePage extends BaseFragment implements
      */
     public void getIndex() {
         PATH = HttpPath.INDEXT_INDEX;
-        System.out.println("首页 = " + PATH);
         HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @SuppressLint("WrongConstant")
             @Override
             public void onSuccess(String result) {
-                System.out.println("首页 = " + result);
                 // stopProgressDialog();
                 linHpNetwork.setVisibility(View.VISIBLE);
                 linHpNonetwork.setVisibility(View.GONE);
@@ -294,12 +292,9 @@ public class FMHomePage extends BaseFragment implements
         PATH = HttpPath.ACTIVITYSIGN_INDEX + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
-        System.out.println("签到信息 = " + PATH);
-
         HttpxUtils.Get(getActivity(),PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("签到信息 = " + result);
                 SignIndex signIndex = GsonUtil.gsonIntance().gsonToBean(result, SignIndex.class);
                 if (signIndex.getStatus() == 1) {
                     cansign = signIndex.getData().isCansign();
@@ -345,12 +340,10 @@ public class FMHomePage extends BaseFragment implements
         PATH = HttpPath.ACTIVITY_SIGN + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
 
-        System.out.println("签到 = " + PATH);
-        HttpxUtils.Post(getActivity(),PATH, null,
+        HttpxUtils.Get(getActivity(),PATH, null,
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("签到 = " + result);
                         Sign sign = GsonUtil.gsonIntance().gsonToBean(result, Sign.class);
                         if (sign.getStatus() == 1) {
                             toast("" + sign.getData().getMsg());
@@ -389,7 +382,6 @@ public class FMHomePage extends BaseFragment implements
                 new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        System.out.println("获取首页底部更多商品信息 = " + result);
                         if (page > 1){
                             pullToRefreshView.onFooterRefreshComplete();//加载更多数据
                         }
@@ -401,7 +393,6 @@ public class FMHomePage extends BaseFragment implements
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        System.out.println("获取首页底部更多商品信息 = 失败" + ex.getMessage());
                     }
 
                     @Override

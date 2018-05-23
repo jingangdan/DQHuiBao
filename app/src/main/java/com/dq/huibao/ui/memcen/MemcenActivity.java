@@ -39,6 +39,8 @@ import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.bean.addr.AddrReturn;
 import com.dq.huibao.bean.common.Region;
+import com.dq.huibao.bean.wechat.WeChat;
+import com.dq.huibao.utils.AppUtil;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.FileUtil;
 import com.dq.huibao.utils.GsonUtil;
@@ -59,11 +61,17 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.wechat.friends.Wechat;
 
 /**
  * Description：个人资料
@@ -80,7 +88,7 @@ public class MemcenActivity extends BaseActivity {
     @Bind(R.id.tv_member_phone)
     TextView tvMemberPhone;
     @Bind(R.id.et_member_weixin)
-    EditText etMemberWeixin;
+    TextView etMemberWeixin;
     @Bind(R.id.rb_man)
     RadioButton rbMan;
     @Bind(R.id.rb_wuman)
@@ -108,10 +116,6 @@ public class MemcenActivity extends BaseActivity {
 
     /*接收页面传值*/
     private Intent intent;
-
-    /*本地轻量型缓存*/
-    private SPUserInfo spUserInfo;
-    private String phone = "", token = "";
 
     /*UI显示 ：姓名 头像 手机号 微信号 性别 省 市*/
     private String realname = "", headimgurl = "", mem_phone = "", weixin = "", sex = "", province = "", city = "";
@@ -173,7 +177,7 @@ public class MemcenActivity extends BaseActivity {
         setTitleName("个人资料");
     }
 
-    @OnClick({R.id.tv_member_phone, R.id.et_member_province, R.id.tv_member_birth, R.id.but_member_ok})
+    @OnClick({R.id.tv_member_phone, R.id.et_member_province, R.id.tv_member_birth, R.id.but_member_ok,R.id.member_weixin_layout})
     public void onClick(View view) {
         realname = etMemberRealname.getText().toString();
 
@@ -183,6 +187,35 @@ public class MemcenActivity extends BaseActivity {
                 intent = new Intent(MemcenActivity.this, MobileActivity.class);
                 startActivity(intent);
 
+                break;
+            case R.id.member_weixin_layout://微信
+                if ("".equals(etMemberWeixin.getText().toString())){
+                    //绑定
+                    Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
+                    wechat.setPlatformActionListener(new PlatformActionListener() {
+                        @Override
+                        public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                            WeChat weChatB = GsonUtil.gsonIntance().gsonToBean(platform.getDb().exportData(), WeChat.class);
+                            wechatBd(weChatB.getUnionid(),weChatB.getNickname());
+                        }
+
+                        @Override
+                        public void onError(Platform platform, int i, Throwable throwable) {
+                            toast("微信登陆失败");
+                        }
+
+                        @Override
+                        public void onCancel(Platform platform, int i) {
+                            toast("取消微信登陆");
+                        }
+                    });
+                    wechat.SSOSetting(false);
+                    wechat.showUser(null);
+                }else {
+                    //已绑定过
+                    toast("已绑定");
+                    return;
+                }
                 break;
             case R.id.et_member_province:
                 //选择所在城市
@@ -247,19 +280,16 @@ public class MemcenActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        initDate();
+    }
 
     /**/
     public void initDate() {
-        spUserInfo = new SPUserInfo(getApplication());
-        if (!(spUserInfo.getLoginReturn().equals(""))) {
-            Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
-            phone = login.getData().getPhone();
-            token = login.getData().getToken();
-
-            getMember(phone, token);
-
-        } else {
-            toast("登录状态出错，请重新登录");
+        if (!uidBase.equals("")){
+            getMember();
         }
 
     }
@@ -267,19 +297,20 @@ public class MemcenActivity extends BaseActivity {
     /**
      * 获取个人信息
      *
-     * @param phone
-     * @param token
      */
-    public void getMember(String phone, String token) {
-        MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
+    public void getMember() {
+        MD5_PATH = "phone=" + phoneBase + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + tokenBase;
         PATH = HttpPath.MEM_MEMBER + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
-        System.out.println("个人信息 = " + PATH);
         HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("个人信息 = " + result);
                 Login login = GsonUtil.gsonIntance().gsonToBean(result, Login.class);
+                if (login.getStatus() == 1){
+                    SPUserInfo spUserInfo = new SPUserInfo(getApplication());
+                    spUserInfo.saveLogin("1");
+                    spUserInfo.saveLoginReturn(result);
+                }
                 realname = login.getData().getNickname();
                 headimgurl = login.getData().getHeadimgurl();
                 mem_phone = login.getData().getPhone();
@@ -287,6 +318,7 @@ public class MemcenActivity extends BaseActivity {
                 province = login.getData().getProvince();
                 city = login.getData().getCity();
 
+                etMemberWeixin.setText(login.getData().getWxname());
                 setDate();
             }
 
@@ -320,8 +352,6 @@ public class MemcenActivity extends BaseActivity {
         PATH = HttpPath.MEM_UPIMG + "sign=" +
                 MD5Util.getMD5String("phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token + HttpPath.KEY);
 
-        System.out.println("上传图片 = " + PATH);
-
         params = new RequestParams(PATH);
         params.addBodyParameter("file", new File(file));  //filePath是手机获取的图片地址
         params.addBodyParameter("phone", phone);
@@ -331,7 +361,6 @@ public class MemcenActivity extends BaseActivity {
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("上传图片 = " + result);
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     toast("图片上传成功");
@@ -369,11 +398,9 @@ public class MemcenActivity extends BaseActivity {
 
         PATH = HttpPath.MEM_EDITINFO + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
-        System.out.println("修改个人信息 = " + PATH);
         HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("修改个人信息 = " + result);
                 AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
                 if (addrReturn.getStatus() == 1) {
                     toast("" + addrReturn.getData());
@@ -400,7 +427,39 @@ public class MemcenActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 绑定微信号
+     *
+     */
+    public void wechatBd(String unionid,String nickname) {
+        Map<String,String> map = new HashMap<>();
+        map.put("uid",uidBase);
+        map.put("unionid",unionid);
+        map.put("nickname", AppUtil.textToUTF_8(nickname));
+        HttpxUtils.Post(this,HttpPath.ACCOUNT_WECHAT_BD, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                AddrReturn addrReturn = GsonUtil.gsonIntance().gsonToBean(result, AddrReturn.class);
+                toast(addrReturn.getData());
+                getMember();
+            }
 
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
     /*组件赋值*/
     public void setDate() {
         etMemberRealname.setText("" + realname);
@@ -572,7 +631,7 @@ public class MemcenActivity extends BaseActivity {
                     if (bitmap != null) {
                         showImages(bitmap);
                         urlpath = FileUtil.saveFile(MemcenActivity.this, "temphead.jpg", bitmap);
-                        setUpImg(urlpath, phone, token);
+                        setUpImg(urlpath, phoneBase, tokenBase);
                     }
 
                     break;
@@ -613,11 +672,9 @@ public class MemcenActivity extends BaseActivity {
     public void getRegion() {
         PATH = HttpPath.COMMON_REGION;
         params = new RequestParams(PATH);
-        System.out.println("省市列表 = " + PATH);
         HttpxUtils.Get(this,PATH, null, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("省市列表 = " + result);
 
                 Region region = GsonUtil.gsonIntance().gsonToBean(result, Region.class);
                 regionList = region.getData();
@@ -718,7 +775,7 @@ public class MemcenActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                setMember(headimgurl, phone, token, realname, sex, regionid);
+                setMember(headimgurl, phoneBase, tokenBase, realname, sex, regionid);
 
             }
         });
