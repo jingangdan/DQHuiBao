@@ -60,6 +60,10 @@ dependencies {
     compile files('libs/alipaySdk-20170922.jar')
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.2'
 
+    //内存泄漏
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }
 
 /*强制版本号统一*/

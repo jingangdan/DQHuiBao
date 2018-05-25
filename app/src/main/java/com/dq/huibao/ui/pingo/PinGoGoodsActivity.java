@@ -243,12 +243,11 @@ public class PinGoGoodsActivity extends BaseActivity {
         } else if (status.equals("2")) {//进行中
             pingoMsTopTv.setText("进行中");
             pingoMsTopTv.setTextColor(getResources().getColor(R.color.red_normal));
-            pingoMsTopTimeTv.setText(AppUtil.getDateToString("yyyy-HH:mm:ss", Long.parseLong(goods.getData().getStstr()) * 1000)
-                    + "-" + AppUtil.getDateToString("yyyy-HH:mm:ss", Long.parseLong(goods.getData().getEtstr()) * 1000));
+            pingoMsTopTimeTv.setText(AppUtil.getDateToString("HH:mm:ss", Long.parseLong(goods.getData().getStstr()) * 1000)
+                    + "-" + AppUtil.getDateToString("HH:mm:ss", Long.parseLong(goods.getData().getEtstr()) * 1000));
         } else if (status.equals("3")) {//已结束
             pingoMsTopTv.setText("已结束");
             pingoMsTopTimeTv.setText("结束时间:" + AppUtil.getDateToString("yyyy-MM-dd HH:mm", Long.parseLong(goods.getData().getEtstr()) * 1000));
         }
     }
-
 }

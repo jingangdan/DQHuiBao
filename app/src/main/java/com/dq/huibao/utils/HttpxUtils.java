@@ -52,8 +52,8 @@ public class HttpxUtils {
 //    }
 
     public static <T> Callback.Cancelable Get(Activity activity,String url, Map<String, String> map, final Callback.CommonCallback<String> callback) {
-//        Log.d("Http==Get=","url=" + url);
-//        Log.d("Http==Get=","map=" + (map == null?"":map.toString()));
+        Log.d("Http==Get=","url=" + url);
+        Log.d("Http==Get=","map=" + (map == null?"":map.toString()));
         showDialog(activity);
         errorLoginMap(map);
         final int nowDialog = dialogInt;
@@ -97,8 +97,8 @@ public class HttpxUtils {
      * @param <T>
      */
     public static <T> Callback.Cancelable Post(Activity activity,String url, Map<String, String> map, final Callback.CommonCallback<String> callback) {
-//        Log.d("Http==Post=","url=" + url);
-//        Log.d("Http==Post=","map=" + (map == null?"":map.toString()));
+        Log.d("Http==Post=","url=" + url);
+        Log.d("Http==Post=","map=" + (map == null?"":map.toString()));
         showDialog(activity);
         errorLoginMap(map);
         final int nowDialog = dialogInt;

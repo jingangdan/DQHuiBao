@@ -622,32 +622,6 @@ public class HttpPath {
      */
     public static final String XSHOP_GOODS_SEARCH = HEADER + "Member/SearchGoods";
 
-//    /**
-//     * 优惠券列表
-//     * 参数：
-//     * 登录验证
-//     * used  默认空  1已使用，
-//     * past  默认空 1已过期
-//     * page 页码
-//     */
-//    public static final String SHOP_MEMBER_COUPON = HEADER + "api=shop/Member/coupon&i=1604&";
-//
-//    /**
-//     * 优惠券领取列表
-//     * 参数 ：
-//     * 登录验证
-//     * page：页码
-//     */
-//    public static final String SHOP_COUPON_INDEX = HEADER + "api=shop/Coupon/index&i=1604&";
-//
-//    /*
-//    * 优惠券详情
-//    * 参数：
-//    * id=
-//    * 登录验证
-//    * */
-//    public static final String SHOP_COUPON_DETAIL = HEADER + "api=shop/Coupon/detail&i=1604&";
-
     /*获取推荐商品*/
     public static final String SHOP_GOODS_RECOMMENT = HEADER + "api=shop/Goods/recommand&i=1604";
 

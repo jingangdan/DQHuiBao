@@ -47,12 +47,6 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingTop="5dp">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/bg_pingo_lijian"
-            android:visibility="gone"
-            android:scaleType="centerCrop"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,7 +97,7 @@
                     android:maxLines="1"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="10dp"
-                    android:text="再来一单,立减2元"/>
+                    android:text="赶紧加入吧"/>
             </LinearLayout>
 
             <!--右侧-->
@@ -153,7 +147,7 @@
                     android:maxLines="1"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="10dp"
-                    android:text="再来一单,立减2元"/>
+                    android:text="赶紧加入吧"/>
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>

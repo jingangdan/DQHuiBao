@@ -21,6 +21,7 @@ import com.dq.huibao.base.BaseActivity;
 import com.dq.huibao.bean.account.Login;
 import com.dq.huibao.bean.addr.Addr;
 import com.dq.huibao.bean.addr.AddrReturn;
+import com.dq.huibao.ui.pingo.PinGoLogsActivity;
 import com.dq.huibao.utils.BaseRecyclerViewHolder;
 import com.dq.huibao.utils.CodeUtils;
 import com.dq.huibao.utils.GsonUtil;
@@ -38,6 +39,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Description：收货地址列表
@@ -48,6 +50,10 @@ public class AddrListActivity extends BaseActivity {
     @Bind(R.id.rv_addresslist)
     RecyclerView rvAddresslist;
 
+    @Bind(R.id.title_tv_title)
+    TextView titleTvTitle;
+    @Bind(R.id.title_tv_right)
+    TextView titleTvRight;
     /*添加收货地址*/
     @Bind(R.id.but_add_address)
     Button butAddAddress;
@@ -67,7 +73,6 @@ public class AddrListActivity extends BaseActivity {
 
     /*本地轻量型缓存*/
     private SPUserInfo spUserInfo;
-    private String phone = "", token = "";
 
     @SuppressLint("WrongConstant")
     @Override
@@ -86,23 +91,36 @@ public class AddrListActivity extends BaseActivity {
             @Override
             public void onItemClick(View view, int position) {
                 //addAddr(regionid, isdefault, addr, UTF_addr, contact, UTF_contact, mobile, phone, token);
-                setDefaultaddr(addrList.get(position).getId(), phone, token);
+                setDefaultaddr(addrList.get(position).getId());
             }
         });
 
-
+        titleTvTitle.setText("管理收货地址");
+        titleTvRight.setText("添加");
         isLogin();
     }
 
+    @OnClick({R.id.title_iv_back,R.id.title_tv_right})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.title_iv_back:
+                finish();
+                break;
+            case R.id.title_tv_right:
+                intent = new Intent(this, AddAddressActivity.class);
+                intent.putExtra("tag", "0");
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+    }
     @SuppressLint("WrongConstant")
     public void isLogin() {
         spUserInfo = new SPUserInfo(TAG.getApplication());
 
         if (!(spUserInfo.getLoginReturn().equals(""))) {
-            Login login = GsonUtil.gsonIntance().gsonToBean(spUserInfo.getLoginReturn(), Login.class);
-            phone = login.getData().getPhone();
-            token = login.getData().getToken();
-            getAddr(phone, token);
+            getAddr();
         } else {
             toast("请重新登录");
         }
@@ -112,17 +130,20 @@ public class AddrListActivity extends BaseActivity {
     @Override
     protected void initWidght() {
         super.initWidght();
-        setTitleName("管理收货地址");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getAddr();
     }
 
     /**
      * 获取收货地址
      *
-     * @param phone
-     * @param token
      */
-    public void getAddr(String phone, String token) {
-        MD5_PATH = "phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
+    public void getAddr() {
+        MD5_PATH = "phone=" + phoneBase + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + tokenBase;
 
         PATH = HttpPath.MEMBER_GETADDR + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + "&key=ivKDDIZHF2b0Gjgvv2QpdzfCmhOpya5k");
@@ -132,6 +153,7 @@ public class AddrListActivity extends BaseActivity {
             public void onSuccess(String result) {
                 Addr addr = GsonUtil.gsonIntance().gsonToBean(result, Addr.class);
                 if (addr.getStatus() == 1) {
+                    addrList.clear();
                     addrList.addAll(addr.getData());
                     addrListAdapter.notifyDataSetChanged();
                 }
@@ -159,11 +181,9 @@ public class AddrListActivity extends BaseActivity {
      * 设置默认地址
      *
      * @param id
-     * @param phone
-     * @param token
      */
-    public void setDefaultaddr(String id, String phone, String token) {
-        MD5_PATH = "id=" + id + "&phone=" + phone + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + token;
+    public void setDefaultaddr(String id) {
+        MD5_PATH = "id=" + id + "&phone=" + phoneBase + "&timestamp=" + (System.currentTimeMillis() / 1000) + "&token=" + tokenBase;
         PATH = HttpPath.MEMBER_DEGAULTADDR + MD5_PATH + "&sign=" +
                 MD5Util.getMD5String(MD5_PATH + HttpPath.KEY);
         HttpxUtils.Post(this,PATH, null, new Callback.CommonCallback<String>() {

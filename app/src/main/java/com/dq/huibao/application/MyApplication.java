@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -43,6 +44,8 @@ public class MyApplication extends Application {
 //        regToWx();
         setWxApp();
         ShareSDK.initSDK(this);
+
+        LeakCanary.install(this);
     }
 
     public void setWxApp() {
