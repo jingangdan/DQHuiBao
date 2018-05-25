@@ -168,7 +168,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("WrongConstant")
     protected Toast toast(Object text) {
         if (mToast == null) {
-            mToast = Toast.makeText(this, text.toString(), Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(getApplicationContext(), text.toString(), Toast.LENGTH_SHORT);
         } else {
             mToast.setText(text.toString());
         }

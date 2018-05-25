@@ -296,7 +296,7 @@ public class HttpxUtils {
             dialogMap.get(a).dismiss();
             dialogMap.remove(dialogMap.get(a));
         }catch (Exception e){
-
+            Log.e("ffffffffffff",e.toString());
         }
     }
 }

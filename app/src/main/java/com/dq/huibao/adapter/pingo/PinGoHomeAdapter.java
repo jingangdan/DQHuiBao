@@ -402,7 +402,7 @@ public class PinGoHomeAdapter extends RecyclerView.Adapter {
         public GoodsListViewHolder(Context mContext, View itemView) {
             super(itemView);
             this.mContext = mContext;
-            recyclerView = (RecyclerView) itemView.findViewById(R.id.rv_goodslist);
+            recyclerView = itemView.findViewById(R.id.rv_goodslist);
             titleLayout = itemView.findViewById(R.id.goods_title_layout);
             titleImagetm = itemView.findViewById(R.id.goods_title_image_tm);
             titleImagems = itemView.findViewById(R.id.goods_title_image_ms);
